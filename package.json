@@ -5,6 +5,10 @@
 	"description": "",
 	"author": "",
 	"license": "ISC",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=8.0.0"
+	},
 	"keywords": [],
 	"scripts": {
 		"build": "tsc && vite build",
@@ -15,6 +19,8 @@
 	"dependencies": {
 		"@tldraw/editor": "2.0.0-canary.231354d93c52",
 		"@tldraw/tldraw": "2.0.0-canary.231354d93c52",
+		"express": "^4.18.2",
+		"puppeteer": "^21.7.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"signia": "^0.1.4",
@@ -22,11 +28,13 @@
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^4.3.3",
+		"@types/express": "^4.17.21",
 		"@types/react": "^18.0.37",
 		"@types/react-dom": "^18.0.11",
 		"@vitejs/plugin-react-swc": "^3.0.0",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.3.4",
+		"tsx": "^4.7.0",
 		"typescript": "^5.3.3",
 		"vite": "^5.0.11"
 	}
