@@ -5,6 +5,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import type { ExportFormat, TldrFile } from '../types'
+
+// Can't get this to work
+// import { getAssetUrlsByImport } from '@tldraw/assets/imports'
+
+import { getAssetUrls } from '@tldraw/assets/selfHosted'
 import { transact } from '@tldraw/editor'
 import { type Editor, Tldraw, exportAs, parseTldrawJsonFile } from '@tldraw/tldraw'
 import '@tldraw/tldraw/tldraw.css'
@@ -17,8 +22,6 @@ declare global {
 }
 
 export default function App() {
-	console.log(window.tldrawExportFile)
-
 	const [exportFormat, setExportFormat] = useState<ExportFormat | null>(null)
 	const [tldrFile, setTldrFile] = useState<TldrFile | null>(null)
 	const [editor, setEditor] = useState<Editor | null>(null)
@@ -31,7 +34,6 @@ export default function App() {
 		}
 
 		window.tldrawExportFile = tldrawExportFile
-		console.log(window.tldrawExportFile)
 	}, [])
 
 	// Execute the export when both the editor and the exportOptions are defined
@@ -52,7 +54,7 @@ export default function App() {
 
 	return (
 		<div style={{ inset: 0, position: 'fixed' }}>
-			<Tldraw onMount={ready} />
+			<Tldraw assetUrls={getAssetUrls()} onMount={ready} />
 		</div>
 	)
 }

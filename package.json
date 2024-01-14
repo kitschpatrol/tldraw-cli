@@ -41,12 +41,13 @@
 	"scripts": {
 		"build": "pnpm run build:tldraw && pnpm run build:cli",
 		"build:cli": "tsx ./scripts/build-cli.ts",
-		"build:tldraw": "vite build",
-		"dev": "vite",
+		"build:tldraw": "pnpm run tldraw-copy-assets && vite build",
+		"dev": "pnpm run tldraw-copy-assets && vite",
 		"dev-cli": "pnpm run build:tldraw && tsx ./src/cli/tldraw-cli.ts",
 		"fix": "shared-config --fix",
 		"lint": "shared-config --lint",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"tldraw-copy-assets": "sync -av --include='/*/' --exclude='/*' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
 		"express": "^4.18.2",
@@ -54,8 +55,9 @@
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^4.3.3",
-		"@tldraw/editor": "2.0.0-canary.231354d93c52",
-		"@tldraw/tldraw": "2.0.0-canary.231354d93c52",
+		"@tldraw/assets": "2.0.0-beta.2",
+		"@tldraw/editor": "2.0.0-beta.2",
+		"@tldraw/tldraw": "2.0.0-beta.2",
 		"@types/express": "^4.17.21",
 		"@types/react": "^18.2.47",
 		"@types/react-dom": "^18.2.18",

@@ -4,7 +4,7 @@
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 
-This tool is only compatible with tldraw 2.0, which is currently under development.
+This tool is only tested and compatible with tldraw 2.0.0-beta.2.
 
 ## Usage
 
@@ -58,7 +58,7 @@ On Discord:
 
 ## Implementation notes
 
-Due to the current implementation of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app fires up a local web server with an instance of tldraw, then loads a `.tldr` and invokes the export download via [Puppeteer](https://pptr.dev).
+Due to the current implementation of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app serves a local instance of tldraw, then loads a `.tldr` and invokes the export download via [Puppeteer](https://pptr.dev).
 
 The tldraw instance is built with vite, the cli app is built with esbuild.
 
@@ -66,4 +66,4 @@ The tldraw instance is built with vite, the cli app is built with esbuild.
 
 Eventually, I think it would make sense for some kind of CLI tool like this one to be part of the core tldraw project. (Similar to how [tldraw-vscode](https://github.com/tldraw/tldraw/tree/main/apps/vscode) is currently integrated.)
 
-I'm consciously releasing this tool under the `@kitschpatrol` namespace on NPM to leave the un-namespaced package name available to the core tldraw project.
+I'm consciously releasing this tool under the `@kitschpatrol` namespace on NPM to leave the `tldraw-cli` package name available to the core tldraw project.
