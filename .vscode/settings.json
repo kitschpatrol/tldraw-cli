@@ -1,0 +1,60 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    ".env": ".env.*",
+    "package.json": ".*.js, .*.json, .*.cjs, .*rc, .*ignore, pnpm-lock.yaml, pnpm-workspace.yaml",
+    "readme.md": "license*, changelog*"
+  },
+  "cSpell.enabled": true,
+  "cSpell.workspaceRootPath": ".",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "eslint.enable": true,
+  "eslint.validate": [
+    "astro",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "markdown",
+    "mdx",
+    "svelte",
+    "typescript",
+    "typescriptreact"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[gitignore]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[svelte]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "prettier.documentSelectors": [
+    "**/*.rb",
+    "**/*.astro",
+    "**/*.svelte",
+    "**/.prettierignore",
+    "**/.npmrc",
+    "**/.eslintignore"
+  ],
+  "prettier.enable": true,
+  "stylelint.enable": true,
+  "stylelint.validate": [
+    "css",
+    "html",
+    "svelte",
+    "astro"
+  ]
+}

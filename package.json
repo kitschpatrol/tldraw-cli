@@ -1,0 +1,33 @@
+{
+	"name": "tldraw-cli",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"author": "",
+	"license": "ISC",
+	"keywords": [],
+	"scripts": {
+		"build": "tsc && vite build",
+		"dev": "vite",
+		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@tldraw/editor": "2.0.0-canary.231354d93c52",
+		"@tldraw/tldraw": "2.0.0-canary.231354d93c52",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"signia": "^0.1.4",
+		"signia-react": "^0.1.4"
+	},
+	"devDependencies": {
+		"@kitschpatrol/shared-config": "^4.3.3",
+		"@types/react": "^18.0.37",
+		"@types/react-dom": "^18.0.11",
+		"@vitejs/plugin-react-swc": "^3.0.0",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.3.4",
+		"typescript": "^5.3.3",
+		"vite": "^5.0.11"
+	}
+}
