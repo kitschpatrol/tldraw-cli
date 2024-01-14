@@ -1,8 +1,5 @@
 {
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
 	"import": "@kitschpatrol/cspell-config",
-	"words": [
-		"tldr",
-		"tldraw"
-	]
+	"words": ["jorisjh", "Nitsuj", "tldr", "tldraw", "untildify"]
 }

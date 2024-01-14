@@ -1,47 +1,53 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable unicorn/consistent-function-scoping */
+/* eslint-disable unicorn/no-null */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { ExportFormat, TldrFile } from '../types'
 import { transact } from '@tldraw/editor'
 import { type Editor, Tldraw, exportAs, parseTldrawJsonFile } from '@tldraw/tldraw'
 import '@tldraw/tldraw/tldraw.css'
+import { useEffect, useState } from 'react'
 
-// TODO wherefrom import?
-type TLExportType = 'jpeg' | 'json' | 'png' | 'svg' | 'webp'
-
-// TODO post it instead...
-const parseUrlParams = (): {
-	decodedData: string | undefined
-	format: TLExportType | undefined
-} => {
-	const searchParams = new URLSearchParams(window.location.search)
-	const format = searchParams.get('format') as TLExportType | undefined
-	const data = searchParams.get('data')
-
-	// Assuming 'data' is a URL-encoded JSON string
-	const decodedData = data ? decodeURIComponent(data) : undefined
-
-	return { decodedData, format }
+declare global {
+	interface Window {
+		tldrawExportFile: (data: TldrFile, format: ExportFormat) => void
+	}
 }
 
 export default function App() {
-	const ready = (editor: Editor) => {
-		console.log('tldraw mounted')
-		// Default to svg
-		const { decodedData, format = 'svg' } = parseUrlParams()
+	console.log(window.tldrawExportFile)
 
-		if (!decodedData) {
-			throw new Error('No data provided')
+	const [exportFormat, setExportFormat] = useState<ExportFormat | null>(null)
+	const [tldrFile, setTldrFile] = useState<TldrFile | null>(null)
+	const [editor, setEditor] = useState<Editor | null>(null)
+
+	// Define global functions accessible from puppeteer
+	useEffect(() => {
+		const tldrawExportFile = (tldrFile: string, format: ExportFormat = 'svg') => {
+			setExportFormat(format)
+			setTldrFile(tldrFile)
 		}
 
-		parseAndLoadDocument(editor, decodedData)
+		window.tldrawExportFile = tldrawExportFile
+		console.log(window.tldrawExportFile)
+	}, [])
 
-		// Look for frames?
-		// const shapeIds = editor.getPageShapeIds('page:page')
-		// console.log(`shapeIds: ${shapeIds}`)
-		exportAs(editor, [], format, {}).then(() => {
-			console.log('exported data')
-		})
+	// Execute the export when both the editor and the exportOptions are defined
+	useEffect(() => {
+		if (editor && exportFormat && tldrFile) {
+			parseAndLoadDocument(editor, tldrFile)
+
+			// TODO Look for frames?
+			exportAs(editor, [], exportFormat, {}).then(() => {
+				// Console.log('exported data')
+			})
+		}
+	}, [editor, tldrFile, exportFormat])
+
+	const ready = (editor: Editor) => {
+		setEditor(editor)
 	}
 
 	return (

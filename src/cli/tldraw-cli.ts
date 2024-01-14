@@ -1,4 +1,7 @@
+#!/usr/bin/env node
+import type { ExportFormat } from '../types'
 import express from 'express'
+import getPort from 'get-port'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -6,29 +9,40 @@ import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import puppeteer from 'puppeteer'
 import type { CDPSession } from 'puppeteer'
+import untildify from 'untildify'
 
-type ExportFormats = 'jpeg' | 'json' | 'png' | 'svg' | 'webp'
-
-async function exportTldr(tldrPath: string, destination: string, format: ExportFormats = 'svg') {
+async function exportTldr(
+	tldrPath: string,
+	format: ExportFormat = 'svg',
+	destination = process.cwd(),
+	verbose = false,
+) {
 	const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 
-	const resolvedTldrPath = path.join(scriptDirectory, tldrPath)
-	console.log(`Loading tldr file "${resolvedTldrPath}"`)
+	const resolvedTldrPath = path.resolve(untildify(tldrPath))
+	if (verbose) console.log(`Loading tldr file "${resolvedTldrPath}"`)
 	const tldrFile = await fs.readFile(resolvedTldrPath, 'utf8')
-	const tldrFileEncoded = encodeURIComponent(tldrFile)
 
-	console.log('Running tldraw...')
-
+	if (verbose) console.log('Starting tldraw server...')
 	// Serve local tldraw
 	const app = express()
-	const port = 3000 // Or any port you prefer
-	app.use(express.static(path.join(scriptDirectory, '../dist')))
+	const port = await getPort()
+
+	// Handle dev or prod relative paths, brittle
+	const tldrawPath = path.join(
+		scriptDirectory,
+		scriptDirectory.endsWith('/src/cli') ? '../../dist' : '../dist',
+	)
+
+	if (verbose) console.log(`tldraw hosted from "${tldrawPath}"`)
+
+	app.use(express.static(tldrawPath))
 
 	const server = app.listen(port, () => {
-		console.log(`tldraw running at http://localhost:${port}`)
+		if (verbose) console.log(`tldraw running at http://localhost:${port}`)
 	})
 
-	console.log('Running Puppeteer...')
+	if (verbose) console.log('Running Puppeteer...')
 	// Launch Puppeteer and access the Vite-served website
 	const browser = await puppeteer.launch({ headless: 'new' })
 	const page = await browser.newPage()
@@ -45,7 +59,7 @@ async function exportTldr(tldrPath: string, destination: string, format: ExportF
 			client.on('Browser.downloadProgress', async (event) => {
 				if (event.state === 'completed') {
 					await browser.close()
-					console.log('Closed Puppeteer')
+					if (verbose) console.log('Closed Puppeteer')
 					resolve(event.guid)
 				} else if (event.state === 'canceled') {
 					console.error('Export download canceled')
@@ -57,23 +71,33 @@ async function exportTldr(tldrPath: string, destination: string, format: ExportF
 	}
 
 	// Navigate to the URL served by Vite, download starts automatically
-	await page.goto(`http://localhost:${port}?data=${tldrFileEncoded}&format=${format}`) // Adjust the URL to match your Vite configuration
+	await page.goto(`http://localhost:${port}`) // Adjust the URL to match your Vite configuration
+	await page.waitForFunction(() => window.tldrawExportFile !== undefined)
+
+	// Send the tldr file to the page
+	await page.evaluate(
+		(tldrFile, format) => {
+			window.tldrawExportFile(tldrFile, format)
+		},
+		tldrFile,
+		format,
+	)
+
 	// TODO types from function
 	const downloadGuid = (await waitForDownloadCompletion(client)) as string
-	console.log(downloadGuid)
 
 	// Get the base filename without the extension
 	// TODO handle file-like destination
 	const originalFilename = path.basename(tldrPath, path.extname(tldrPath))
 	const downloadPath = path.join(os.tmpdir(), downloadGuid)
-	const destinationPath = path.join(destination, `${originalFilename}.${format}`)
+	const destinationPath = untildify(path.join(destination, `${originalFilename}.${format}`))
 	await fs.rename(downloadPath, destinationPath)
 
-	console.log(`Saved to "${destinationPath}"`)
+	if (verbose) console.log(`Saved to "${destinationPath}"`)
 
 	// Stop the Express server
 	server.close()
-	console.log('stopped tldraw server')
+	if (verbose) console.log('Stopped tldraw server')
 }
 
-await exportTldr('../box.tldr', '/Users/mika/Desktop', 'svg')
+await exportTldr('box.tldr', 'svg', '~/Desktop', true)
