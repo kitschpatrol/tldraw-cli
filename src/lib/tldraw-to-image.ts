@@ -62,6 +62,9 @@ async function tldrawUrlToImage(
 	const downloadGuid = await waitForDownloadCompletion(client)
 	if (verbose) console.log('Download complete')
 
+	await browser.close()
+	if (verbose) console.log('Stopped Puppeteer')
+
 	// TODO better naming strategy for URLs...
 	// Move and rename the downloaded file from temp to output destination
 	const downloadPath = path.join(os.tmpdir(), downloadGuid)
