@@ -42,18 +42,17 @@ async function waitForDownloadCompletion(client: CDPSession): Promise<string> {
 
 export async function exportTldr(
 	tldrPath: string,
-	format: ExportFormat = 'svg',
-	destination = './',
-	verbose = false,
+	format: ExportFormat,
+	destination: string,
+	verbose: boolean,
 ) {
 	const scriptDirectory = dirname(fileURLToPath(import.meta.url))
-
 	const resolvedTldrPath = path.resolve(untildify(tldrPath))
 	if (verbose) console.log(`Loading tldr file "${resolvedTldrPath}"`)
 	const tldrFile = await fs.readFile(resolvedTldrPath, 'utf8')
 
-	if (verbose) console.log('Starting tldraw server...')
 	// Serve local tldraw
+	if (verbose) console.log('Starting tldraw server...')
 
 	// Handle dev or prod relative paths, brittle
 	const tldrawPath = path.join(
@@ -62,13 +61,12 @@ export async function exportTldr(
 	)
 
 	const server = await startServer(tldrawPath)
-
 	const { port } = server.address() as AddressInfo
 
 	if (verbose) console.log(`tldraw hosted from "http://localhost:${port}"`)
 
-	if (verbose) console.log('Starting Puppeteer...')
 	// Launch Puppeteer and access the Vite-served website
+	if (verbose) console.log('Starting Puppeteer...')
 	const browser = await puppeteer.launch({ headless: 'new' })
 	const page = await browser.newPage()
 
@@ -88,8 +86,6 @@ export async function exportTldr(
 		const messageText = message.text()
 
 		if (messageType === 'error') {
-			console.log(message.args())
-			console.log(message.location())
 			console.error(`[Browser] ${messageText}`)
 		} else if (messageType === 'warning') {
 			console.warn(`[Browser] ${messageText}`)
@@ -105,8 +101,7 @@ export async function exportTldr(
 		eventsEnabled: true,
 	})
 
-	// Navigate to the URL served by Vite, download starts automatically
-	await page.goto(`http://localhost:${port}`) // Adjust the URL to match your Vite configuration
+	await page.goto(`http://localhost:${port}`)
 	await page.waitForFunction(() => window.tldrawExportFile !== undefined)
 
 	// Send the tldr file to the page
@@ -119,14 +114,13 @@ export async function exportTldr(
 		format,
 	)
 
-	// TODO types from function
 	const downloadGuid = await waitForDownloadCompletion(client)
 	if (verbose) console.log('Download complete')
 
 	await browser.close()
 	if (verbose) console.log('Stopped Puppeteer')
 
-	// Get the base filename without the extension
+	// Move and rename the downloaded file from temp to output destination
 	const originalFilename = path.basename(tldrPath, path.extname(tldrPath))
 	const downloadPath = path.join(os.tmpdir(), downloadGuid)
 	const destinationPath = untildify(path.join(destination, `${originalFilename}.${format}`))
@@ -134,7 +128,6 @@ export async function exportTldr(
 
 	if (verbose) console.log(`Saved to "${destinationPath}"`)
 
-	// Stop the Express server
 	server.close()
 	if (verbose) console.log('Stopped tldraw server')
 }
