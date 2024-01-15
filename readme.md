@@ -52,7 +52,7 @@ tldraw-cli file {options}
 
 ### Basic conversion
 
-To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved in the current working directory, run the following command. The default output format is SVG, and the default export location is the current working directory.
+To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved in the current working directory, run the following command. Note that the default output format is svg, and the default export location is the current working directory.
 
 ```sh
 npx @kitschpatrol/tldraw-cli your-drawing.tldr
