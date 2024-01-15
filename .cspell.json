@@ -1,5 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
 	"import": "@kitschpatrol/cspell-config",
-	"words": ["jorisjh", "networkidle", "Nitsuj", "testid", "tldr", "tldraw", "untildify"]
+	"words": ["jorisjh", "networkidle", "Nitsuj", "testid", "tldr", "tldraw", "untildify"],
+	"ignorePaths": ["/test/assets/**/*"]
 }
