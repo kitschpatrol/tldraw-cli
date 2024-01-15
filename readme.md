@@ -35,12 +35,12 @@ npm --install --global @kitschpatrol/tldraw-cli
 ### Invocation
 
 ```sh
-tldraw-cli fileOrUrl {options}
+tldraw-cli file-or-url {options}
 ```
 
-| Argument    | Description                                                                                            |
-| ----------- | ------------------------------------------------------------------------------------------------------ |
-| `fileOrUrl` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL |
+| Argument      | Description                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------ |
+| `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL |
 
 | Option            | Description                                 | Default |
 | ----------------- | ------------------------------------------- | ------- |

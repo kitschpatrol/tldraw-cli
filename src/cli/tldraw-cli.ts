@@ -7,11 +7,11 @@ import { hideBin } from 'yargs/helpers'
 
 await yargs(hideBin(process.argv))
 	.command(
-		'$0 <file>',
-		'Convert a tldraw ".tldr" file to an svg or png image',
+		'$0 <file-or-url>',
+		'Convert a tldraw ".tldr" file or tldraw.com URL to an svg or png image',
 		(yargs) =>
 			yargs
-				.positional('fileOrUrl', {
+				.positional('file-or-url', {
 					demandOption: true,
 					describe:
 						'The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw.com sketch URL',
@@ -40,6 +40,7 @@ await yargs(hideBin(process.argv))
 
 			try {
 				await tldrawToImage(fileOrUrl, format as ExportFormat, output, verbose)
+				process.exit(0)
 			} catch (error) {
 				console.error('Error during conversion:', error)
 				process.exit(1)
