@@ -30,7 +30,7 @@ npm --install --save-dev @kitschpatrol/tldraw-cli
 npm --install --global @kitschpatrol/tldraw-cli
 ```
 
-## Usage
+## Command line usage
 
 ### Invocation
 
@@ -47,6 +47,33 @@ tldraw-cli file {options}
 | `-h`, `--help`    | Show help                                   |         |
 | `-v`, `--version` | Show version number                         |         |
 | `--verbose`       | Enable verbose output                       | `false` |
+
+## API usage
+
+The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
+
+The library exports a single async function, `tldrToImage` with the following type signature, mirroring the arguments available via the command line. The same default values apply:
+
+```ts
+ tldrToImage(tldrPath: string, format?: ExportFormat, destination?: string, verbose?: boolean): Promise<string>;
+```
+
+The function exports the image in the requested format returns the full path to the output image.
+
+Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it may be used as follows:
+
+```ts
+// tldr-cli-api-test.ts
+
+import { tldrToImage } from '@kitschpatrol/tldraw-cli'
+
+const imagePath = await tldrToImage('./some-file.tldr', 'png', './', false)
+
+// Image saved to: "[...]/some-file.png"
+console.log(`Image saved to: "${imagePath}"`)
+```
+
+_Note that the library provided is ESM only, and requires a Node-compatible runtime. TypeScript types are included._
 
 ## Examples
 

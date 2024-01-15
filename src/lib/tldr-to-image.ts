@@ -40,12 +40,12 @@ async function waitForDownloadCompletion(client: CDPSession): Promise<string> {
 	})
 }
 
-export async function exportTldr(
+export async function tldrToImage(
 	tldrPath: string,
-	format: ExportFormat,
-	destination: string,
-	verbose: boolean,
-) {
+	format: ExportFormat = 'svg',
+	destination = './',
+	verbose = false,
+): Promise<string> {
 	const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 	const resolvedTldrPath = path.resolve(untildify(tldrPath))
 	if (verbose) console.log(`Loading tldr file "${resolvedTldrPath}"`)
@@ -55,15 +55,22 @@ export async function exportTldr(
 	if (verbose) console.log('Starting tldraw server...')
 
 	// Handle dev or prod relative paths, brittle
+	console.log(`scriptDirectory: ${scriptDirectory}`)
 	const tldrawPath = path.join(
 		scriptDirectory,
-		scriptDirectory.endsWith('/src/cli') ? '../../dist' : '../dist',
+		scriptDirectory.endsWith('/src/lib')
+			? '../../dist/tldraw'
+			: scriptDirectory.endsWith('/dist/lib')
+				? '../tldraw'
+				: '../dist/tldraw',
 	)
+
+	if (verbose) console.log(`tldraw served from "${tldrawPath}"`)
 
 	const server = await startServer(tldrawPath)
 	const { port } = server.address() as AddressInfo
 
-	if (verbose) console.log(`tldraw hosted from "http://localhost:${port}"`)
+	if (verbose) console.log(`tldraw hosted at "http://localhost:${port}"`)
 
 	// Launch Puppeteer and access the Vite-served website
 	if (verbose) console.log('Starting Puppeteer...')
@@ -130,4 +137,6 @@ export async function exportTldr(
 
 	server.close()
 	if (verbose) console.log('Stopped tldraw server')
+
+	return path.resolve(destinationPath)
 }

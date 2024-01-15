@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { version } from '../../package.json'
+import { tldrToImage } from '../lib/tldr-to-image'
 import { type ExportFormat } from '../types'
-import { exportTldr } from './export-tldr'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
@@ -38,7 +38,7 @@ await yargs(hideBin(process.argv))
 			const { file, format, output, verbose } = argv
 
 			try {
-				await exportTldr(file, format as ExportFormat, output, verbose)
+				await tldrToImage(file, format as ExportFormat, output, verbose)
 			} catch (error) {
 				console.error('Error during conversion:', error)
 				process.exit(1)

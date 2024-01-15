@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
 	build: {
 		emptyOutDir: true,
-		outDir: '../../dist',
+		outDir: '../../dist/tldraw',
 	},
 	plugins: [react()],
 	root: 'src/tldraw',

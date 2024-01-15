@@ -27,7 +27,7 @@ export default function App() {
 
 	// Define global functions accessible from puppeteer
 	useEffect(() => {
-		const tldrawExportFile = (tldrFile: string, format: ExportFormat = 'svg') => {
+		const tldrawExportFile = (tldrFile: string, format: ExportFormat) => {
 			setExportFormat(format)
 			setTldrFile(tldrFile)
 		}
@@ -57,9 +57,11 @@ export default function App() {
 		}
 	}, [editor, tldrFile, exportFormat])
 
-	const ready = (editor: Editor) => {
-		console.log('tldraw is ready')
-		setEditor(editor)
+	const ready = (editorArg: Editor) => {
+		if (!editor) {
+			console.log('tldraw is ready')
+			setEditor(editorArg)
+		}
 	}
 
 	return (
