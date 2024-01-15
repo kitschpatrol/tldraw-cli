@@ -55,7 +55,6 @@ export async function tldrToImage(
 	if (verbose) console.log('Starting tldraw server...')
 
 	// Handle dev or prod relative paths, brittle
-	console.log(`scriptDirectory: ${scriptDirectory}`)
 	const tldrawPath = path.join(
 		scriptDirectory,
 		scriptDirectory.endsWith('/src/lib')

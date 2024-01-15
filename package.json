@@ -25,12 +25,9 @@
 	"bin": {
 		"tldraw-cli": "bin/cli.js"
 	},
-	"exports": {
-		".": {
-			"import": "./dist/lib/index.js",
-			"types": "./dist/lib/index.d.ts"
-		}
-	},
+	"main": "./dist/lib/index.js",
+	"module": "./dist/lib/index.js",
+	"types": "./dist/lib/index.d.ts",
 	"files": [
 		"bin/*",
 		"dist/*"
