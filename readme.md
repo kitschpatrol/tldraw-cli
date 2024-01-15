@@ -1,6 +1,6 @@
 # @kitschpatrol/tldraw-cli
 
-**A minimal CLI app to automate conversion and export of [tldraw](https://tldraw.dev) `.tldr` files into jpeg, png, svg, or webp image formats.**
+**A minimal CLI app to automate conversion and export of [tldraw](https://tldraw.dev) `.tldr` files into svg or png image formats.**
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 

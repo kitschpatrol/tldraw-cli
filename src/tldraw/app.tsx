@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable unicorn/no-null */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
@@ -39,16 +38,27 @@ export default function App() {
 	// Execute the export when both the editor and the exportOptions are defined
 	useEffect(() => {
 		if (editor && exportFormat && tldrFile) {
-			parseAndLoadDocument(editor, tldrFile)
+			console.log(`tldraw is exporting to ${exportFormat}`)
+
+			try {
+				parseAndLoadDocument(editor, tldrFile)
+			} catch (error) {
+				console.error(`error parsing and loading data: ${String(error)}`)
+			}
 
 			// TODO Look for frames?
-			exportAs(editor, [], exportFormat, {}).then(() => {
-				// Console.log('exported data')
-			})
+			exportAs(editor, [], exportFormat, {})
+				.then(() => {
+					console.log('exported data successfully')
+				})
+				.catch((error) => {
+					console.error(`error exporting data: ${error}`)
+				})
 		}
 	}, [editor, tldrFile, exportFormat])
 
 	const ready = (editor: Editor) => {
+		console.log('tldraw is ready')
 		setEditor(editor)
 	}
 
@@ -67,8 +77,7 @@ function parseAndLoadDocument(editor: Editor, document: string) {
 		schema: editor.store.schema,
 	})
 	if (!parseFileResult.ok) {
-		console.error(parseFileResult.error)
-		return
+		throw new Error(String(parseFileResult.error))
 	}
 
 	// Tldraw file contain the full state of the app,

@@ -8,30 +8,30 @@ import { hideBin } from 'yargs/helpers'
 await yargs(hideBin(process.argv))
 	.command(
 		'$0 <file>',
-		'convert a file',
+		'Convert a tldraw ".tldr" file to an svg or png image',
 		(yargs) =>
 			yargs
 				.positional('file', {
 					demandOption: true,
-					describe: '.tldr file to convert',
+					describe: 'The ".tldr" file to convert',
 					type: 'string',
 				})
 				.option('format', {
 					alias: 'f',
-					choices: ['jpeg', 'png', 'svg', 'webp'],
+					choices: ['png', 'svg'],
 					default: 'svg',
-					describe: 'output format',
+					describe: 'Output image format',
 					type: 'string',
 				})
 				.option('output', {
 					alias: 'o',
 					default: './',
-					describe: 'output path',
+					describe: 'Output image directory',
 					type: 'string',
 				})
 				.option('verbose', {
 					default: false,
-					describe: 'enable verbose output',
+					describe: 'Enable verbose output',
 					type: 'boolean',
 				}),
 		async (argv) => {

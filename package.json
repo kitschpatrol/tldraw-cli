@@ -43,7 +43,7 @@
 		"build:cli": "tsx ./scripts/build-cli.ts",
 		"build:tldraw": "pnpm run tldraw-copy-assets && vite build",
 		"dev": "pnpm run tldraw-copy-assets && vite",
-		"dev-cli": "pnpm run build:tldraw && tsx ./src/cli/tldraw-cli.ts",
+		"dev-cli": "pnpm run build:tldraw && tsx ./src/cli/tldraw-cli.ts ./test-assets/box.tldr --verbose",
 		"fix": "shared-config --fix",
 		"lint": "shared-config --lint",
 		"preview": "vite preview",
