@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference types="vitest" />
+
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 
@@ -9,4 +12,7 @@ export default defineConfig({
 	},
 	plugins: [react()],
 	root: 'src/tldraw',
+	test: {
+		root: '.',
+	},
 })
