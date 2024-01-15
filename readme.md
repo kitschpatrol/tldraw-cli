@@ -4,7 +4,7 @@
 
 ## Overview
 
-**A minimal CLI app to automate conversion and export of [tldraw](https://tldraw.dev) `.tldr` files into svg or png image formats.**
+**A minimal CLI app to automate conversion and export of [tldraw](https://tldraw.dev) URLs and `.tldr` files into svg or png image formats.**
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 
@@ -38,17 +38,18 @@ npm --install --global @kitschpatrol/tldraw-cli
 tldraw-cli file-or-url {options}
 ```
 
-| Argument      | Description                                                                                            |
-| ------------- | ------------------------------------------------------------------------------------------------------ |
-| `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL |
+| Argument      | Description                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------- |
+| `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
 
-| Option            | Description                                 | Default |
-| ----------------- | ------------------------------------------- | ------- |
-| `-f`, `--format`  | Output image format , one of "png" or "svg" | `svg`   |
-| `-o`, `--output`  | Output image directory                      | `./`    |
-| `-h`, `--help`    | Show help                                   |         |
-| `-v`, `--version` | Show version number                         |         |
-| `--verbose`       | Enable verbose output                       | `false` |
+| Option                | Description                                                                                             | Default     |
+| --------------------- | ------------------------------------------------------------------------------------------------------- | ----------- |
+| `-f`, `--format`      | Output image format , one of "png" or "svg".                                                            | `svg`       |
+| `-t`, `--transparent` | When true, produces an image with a transparent background. If left undefined, project setting is used. | `undefined` |
+| `-o`, `--output`      | Output image directory.                                                                                 | `./`        |
+| `-h`, `--help`        | Show help.                                                                                              |             |
+| `-v`, `--version`     | Show version number.                                                                                    |             |
+| `--verbose`           | Enable verbose output.                                                                                  | `false`     |
 
 ## Examples
 
@@ -70,6 +71,12 @@ npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 
 ```sh
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --format png
+```
+
+### Export with a transparent background
+
+```sh
+npx @kitschpatrol/tldraw-cli your-drawing.tldr --transparent --format png
 ```
 
 ### Export to a specific destination
@@ -135,10 +142,10 @@ The local instance of tldraw includes its assets dependencies, so the tool shoul
 
 This is a very minimal implementation. Current plans for future improvements include the following:
 
-- Add automated tests
+- Switch to options object in Node API for 2.0
+- Add CLI tests
 - Implement the ability to export specific frames or pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format
-- Add option flag for transparent background
 
 Any other suggestions are welcome.
 

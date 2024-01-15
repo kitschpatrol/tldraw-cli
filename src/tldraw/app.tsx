@@ -23,13 +23,19 @@ declare global {
 
 export default function App() {
 	const [exportFormat, setExportFormat] = useState<ExportFormat | null>(null)
+	const [transparent, setTransparent] = useState<boolean | null | undefined>()
 	const [tldrFile, setTldrFile] = useState<TldrFile | null>(null)
 	const [editor, setEditor] = useState<Editor | null>(null)
 
 	// Define global functions accessible from puppeteer
 	useEffect(() => {
-		const tldrawExportFile = (tldrFile: string, format: ExportFormat) => {
+		const tldrawExportFile = (
+			tldrFile: string,
+			format: ExportFormat,
+			transparent: boolean | null,
+		) => {
 			setExportFormat(format)
+			setTransparent(transparent)
 			setTldrFile(tldrFile)
 		}
 
@@ -38,7 +44,7 @@ export default function App() {
 
 	// Execute the export when both the editor and the exportOptions are defined
 	useEffect(() => {
-		if (editor && exportFormat && tldrFile) {
+		if (editor && exportFormat && tldrFile && transparent !== undefined) {
 			console.log(`tldraw is exporting to ${exportFormat}`)
 
 			try {
@@ -48,8 +54,8 @@ export default function App() {
 			}
 
 			// TODO Look for frames?
-
-			exportAs(editor, [], exportFormat, {})
+			const options = transparent === null ? {} : { background: !transparent }
+			exportAs(editor, [], exportFormat, options)
 				.then(() => {
 					console.log('exported data successfully')
 				})

@@ -17,15 +17,34 @@ export async function tldrawToImage(
 	format: ExportFormat = 'svg',
 	destination = './',
 	verbose = false,
+	// Undefined uses project setting
+	transparent: boolean | undefined = undefined,
 ): Promise<string> {
 	// Detect url vs. file path
 	if (tldrPathOrUrl.startsWith('https://www.tldraw.com/')) {
 		if (verbose) console.log('tldraw URL detected')
-		return tldrawUrlToImage(tldrPathOrUrl, format, destination, verbose)
+		return tldrawUrlToImage(tldrPathOrUrl, format, destination, verbose, transparent)
 	}
 
 	if (verbose) console.log('Local file detected')
-	return tldrFileToImage(tldrPathOrUrl, format, destination, verbose)
+	return tldrFileToImage(tldrPathOrUrl, format, destination, verbose, transparent)
+}
+
+async function closeMenus(page: Page): Promise<void> {
+	await page.evaluate(`app.clearOpenMenus()`)
+}
+
+async function getTransparency(page: Page): Promise<boolean> {
+	return !(await page.evaluate('editor.getInstanceState().exportBackground'))
+}
+
+async function setTransparency(page: Page, transparent: boolean): Promise<void> {
+	await page.evaluate(
+		`editor.updateInstanceState(
+			{ exportBackground: ${!transparent} },
+			{ ephemeral: true },
+		 )`,
+	)
 }
 
 async function tldrawUrlToImage(
@@ -33,6 +52,7 @@ async function tldrawUrlToImage(
 	format: ExportFormat,
 	destination: string,
 	verbose: boolean,
+	transparent: boolean | undefined,
 ): Promise<string> {
 	if (verbose) console.log('Starting Puppeteer...')
 	const browser = await puppeteer.launch({ headless: 'new' })
@@ -48,10 +68,21 @@ async function tldrawUrlToImage(
 	if (verbose) console.log(`Navigating to: ${tldrawUrl}`)
 	await page.goto(tldrawUrl, { waitUntil: 'networkidle0' })
 
-	if (verbose) console.log('Requesting download')
+	// Override transparency, if necessary
+	if (transparent === undefined) {
+		if (verbose) console.log('Using project transparency')
+	} else {
+		const projectIsTransparent = await getTransparency(page)
+		if (projectIsTransparent !== transparent) {
+			if (verbose) console.log(`Setting background to transparent: ${transparent}`)
+			await setTransparency(page, transparent)
+		}
+	}
 
 	// Brittle
 	// TODO how to invoke this from the browser console?
+	if (verbose) console.log('Requesting download')
+	await closeMenus(page)
 	await clickMenuTestIds(page, [
 		'main.menu',
 		'menu-item.edit',
@@ -80,6 +111,7 @@ async function tldrFileToImage(
 	format: ExportFormat,
 	destination: string,
 	verbose: boolean,
+	transparent: boolean | undefined,
 ): Promise<string> {
 	const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 	const resolvedTldrPath = path.resolve(untildify(tldrPath))
@@ -106,7 +138,7 @@ async function tldrFileToImage(
 
 	if (verbose) console.log(`tldraw hosted at "http://localhost:${port}"`)
 
-	// Launch Puppeteer and access the Vite-served website
+	// Launch Puppeteer and access the express-served website
 	if (verbose) console.log('Starting Puppeteer...')
 	const browser = await puppeteer.launch({ headless: 'new' })
 	const page = await browser.newPage()
@@ -136,12 +168,15 @@ async function tldrFileToImage(
 
 	// Send the tldr file to the page
 	if (verbose) console.log('Requesting download')
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, unicorn/no-null
+	const transparentNullable = transparent === undefined ? null : transparent
 	await page.evaluate(
-		(tldrFile, format) => {
-			window.tldrawExportFile(tldrFile, format)
+		(tldrFile, format, transparentNullable) => {
+			window.tldrawExportFile(tldrFile, format, transparentNullable)
 		},
 		tldrFile,
 		format,
+		transparentNullable,
 	)
 
 	const downloadGuid = await waitForDownloadCompletion(client)
