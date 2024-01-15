@@ -48,6 +48,28 @@ tldraw-cli file {options}
 | `-v`, `--version` | Show version number                         |         |
 | `--verbose`       | Enable verbose output                       | `false` |
 
+## Examples
+
+### Basic conversion
+
+To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved in the current working directory, run the following command. Note that the default output format is svg, and the default export location is the current working directory.
+
+```sh
+npx @kitschpatrol/tldraw-cli your-drawing.tldr
+```
+
+### Export to a specific format
+
+```sh
+npx @kitschpatrol/tldraw-cli your-drawing.tldr --format png
+```
+
+### Export to a specific destination
+
+```sh
+npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
+```
+
 ## API usage
 
 The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
@@ -73,29 +95,7 @@ const imagePath = await tldrToImage('./some-file.tldr', 'png', './', false)
 console.log(`Image saved to: "${imagePath}"`)
 ```
 
-_Note that the library provided is ESM only, and requires a Node-compatible runtime. TypeScript types are included._
-
-## Examples
-
-### Basic conversion
-
-To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved in the current working directory, run the following command. Note that the default output format is svg, and the default export location is the current working directory.
-
-```sh
-npx @kitschpatrol/tldraw-cli your-drawing.tldr
-```
-
-### Export to a specific format
-
-```sh
-npx @kitschpatrol/tldraw-cli your-drawing.tldr --format png
-```
-
-### Export to a specific destination
-
-```sh
-npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
-```
+_Note that the library provided is ESM only, and requires a Node-compatible runtime. TypeScript type definitions are included._
 
 ## Background
 
