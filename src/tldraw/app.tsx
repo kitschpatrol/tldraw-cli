@@ -10,6 +10,7 @@ import type { ExportFormat, TldrFile } from '../types'
 
 import { getAssetUrls } from '@tldraw/assets/selfHosted'
 import { transact } from '@tldraw/editor'
+// UseExportAs instead?
 import { type Editor, Tldraw, exportAs, parseTldrawJsonFile } from '@tldraw/tldraw'
 import '@tldraw/tldraw/tldraw.css'
 import { useEffect, useState } from 'react'
@@ -47,6 +48,7 @@ export default function App() {
 			}
 
 			// TODO Look for frames?
+
 			exportAs(editor, [], exportFormat, {})
 				.then(() => {
 					console.log('exported data successfully')

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { version } from '../../package.json'
-import { tldrToImage } from '../lib/tldr-to-image'
+import { tldrawToImage } from '../lib/tldraw-to-image'
 import { type ExportFormat } from '../types'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -11,9 +11,10 @@ await yargs(hideBin(process.argv))
 		'Convert a tldraw ".tldr" file to an svg or png image',
 		(yargs) =>
 			yargs
-				.positional('file', {
+				.positional('fileOrUrl', {
 					demandOption: true,
-					describe: 'The ".tldr" file to convert',
+					describe:
+						'The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw.com sketch URL',
 					type: 'string',
 				})
 				.option('format', {
@@ -35,10 +36,10 @@ await yargs(hideBin(process.argv))
 					type: 'boolean',
 				}),
 		async (argv) => {
-			const { file, format, output, verbose } = argv
+			const { fileOrUrl, format, output, verbose } = argv
 
 			try {
-				await tldrToImage(file, format as ExportFormat, output, verbose)
+				await tldrawToImage(fileOrUrl, format as ExportFormat, output, verbose)
 			} catch (error) {
 				console.error('Error during conversion:', error)
 				process.exit(1)

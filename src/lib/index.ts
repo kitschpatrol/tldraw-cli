@@ -1,2 +1,2 @@
 export type { ExportFormat } from '../types'
-export { tldrToImage } from './tldr-to-image'
+export { tldrawToImage } from './tldraw-to-image'

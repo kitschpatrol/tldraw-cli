@@ -35,10 +35,12 @@ npm --install --global @kitschpatrol/tldraw-cli
 ### Invocation
 
 ```sh
-tldraw-cli file {options}
+tldraw-cli fileOrUrl {options}
 ```
 
-### Option flags
+| Argument    | Description                                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------------------ |
+| `fileOrUrl` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL |
 
 | Option            | Description                                 | Default |
 | ----------------- | ------------------------------------------- | ------- |
@@ -50,12 +52,18 @@ tldraw-cli file {options}
 
 ## Examples
 
-### Basic conversion
+### Basic .tldr file conversion
 
 To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved in the current working directory, run the following command. Note that the default output format is svg, and the default export location is the current working directory.
 
 ```sh
 npx @kitschpatrol/tldraw-cli your-drawing.tldr
+```
+
+### Basic tldraw\.com image download
+
+```sh
+npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 ```
 
 ### Export to a specific format
@@ -74,10 +82,10 @@ npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
 
 The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
 
-The library exports a single async function, `tldrToImage` with the following type signature, mirroring the arguments available via the command line. The same default values apply:
+The library exports a single async function, `tldrawToImage` with the following type signature, mirroring the arguments available via the command line. The same default values apply:
 
 ```ts
- tldrToImage(tldrPath: string, format?: ExportFormat, destination?: string, verbose?: boolean): Promise<string>;
+ tldrawToImage(tldrPathOrUrl: string, format?: ExportFormat, destination?: string, verbose?: boolean): Promise<string>;
 ```
 
 The function exports the image in the requested format returns the full path to the output image.
@@ -87,12 +95,16 @@ Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it
 ```ts
 // tldr-cli-api-test.ts
 
-import { tldrToImage } from '@kitschpatrol/tldraw-cli'
+import { tldrawToImage } from '@kitschpatrol/tldraw-cli'
 
-const imagePath = await tldrToImage('./some-file.tldr', 'png', './', false)
+// converting a local file
+const imagePathFromLocal = await tldrawToImage('./some-file.tldr', 'png', './', false)
 
 // Image saved to: "[...]/some-file.png"
-console.log(`Image saved to: "${imagePath}"`)
+console.log(`Image saved to: "${imagePathFromLocal}"`)
+
+// Saving a remote tldraw url
+await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 ```
 
 _Note that the library provided is ESM only, and requires a Node-compatible runtime. TypeScript type definitions are included._
@@ -105,6 +117,8 @@ On GitHub:
 
 - [\[Feature\]: CLI export application #1491](https://github.com/tldraw/tldraw/issues/1491)
 - [AWS Lambda-based approach](https://gist.github.com/steveruizok/c30fc99b9b3d95a14c82c59bdcc69201)
+- [Added exporting of shapes and pages as images](https://github.com/tldraw/tldraw/pull/468)
+- [\[feature\] Copy/Share as PNG](https://github.com/tldraw/tldraw-v1/issues/361)
 
 On Discord:
 
@@ -122,8 +136,9 @@ The local instance of tldraw includes its assets dependencies, so the tool shoul
 This is a very minimal implementation. Current plans for future improvements include the following:
 
 - Add automated tests
-- Implement the ability to export frames or pages as separate image files
+- Implement the ability to export specific frames or pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format
+- Add option flag for transparent background
 
 Any other suggestions are welcome.
 
