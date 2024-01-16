@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 
-import type { ExportFormat } from '../types'
 import express from 'express'
 import getPort from 'get-port'
 import fs from 'node:fs/promises'
@@ -16,7 +15,7 @@ import untildify from 'untildify'
 
 export type TldrawImageOptions = {
 	darkMode?: boolean
-	format?: ExportFormat
+	format?: 'png' | 'svg'
 	output?: string
 	transparent?: boolean
 	verbose?: boolean

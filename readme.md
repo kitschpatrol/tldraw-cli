@@ -98,7 +98,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
   {
     darkMode?: boolean
     output?: string
-    format?: ExportFormat
+    format?: 'png' | 'svg'
     transparent?: boolean
     verbose?: boolean
  }): Promise<string>;

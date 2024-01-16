@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { version } from '../../package.json'
 import { tldrawToImage } from '../lib/tldraw-to-image'
-import { type ExportFormat } from '../types'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
@@ -53,7 +52,7 @@ await yargs(hideBin(process.argv))
 			try {
 				await tldrawToImage(fileOrUrl, {
 					darkMode,
-					format: format as ExportFormat,
+					format: format as 'png' | 'svg',
 					output,
 					transparent,
 					verbose,

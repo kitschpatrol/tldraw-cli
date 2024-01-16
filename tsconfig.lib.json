@@ -3,8 +3,8 @@
 	"compilerOptions": {
 		"noEmit": false,
 		"declaration": true,
-		"outDir": "./dist/",
+		"outDir": "./dist/lib",
 		"emitDeclarationOnly": true
 	},
-	"include": ["src/lib/index.ts", "src/env.d.ts"]
+	"include": ["src/lib/index.ts"]
 }
