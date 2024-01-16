@@ -42,14 +42,15 @@ tldraw-cli file-or-url {options}
 | ------------- | ------------------------------------------------------------------------------------------------------- |
 | `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
 
-| Option                | Description                                                                                             | Default     |
-| --------------------- | ------------------------------------------------------------------------------------------------------- | ----------- |
-| `-f`, `--format`      | Output image format , one of "png" or "svg".                                                            | `svg`       |
-| `-t`, `--transparent` | When true, produces an image with a transparent background. If left undefined, project setting is used. | `undefined` |
-| `-o`, `--output`      | Output image directory.                                                                                 | `./`        |
-| `-h`, `--help`        | Show help.                                                                                              |             |
-| `-v`, `--version`     | Show version number.                                                                                    |             |
-| `--verbose`           | Enable verbose output.                                                                                  | `false`     |
+| Option          | Alias | Description                                   | Default     |
+| --------------- | ----- | --------------------------------------------- | ----------- |
+| `--format`      | `-f`  | Output image format, one of "png" or "svg"    | `svg`       |
+| `--dark-mode`   | `-d`  | Output a dark theme version of the image      |
+| `--transparent` | `-t`  | Output an image with a transparent background | `undefined` |
+| `--output`      | `-o`  | Output directory                              | `./`        |
+| `--help`        | `-h`  | Show help                                     |             |
+| `--version`     | `-v`  | Show version number                           |             |
+| `--verbose`     |       | Enable verbose output                         | `false`     |
 
 ## Examples
 
@@ -89,10 +90,18 @@ npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
 
 The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
 
-The library exports a single async function, `tldrawToImage` with the following type signature, mirroring the arguments available via the command line. The same default values apply:
+The library exports a single async function, `tldrawToImage`, which takes an options argument mirroring the arguments available via the command line. The same default values apply:
 
 ```ts
- tldrawToImage(tldrPathOrUrl: string, format?: ExportFormat, destination?: string, verbose?: boolean): Promise<string>;
+ tldrawToImage(
+  tldrPathOrUrl: string,
+  {
+    darkMode?: boolean
+    output?: string
+    format?: ExportFormat
+    transparent?: boolean
+    verbose?: boolean
+ }): Promise<string>;
 ```
 
 The function exports the image in the requested format returns the full path to the output image.
@@ -104,8 +113,8 @@ Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it
 
 import { tldrawToImage } from '@kitschpatrol/tldraw-cli'
 
-// converting a local file
-const imagePathFromLocal = await tldrawToImage('./some-file.tldr', 'png', './', false)
+// Converting a local file
+const imagePathFromLocal = await tldrawToImage('./some-file.tldr', { format: 'png', output: './' })
 
 // Image saved to: "[...]/some-file.png"
 console.log(`Image saved to: "${imagePathFromLocal}"`)
@@ -142,7 +151,6 @@ The local instance of tldraw includes its assets dependencies, so the tool shoul
 
 This is a very minimal implementation. Current plans for future improvements include the following:
 
-- Switch to options object in Node API for 2.0
 - Add CLI tests
 - Implement the ability to export specific frames or pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format

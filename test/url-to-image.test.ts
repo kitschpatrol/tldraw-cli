@@ -20,7 +20,7 @@ it('should convert the tldraw url to an svg in the current folder by default', a
 })
 
 it('should convert the tldraw url to an svg when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl, 'svg')
+	const savedImageFileName = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
 	// TODO vet file names
 
 	expectFileToBeValid(savedImageFileName, 'svg', tldrawTestUrlSvgHash)
@@ -29,7 +29,7 @@ it('should convert the tldraw url to an svg when specified', async () => {
 })
 
 it('should convert the tldraw url to a png when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl, 'png')
+	const savedImageFileName = await tldrawToImage(tldrawTestUrl, { format: 'png' })
 
 	expectFileToBeValid(savedImageFileName, 'png', tldrawTestUrlPngHash)
 
@@ -40,7 +40,10 @@ it('should save the file to a specific directory when specified', async () => {
 	const randomPath = randomId()
 	mkdirSync(randomPath)
 
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl, 'png', `./${randomPath}/`)
+	const savedImageFileName = await tldrawToImage(tldrawTestUrl, {
+		format: 'png',
+		output: `./${randomPath}/`,
+	})
 	expect(savedImageFileName).toContain(randomPath)
 
 	expectFileToBeValid(savedImageFileName, 'png', tldrawTestUrlPngHash)

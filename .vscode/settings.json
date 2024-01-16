@@ -33,5 +33,6 @@
 	"prettier.documentSelectors": ["**/.prettierignore", "**/.npmrc", "**/.eslintignore"],
 	"prettier.enable": true,
 	"stylelint.enable": true,
-	"stylelint.validate": ["css", "html"]
+	"stylelint.validate": ["css", "html"],
+	"testing.automaticallyOpenPeekView": "never"
 }

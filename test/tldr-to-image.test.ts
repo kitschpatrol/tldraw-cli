@@ -7,8 +7,8 @@ import { expect, it } from 'vitest'
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
 
 // TODO snapshots
-const tldrTestFileHashSvg = 'd944e73a5439bf5a05358edf4456374d6077ee26dbc6c6ed08ccd354b54cd088'
-const tldrTestFileHashPng = '8ab6fd1f2408a07bf053cadc920ab55536822f825256f81f74f0df3c72eb2cc3'
+const tldrTestFileHashSvg = 'e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b'
+const tldrTestFileHashPng = '9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99'
 
 it('should convert the tldr file to an svg in the current folder by default', async () => {
 	const savedImageFileName = await tldrawToImage(tldrTestFilePath)
@@ -20,7 +20,7 @@ it('should convert the tldr file to an svg in the current folder by default', as
 })
 
 it('should convert the tldr file to an svg when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, 'svg')
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, { format: 'svg' })
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 
 	expectFileToBeValid(savedImageFileName, 'svg', tldrTestFileHashSvg)
@@ -29,7 +29,7 @@ it('should convert the tldr file to an svg when specified', async () => {
 })
 
 it('should convert the tldr file to a png when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, 'png')
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, { format: 'png' })
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.png`)
 
 	expectFileToBeValid(savedImageFileName, 'png', tldrTestFileHashPng)
@@ -41,7 +41,10 @@ it('should save the file to a specific directory when specified', async () => {
 	const randomPath = randomId()
 	mkdirSync(randomPath)
 
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, 'png', `./${randomPath}/`)
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		format: 'png',
+		output: `./${randomPath}/`,
+	})
 	expect(savedImageFileName).toBe(`${process.cwd()}/${randomPath}/test-sketch.png`)
 
 	expectFileToBeValid(savedImageFileName, 'png', tldrTestFileHashPng)
