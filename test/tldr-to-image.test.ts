@@ -51,3 +51,7 @@ it('should save the file to a specific directory when specified', async () => {
 
 	rmdirSync(randomPath, { recursive: true })
 })
+
+it('should reject empty files', async () => {
+	await expect(tldrawToImage('./test/assets/test-sketch-empty.tldr')).rejects.toThrow()
+})

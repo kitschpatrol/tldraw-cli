@@ -113,6 +113,13 @@ export async function tldrawToImage(
 	if (verbose) console.log(`Navigating to: ${tldrawUrl}`)
 	await page.goto(tldrawUrl, { waitUntil: 'networkidle0' })
 
+	// Check for emptiness
+	const shapeCount = (await page.evaluate('editor.getCurrentPageShapes().length')) as number
+	if (verbose) console.log(`Shape count: ${shapeCount}`)
+	if (shapeCount === 0) {
+		throw new Error('The sketch is empty')
+	}
+
 	// Set transparency
 	if (verbose) console.log(`Setting background transparency: ${transparent}`)
 	await setTransparency(page, transparent)

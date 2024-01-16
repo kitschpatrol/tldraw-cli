@@ -59,7 +59,7 @@ await yargs(hideBin(process.argv))
 				})
 				process.exit(0)
 			} catch (error) {
-				console.error('Error during conversion:', error)
+				console.error('Conversion failed:', error)
 				process.exit(1)
 			}
 		},
