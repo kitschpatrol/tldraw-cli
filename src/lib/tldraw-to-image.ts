@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
 
+import { validatePathOrUrl } from './validation'
 import express from 'express'
 import getPort from 'get-port'
 import fs from 'node:fs/promises'
@@ -26,7 +27,7 @@ const defaultOptions: Required<TldrawImageOptions> = {
 	format: 'svg',
 	output: './',
 	transparent: false,
-	verbose: true,
+	verbose: false,
 }
 
 export async function tldrawToImage(
@@ -36,8 +37,14 @@ export async function tldrawToImage(
 	const resolvedOptions = { ...defaultOptions, ...stripUndefined(options) }
 	const { darkMode, format, output, transparent, verbose } = resolvedOptions
 
+	const validatedPathOrUrl = validatePathOrUrl(tldrPathOrUrl, {
+		requireFileExistence: true,
+		validFileExtensions: ['.tldr'],
+		validHostnames: ['www.tldraw.com'],
+	})
+
 	// Identify URL vs. file path
-	const isLocal = !tldrPathOrUrl.startsWith('https://www.tldraw.com/')
+	const isLocal = typeof validatedPathOrUrl === 'string'
 	if (verbose) console.log(isLocal ? 'Local file detected' : 'tldraw URL detected')
 
 	// Set up local server if appropriate
@@ -92,9 +99,8 @@ export async function tldrawToImage(
 		})
 
 		// Load tldr data and put it in local storage
-		const resolvedTldrPath = path.resolve(untildify(tldrPathOrUrl))
-		if (verbose) console.log(`Loading tldr file "${resolvedTldrPath}"`)
-		const tldrFile = await fs.readFile(resolvedTldrPath, 'utf8')
+		if (verbose) console.log(`Loading tldr file "${validatedPathOrUrl}"`)
+		const tldrFile = await fs.readFile(validatedPathOrUrl, 'utf8')
 
 		await page.evaluateOnNewDocument((data) => {
 			localStorage.clear()
@@ -103,7 +109,7 @@ export async function tldrawToImage(
 	}
 
 	// Navigate to tldraw
-	const tldrawUrl = isLocal ? `http://localhost:${port}` : tldrPathOrUrl
+	const tldrawUrl = isLocal ? `http://localhost:${port}` : validatedPathOrUrl.href
 	if (verbose) console.log(`Navigating to: ${tldrawUrl}`)
 	await page.goto(tldrawUrl, { waitUntil: 'networkidle0' })
 
@@ -145,7 +151,7 @@ export async function tldrawToImage(
 	// TODO better naming strategy for URLs...
 	// Move and rename the downloaded file from temp to output destination
 	const outputFilename = isLocal
-		? path.basename(tldrPathOrUrl, path.extname(tldrPathOrUrl))
+		? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
 		: downloadGuid
 	const downloadPath = path.join(os.tmpdir(), downloadGuid)
 	const outputPath = untildify(path.join(output, `${outputFilename}.${format}`))
