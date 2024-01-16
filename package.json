@@ -1,6 +1,6 @@
 {
 	"name": "@kitschpatrol/tldraw-cli",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"type": "module",
 	"description": "A tiny little CLI tool for rendering tldraw URLs and .tldr files into svg or png images.",
 	"repository": {
