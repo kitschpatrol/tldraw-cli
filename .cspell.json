@@ -1,8 +1,11 @@
 {
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+	"ignorePaths": ["/test/assets/**/*"],
 	"import": "@kitschpatrol/cspell-config",
 	"words": [
 		"ceci",
+		"Atjsy",
+		"Wbdp",
 		"Exukis",
 		"jorisjh",
 		"networkidle",
@@ -14,8 +17,5 @@
 		"tldraw",
 		"untildify",
 		"Vitest"
-	],
-	"ignorePaths": [
-		"/test/assets/**/*"
 	]
 }
