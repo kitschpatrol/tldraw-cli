@@ -4,6 +4,8 @@
 		"dbaeumer.vscode-eslint",
 		"esbenp.prettier-vscode",
 		"unifiedjs.vscode-mdx",
-		"stylelint.vscode-stylelint"
+		"stylelint.vscode-stylelint",
+		"sndst00m.vscode-native-svg-preview",
+		"michijs.vscode-svg"
 	]
 }
