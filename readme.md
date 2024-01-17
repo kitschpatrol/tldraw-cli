@@ -4,7 +4,7 @@
 
 ## Overview
 
-**A minimal CLI app to automate conversion and export of [tldraw](https://tldraw.dev) URLs and `.tldr` files into svg or png image formats.**
+**A minimal CLI app to automate conversion and export of [tldraw](https://tldraw.dev) URLs and `.tldr` files into SVG or PNG image formats.**
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 
@@ -63,11 +63,15 @@ To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved
 npx @kitschpatrol/tldraw-cli your-drawing.tldr
 ```
 
+The file will retain its original name, e.g. `your-drawing.svg`
+
 ### Basic tldraw\.com image download
 
 ```sh
 npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 ```
+
+The tldraw URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
 
 ### Export to a specific format
 
@@ -87,6 +91,22 @@ npx @kitschpatrol/tldraw-cli your-drawing.tldr --transparent --format png
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
 ```
 
+### Export all frames from a single tldraw URL
+
+```sh
+npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
+```
+
+The saved files will be suffixed with their frame name, e.g.: `v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-1.png`
+
+It's possible in tldraw to give multiple frames in a single sketch the same name. In these cases, the frame ID is used in addition to the name to ensure unique output file names.
+
+### Export a specific frame from a tldraw URL
+
+```sh
+npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
+```
+
 ## API usage
 
 The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
@@ -100,6 +120,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
     darkMode?: boolean
     output?: string
     format?: 'png' | 'svg'
+    frames?: boolean | string[]
     transparent?: boolean
     verbose?: boolean
  }): Promise<string>;
@@ -114,14 +135,32 @@ Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it
 
 import { tldrawToImage } from '@kitschpatrol/tldraw-cli'
 
-// Converting a local file
-const imagePathFromLocal = await tldrawToImage('./some-file.tldr', { format: 'png', output: './' })
+// Convert a local file to PNG
+const imagePath = await tldrawToImage('./some-file.tldr', { format: 'png', output: './' })
+console.log(`Wrote image to: "${imagePath}"`)
 
-// Image saved to: "[...]/some-file.png"
-console.log(`Image saved to: "${imagePathFromLocal}"`)
-
-// Saving a remote tldraw url
+// Convert a remote tldraw URL to SVG
 await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
+
+// Convert all frames from a single tldraw URL to separate SVGs
+// When the `frames` option is set, the function returns an array
+// of resulting file paths, instead of a solitary string
+const framePathsArray = await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
+  frames: true,
+})
+console.log(`Wrote frames to: "${framePathsArray}"`)
+
+// Convert a specific frame from a tldraw URL to a PNG
+await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
+  frames: ['Frame 3'],
+  format: 'png',
+})
+
+// You can also use the frame id instead of name, if you're into that sort of thing
+// It will work with or without the `shape:` prefix
+await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
+  frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],
+})
 ```
 
 _Note that the library provided is ESM only, and requires a Node-compatible runtime. TypeScript type definitions are included._
@@ -157,7 +196,7 @@ The local instance of tldraw includes its assets dependencies, so the tool shoul
 This is a very minimal implementation. Current plans for future improvements include the following:
 
 - Add CLI tests
-- Implement the ability to export specific frames or pages as separate image files
+- Implement the ability to export specific pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format
 - Additional commands beyond sketch conversion / export?
 

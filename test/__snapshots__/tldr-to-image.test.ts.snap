@@ -12,6 +12,12 @@ exports[`should export each frame individually if --frames is set 2`] = `"250e7f
 
 exports[`should export each frame individually if --frames is set 3`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
 
+exports[`should export specific frames by id 1`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
+
+exports[`should export specific frames by id even without the shape: prefix 1`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
+
+exports[`should export specific frames by name 1`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
+
 exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"448100c65c668a0ea48402dae19102e248d235a40047965be849351ad26986d4"`;
 
 exports[`should save the file to a specific directory when specified 1`] = `"9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99"`;

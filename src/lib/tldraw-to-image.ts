@@ -172,45 +172,70 @@ export async function tldrawToImage(
 	}
 
 	if (frames && pageFrames.length > 0) {
-		// Console.log(`pageFrames: ${JSON.stringify(pageFrames, undefined, 2)}`)
-
+		let isFrameNameCollision = false
+		let framesToExport: Array<{ id: string; name: string }> = []
 		if (typeof frames === 'boolean') {
-			// Check for frame.name collisions, if we have any then include frame id in the filename
-			const frameNames = pageFrames.map((frame) => slugify(frame.name))
-			const frameNamesUnique = [...new Set(frameNames)]
-			const isFrameNameCollision = frameNames.length !== frameNamesUnique.length
-			if (verbose && isFrameNameCollision) {
-				console.warn(
-					'Frame names are not unique, including frame IDs in the output filenames to avoid collisions',
-				)
-			}
-
 			// Export all frames
-			for (const frame of pageFrames) {
-				if (verbose) console.log(`Downloading sketch frame: "${frame.name}"`)
-
-				// Select the shape
-				await page.evaluate('editor.selectNone()')
-				await page.evaluate(`editor.select('${frame.id}')`)
-
-				const frameSuffix =
-					(isFrameNameCollision ? `-${frame.id.replace('shape:', '')}` : '') +
-					`-${slugify(frame.name)}`
-
-				const outputPath = await requestDownload(
-					page,
-					client,
-					output,
-					outputFilename + frameSuffix,
-					format,
-				)
-
-				if (verbose) console.log(`Download complete, saved to: "${outputPath}"`)
-				exportReport.push(outputPath)
-			}
+			framesToExport = pageFrames
 		} else if (Array.isArray(frames)) {
-			// Export specific frames
-			// TODO validate frame names and IDs
+			// Export specific frames, match with frames found in the document and validate
+			for (const requestedFrameName of frames) {
+				// Match by name first, then id
+				const matchingFrame =
+					pageFrames.find((f) => f.name === requestedFrameName) ??
+					pageFrames.find(
+						(f) =>
+							f.id ===
+							(requestedFrameName.startsWith('shape:')
+								? requestedFrameName
+								: `shape:${requestedFrameName}`),
+					)
+
+				if (!matchingFrame) {
+					throw new Error(`No frame found matching: "${requestedFrameName}"`)
+				}
+
+				framesToExport.push(matchingFrame)
+			}
+		}
+
+		// TODO never happens?
+		if (framesToExport.length === 0) {
+			throw new Error('No frames found matching the specified frames')
+		}
+
+		// Check for frame.name collisions, if we have any then include frame id in the filename
+		const frameNames = framesToExport.map((frame) => slugify(frame.name))
+		const frameNamesUnique = [...new Set(frameNames)]
+		isFrameNameCollision = frameNames.length !== frameNamesUnique.length
+		if (verbose && isFrameNameCollision) {
+			console.warn(
+				'Frame names are not unique, including frame IDs in the output filenames to avoid collisions',
+			)
+		}
+
+		// Export all frames
+		for (const frame of framesToExport) {
+			if (verbose) console.log(`Downloading sketch frame: "${frame.name}"`)
+
+			// Select the shape
+			await page.evaluate('editor.selectNone()')
+			await page.evaluate(`editor.select('${frame.id}')`)
+
+			const frameSuffix =
+				(isFrameNameCollision ? `-${frame.id.replace('shape:', '')}` : '') +
+				`-${slugify(frame.name)}`
+
+			const outputPath = await requestDownload(
+				page,
+				client,
+				output,
+				outputFilename + frameSuffix,
+				format,
+			)
+
+			if (verbose) console.log(`Download complete, saved to: "${outputPath}"`)
+			exportReport.push(outputPath)
 		}
 	} else {
 		// Single file download

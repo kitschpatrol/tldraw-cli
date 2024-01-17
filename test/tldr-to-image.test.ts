@@ -4,7 +4,7 @@ import { randomId } from './utilities/random'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
 import { expect, it } from 'vitest'
 
-const cleanUp = false
+const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
 
 it('should convert the tldr file to an svg in the current folder by default', async () => {
@@ -82,3 +82,44 @@ it(
 	},
 	{ timeout: 10_000 },
 )
+
+it('should export specific frames by name', async () => {
+	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		frames: ['Frame 3'],
+	})
+
+	expect(savedImageFileNames).toHaveLength(1)
+	expectFileToBeValid(savedImageFileNames[0], 'svg')
+
+	if (cleanUp) rmSync(savedImageFileNames[0])
+})
+
+it('should export specific frames by id', async () => {
+	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],
+	})
+
+	expect(savedImageFileNames).toHaveLength(1)
+	expectFileToBeValid(savedImageFileNames[0], 'svg')
+
+	if (cleanUp) rmSync(savedImageFileNames[0])
+})
+
+it('should export specific frames by id even without the shape: prefix', async () => {
+	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		frames: ['x8z3Qf7Hgw4Qqp2AC-eet'],
+	})
+
+	expect(savedImageFileNames).toHaveLength(1)
+	expectFileToBeValid(savedImageFileNames[0], 'svg')
+
+	if (cleanUp) rmSync(savedImageFileNames[0])
+})
+
+it('should fail if a nonexistent frame is requested', async () => {
+	await expect(
+		tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+			frames: ['ceci-nest-pas-un-cadre'],
+		}),
+	).rejects.toThrow()
+})

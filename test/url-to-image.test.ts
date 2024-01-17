@@ -4,7 +4,7 @@ import { randomId } from './utilities/random'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
 import { expect, it } from 'vitest'
 
-const cleanUp = false
+const cleanUp = true
 const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'
 const tldrawTestThreeFramesUrl = 'https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw'
 
