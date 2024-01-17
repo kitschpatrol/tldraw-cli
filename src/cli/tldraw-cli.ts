@@ -10,6 +10,7 @@ await yargs(hideBin(process.argv))
 		'Convert a tldraw ".tldr" file or tldraw.com URL to an svg or png image',
 		(yargs) =>
 			yargs
+				.scriptName('tldraw-cli')
 				.positional('file-or-url', {
 					demandOption: true,
 					describe:
