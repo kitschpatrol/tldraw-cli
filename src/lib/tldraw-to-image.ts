@@ -33,11 +33,21 @@ const defaultOptions: Required<TldrawImageOptions> = {
 	verbose: false,
 }
 
+// Overloaded for clean return types
+// TODO Maybe get rid of this and always return an array in 3.0
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
-	options: TldrawImageOptions = {},
+	options?: TldrawImageOptions & { frames?: false | undefined },
+): Promise<string>
+export async function tldrawToImage(
+	tldrPathOrUrl: string,
+	options?: TldrawImageOptions & { frames: string[] | true },
+): Promise<string[]>
+export async function tldrawToImage(
+	tldrPathOrUrl: string,
+	options?: TldrawImageOptions,
 ): Promise<string | string[]> {
-	const resolvedOptions = { ...defaultOptions, ...stripUndefined(options) }
+	const resolvedOptions = { ...defaultOptions, ...stripUndefined(options ?? {}) }
 	const { darkMode, format, frames, output, transparent, verbose } = resolvedOptions
 
 	if (verbose) console.time('Export time')

@@ -57,7 +57,7 @@ await yargs(hideBin(process.argv))
 					// Do not set a default value, so we can coerce --frames without a
 					// value to true, and still be able to extract meaning from the
 					// absence of the option
-					defaultDescription: 'undefined',
+					defaultDescription: 'false',
 					describe:
 						'Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs',
 					type: 'array',
@@ -74,7 +74,8 @@ await yargs(hideBin(process.argv))
 				await tldrawToImage(fileOrUrl, {
 					darkMode,
 					format: format as 'png' | 'svg',
-					frames,
+					// CLI never returns false, but the function accepts it for stand-alone use
+					frames: frames as typeof frames & false,
 					output,
 					transparent,
 					verbose,

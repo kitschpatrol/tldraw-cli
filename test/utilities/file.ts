@@ -9,8 +9,10 @@ function getFileHash(filePath: string): string {
 	return hash.digest('hex')
 }
 
-function expectFileToHaveHash(filePath: string, hash: string): void {
-	expect(getFileHash(filePath)).toBe(hash)
+function expectFileToMatchHash(filePath: string): void {
+	// Also tested jest-image-snapshot, which was interesting, but it's only
+	// compatible with PNGs, and it and pollutes the repo with big files
+	expect(getFileHash(filePath)).matchSnapshot()
 }
 
 function expectFileToExist(filePath: string): void {
@@ -21,8 +23,8 @@ function expectFileToHaveType(filePath: string, extension: string): void {
 	expect(filePath.endsWith(`.${extension}`))
 }
 
-export function expectFileToBeValid(filePath: string, extension: string, hash: string): void {
+export function expectFileToBeValid(filePath: string, extension: string): void {
 	expectFileToExist(filePath)
 	expectFileToHaveType(filePath, extension)
-	expectFileToHaveHash(filePath, hash)
+	expectFileToMatchHash(filePath)
 }
