@@ -196,6 +196,7 @@ export async function tldrawToImage(
 				const frameSuffix =
 					(isFrameNameCollision ? `-${frame.id.replace('shape:', '')}` : '') +
 					`-${slugify(frame.name)}`
+
 				const outputPath = await requestDownload(
 					page,
 					client,
@@ -246,6 +247,9 @@ async function requestDownload(
 	format: 'png' | 'svg',
 ): Promise<string> {
 	// Brittle, TODO how to invoke this from the browser console?
+
+	const completionPromise = waitForDownloadCompletion(client)
+
 	await closeMenus(page)
 	await clickMenuTestIds(page, [
 		'main.menu',
@@ -254,7 +258,11 @@ async function requestDownload(
 		`menu-item.export-as-${format}`,
 	])
 
-	const downloadGuid = await waitForDownloadCompletion(client)
+	const downloadGuid = await completionPromise
+
+	// _really_ wait for download to complete, can get intermittent failures
+	// without this
+	await page.waitForNetworkIdle()
 
 	// Move and rename the downloaded file from temp to output destination
 	const downloadPath = path.join(os.tmpdir(), downloadGuid)
