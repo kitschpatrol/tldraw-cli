@@ -41,18 +41,40 @@ await yargs(hideBin(process.argv))
 					describe: 'Output a dark theme version of the image',
 					type: 'boolean',
 				})
+				.option('frames', {
+					coerce(args: string[]) {
+						// If --frames is not passed, missing from argv, and therefore it's automatically undefined
+						// If --frames is passed without arguments, it's an empty array, which we treat as true
+
+						// Could also handle --frames true and --frames false, but this
+						// creates a minor edge case of not being able to pass "true" or
+						// "false" as a frame name if we do this... so we don't
+						// if (args.length === 1 && (args[0] === 'true')) return true
+						// if (args.length === 1 && (args[0] === 'false')) return false
+
+						return args.length === 0 ? true : args
+					},
+					// Do not set a default value, so we can coerce --frames without a
+					// value to true, and still be able to extract meaning from the
+					// absence of the option
+					defaultDescription: 'undefined',
+					describe:
+						'Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs',
+					type: 'array',
+				})
 				.option('verbose', {
 					default: false,
 					describe: 'Enable verbose output',
 					type: 'boolean',
 				}),
 		async (argv) => {
-			const { darkMode, fileOrUrl, format, output, transparent, verbose } = argv
+			const { darkMode, fileOrUrl, format, frames, output, transparent, verbose } = argv
 
 			try {
 				await tldrawToImage(fileOrUrl, {
 					darkMode,
 					format: format as 'png' | 'svg',
+					frames,
 					output,
 					transparent,
 					verbose,

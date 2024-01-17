@@ -13,10 +13,12 @@ import { fileURLToPath } from 'node:url'
 import puppeteer from 'puppeteer'
 import type { CDPSession, Page } from 'puppeteer'
 import untildify from 'untildify'
+import { slugify } from 'voca'
 
 export type TldrawImageOptions = {
 	darkMode?: boolean
 	format?: 'png' | 'svg'
+	frames?: boolean | string[]
 	output?: string
 	transparent?: boolean
 	verbose?: boolean
@@ -25,6 +27,7 @@ export type TldrawImageOptions = {
 const defaultOptions: Required<TldrawImageOptions> = {
 	darkMode: false,
 	format: 'svg',
+	frames: false,
 	output: './',
 	transparent: false,
 	verbose: false,
@@ -33,9 +36,11 @@ const defaultOptions: Required<TldrawImageOptions> = {
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
 	options: TldrawImageOptions = {},
-): Promise<string> {
+): Promise<string | string[]> {
 	const resolvedOptions = { ...defaultOptions, ...stripUndefined(options) }
-	const { darkMode, format, output, transparent, verbose } = resolvedOptions
+	const { darkMode, format, frames, output, transparent, verbose } = resolvedOptions
+
+	if (verbose) console.time('Export time')
 
 	const validatedPathOrUrl = validatePathOrUrl(tldrPathOrUrl, {
 		requireFileExistence: true,
@@ -46,6 +51,13 @@ export async function tldrawToImage(
 	// Identify URL vs. file path
 	const isLocal = typeof validatedPathOrUrl === 'string'
 	if (verbose) console.log(isLocal ? 'Local file detected' : 'tldraw URL detected')
+
+	// Use source filename if available, otherwise the ID from the URL
+	// May be suffixed if --frames is set
+	// TODO consider 'editor.getDocumentSettings().name', but always appears empty?
+	const outputFilename = isLocal
+		? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
+		: validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname
 
 	// Set up local server if appropriate
 	let port = 0
@@ -129,19 +141,72 @@ export async function tldrawToImage(
 	const originalDarkMode = await getDarkMode(page)
 	await setDarkMode(page, darkMode)
 
-	// Download
-	// Brittle, TODO how to invoke this from the browser console?
-	if (verbose) console.log('Requesting download')
-	await closeMenus(page)
-	await clickMenuTestIds(page, [
-		'main.menu',
-		'menu-item.edit',
-		'menu-item.export-as',
-		`menu-item.export-as-${format}`,
-	])
+	// Run the downloads
+	let exportReport: string | string[] = []
 
-	const downloadGuid = await waitForDownloadCompletion(client)
-	if (verbose) console.log('Download complete')
+	// Check for frames
+	// Get frames from the page
+	const pageFrames = frames
+		? ((await page.evaluate(
+				`editor.getCurrentPageShapes().reduce((accumulator, shape) => {
+				if (shape.type === 'frame') {
+					accumulator.push({ id: shape.id, name: shape.props.name })
+				}
+				return accumulator
+			}, [])`,
+			)) as Array<{ id: string; name: string }>)
+		: []
+
+	if (frames && pageFrames.length === 0) {
+		console.warn('No frames found in the sketch, exporting entire page instead.')
+	}
+
+	if (frames && pageFrames.length > 0) {
+		// Console.log(`pageFrames: ${JSON.stringify(pageFrames, undefined, 2)}`)
+
+		if (typeof frames === 'boolean') {
+			// Check for frame.name collisions, if we have any then include frame id in the filename
+			const frameNames = pageFrames.map((frame) => slugify(frame.name))
+			const frameNamesUnique = [...new Set(frameNames)]
+			const isFrameNameCollision = frameNames.length !== frameNamesUnique.length
+			if (verbose && isFrameNameCollision) {
+				console.warn(
+					'Frame names are not unique, including frame IDs in the output filenames to avoid collisions',
+				)
+			}
+
+			// Export all frames
+			for (const frame of pageFrames) {
+				if (verbose) console.log(`Downloading sketch frame: "${frame.name}"`)
+
+				// Select the shape
+				await page.evaluate('editor.selectNone()')
+				await page.evaluate(`editor.select('${frame.id}')`)
+
+				const frameSuffix =
+					(isFrameNameCollision ? `-${frame.id.replace('shape:', '')}` : '') +
+					`-${slugify(frame.name)}`
+				const outputPath = await requestDownload(
+					page,
+					client,
+					output,
+					outputFilename + frameSuffix,
+					format,
+				)
+
+				if (verbose) console.log(`Download complete, saved to: "${outputPath}"`)
+				exportReport.push(outputPath)
+			}
+		} else if (Array.isArray(frames)) {
+			// Export specific frames
+			// TODO validate frame names and IDs
+		}
+	} else {
+		// Single file download
+		if (verbose) console.log(`Downloading sketch`)
+		exportReport = await requestDownload(page, client, output, outputFilename, format)
+		if (verbose) console.log(`Download complete, saved to: "${exportReport}"`)
+	}
 
 	// Restore dark mode
 	if (verbose) console.log(`Restoring dark mode: ${originalDarkMode}`)
@@ -155,20 +220,38 @@ export async function tldrawToImage(
 		if (verbose) console.log('Stopped tldraw server')
 	}
 
-	// TODO better naming strategy for URLs...
-	// Move and rename the downloaded file from temp to output destination
-	const outputFilename = isLocal
-		? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
-		: downloadGuid
-	const downloadPath = path.join(os.tmpdir(), downloadGuid)
-	const outputPath = untildify(path.join(output, `${outputFilename}.${format}`))
-	await fs.rename(downloadPath, outputPath)
+	if (verbose) console.timeEnd('Export time')
 
-	if (verbose) console.log(`Saved to "${outputPath}"`)
-	return path.resolve(outputPath)
+	// Note string or array depending on --frames
+	return exportReport
 }
 
 // Helpers
+
+async function requestDownload(
+	page: Page,
+	client: CDPSession,
+	output: string,
+	filename: string,
+	format: 'png' | 'svg',
+): Promise<string> {
+	// Brittle, TODO how to invoke this from the browser console?
+	await closeMenus(page)
+	await clickMenuTestIds(page, [
+		'main.menu',
+		'menu-item.edit',
+		'menu-item.export-as',
+		`menu-item.export-as-${format}`,
+	])
+
+	const downloadGuid = await waitForDownloadCompletion(client)
+
+	// Move and rename the downloaded file from temp to output destination
+	const downloadPath = path.join(os.tmpdir(), downloadGuid)
+	const outputPath = path.resolve(untildify(path.join(output, `${filename}.${format}`)))
+	await fs.rename(downloadPath, outputPath)
+	return outputPath
+}
 
 function echoBrowserConsole(page: Page, verbose: boolean) {
 	page.on('console', (message) => {

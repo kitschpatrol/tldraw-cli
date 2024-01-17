@@ -42,15 +42,16 @@ tldraw-cli file-or-url {options}
 | ------------- | ------------------------------------------------------------------------------------------------------- |
 | `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
 
-| Option          | Alias | Description                                   | Default     |
-| --------------- | ----- | --------------------------------------------- | ----------- |
-| `--format`      | `-f`  | Output image format, one of "png" or "svg"    | `svg`       |
-| `--dark-mode`   | `-d`  | Output a dark theme version of the image      |
-| `--transparent` | `-t`  | Output an image with a transparent background | `undefined` |
-| `--output`      | `-o`  | Output directory                              | `./`        |
-| `--help`        | `-h`  | Show help                                     |             |
-| `--version`     | `-v`  | Show version number                           |             |
-| `--verbose`     |       | Enable verbose output                         | `false`     |
+| Option                | Alias | Description Value                                                                                                                      | Default Value |
+| --------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `--format <svg\|png>` | `-f`  | Output image format, one of `svg` or `png`                                                                                             | `svg`         |
+| `--dark-mode `        | `-d`  | Output a dark theme version of the image                                                                                               | `false`       |
+| `--transparent `      | `-t`  | Output an image with a transparent background                                                                                          | `false`       |
+| `--output <string>`   | `-o`  | Output directory                                                                                                                       | `./`          |
+| `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs | `false`       |
+| `--help `             | `-h`  | Show help                                                                                                                              |               |
+| `--version`           | `-v`  | Show version number                                                                                                                    |               |
+| `--verbose`           |       | Enable verbose output                                                                                                                  | `false`       |
 
 ## Examples
 
@@ -145,6 +146,10 @@ On Discord:
 
 Due to the current implementation of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app serves a local instance of tldraw, then loads a `.tldr` and invokes the export download via [Puppeteer](https://pptr.dev).
 
+This can be a bit slow, (exporting seems to take a second or two), but in the context of a content pipeline it's not the end of the world.
+
+In terms of Puppeteer vs. Playwright and other headless browser automation tools, it [looks like](https://www.checklyhq.com/blog/puppeteer-vs-selenium-vs-playwright-speed-comparison/) Puppeteer's performance likely compares favorably. (Though I have not tested and benchmarked the alternatives in the specific context of `tldraw-cli`.)
+
 The local instance of tldraw includes its assets dependencies, so the tool should work correctly without internet access.
 
 ## The future
@@ -154,6 +159,7 @@ This is a very minimal implementation. Current plans for future improvements inc
 - Add CLI tests
 - Implement the ability to export specific frames or pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format
+- Additional commands beyond sketch conversion / export?
 
 Any other suggestions are welcome.
 
