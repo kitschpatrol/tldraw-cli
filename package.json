@@ -68,7 +68,7 @@
 		"@types/voca": "^1.4.5",
 		"@types/yargs": "^17.0.32",
 		"@vitejs/plugin-react-swc": "^3.5.0",
-		"bumpp": "^9.2.1",
+		"bumpp": "^9.3.0",
 		"cheerio": "1.0.0-rc.12",
 		"esbuild": "^0.19.11",
 		"eslint-plugin-react-hooks": "^4.6.0",
@@ -81,7 +81,7 @@
 		"typescript": "^5.3.3",
 		"untildify": "^5.0.0",
 		"vite": "^5.0.11",
-		"vitest": "^1.2.0",
+		"vitest": "^1.2.1",
 		"voca": "^1.4.1",
 		"yargs": "^17.7.2"
 	},
