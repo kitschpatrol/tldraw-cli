@@ -8,7 +8,7 @@
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 
-_Note: This tool is not a part of the official tldraw project, and it is currently only tested and compatible with tldraw 2.0.0-beta.2._
+_For `.tldr` file import support in Vite projects, please see [@kitschpatrol/vite-plugin-tldraw](https://github.com/kitschpatrol/vite-plugin-tldraw)._
 
 ## Installation
 
@@ -21,13 +21,13 @@ npx @kitschpatrol/tldraw-cli some-file.tldr
 ...or install locally:
 
 ```sh
-npm --install --save-dev @kitschpatrol/tldraw-cli
+npm install --save-dev @kitschpatrol/tldraw-cli
 ```
 
 ...or install globally:
 
 ```sh
-npm --install --global @kitschpatrol/tldraw-cli
+npm install --global @kitschpatrol/tldraw-cli
 ```
 
 ## Command line usage
@@ -42,18 +42,18 @@ tldraw-cli file-or-url {options}
 | ------------- | ------------------------------------------------------------------------------------------------------- |
 | `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
 
-| Option                | Alias | Description Value                                                                                                                                                             | Default Value |
-| --------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `--format <svg\|png>` | `-f`  | Output image format, one of `svg` or `png`                                                                                                                                    | `svg`         |
-| `--dark-mode `        | `-d`  | Output a dark theme version of the image                                                                                                                                      | `false`       |
-| `--transparent `      | `-t`  | Output an image with a transparent background                                                                                                                                 | `false`       |
-| `--output <string>`   | `-o`  | Output directory                                                                                                                                                              | `./`          |
-| `--name <string>`     | `-n`  | Output file name without extension; by default the original file name or URL id is used                                                                                       |               |
-| `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs, slugified frame names will also match | `false`       |
-| `--strip-style`       |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG                        | `false`       |
-| `--help `             | `-h`  | Show help                                                                                                                                                                     |               |
-| `--version`           | `-v`  | Show version number                                                                                                                                                           |               |
-| `--verbose`           |       | Enable verbose output                                                                                                                                                         | `false`       |
+| Option                | Alias | Description Value                                                                                                                                                              | Default Value |
+| --------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| `--format <svg\|png>` | `-f`  | Output image format, one of `svg` or `png`.                                                                                                                                    | `svg`         |
+| `--dark-mode `        | `-d`  | Output a dark theme version of the image.                                                                                                                                      | `false`       |
+| `--transparent `      | `-t`  | Output an image with a transparent background.                                                                                                                                 | `false`       |
+| `--output <string>`   | `-o`  | Output directory.                                                                                                                                                              | `./`          |
+| `--name <string>`     | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                                       |               |
+| `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs, slugified frame names will also match. | `false`       |
+| `--strip-style`       |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG.                        | `false`       |
+| `--help `             | `-h`  | Show help.                                                                                                                                                                     |               |
+| `--version`           | `-v`  | Show version number.                                                                                                                                                           |               |
+| `--verbose`           |       | Enable verbose output.                                                                                                                                                         | `false`       |
 
 ## Examples
 
@@ -202,9 +202,11 @@ On Discord:
 
 ## Implementation notes
 
+This tool is not a part of the official tldraw project, and it is currently only tested and known to be compatible with tldraw 2.0.0-beta.2.\_
+
 Due to the current implementation of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app serves a local instance of tldraw, then loads a `.tldr` and invokes the export download via [Puppeteer](https://pptr.dev).
 
-This can be a bit slow, (exporting seems to take a second or two), but in the context of a content pipeline it's not the end of the world.
+This can be a bit slow, (exporting seems to take a second or two), but in the context of a statically-generated content pipeline it's not the end of the world.
 
 In terms of Puppeteer vs. Playwright and other headless browser automation tools, it [looks like](https://www.checklyhq.com/blog/puppeteer-vs-selenium-vs-playwright-speed-comparison/) Puppeteer's performance likely compares favorably. (Though I have not tested and benchmarked the alternatives in the specific context of `tldraw-cli`.)
 
