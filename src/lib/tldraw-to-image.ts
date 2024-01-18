@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 
 import { validatePathOrUrl } from './validation'
+import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
 import express from 'express'
 import getPort from 'get-port'
@@ -14,7 +15,6 @@ import { fileURLToPath } from 'node:url'
 import puppeteer from 'puppeteer'
 import type { CDPSession, Page } from 'puppeteer'
 import untildify from 'untildify'
-import { slugify } from 'voca'
 
 export type TldrawToImageOptions = {
 	darkMode?: boolean
@@ -203,7 +203,9 @@ export async function tldrawToImage(
 			for (const requestedFrameName of frames) {
 				// Match by name first, then id
 				const matchingFrame =
-					pageFrames.find((f) => f.name === requestedFrameName) ??
+					pageFrames.find(
+						(f) => f.name === requestedFrameName || slugify(f.name) === requestedFrameName,
+					) ??
 					pageFrames.find(
 						(f) =>
 							f.id ===

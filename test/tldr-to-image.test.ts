@@ -94,6 +94,17 @@ it('should export specific frames by name', async () => {
 	if (cleanUp) rmSync(savedImageFileNames[0])
 })
 
+it('should accommodate slugified frame name', async () => {
+	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		frames: ['frame-3'],
+	})
+
+	expect(savedImageFileNames).toHaveLength(1)
+	expectFileToBeValid(savedImageFileNames[0], 'svg')
+
+	if (cleanUp) rmSync(savedImageFileNames[0])
+})
+
 it('should export specific frames by id', async () => {
 	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
 		frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],

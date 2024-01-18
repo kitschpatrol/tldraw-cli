@@ -16,6 +16,9 @@ devDependencies:
   '@kitschpatrol/shared-config':
     specifier: ^4.3.3
     version: 4.3.3(cspell@8.3.2)(eslint@8.56.0)(postcss-html@1.6.0)(prettier@3.2.2)(stylelint@16.1.0)(svelte@4.2.8)(typescript@5.3.3)
+  '@sindresorhus/slugify':
+    specifier: ^2.2.1
+    version: 2.2.1
   '@tldraw/assets':
     specifier: 2.0.0-beta.2
     version: 2.0.0-beta.2
@@ -31,9 +34,6 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.2.18
     version: 18.2.18
-  '@types/voca':
-    specifier: ^1.4.5
-    version: 1.4.5
   '@types/yargs':
     specifier: ^17.0.32
     version: 17.0.32
@@ -82,9 +82,6 @@ devDependencies:
   vitest:
     specifier: ^1.2.1
     version: 1.2.1
-  voca:
-    specifier: ^1.4.1
-    version: 1.4.1
   yargs:
     specifier: ^17.7.2
     version: 17.7.2
@@ -2110,6 +2107,21 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
+  /@sindresorhus/slugify@2.2.1:
+    resolution: {integrity: sha512-MkngSCRZ8JdSOCHRaYd+D01XhvU3Hjy6MGl06zhOk614hp9EOAp5gIkBeQg7wtmxpitU6eAL4kdiRMcJa2dlrw==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@sindresorhus/transliterate': 1.6.0
+      escape-string-regexp: 5.0.0
+    dev: true
+
+  /@sindresorhus/transliterate@1.6.0:
+    resolution: {integrity: sha512-doH1gimEu3A46VX6aVxpHTeHrytJAG6HgdxntYnCFiIFHEM/ZGpG8KiZGBChchjQmG0XFIBL552kBTjVcMZXwQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      escape-string-regexp: 5.0.0
+    dev: true
+
   /@swc/core-darwin-arm64@1.3.103:
     resolution: {integrity: sha512-Dqqz48mvdm/3PHPPA6YeAEofkF9H5Krgqd/baPf0dXcarzng6U9Ilv2aCtDjq7dfI9jfkVCW5zuwq98PE2GEdw==}
     engines: {node: '>=10'}
@@ -2529,10 +2541,6 @@ packages:
 
   /@types/unist@3.0.2:
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
-    dev: true
-
-  /@types/voca@1.4.5:
-    resolution: {integrity: sha512-GaPq2U8tWosTT+gBTXIPSWrW3q2ok2ohWpq3xF8mREFJ1gZrfjZUrkbt34GKbN8KGfM2NSCZzYzX/1IEcOvE9w==}
     dev: true
 
   /@types/yargs-parser@21.0.3:
@@ -9690,10 +9698,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-    dev: true
-
-  /voca@1.4.1:
-    resolution: {integrity: sha512-NJC/BzESaHT1p4B5k4JykxedeltmNbau4cummStd4RjFojgq/kLew5TzYge9N2geeWyI2w8T30wUET5v+F7ZHA==}
     dev: true
 
   /vscode-languageserver-textdocument@1.0.11:
