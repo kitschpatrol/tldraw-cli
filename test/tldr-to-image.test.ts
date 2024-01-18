@@ -147,3 +147,70 @@ it('should strip style elements from SVGs if requested', async () => {
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
+
+it('should rename the export if --name is passed', async () => {
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		name: 'tiny-little-name',
+	})
+
+	expectFileToBeValid(savedImageFileName, 'svg')
+	expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.svg`)
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should not slugify the --name', async () => {
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		name: 'I am Un-slugified',
+	})
+
+	expectFileToBeValid(savedImageFileName, 'svg')
+	expect(savedImageFileName).toBe(`${process.cwd()}/I am Un-slugified.svg`)
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should handle a rational extension passed to --name', async () => {
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		name: 'tiny-little-name.svg',
+	})
+
+	expectFileToBeValid(savedImageFileName, 'svg')
+	expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.svg`)
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should handle an  irrational extension passed to --name', async () => {
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		name: 'tiny-little-name.unexpected',
+	})
+
+	expectFileToBeValid(savedImageFileName, 'svg')
+	expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.unexpected.svg`)
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should use --name as a base for multiple exported frames', async () => {
+	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		frames: true,
+		name: 'tiny-little-name',
+	})
+
+	expect(savedImageFileNames).toHaveLength(3)
+
+	for (const fileName of savedImageFileNames) {
+		expectFileToBeValid(fileName, 'svg')
+	}
+
+	expect(savedImageFileNames.at(0)).toBe(`${process.cwd()}/tiny-little-name-frame-1.svg`)
+	expect(savedImageFileNames.at(1)).toBe(`${process.cwd()}/tiny-little-name-frame-2.svg`)
+	expect(savedImageFileNames.at(2)).toBe(`${process.cwd()}/tiny-little-name-frame-3.svg`)
+
+	if (cleanUp) {
+		for (const fileName of savedImageFileNames) {
+			rmSync(fileName)
+		}
+	}
+})

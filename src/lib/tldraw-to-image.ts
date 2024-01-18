@@ -20,16 +20,23 @@ export type TldrawImageOptions = {
 	darkMode?: boolean
 	format?: 'png' | 'svg'
 	frames?: boolean | string[]
+	name?: string
 	output?: string
 	stripStyle?: boolean
 	transparent?: boolean
 	verbose?: boolean
 }
 
-const defaultOptions: Required<TldrawImageOptions> = {
+// Name should default to undefined
+
+type TldrawImageOptionsRequired = Required<Omit<TldrawImageOptions, 'name'>> &
+	Pick<TldrawImageOptions, 'name'>
+
+const defaultOptions: TldrawImageOptionsRequired = {
 	darkMode: false,
 	format: 'svg',
 	frames: false,
+	name: undefined,
 	output: './',
 	stripStyle: false,
 	transparent: false,
@@ -50,8 +57,12 @@ export async function tldrawToImage(
 	tldrPathOrUrl: string,
 	options?: TldrawImageOptions,
 ): Promise<string | string[]> {
-	const resolvedOptions = { ...defaultOptions, ...stripUndefined(options ?? {}) }
-	const { darkMode, format, frames, output, stripStyle, transparent, verbose } = resolvedOptions
+	const resolvedOptions: TldrawImageOptionsRequired = {
+		...defaultOptions,
+		...stripUndefined(options ?? {}),
+	}
+	const { darkMode, format, frames, name, output, stripStyle, transparent, verbose } =
+		resolvedOptions
 
 	if (stripStyle && format === 'png') {
 		console.warn('Warning: --strip-style is only supported for SVG output')
@@ -69,12 +80,15 @@ export async function tldrawToImage(
 	const isLocal = typeof validatedPathOrUrl === 'string'
 	if (verbose) console.log(isLocal ? 'Local file detected' : 'tldraw URL detected')
 
-	// Use source filename if available, otherwise the ID from the URL
+	// Use name flag if available then source filename if available, otherwise the ID from the URL
 	// May be suffixed if --frames is set
 	// TODO consider 'editor.getDocumentSettings().name', but always appears empty?
-	const outputFilename = isLocal
-		? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
-		: validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname
+	const outputFilename =
+		name === undefined
+			? isLocal
+				? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
+				: validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname
+			: sanitizeName(name, format)
 
 	// Set up local server if appropriate
 	let port = 0
@@ -398,4 +412,14 @@ function echoBrowserConsole(page: Page, verbose: boolean) {
 			console.log(`[Browser] ${messageText}`)
 		}
 	})
+}
+
+function sanitizeName(name: string, format: 'png' | 'svg'): string {
+	// Remove extension if it matches the expected output
+	const extension = path.extname(name)
+	if (extension === `.${format}`) {
+		return path.basename(name, extension)
+	}
+
+	return path.basename(name)
 }

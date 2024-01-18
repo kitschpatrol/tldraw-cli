@@ -3,19 +3,20 @@
 	"ignorePaths": ["/test/assets/**/*"],
 	"import": "@kitschpatrol/cspell-config",
 	"words": [
-		"ceci",
 		"Atjsy",
-		"Wbdp",
+		"ceci",
 		"Exukis",
 		"jorisjh",
 		"networkidle",
 		"Nitsuj",
 		"Qsrq",
 		"sluggification",
+		"slugified",
 		"testid",
 		"tldr",
 		"tldraw",
 		"untildify",
-		"Vitest"
+		"Vitest",
+		"Wbdp"
 	]
 }

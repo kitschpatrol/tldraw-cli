@@ -20,6 +20,20 @@ exports[`should export specific frames by name 1`] = `"e8df2f859cc94d8ca5b4c7653
 
 exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"448100c65c668a0ea48402dae19102e248d235a40047965be849351ad26986d4"`;
 
+exports[`should handle a rational extension passed to --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+
+exports[`should handle an  irrational extension passed to --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+
+exports[`should not slugify the --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+
+exports[`should rename the export if --name is passed 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+
 exports[`should save the file to a specific directory when specified 1`] = `"9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99"`;
 
 exports[`should strip style elements from SVGs if requested 1`] = `"83a8a4a96409975b5b4b95af4dc1a63c64ae943d3d42a33a226bc299fbfe8bca"`;
+
+exports[`should use --name as a base for multiple exported frames 1`] = `"51d9a936101fc6aa78fa1999b092e8f279ae7beab1a9a44524dafbb8c3b8376e"`;
+
+exports[`should use --name as a base for multiple exported frames 2`] = `"250e7f2f12af43627b8325543635c9a93c236cac33688ca9f0f885dd1b9a2f3d"`;
+
+exports[`should use --name as a base for multiple exported frames 3`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;

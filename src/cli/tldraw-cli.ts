@@ -30,6 +30,12 @@ await yargs(hideBin(process.argv))
 					describe: 'Output image directory',
 					type: 'string',
 				})
+				.option('name', {
+					alias: 'n',
+					defaultDescription: 'The original file name or URL id is used',
+					describe: 'Output image name',
+					type: 'string',
+				})
 				.option('transparent', {
 					alias: 't',
 					default: false,
@@ -80,7 +86,17 @@ await yargs(hideBin(process.argv))
 					type: 'boolean',
 				}),
 		async (argv) => {
-			const { darkMode, fileOrUrl, format, frames, output, stripStyle, transparent, verbose } = argv
+			const {
+				darkMode,
+				fileOrUrl,
+				format,
+				frames,
+				name,
+				output,
+				stripStyle,
+				transparent,
+				verbose,
+			} = argv
 
 			try {
 				await tldrawToImage(fileOrUrl, {
@@ -88,6 +104,7 @@ await yargs(hideBin(process.argv))
 					format: format as 'png' | 'svg',
 					// CLI never returns false, but the function accepts it for stand-alone use
 					frames: frames as typeof frames & false,
+					name,
 					output,
 					stripStyle,
 					transparent,

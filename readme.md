@@ -48,6 +48,7 @@ tldraw-cli file-or-url {options}
 | `--dark-mode `        | `-d`  | Output a dark theme version of the image                                                                                                               | `false`       |
 | `--transparent `      | `-t`  | Output an image with a transparent background                                                                                                          | `false`       |
 | `--output <string>`   | `-o`  | Output directory                                                                                                                                       | `./`          |
+| `--name <string>`     | `-n`  | Output file name without extension; by default the original file name or URL id is used                                                                |               |
 | `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs                 | `false`       |
 | `--strip-style`       |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG | `false`       |
 | `--help `             | `-h`  | Show help                                                                                                                                              |               |
@@ -92,13 +93,29 @@ npx @kitschpatrol/tldraw-cli your-drawing.tldr --transparent --format png
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
 ```
 
+Saves to `~/Desktop/your-drawing.svg`
+
+### Export to a specific destination and filename
+
+```sh
+npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop --name not-your-drawing
+```
+
+Saves to `~/Desktop/not-your-drawing.svg`
+
 ### Export all frames from a single tldraw URL
 
 ```sh
 npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
 ```
 
-The saved files will be suffixed with their frame name, e.g.: `v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-1.png`
+The saved files will be suffixed with their frame name, e.g.:
+
+`v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-1.png`
+`v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-2.png`
+`v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-3.png`
+
+The frame name will be slugified.
 
 It's possible in tldraw to give multiple frames in a single sketch the same name. In these cases, the frame ID is used in addition to the name to ensure unique output file names.
 
