@@ -1,1 +1,1 @@
-export { tldrawToImage } from './tldraw-to-image'
+export { type TldrawToImageOptions, tldrawToImage } from './tldraw-to-image'

@@ -16,7 +16,7 @@ import type { CDPSession, Page } from 'puppeteer'
 import untildify from 'untildify'
 import { slugify } from 'voca'
 
-export type TldrawImageOptions = {
+export type TldrawToImageOptions = {
 	darkMode?: boolean
 	format?: 'png' | 'svg'
 	frames?: boolean | string[]
@@ -29,10 +29,10 @@ export type TldrawImageOptions = {
 
 // Name should default to undefined
 
-type TldrawImageOptionsRequired = Required<Omit<TldrawImageOptions, 'name'>> &
-	Pick<TldrawImageOptions, 'name'>
+type TldrawToImageOptionsRequired = Required<Omit<TldrawToImageOptions, 'name'>> &
+	Pick<TldrawToImageOptions, 'name'>
 
-const defaultOptions: TldrawImageOptionsRequired = {
+const defaultOptions: TldrawToImageOptionsRequired = {
 	darkMode: false,
 	format: 'svg',
 	frames: false,
@@ -47,17 +47,17 @@ const defaultOptions: TldrawImageOptionsRequired = {
 // TODO Maybe get rid of this and always return an array in 3.0
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
-	options?: TldrawImageOptions & { frames?: false | undefined },
+	options?: TldrawToImageOptions & { frames?: false | undefined },
 ): Promise<string>
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
-	options?: TldrawImageOptions & { frames: string[] | true },
+	options?: TldrawToImageOptions & { frames: string[] | true },
 ): Promise<string[]>
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
-	options?: TldrawImageOptions,
+	options?: TldrawToImageOptions,
 ): Promise<string | string[]> {
-	const resolvedOptions: TldrawImageOptionsRequired = {
+	const resolvedOptions: TldrawToImageOptionsRequired = {
 		...defaultOptions,
 		...stripUndefined(options ?? {}),
 	}
