@@ -42,16 +42,17 @@ tldraw-cli file-or-url {options}
 | ------------- | ------------------------------------------------------------------------------------------------------- |
 | `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
 
-| Option                | Alias | Description Value                                                                                                                      | Default Value |
-| --------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `--format <svg\|png>` | `-f`  | Output image format, one of `svg` or `png`                                                                                             | `svg`         |
-| `--dark-mode `        | `-d`  | Output a dark theme version of the image                                                                                               | `false`       |
-| `--transparent `      | `-t`  | Output an image with a transparent background                                                                                          | `false`       |
-| `--output <string>`   | `-o`  | Output directory                                                                                                                       | `./`          |
-| `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs | `false`       |
-| `--help `             | `-h`  | Show help                                                                                                                              |               |
-| `--version`           | `-v`  | Show version number                                                                                                                    |               |
-| `--verbose`           |       | Enable verbose output                                                                                                                  | `false`       |
+| Option                | Alias | Description Value                                                                                                                                      | Default Value |
+| --------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| `--format <svg\|png>` | `-f`  | Output image format, one of `svg` or `png`                                                                                                             | `svg`         |
+| `--dark-mode `        | `-d`  | Output a dark theme version of the image                                                                                                               | `false`       |
+| `--transparent `      | `-t`  | Output an image with a transparent background                                                                                                          | `false`       |
+| `--output <string>`   | `-o`  | Output directory                                                                                                                                       | `./`          |
+| `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs                 | `false`       |
+| `--strip-style`       |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG | `false`       |
+| `--help `             | `-h`  | Show help                                                                                                                                              |               |
+| `--version`           | `-v`  | Show version number                                                                                                                                    |               |
+| `--verbose`           |       | Enable verbose output                                                                                                                                  | `false`       |
 
 ## Examples
 
@@ -121,9 +122,10 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
     output?: string
     format?: 'png' | 'svg'
     frames?: boolean | string[]
+    stripStyle?: boolean
     transparent?: boolean
     verbose?: boolean
- }): Promise<string>;
+ }): Promise<string | string[]>;
 ```
 
 The function exports the image in the requested format returns the full path to the output image.

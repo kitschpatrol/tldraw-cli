@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/prefer-string-replace-all */
+import * as cheerio from 'cheerio'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { expect } from 'vitest'
@@ -79,4 +80,10 @@ export function expectFileToBeValid(filePath: string, extension: string): void {
 			break
 		}
 	}
+}
+
+export function getStyleElementCount(filePath: string): number {
+	const svg = readFileSync(filePath, { encoding: 'utf8' })
+	const dom = cheerio.load(svg, { xmlMode: true })
+	return dom('style').length
 }

@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 
 import { validatePathOrUrl } from './validation'
+import * as cheerio from 'cheerio'
 import express from 'express'
 import getPort from 'get-port'
 import fs from 'node:fs/promises'
@@ -20,6 +21,7 @@ export type TldrawImageOptions = {
 	format?: 'png' | 'svg'
 	frames?: boolean | string[]
 	output?: string
+	stripStyle?: boolean
 	transparent?: boolean
 	verbose?: boolean
 }
@@ -29,6 +31,7 @@ const defaultOptions: Required<TldrawImageOptions> = {
 	format: 'svg',
 	frames: false,
 	output: './',
+	stripStyle: false,
 	transparent: false,
 	verbose: false,
 }
@@ -48,7 +51,11 @@ export async function tldrawToImage(
 	options?: TldrawImageOptions,
 ): Promise<string | string[]> {
 	const resolvedOptions = { ...defaultOptions, ...stripUndefined(options ?? {}) }
-	const { darkMode, format, frames, output, transparent, verbose } = resolvedOptions
+	const { darkMode, format, frames, output, stripStyle, transparent, verbose } = resolvedOptions
+
+	if (stripStyle && format === 'png') {
+		console.warn('Warning: --strip-style is only supported for SVG output')
+	}
 
 	if (verbose) console.time('Export time')
 
@@ -232,6 +239,7 @@ export async function tldrawToImage(
 				output,
 				outputFilename + frameSuffix,
 				format,
+				stripStyle,
 			)
 
 			if (verbose) console.log(`Download complete, saved to: "${outputPath}"`)
@@ -240,7 +248,7 @@ export async function tldrawToImage(
 	} else {
 		// Single file download
 		if (verbose) console.log(`Downloading sketch`)
-		exportReport = await requestDownload(page, client, output, outputFilename, format)
+		exportReport = await requestDownload(page, client, output, outputFilename, format, stripStyle)
 		if (verbose) console.log(`Download complete, saved to: "${exportReport}"`)
 	}
 
@@ -270,6 +278,7 @@ async function requestDownload(
 	output: string,
 	filename: string,
 	format: 'png' | 'svg',
+	stripStyle: boolean,
 ): Promise<string> {
 	// Brittle, TODO how to invoke this from the browser console?
 
@@ -293,22 +302,21 @@ async function requestDownload(
 	const downloadPath = path.join(os.tmpdir(), downloadGuid)
 	const outputPath = path.resolve(untildify(path.join(output, `${filename}.${format}`)))
 	await fs.rename(downloadPath, outputPath)
+
+	if (stripStyle && format === 'svg') {
+		// Strip style from the SVG
+		const svg = await fs.readFile(outputPath, 'utf8')
+		const strippedSvg = stripStyleElement(svg)
+		await fs.writeFile(outputPath, strippedSvg)
+	}
+
 	return outputPath
 }
 
-function echoBrowserConsole(page: Page, verbose: boolean) {
-	page.on('console', (message) => {
-		const messageType = message.type()
-		const messageText = message.text()
-
-		if (messageType === 'error') {
-			console.error(`[Browser] ${messageText}`)
-		} else if (messageType === 'warning') {
-			console.warn(`[Browser] ${messageText}`)
-		} else if (verbose) {
-			console.log(`[Browser] ${messageText}`)
-		}
-	})
+function stripStyleElement(svg: string): string {
+	const dom = cheerio.load(svg, { xmlMode: true })
+	dom('style').remove()
+	return dom.xml()
 }
 
 async function startServer(path: string): Promise<Server> {
@@ -375,4 +383,19 @@ async function setTransparency(page: Page, transparent: boolean): Promise<void> 
 			{ ephemeral: true },
 		 )`,
 	)
+}
+
+function echoBrowserConsole(page: Page, verbose: boolean) {
+	page.on('console', (message) => {
+		const messageType = message.type()
+		const messageText = message.text()
+
+		if (messageType === 'error') {
+			console.error(`[Browser] ${messageText}`)
+		} else if (messageType === 'warning') {
+			console.warn(`[Browser] ${messageText}`)
+		} else if (verbose) {
+			console.log(`[Browser] ${messageText}`)
+		}
+	})
 }

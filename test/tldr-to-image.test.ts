@@ -1,8 +1,8 @@
 import { tldrawToImage } from '../src/lib/tldraw-to-image'
-import { expectFileToBeValid } from './utilities/file'
+import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { randomId } from './utilities/random'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
-import { expect, it } from 'vitest'
+import { expect, it, vi } from 'vitest'
 
 const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
@@ -122,4 +122,28 @@ it('should fail if a nonexistent frame is requested', async () => {
 			frames: ['ceci-nest-pas-un-cadre'],
 		}),
 	).rejects.toThrow()
+})
+
+it('should warn if --strip-style is passed with --format=png', async () => {
+	const warnSpy = vi.spyOn(console, 'warn')
+
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		format: 'png',
+		stripStyle: true,
+	})
+
+	expect(warnSpy).toHaveBeenCalledWith('Warning: --strip-style is only supported for SVG output')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should strip style elements from SVGs if requested', async () => {
+	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+		stripStyle: true,
+	})
+
+	expectFileToBeValid(savedImageFileName, 'svg')
+	expect(getStyleElementCount(savedImageFileName)).toBe(0)
+
+	if (cleanUp) rmSync(savedImageFileName)
 })

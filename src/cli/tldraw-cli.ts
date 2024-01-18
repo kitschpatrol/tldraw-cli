@@ -63,13 +63,24 @@ await yargs(hideBin(process.argv))
 						'Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs',
 					type: 'array',
 				})
+				.option('strip-style', {
+					default: false,
+					describe: 'Remove all style tags from the SVG output. Applies to SVG output only.',
+					type: 'boolean',
+				})
+				// Too aggro, just warn instead...
+				// .check((argv) => {
+				// 	if (argv.format === 'png') {
+				// 		throw new Error('--strip-style may only be applied when --format is "svg"')
+				// 	}
+				// })
 				.option('verbose', {
 					default: false,
 					describe: 'Enable verbose output',
 					type: 'boolean',
 				}),
 		async (argv) => {
-			const { darkMode, fileOrUrl, format, frames, output, transparent, verbose } = argv
+			const { darkMode, fileOrUrl, format, frames, output, stripStyle, transparent, verbose } = argv
 
 			try {
 				await tldrawToImage(fileOrUrl, {
@@ -78,6 +89,7 @@ await yargs(hideBin(process.argv))
 					// CLI never returns false, but the function accepts it for stand-alone use
 					frames: frames as typeof frames & false,
 					output,
+					stripStyle,
 					transparent,
 					verbose,
 				})

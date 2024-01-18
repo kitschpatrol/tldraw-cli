@@ -69,6 +69,7 @@
 		"@types/yargs": "^17.0.32",
 		"@vitejs/plugin-react-swc": "^3.5.0",
 		"bumpp": "^9.2.1",
+		"cheerio": "1.0.0-rc.12",
 		"esbuild": "^0.19.11",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.5",
