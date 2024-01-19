@@ -51,7 +51,7 @@
 		"lint": "shared-config --lint",
 		"preview": "vite preview",
 		"release": "pnpm build && pnpm bumpp --commit 'Release: %s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
-		"test": "vitest",
+		"test": "pnpm build && vitest",
 		"tldraw-copy-assets": "rsync -av --include='/*/' --exclude='/*' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {

@@ -8,7 +8,7 @@ const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
 
 it('should convert the tldr file to an svg in the current folder by default', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath)
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { verbose: true })
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 
 	expectFileToBeValid(savedImageFileName, 'svg')
@@ -17,7 +17,7 @@ it('should convert the tldr file to an svg in the current folder by default', as
 })
 
 it('should convert the tldr file to an svg when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, { format: 'svg' })
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { format: 'svg' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 	expectFileToBeValid(savedImageFileName, 'svg')
@@ -26,7 +26,7 @@ it('should convert the tldr file to an svg when specified', async () => {
 })
 
 it('should convert the tldr file to a png when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, { format: 'png' })
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { format: 'png' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.png`)
 	expectFileToBeValid(savedImageFileName, 'png')
@@ -38,7 +38,7 @@ it('should save the file to a specific directory when specified', async () => {
 	const randomPath = randomId()
 	mkdirSync(randomPath)
 
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		format: 'png',
 		output: `./${randomPath}/`,
 	})
@@ -54,7 +54,7 @@ it('should reject empty files', async () => {
 })
 
 it('should export the entire image if multiple frames are present and --frames is not set', async () => {
-	const savedImageFileName = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr')
+	const [savedImageFileName] = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr')
 
 	expectFileToBeValid(savedImageFileName, 'svg')
 
@@ -138,7 +138,7 @@ it('should fail if a nonexistent frame is requested', async () => {
 it('should warn if --strip-style is passed with --format=png', async () => {
 	const warnSpy = vi.spyOn(console, 'warn')
 
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		format: 'png',
 		stripStyle: true,
 	})
@@ -149,7 +149,7 @@ it('should warn if --strip-style is passed with --format=png', async () => {
 })
 
 it('should strip style elements from SVGs if requested', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		stripStyle: true,
 	})
 
@@ -160,7 +160,7 @@ it('should strip style elements from SVGs if requested', async () => {
 })
 
 it('should rename the export if --name is passed', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name',
 	})
 
@@ -171,7 +171,7 @@ it('should rename the export if --name is passed', async () => {
 })
 
 it('should not slugify the --name', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'I am Un-slugified',
 	})
 
@@ -182,7 +182,7 @@ it('should not slugify the --name', async () => {
 })
 
 it('should handle a rational extension passed to --name', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name.svg',
 	})
 
@@ -193,7 +193,7 @@ it('should handle a rational extension passed to --name', async () => {
 })
 
 it('should handle an  irrational extension passed to --name', async () => {
-	const savedImageFileName = await tldrawToImage(tldrTestFilePath, {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name.unexpected',
 	})
 

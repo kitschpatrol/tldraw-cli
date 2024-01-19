@@ -9,7 +9,7 @@ const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'
 const tldrawTestThreeFramesUrl = 'https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw'
 
 it('should convert the tldraw url to an svg in the current folder by default', async () => {
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl)
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl)
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
 	expectFileToBeValid(savedImageFileName, 'svg')
@@ -18,7 +18,7 @@ it('should convert the tldraw url to an svg in the current folder by default', a
 })
 
 it('should convert the tldraw url to an svg when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
 	expectFileToBeValid(savedImageFileName, 'svg')
@@ -27,7 +27,7 @@ it('should convert the tldraw url to an svg when specified', async () => {
 })
 
 it('should convert the tldraw url to a png when specified', async () => {
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl, { format: 'png' })
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'png' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.png`)
 	expectFileToBeValid(savedImageFileName, 'png')
@@ -39,7 +39,7 @@ it('should save the file to a specific directory when specified', async () => {
 	const randomPath = randomId()
 	mkdirSync(randomPath)
 
-	const savedImageFileName = await tldrawToImage(tldrawTestUrl, {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
 		format: 'png',
 		output: `./${randomPath}/`,
 	})
@@ -51,7 +51,7 @@ it('should save the file to a specific directory when specified', async () => {
 })
 
 it('should export the entire image if multiple frames are present and --frames is not set', async () => {
-	const savedImageFileName = await tldrawToImage(tldrawTestThreeFramesUrl)
+	const [savedImageFileName] = await tldrawToImage(tldrawTestThreeFramesUrl)
 
 	expectFileToBeValid(savedImageFileName, 'svg')
 
@@ -63,6 +63,7 @@ it(
 	async () => {
 		const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
 			frames: true,
+			verbose: true,
 		})
 
 		expect(savedImageFileNames).toHaveLength(3)
