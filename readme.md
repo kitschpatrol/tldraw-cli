@@ -137,7 +137,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
   {
     darkMode?: boolean
     output?: string
-    format?: 'png' | 'svg'
+    format?: 'png' | 'svg' | 'json'
     frames?: boolean | string[]
     stripStyle?: boolean
     transparent?: boolean

@@ -218,6 +218,10 @@ export default class TldrawController {
 			console.warn('Warning: --strip-style is only supported for SVG output')
 		}
 
+		// If (pageFrame !== undefined && format === 'tldr') {
+		// 	console.warn('Warning: --frames is not supported for tldr output')
+		// }
+
 		// Brittle, TODO how to invoke this from the browser console?
 		const completionPromise = this.waitForDownloadCompletion()
 		await this.closeMenus()
@@ -237,6 +241,21 @@ export default class TldrawController {
 			await this.page.evaluate(`editor.select('${pageFrame.id}')`)
 		}
 
+		if (pageFrame === undefined && format === 'json') {
+			// For some reason json export returns undefined when nothing
+			// is selected
+			await this.page.evaluate('editor.selectAll()')
+		}
+
+		// If (format === 'tldr') {
+		// 	// Save as
+		// 	console.log('Saving as tldr TODO')
+		// 	// 	Const fileChooserPromise = page.waitForFileChooser()
+		// 	// 	await clickMenuTestIds(page, ['main.menu', 'menu-item.file', 'menu-item.save-file-copy'])
+		// 	// 	console.log('Waiting for chooser')
+		// 	// 	const fileChooser = await fileChooserPromise
+		// 	// 	console.log(`fileChooser: ${fileChooser}`)
+		// } else {
 		// Export
 		await this.clickMenuTestIds([
 			'main.menu',
@@ -244,6 +263,7 @@ export default class TldrawController {
 			'menu-item.export-as',
 			`menu-item.export-as-${format}`,
 		])
+		// }
 
 		const downloadGuid = await completionPromise
 

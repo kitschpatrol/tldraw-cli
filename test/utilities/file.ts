@@ -70,11 +70,6 @@ export function expectFileToBeValid(filePath: string, extension: string): void {
 			break
 		}
 
-		case 'png': {
-			expectFileToMatchHash(filePath)
-			break
-		}
-
 		default: {
 			expectFileToMatchHash(filePath)
 			break

@@ -6,9 +6,10 @@ import { expect, it, vi } from 'vitest'
 
 const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
+const tldrTestFileThreeFramesPath = './test/assets/test-sketch-three-frames.tldr'
 
 it('should convert the tldr file to an svg in the current folder by default', async () => {
-	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { verbose: true })
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 
 	expectFileToBeValid(savedImageFileName, 'svg')
@@ -54,7 +55,7 @@ it('should reject empty files', async () => {
 })
 
 it('should export the entire image if multiple frames are present and --frames is not set', async () => {
-	const [savedImageFileName] = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr')
+	const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath)
 
 	expectFileToBeValid(savedImageFileName, 'svg')
 
@@ -64,7 +65,7 @@ it('should export the entire image if multiple frames are present and --frames i
 it(
 	'should export each frame individually if --frames is set',
 	async () => {
-		const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 			frames: true,
 		})
 
@@ -84,7 +85,7 @@ it(
 )
 
 it('should export specific frames by name', async () => {
-	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['Frame 3'],
 	})
 
@@ -95,7 +96,7 @@ it('should export specific frames by name', async () => {
 })
 
 it('should accommodate slugified frame name', async () => {
-	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['frame-3'],
 	})
 
@@ -106,7 +107,7 @@ it('should accommodate slugified frame name', async () => {
 })
 
 it('should export specific frames by id', async () => {
-	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],
 	})
 
@@ -117,7 +118,7 @@ it('should export specific frames by id', async () => {
 })
 
 it('should export specific frames by id even without the shape: prefix', async () => {
-	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['x8z3Qf7Hgw4Qqp2AC-eet'],
 	})
 
@@ -129,7 +130,7 @@ it('should export specific frames by id even without the shape: prefix', async (
 
 it('should fail if a nonexistent frame is requested', async () => {
 	await expect(
-		tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+		tldrawToImage(tldrTestFileThreeFramesPath, {
 			frames: ['ceci-nest-pas-un-cadre'],
 		}),
 	).rejects.toThrow()
@@ -204,7 +205,7 @@ it('should handle an  irrational extension passed to --name', async () => {
 })
 
 it('should use --name as a base for multiple exported frames', async () => {
-	const savedImageFileNames = await tldrawToImage('./test/assets/test-sketch-three-frames.tldr', {
+	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: true,
 		name: 'tiny-little-name',
 	})
@@ -225,3 +226,37 @@ it('should use --name as a base for multiple exported frames', async () => {
 		}
 	}
 })
+
+it('should save to json', async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
+		format: 'json',
+	})
+
+	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.json`)
+	expectFileToBeValid(savedImageFileName, 'json')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it(
+	'should save frames to json',
+	async () => {
+		const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
+			format: 'json',
+			frames: true,
+		})
+
+		expect(savedImageFileNames).toHaveLength(3)
+
+		for (const fileName of savedImageFileNames) {
+			expectFileToBeValid(fileName, 'json')
+		}
+
+		if (cleanUp) {
+			for (const fileName of savedImageFileNames) {
+				rmSync(fileName)
+			}
+		}
+	},
+	{ timeout: 10_000 },
+)

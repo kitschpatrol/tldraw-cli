@@ -19,7 +19,7 @@ await yargs(hideBin(process.argv))
 				})
 				.option('format', {
 					alias: 'f',
-					choices: ['png', 'svg'],
+					choices: ['png', 'svg', 'json'],
 					default: 'svg',
 					describe: 'Output image format',
 					type: 'string',

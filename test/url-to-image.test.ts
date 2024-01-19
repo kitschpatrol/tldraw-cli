@@ -63,13 +63,46 @@ it(
 	async () => {
 		const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
 			frames: true,
-			verbose: true,
 		})
 
 		expect(savedImageFileNames).toHaveLength(3)
 
 		for (const fileName of savedImageFileNames) {
 			expectFileToBeValid(fileName, 'svg')
+		}
+
+		if (cleanUp) {
+			for (const fileName of savedImageFileNames) {
+				rmSync(fileName)
+			}
+		}
+	},
+	{ timeout: 10_000 },
+)
+
+it('should save to json', async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
+		format: 'json',
+	})
+
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.json`)
+	expectFileToBeValid(savedImageFileName, 'json')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it(
+	'should save frames to json',
+	async () => {
+		const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
+			format: 'json',
+			frames: true,
+		})
+
+		expect(savedImageFileNames).toHaveLength(3)
+
+		for (const fileName of savedImageFileNames) {
+			expectFileToBeValid(fileName, 'json')
 		}
 
 		if (cleanUp) {
