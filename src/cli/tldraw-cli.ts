@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { version } from '../../package.json'
-import { tldrawToImage } from '../lib/tldraw-to-image'
+import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
@@ -101,7 +101,7 @@ await yargs(hideBin(process.argv))
 			try {
 				await tldrawToImage(fileOrUrl, {
 					darkMode,
-					format: format as 'png' | 'svg',
+					format: format as TldrawFormat,
 					// CLI never returns false, but the function accepts it for stand-alone use
 					frames: frames as typeof frames & false,
 					name,

@@ -4,9 +4,11 @@ import { validatePathOrUrl } from './validation'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+export type TldrawFormat = 'png' | 'svg'
+
 export type TldrawToImageOptions = {
 	darkMode?: boolean
-	format?: 'png' | 'svg'
+	format?: TldrawFormat
 	frames?: boolean | string[]
 	name?: string
 	output?: string
@@ -128,7 +130,7 @@ function stripUndefined(options: Record<string, unknown>): Record<string, unknow
 	return Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
 }
 
-function sanitizeName(name: string, format: 'png' | 'svg'): string {
+function sanitizeName(name: string, format: TldrawFormat): string {
 	// Remove extension if it matches the expected output
 	const extension = path.extname(name)
 	if (extension === `.${format}`) {

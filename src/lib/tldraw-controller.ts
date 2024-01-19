@@ -1,3 +1,4 @@
+import type { TldrawFormat } from './tldraw-to-image'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
 import fs from 'node:fs/promises'
@@ -109,7 +110,7 @@ export default class TldrawController {
 	async download(
 		output: string,
 		filename: string,
-		format: 'png' | 'svg',
+		format: TldrawFormat,
 		stripStyle: boolean,
 	): Promise<string[]> {
 		return this._download(output, filename, format, stripStyle)
@@ -118,7 +119,7 @@ export default class TldrawController {
 	async downloadFrame(
 		output: string,
 		filename: string,
-		format: 'png' | 'svg',
+		format: TldrawFormat,
 		stripStyle: boolean,
 		frameNameOrId: string,
 	): Promise<string[]> {
@@ -128,7 +129,7 @@ export default class TldrawController {
 	async downloadFrames(
 		output: string,
 		filename: string,
-		format: 'png' | 'svg',
+		format: TldrawFormat,
 		stripStyle: boolean,
 		frameNamesOrIds: string[],
 	): Promise<string[]> {
@@ -172,7 +173,7 @@ export default class TldrawController {
 	async downloadAllFrames(
 		output: string,
 		filename: string,
-		format: 'png' | 'svg',
+		format: TldrawFormat,
 		stripStyle: boolean,
 	): Promise<string[]> {
 		const pageFrames = await this.getPageFrames()
@@ -203,7 +204,7 @@ export default class TldrawController {
 	private async _download(
 		output: string,
 		filename: string,
-		format: 'png' | 'svg',
+		format: TldrawFormat,
 		stripStyle: boolean,
 		pageFrame?: PageFrame, // Trust that existence has been validated
 	): Promise<string[]> {
