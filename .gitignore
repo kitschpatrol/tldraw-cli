@@ -20,4 +20,5 @@ vendor/
 
 # Customizations
 bin/
-src/tldraw/public
+src/tldraw/public/**/
+!src/tldraw/public/favicon.ico

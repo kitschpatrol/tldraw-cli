@@ -55,7 +55,7 @@
 		"release": "pnpm run build && pnpm bumpp --commit 'Release: %s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"test": "pnpm run test:lib",
 		"test:lib": "pnpm run build && vitest",
-		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
+		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
 		"express": "^4.18.2",
