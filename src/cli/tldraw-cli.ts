@@ -99,7 +99,7 @@ await yargs(hideBin(process.argv))
 			} = argv
 
 			try {
-				await tldrawToImage(fileOrUrl, {
+				const exportList = await tldrawToImage(fileOrUrl, {
 					darkMode,
 					format: format as TldrawFormat,
 					// CLI never returns false, but the function accepts it for stand-alone use
@@ -110,6 +110,8 @@ await yargs(hideBin(process.argv))
 					transparent,
 					verbose,
 				})
+
+				console.log(exportList.join('\n'))
 				process.exit(0)
 			} catch (error) {
 				console.error('Export failed:', error)
