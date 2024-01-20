@@ -1,3 +1,5 @@
+// Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
+import downloadTldrInlineScript from './inline/download-tldr?iife'
 import type { TldrawFormat } from './tldraw-to-image'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
@@ -218,9 +220,11 @@ export default class TldrawController {
 			console.warn('Warning: --strip-style is only supported for SVG output')
 		}
 
-		// If (pageFrame !== undefined && format === 'tldr') {
-		// 	console.warn('Warning: --frames is not supported for tldr output')
-		// }
+		if (pageFrame !== undefined && format === 'tldr') {
+			console.warn(
+				'Warning: --frames is not supported for tldr output, downloading entire document',
+			)
+		}
 
 		// Brittle, TODO how to invoke this from the browser console?
 		const completionPromise = this.waitForDownloadCompletion()
@@ -229,7 +233,7 @@ export default class TldrawController {
 		let frameSuffix = ''
 
 		// Todo what happens with tldr?
-		if (pageFrame !== undefined) {
+		if (pageFrame !== undefined && format !== 'tldr') {
 			if (this.verbose) {
 				console.log(`Selecting sketch frame "${pageFrame.name}" with ID "${pageFrame.id}"`)
 			}
@@ -247,23 +251,19 @@ export default class TldrawController {
 			await this.page.evaluate('editor.selectAll()')
 		}
 
-		// If (format === 'tldr') {
-		// 	// Save as
-		// 	console.log('Saving as tldr TODO')
-		// 	// 	Const fileChooserPromise = page.waitForFileChooser()
-		// 	// 	await clickMenuTestIds(page, ['main.menu', 'menu-item.file', 'menu-item.save-file-copy'])
-		// 	// 	console.log('Waiting for chooser')
-		// 	// 	const fileChooser = await fileChooserPromise
-		// 	// 	console.log(`fileChooser: ${fileChooser}`)
-		// } else {
-		// Export
-		await this.clickMenuTestIds([
-			'main.menu',
-			'menu-item.edit',
-			'menu-item.export-as',
-			`menu-item.export-as-${format}`,
-		])
-		// }
+		// eslint-disable-next-line unicorn/prefer-ternary
+		if (format === 'tldr') {
+			// We have to call a custom function to download the tldr file
+			await this.page.evaluate(downloadTldrInlineScript)
+		} else {
+			// Export
+			await this.clickMenuTestIds([
+				'main.menu',
+				'menu-item.edit',
+				'menu-item.export-as',
+				`menu-item.export-as-${format}`,
+			])
+		}
 
 		const downloadGuid = await completionPromise
 

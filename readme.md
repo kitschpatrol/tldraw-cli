@@ -38,28 +38,28 @@ npm install --global @kitschpatrol/tldraw-cli
 tldraw-cli file-or-url {options}
 ```
 
-| Argument      | Description                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------- |
-| `file-or-url` | The sketch to convert to an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
+| Argument      | Description                                                                                                 |
+| ------------- | ----------------------------------------------------------------------------------------------------------- |
+| `file-or-url` | The sketch to convert export an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
 
-| Option                | Alias | Description Value                                                                                                                                                              | Default Value |
-| --------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
-| `--format <svg\|png>` | `-f`  | Output image format, one of `svg` or `png`.                                                                                                                                    | `svg`         |
-| `--dark-mode `        | `-d`  | Output a dark theme version of the image.                                                                                                                                      | `false`       |
-| `--transparent `      | `-t`  | Output an image with a transparent background.                                                                                                                                 | `false`       |
-| `--output <string>`   | `-o`  | Output directory.                                                                                                                                                              | `./`          |
-| `--name <string>`     | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                                       |               |
-| `--frames <array?>`   |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs, slugified frame names will also match. | `false`       |
-| `--strip-style`       |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG.                        | `false`       |
-| `--help `             | `-h`  | Show help.                                                                                                                                                                     |               |
-| `--version`           | `-v`  | Show version number.                                                                                                                                                           |               |
-| `--verbose`           |       | Enable verbose output.                                                                                                                                                         | `false`       |
+| Option              | Alias | Description Value                                                                                                                                                              | Default Value |
+| ------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| `--format <string>` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                                                   | `svg`         |
+| `--dark-mode `      | `-d`  | Output a dark theme version of the image.                                                                                                                                      | `false`       |
+| `--transparent `    | `-t`  | Output an image with a transparent background.                                                                                                                                 | `false`       |
+| `--output <string>` | `-o`  | Output directory.                                                                                                                                                              | `./`          |
+| `--name <string>`   | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                                       |               |
+| `--frames <array?>` |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs, slugified frame names will also match. | `false`       |
+| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG.                        | `false`       |
+| `--help `           | `-h`  | Show help.                                                                                                                                                                     |               |
+| `--version`         | `-v`  | Show version number.                                                                                                                                                           |               |
+| `--verbose`         |       | Enable verbose output.                                                                                                                                                         | `false`       |
 
 ## Examples
 
-### Basic .tldr file conversion
+### Basic .tldr file image export
 
-To convert the file `your-drawing.tldr` to an svg named `your-drawing.svg` saved in the current working directory, run the following command. Note that the default output format is svg, and the default export location is the current working directory.
+To export the file `your-drawing.tldr` to an svg named `your-drawing.svg` in the current working directory, run the following command. Note that the default output format is SVG, and the default export location is the current working directory.
 
 ```sh
 npx @kitschpatrol/tldraw-cli your-drawing.tldr
@@ -75,11 +75,25 @@ npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 
 The tldraw URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
 
+This is approximately equivalent to clicking the tldraw.com "☰ → Edit → Export As → SVG" menu item.
+
+### Export a remote tldraw\.com image to a local .tldr file
+
+```sh
+npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4 --format tldr
+```
+
+This is approximately equivalent to clicking the tldraw.com "☰ → File → Save a copy" menu item.
+
+Note that using `--format tldr` with a _file path_ instead of a _URL_ will still send the file through the pipeline, but it's effectively a no-op. (Except perhaps rare edge cases where tldraw performs a file format version migration).
+
 ### Export to a specific format
 
 ```sh
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --format png
 ```
+
+This is approximately equivalent to clicking the tldraw.com "☰ → Edit → Export As → PNG" menu item.
 
 ### Export with a transparent background
 
@@ -87,13 +101,15 @@ npx @kitschpatrol/tldraw-cli your-drawing.tldr --format png
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --transparent --format png
 ```
 
+This is approximately equivalent to checking the tldraw.com "☰ → Edit → Export As → ☐ Transparent" menu item.
+
 ### Export to a specific destination
 
 ```sh
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop
 ```
 
-Saves to `~/Desktop/your-drawing.svg`
+Exports to `~/Desktop/your-drawing.svg`
 
 ### Export to a specific destination and filename
 
@@ -101,7 +117,7 @@ Saves to `~/Desktop/your-drawing.svg`
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop --name not-your-drawing
 ```
 
-Saves to `~/Desktop/not-your-drawing.svg`
+Exports to `~/Desktop/not-your-drawing.svg`
 
 ### Export all frames from a single tldraw URL
 
@@ -109,7 +125,7 @@ Saves to `~/Desktop/not-your-drawing.svg`
 npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
 ```
 
-The saved files will be suffixed with their frame name, e.g.:
+The exported files will be suffixed with their frame name, e.g.:
 
 `v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-1.png`
 `v2_c_FI5RYWbdpAtjsy4OIKrKw-frame-2.png`
@@ -125,6 +141,14 @@ It's possible in tldraw to give multiple frames in a single sketch the same name
 npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
 ```
 
+### Export to JSON
+
+```sh
+npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
+```
+
+The .tldr file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
+
 ## API usage
 
 The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
@@ -137,7 +161,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
   {
     darkMode?: boolean
     output?: string
-    format?: 'png' | 'svg' | 'json'
+    format?: 'png' | 'svg' | 'json' | 'tldr'
     frames?: boolean | string[]
     stripStyle?: boolean
     transparent?: boolean
@@ -145,7 +169,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
  }): Promise<string | string[]>;
 ```
 
-The function exports the image in the requested format returns the full path to the output image.
+The function exports the image in the requested format returns the full path to the output image or file.
 
 Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it may be used as follows:
 

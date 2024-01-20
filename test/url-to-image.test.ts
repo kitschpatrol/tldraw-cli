@@ -1,4 +1,5 @@
-import { tldrawToImage } from '../src/lib/tldraw-to-image'
+// Note this tests the dist build, because of the iife inlining from esbuild
+import { tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid } from './utilities/file'
 import { randomId } from './utilities/random'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
@@ -8,7 +9,7 @@ const cleanUp = true
 const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'
 const tldrawTestThreeFramesUrl = 'https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw'
 
-it('should convert the tldraw url to an svg in the current folder by default', async () => {
+it('should export the tldraw url to an svg in the current folder by default', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl)
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
@@ -17,7 +18,7 @@ it('should convert the tldraw url to an svg in the current folder by default', a
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should convert the tldraw url to an svg when specified', async () => {
+it('should export the tldraw url to an svg when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
@@ -26,7 +27,7 @@ it('should convert the tldraw url to an svg when specified', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should convert the tldraw url to a png when specified', async () => {
+it('should export the tldraw url to a png when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'png' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.png`)
@@ -35,7 +36,7 @@ it('should convert the tldraw url to a png when specified', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should save the file to a specific directory when specified', async () => {
+it('should export the file to a specific directory when specified', async () => {
 	const randomPath = randomId()
 	mkdirSync(randomPath)
 
@@ -80,7 +81,7 @@ it(
 	{ timeout: 10_000 },
 )
 
-it('should save to json', async () => {
+it('should export to json', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
 		format: 'json',
 	})
@@ -92,7 +93,7 @@ it('should save to json', async () => {
 })
 
 it(
-	'should save frames to json',
+	'should export frames to json',
 	async () => {
 		const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
 			format: 'json',
@@ -113,3 +114,14 @@ it(
 	},
 	{ timeout: 10_000 },
 )
+
+it('should export to tldr', async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
+		format: 'tldr',
+	})
+
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr`)
+	expectFileToBeValid(savedImageFileName, 'tldr')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})

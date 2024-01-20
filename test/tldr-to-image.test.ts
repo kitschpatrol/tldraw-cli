@@ -1,4 +1,5 @@
-import { tldrawToImage } from '../src/lib/tldraw-to-image'
+// Note this tests the dist build, because of the iife inlining from esbuild
+import { tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { randomId } from './utilities/random'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
@@ -8,7 +9,7 @@ const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
 const tldrTestFileThreeFramesPath = './test/assets/test-sketch-three-frames.tldr'
 
-it('should convert the tldr file to an svg in the current folder by default', async () => {
+it('should export the tldr file to an svg in the current folder by default', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 
@@ -17,7 +18,7 @@ it('should convert the tldr file to an svg in the current folder by default', as
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should convert the tldr file to an svg when specified', async () => {
+it('should export the tldr file to an svg when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { format: 'svg' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
@@ -26,7 +27,7 @@ it('should convert the tldr file to an svg when specified', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should convert the tldr file to a png when specified', async () => {
+it('should export the tldr file to a png when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { format: 'png' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.png`)
@@ -35,7 +36,7 @@ it('should convert the tldr file to a png when specified', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should save the file to a specific directory when specified', async () => {
+it('should export the file to a specific directory when specified', async () => {
 	const randomPath = randomId()
 	mkdirSync(randomPath)
 
@@ -193,7 +194,7 @@ it('should handle a rational extension passed to --name', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should handle an  irrational extension passed to --name', async () => {
+it('should handle an irrational extension passed to --name', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name.unexpected',
 	})
@@ -227,7 +228,7 @@ it('should use --name as a base for multiple exported frames', async () => {
 	}
 })
 
-it('should save to json', async () => {
+it('should export to json', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		format: 'json',
 	})
@@ -239,7 +240,7 @@ it('should save to json', async () => {
 })
 
 it(
-	'should save frames to json',
+	'should export frames to json',
 	async () => {
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 			format: 'json',
@@ -260,3 +261,14 @@ it(
 	},
 	{ timeout: 10_000 },
 )
+
+it('should export to tldr', async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
+		format: 'tldr',
+	})
+
+	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.tldr`)
+	expectFileToBeValid(savedImageFileName, 'tldr')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})

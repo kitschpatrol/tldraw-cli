@@ -1,3 +1,4 @@
+// Note this tests the src implementation, because it's not exported
 import { validatePathOrUrl } from '../src/lib/validation'
 import { expect, it } from 'vitest'
 
@@ -25,7 +26,7 @@ it('should expand the home directory', () => {
 	).not.toContain('~')
 })
 
-it('should convert file URLs to paths', () => {
+it('should export file URLs to paths', () => {
 	expect(
 		validatePathOrUrl(`file:///${process.cwd()}/test/assets/test-sketch.tldr`, validationOptions),
 	).toBeTypeOf('string')

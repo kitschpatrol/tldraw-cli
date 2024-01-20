@@ -2,17 +2,17 @@
 
 exports[`should accommodate slugified frame name 1`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
 
-exports[`should convert the tldr file to a png when specified 1`] = `"9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99"`;
-
-exports[`should convert the tldr file to an svg in the current folder by default 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
-
-exports[`should convert the tldr file to an svg when specified 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
-
 exports[`should export each frame individually if --frames is set 1`] = `"51d9a936101fc6aa78fa1999b092e8f279ae7beab1a9a44524dafbb8c3b8376e"`;
 
 exports[`should export each frame individually if --frames is set 2`] = `"250e7f2f12af43627b8325543635c9a93c236cac33688ca9f0f885dd1b9a2f3d"`;
 
 exports[`should export each frame individually if --frames is set 3`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
+
+exports[`should export frames to json 1`] = `"9719659732d115995621b4075348ce962f3baa3d83fe45860c7368a2e0d5125b"`;
+
+exports[`should export frames to json 2`] = `"bea0bdc30092ecb7847c29f027b61f3bc8fcc046bf7947f0f37ff7cc3d281142"`;
+
+exports[`should export frames to json 3`] = `"996bd001b09e6167011b7ba16c5eac3eb2e350287b63d0a05a1f18fb1a15f8c8"`;
 
 exports[`should export specific frames by id 1`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
 
@@ -22,23 +22,25 @@ exports[`should export specific frames by name 1`] = `"e8df2f859cc94d8ca5b4c7653
 
 exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"448100c65c668a0ea48402dae19102e248d235a40047965be849351ad26986d4"`;
 
+exports[`should export the file to a specific directory when specified 1`] = `"9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99"`;
+
+exports[`should export the tldr file to a png when specified 1`] = `"9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99"`;
+
+exports[`should export the tldr file to an svg in the current folder by default 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+
+exports[`should export the tldr file to an svg when specified 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+
+exports[`should export to json 1`] = `"1ff47965050fe62b0cb86eb4f1857003452373053151986dc883eb16efdfaf79"`;
+
+exports[`should export to tldr 1`] = `"4e0e9115621ba7c4282bed9d75b6fc9b591718115245856074e3694609746201"`;
+
 exports[`should handle a rational extension passed to --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
 
-exports[`should handle an  irrational extension passed to --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+exports[`should handle an irrational extension passed to --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
 
 exports[`should not slugify the --name 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
 
 exports[`should rename the export if --name is passed 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
-
-exports[`should save frames to json 1`] = `"9719659732d115995621b4075348ce962f3baa3d83fe45860c7368a2e0d5125b"`;
-
-exports[`should save frames to json 2`] = `"bea0bdc30092ecb7847c29f027b61f3bc8fcc046bf7947f0f37ff7cc3d281142"`;
-
-exports[`should save frames to json 3`] = `"996bd001b09e6167011b7ba16c5eac3eb2e350287b63d0a05a1f18fb1a15f8c8"`;
-
-exports[`should save the file to a specific directory when specified 1`] = `"9fb348e37e574a11d5948b7c89d26479090e038383b7260e16018bec7b696b99"`;
-
-exports[`should save to json 1`] = `"1ff47965050fe62b0cb86eb4f1857003452373053151986dc883eb16efdfaf79"`;
 
 exports[`should strip style elements from SVGs if requested 1`] = `"83a8a4a96409975b5b4b95af4dc1a63c64ae943d3d42a33a226bc299fbfe8bca"`;
 

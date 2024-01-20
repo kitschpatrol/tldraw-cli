@@ -20,9 +20,11 @@ export default function App() {
 				return
 			}
 
+			console.log(`${tldrData.length} bytes of tldrData found in local storage`)
+
 			const parseFileResult = parseTldrawJsonFile({ json: tldrData, schema: editor.store.schema })
 			if (parseFileResult.ok) {
-				console.log('Loaded tldr file')
+				console.log('Loaded tldr file from local storage')
 				setStore(parseFileResult.value)
 			} else {
 				console.error(`Error parsing tldr file: ${String(parseFileResult.error)}`)

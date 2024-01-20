@@ -4,7 +4,7 @@ import { validatePathOrUrl } from './validation'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-export type TldrawFormat = 'json' | 'png' | 'svg'
+export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
 
 export type TldrawToImageOptions = {
 	darkMode?: boolean
