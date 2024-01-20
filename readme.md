@@ -34,7 +34,7 @@ npm install --global @kitschpatrol/tldraw-cli
 
 ### Invocation
 
-To leave room for future functionality, `tldraw-cli` exposes functionality under several sub-commands.
+`tldraw-cli`'s functionality is organized into several sub-commands.
 
 #### Top-level
 
@@ -59,22 +59,22 @@ The top-level collection of CLI tools for tldraw.
 tldraw-cli export <file-or-url>
 ```
 
-Export a tldraw ".tldr" file or tldraw\.com URL to an svg, png image, and other formats.
+Export a tldraw `.tldr` file or tldraw\.com URL to SVG, PNG, and other formats.
 
-| Argument        | Description                                                                                                                                                                   |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `<file-or-url>` | The sketch to convert export an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. Prints the absolute path(s) to the exported image(s) to `stdout`. |
+| Argument        | Description                                                                                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `<file-or-url>` | The sketch to export — either a path to a local `.tldr` file, or a tldraw\.com sketch URL. Prints the absolute path(s) to the exported image(s) to `stdout`. |
 
-| Option              | Alias | Description Value                                                                                                                                                              | Default Value |
-| ------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
-| `--format <string>` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                                                   | `svg`         |
-| `--dark-mode `      | `-d`  | Output a dark theme version of the image.                                                                                                                                      | `false`       |
-| `--transparent `    | `-t`  | Output an image with a transparent background.                                                                                                                                 | `false`       |
-| `--output <string>` | `-o`  | Output directory.                                                                                                                                                              | `./`          |
-| `--name <string>`   | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                                       |               |
-| `--frames <array?>` |       | Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs, slugified frame names will also match. | `false`       |
-| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts or if you are going to provide your own stylesheet for the SVG.                        | `false`       |
-| `--verbose`         |       | Enable verbose output.                                                                                                                                                         | `false`       |
+| Option              | Alias | Description Value                                                                                                                                          | Default Value |
+| ------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `--format <string>` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                               | `svg`         |
+| `--dark-mode `      | `-d`  | Output a dark theme version of the image.                                                                                                                  | `false`       |
+| `--transparent `    | `-t`  | Output an image with a transparent background.                                                                                                             | `false`       |
+| `--output <string>` | `-o`  | Output directory.                                                                                                                                          | `./`          |
+| `--name <string>`   | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                   |               |
+| `--frames <array?>` |       | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames. | `false`       |
+| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets.                     | `false`       |
+| `--verbose`         |       | Enable verbose output.                                                                                                                                     | `false`       |
 
 #### Command: Open
 
@@ -82,26 +82,26 @@ Export a tldraw ".tldr" file or tldraw\.com URL to an svg, png image, and other 
 tldraw-cli open [file-or-url]
 ```
 
-Open a tldraw ".tldr" file or tldraw\.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch.
+Open a tldraw `.tldr` file or tldraw\.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch.
 
 Sketches opened via URL are copied to the local system, and will not be kept in sync with tldraw.com.
 
-"Save as" support is not yet implemented in the local tldraw instance, so it's recommended for viewing purposes only at the moment.
+_"Save as" support is not yet implemented in the local tldraw instance, so the `open` command is only recommended for viewing purposes at the moment._
 
-| Argument        | Description                                                                                                                    |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `[file-or-url]` | The .tldr file or tldraw\.com sketch url to open. Omit to open a blank sketch. Prints the url of the local server to `stdout`. |
+| Argument        | Description                                                                                                                                   |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `[file-or-url]` | The `.tldr` file or tldraw\.com sketch url to open. Omit the argument to open a blank sketch. Prints the url of the local server to `stdout`. |
 
 No options.
 
 ## Examples
 
-### Basic .tldr file image export
+### Basic `.tldr` file image export
 
-To export the file `your-drawing.tldr` to an svg named `your-drawing.svg` in the current working directory, run the following command. Note that the default output format is SVG, and the default export location is the current working directory.
+To export the file `your-drawing.tldr` to an SVG named `your-drawing.svg` in the current working directory, run the following command. Note that the default output format is SVG, and the default export location is the current working directory.
 
 ```sh
-npx @kitschpatrol/tldraw-cli export your-drawing.tldr
+tldraw-cli export your-drawing.tldr
 ```
 
 The file will retain its original name, e.g. `your-drawing.svg`
@@ -109,7 +109,7 @@ The file will retain its original name, e.g. `your-drawing.svg`
 ### Basic tldraw\.com image download
 
 ```sh
-npx @kitschpatrol/tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
+tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 ```
 
 The tldraw URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
@@ -119,17 +119,17 @@ This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → E
 ### Export a remote tldraw\.com image to a local .tldr file
 
 ```sh
-npx @kitschpatrol/tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4 --format tldr
+tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4 --format tldr
 ```
 
 This is approximately equivalent to clicking the tldraw\.com "☰ → File → Save a copy" menu item.
 
 Note that using `--format tldr` with a _file path_ instead of a _URL_ will still send the file through the pipeline, but it's effectively a no-op. (Except perhaps rare edge cases where tldraw performs a file format version migration).
 
-### Export to a specific format
+### Export to a specific image / file format
 
 ```sh
-npx @kitschpatrol/tldraw-cli export your-drawing.tldr --format png
+tldraw-cli export your-drawing.tldr --format png
 ```
 
 This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → Export As → PNG" menu item.
@@ -137,7 +137,7 @@ This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → E
 ### Export with a transparent background
 
 ```sh
-npx @kitschpatrol/tldraw-cli export your-drawing.tldr --transparent --format png
+tldraw-cli export your-drawing.tldr --transparent --format png
 ```
 
 This is approximately equivalent to checking the tldraw\.com "☰ → Edit → Export As → ☐ Transparent" menu item.
@@ -145,7 +145,7 @@ This is approximately equivalent to checking the tldraw\.com "☰ → Edit → E
 ### Export to a specific destination
 
 ```sh
-npx @kitschpatrol/tldraw-cli export your-drawing.tldr --output ~/Desktop
+tldraw-cli export your-drawing.tldr --output ~/Desktop
 ```
 
 Exports to `~/Desktop/your-drawing.svg`
@@ -153,7 +153,7 @@ Exports to `~/Desktop/your-drawing.svg`
 ### Export to a specific destination and filename
 
 ```sh
-npx @kitschpatrol/tldraw-cli export your-drawing.tldr --output ~/Desktop --name not-your-drawing
+tldraw-cli export your-drawing.tldr --output ~/Desktop --name not-your-drawing
 ```
 
 Exports to `~/Desktop/not-your-drawing.svg`
@@ -161,7 +161,7 @@ Exports to `~/Desktop/not-your-drawing.svg`
 ### Export all frames from a tldraw URL
 
 ```sh
-npx @kitschpatrol/tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
+tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
 ```
 
 The exported files will be suffixed with their frame name, e.g.:
@@ -177,30 +177,32 @@ It's possible in tldraw to give multiple frames in a single sketch the same name
 ### Export a specific frame from a tldraw URL
 
 ```sh
-npx @kitschpatrol/tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
+tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 3"
+```
+
+### Export multiple frames from a tldraw URL
+
+```sh
+tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
 ```
 
 ### Export to JSON
 
-```sh
-npx @kitschpatrol/tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
-```
-
-The .tldr file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
+The `.tldr` file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
 
 I'm not completely clear on the use-case for this format, but since tldr.com supports it, so too shall `tldraw-cli`.
 
 ### Open a tldraw URL
 
 ```sh
-npx @kitschpatrol/tldraw-cli open https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
+tldraw-cli open https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
 ```
 
 The remote sketch is copied to a locally-hosted instance of tldraw, which is then opened in your default browser.
 
 ## API usage
 
-The `export` command's functionality is also provided as a module for use in TypeScript or JavaScript Node projects.
+The `export` command's functionality is also provided in module form for use in TypeScript or JavaScript Node projects.
 
 The library exports a single async function, `tldrawToImage`, which takes an options argument mirroring the arguments available via the command line. The same default values apply:
 

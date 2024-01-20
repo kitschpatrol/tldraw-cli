@@ -1,6 +1,6 @@
-// This plugin is used to bundle the code as an IIFE.
-// It detects imports ending with ?iife, and sends them to esbuild to be bundled.
-// The import returns a string which may then be inlined or passed to puppeteer's evaluation functions
+// This plugin intercepts imports ending with ?iife, sends them through esbuild,
+// and then returns the result as a string which may then be inlined or passed
+// to puppeteer's evaluation functions
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
