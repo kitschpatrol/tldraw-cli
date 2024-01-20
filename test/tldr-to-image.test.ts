@@ -1,7 +1,8 @@
 // Note this tests the dist build, because of the iife inlining from esbuild
 import { tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
-import { randomId } from './utilities/random'
+import { expectSingleLine } from './utilities/string'
+import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
 import { expect, it, vi } from 'vitest'
 
@@ -37,7 +38,7 @@ it('should export the tldr file to a png when specified', async () => {
 })
 
 it('should export the file to a specific directory when specified', async () => {
-	const randomPath = randomId()
+	const randomPath = nanoid()
 	mkdirSync(randomPath)
 
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
@@ -51,11 +52,11 @@ it('should export the file to a specific directory when specified', async () => 
 	if (cleanUp) rmdirSync(randomPath, { recursive: true })
 })
 
-it('should reject empty files', async () => {
+it('should fail on empty files', async () => {
 	await expect(tldrawToImage('./test/assets/test-sketch-empty.tldr')).rejects.toThrow()
 })
 
-it('should export the entire image if multiple frames are present and --frames is not set', async () => {
+it('should export the entire image if multiple frames are present and frames is not set', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath)
 
 	expectFileToBeValid(savedImageFileName, 'svg')
@@ -64,7 +65,7 @@ it('should export the entire image if multiple frames are present and --frames i
 })
 
 it(
-	'should export each frame individually if --frames is set',
+	'should export each frame individually if frames is set',
 	async () => {
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 			frames: true,
@@ -137,7 +138,7 @@ it('should fail if a nonexistent frame is requested', async () => {
 	).rejects.toThrow()
 })
 
-it('should warn if --strip-style is passed with --format=png', async () => {
+it('should warn if stripStyle and format png are combined', async () => {
 	const warnSpy = vi.spyOn(console, 'warn')
 
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
@@ -145,7 +146,7 @@ it('should warn if --strip-style is passed with --format=png', async () => {
 		stripStyle: true,
 	})
 
-	expect(warnSpy).toHaveBeenCalledWith('Warning: --strip-style is only supported for SVG output')
+	expect(warnSpy).toHaveBeenCalledWith('--strip-style is only supported for SVG output')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -161,7 +162,7 @@ it('should strip style elements from SVGs if requested', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should rename the export if --name is passed', async () => {
+it('should rename the export if name is set', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name',
 	})
@@ -172,7 +173,7 @@ it('should rename the export if --name is passed', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should not slugify the --name', async () => {
+it('should not slugify the name', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'I am Un-slugified',
 	})
@@ -183,7 +184,7 @@ it('should not slugify the --name', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should handle a rational extension passed to --name', async () => {
+it('should handle a rational extension in name', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name.svg',
 	})
@@ -194,7 +195,7 @@ it('should handle a rational extension passed to --name', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should handle an irrational extension passed to --name', async () => {
+it('should handle an irrational extension in name', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 		name: 'tiny-little-name.unexpected',
 	})
@@ -205,7 +206,7 @@ it('should handle an irrational extension passed to --name', async () => {
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should use --name as a base for multiple exported frames', async () => {
+it('should use name as a base for multiple exported frames', async () => {
 	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: true,
 		name: 'tiny-little-name',
@@ -271,4 +272,108 @@ it('should export to tldr', async () => {
 	expectFileToBeValid(savedImageFileName, 'tldr')
 
 	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should return an svg string when the print flag is set', async () => {
+	const results = await tldrawToImage(tldrTestFilePath, {
+		print: true,
+	})
+
+	expect(results).toHaveLength(1)
+	expectSingleLine(results[0])
+	expect(results[0]).toMatch(/^<svg/)
+	expect(results[0]).toMatch(/svg>$/)
+})
+
+it('should return an svg string for a single frame when the print and frame name flags are set', async () => {
+	const results = await tldrawToImage(tldrTestFileThreeFramesPath, {
+		frames: ['Frame 1'],
+		print: true,
+	})
+
+	expect(results).toHaveLength(1)
+	expectSingleLine(results[0])
+	expect(results[0]).toMatch(/^<svg/)
+	expect(results[0]).toMatch(/svg>$/)
+})
+
+it('should return base64 image string when the print and format "png" flags are set', async () => {
+	const results = await tldrawToImage(tldrTestFilePath, {
+		format: 'png',
+		print: true,
+	})
+
+	expect(results).toHaveLength(1)
+	expectSingleLine(results[0])
+	expect(results).toMatchSnapshot()
+})
+
+it('should return a json string when the print and format "json" flags are set', async () => {
+	const [result] = await tldrawToImage(tldrTestFilePath, {
+		format: 'json',
+		print: true,
+	})
+
+	expectSingleLine(result)
+	expect(result).toMatchSnapshot()
+})
+
+it('should return a tldr string when the print and format "tldr" flags are set', async () => {
+	const [result] = await tldrawToImage(tldrTestFilePath, {
+		format: 'tldr',
+		print: true,
+	})
+
+	expectSingleLine(result)
+	expect(result).toMatchSnapshot()
+})
+
+it('should return multiple lines if print and multiple frame names are combined', async () => {
+	const results = await tldrawToImage(tldrTestFileThreeFramesPath, {
+		frames: ['Frame 1', 'Frame 2'],
+		print: true,
+	})
+
+	for (const result of results) {
+		expectSingleLine(result)
+		expect(result).toMatch(/^<svg/)
+		expect(result).toMatch(/svg>$/)
+	}
+
+	expect(results).toHaveLength(2)
+})
+
+it('should return multiple lines if print and frames are combined', async () => {
+	const results = await tldrawToImage(tldrTestFileThreeFramesPath, {
+		frames: true,
+		print: true,
+	})
+
+	for (const result of results) {
+		expectSingleLine(result)
+		expect(result).toMatch(/^<svg/)
+		expect(result).toMatch(/svg>$/)
+	}
+
+	expect(results).toHaveLength(3)
+})
+
+it('should warn if print and name are combined', async () => {
+	const warnSpy = vi.spyOn(console, 'warn')
+
+	await tldrawToImage(tldrTestFilePath, {
+		name: 'impossible',
+		print: true,
+	})
+
+	expect(warnSpy).toHaveBeenCalledWith('Ignoring --name when using --print')
+})
+
+it('should fail if print and output are combined', async () => {
+	await expect(
+		tldrawToImage(tldrTestFilePath, {
+			output: 'impossible',
+			print: true,
+		}),
+	).rejects.toThrow()
 })

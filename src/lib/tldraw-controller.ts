@@ -91,8 +91,9 @@ export default class TldrawController {
 		filename: string,
 		format: TldrawFormat,
 		stripStyle: boolean,
+		print: boolean,
 	): Promise<string[]> {
-		return this._download(output, filename, format, stripStyle)
+		return this._download(output, filename, format, stripStyle, undefined, print)
 	}
 
 	async downloadFrame(
@@ -101,8 +102,9 @@ export default class TldrawController {
 		format: TldrawFormat,
 		stripStyle: boolean,
 		frameNameOrId: string,
+		print: boolean,
 	): Promise<string[]> {
-		return this.downloadFrames(output, filename, format, stripStyle, [frameNameOrId])
+		return this.downloadFrames(output, filename, format, stripStyle, [frameNameOrId], print)
 	}
 
 	async downloadFrames(
@@ -111,6 +113,7 @@ export default class TldrawController {
 		format: TldrawFormat,
 		stripStyle: boolean,
 		frameNamesOrIds: string[],
+		print: boolean,
 	): Promise<string[]> {
 		// Validate frame existence
 		const validPageFrames: PageFrame[] = []
@@ -142,7 +145,14 @@ export default class TldrawController {
 		for (const frame of validPageFrames) {
 			const frameSuffix = isFrameNameCollision ? `-${frame.id.replace('shape:', '')}` : ''
 			outputAccumulator.push(
-				...(await this._download(output, `${filename}${frameSuffix}`, format, stripStyle, frame)),
+				...(await this._download(
+					output,
+					`${filename}${frameSuffix}`,
+					format,
+					stripStyle,
+					frame,
+					print,
+				)),
 			)
 		}
 
@@ -154,10 +164,11 @@ export default class TldrawController {
 		filename: string,
 		format: TldrawFormat,
 		stripStyle: boolean,
+		print: boolean,
 	): Promise<string[]> {
 		const pageFrames = await this.getPageFrames()
 		const frameNamesOrIds = pageFrames.map((f) => f.id)
-		return this.downloadFrames(output, filename, format, stripStyle, frameNamesOrIds)
+		return this.downloadFrames(output, filename, format, stripStyle, frameNamesOrIds, print)
 	}
 
 	// Ephemeral means we don't have to restore the user's value
@@ -185,7 +196,8 @@ export default class TldrawController {
 		filename: string,
 		format: TldrawFormat,
 		stripStyle: boolean,
-		pageFrame?: PageFrame, // Trust that existence has been validated
+		pageFrame: PageFrame | undefined, // Trust that existence has been validated
+		print: boolean,
 	): Promise<string[]> {
 		if (!this.page) throw new Error('Controller not started')
 
@@ -194,13 +206,11 @@ export default class TldrawController {
 		}
 
 		if (stripStyle && format !== 'svg') {
-			console.warn('Warning: --strip-style is only supported for SVG output')
+			console.warn('--strip-style is only supported for SVG output')
 		}
 
 		if (pageFrame !== undefined && format === 'tldr') {
-			console.warn(
-				'Warning: --frames is not supported for tldr output, downloading entire document',
-			)
+			console.warn('--frames is not supported for tldr output, downloading entire document')
 		}
 
 		// Brittle, TODO how to invoke this from the browser console?
@@ -250,16 +260,34 @@ export default class TldrawController {
 
 		// Move and rename the downloaded file from temp to output destination
 		const downloadPath = path.join(os.tmpdir(), downloadGuid)
-		const outputPath = path.resolve(
-			untildify(path.join(output, `${filename}${frameSuffix}.${format}`)),
-		)
-		await fs.rename(downloadPath, outputPath)
+
+		// Don't move the file if we're printing
+		const outputPath = print
+			? downloadPath
+			: path.resolve(untildify(path.join(output, `${filename}${frameSuffix}.${format}`)))
+
+		if (!print) await fs.rename(downloadPath, outputPath)
 
 		if (stripStyle && format === 'svg') {
 			// Strip style from the SVG
 			const svg = await fs.readFile(outputPath, 'utf8')
 			const strippedSvg = this.stripStyleElement(svg)
 			await fs.writeFile(outputPath, strippedSvg)
+		}
+
+		// Naive implementation
+		if (print) {
+			if (format === 'png') {
+				// Convert to base64
+				const buffer = await fs.readFile(outputPath)
+				const outputBase64 = buffer.toString('base64')
+				return [outputBase64]
+			}
+
+			// All others are plain text, without newlines
+			const outputString: string = await fs.readFile(outputPath, 'utf8')
+			const outputStringNoNewlines = outputString.replaceAll('\n', '')
+			return [outputStringNoNewlines]
 		}
 
 		return [outputPath]

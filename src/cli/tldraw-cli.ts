@@ -43,7 +43,8 @@ await yargs(hideBin(process.argv))
 				})
 				.option('output', {
 					alias: 'o',
-					default: './',
+					default: undefined,
+					defaultDescription: '"./"',
 					describe: 'Output image directory.',
 					type: 'string',
 				})
@@ -91,6 +92,13 @@ await yargs(hideBin(process.argv))
 					describe: 'Remove all style tags from the SVG output. Applies to SVG output only.',
 					type: 'boolean',
 				})
+				.option('print', {
+					alias: 'p',
+					default: false,
+					describe:
+						'Print the exported image(s) to stdout instead of saving to a file. Incompatible with --output, and overrides --name. PNGs are printed as base64-encoded strings.',
+					type: 'boolean',
+				})
 				// Too aggro, just warn instead...
 				// .check((argv) => {
 				// 	if (argv.format === 'png') {
@@ -101,6 +109,13 @@ await yargs(hideBin(process.argv))
 					default: false,
 					describe: 'Enable verbose output',
 					type: 'boolean',
+				})
+				.check((argv) => {
+					if (argv.print && argv.output !== undefined) {
+						throw new Error('Cannot use --output with --print')
+					}
+
+					return true
 				}),
 		async (argv) => {
 			const {
@@ -110,6 +125,7 @@ await yargs(hideBin(process.argv))
 				frames,
 				name,
 				output,
+				print,
 				stripStyle,
 				transparent,
 				verbose,
@@ -123,6 +139,7 @@ await yargs(hideBin(process.argv))
 					frames: frames as typeof frames & false,
 					name,
 					output,
+					print,
 					stripStyle,
 					transparent,
 					verbose,

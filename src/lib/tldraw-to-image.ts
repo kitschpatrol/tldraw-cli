@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import LocalTldrawServer from './local-tldraw-server'
 import TldrawController from './tldraw-controller'
 import { validatePathOrUrl } from './validation'
@@ -12,6 +13,7 @@ export type TldrawToImageOptions = {
 	frames?: boolean | string[]
 	name?: string
 	output?: string
+	print?: boolean
 	stripStyle?: boolean
 	transparent?: boolean
 	verbose?: boolean
@@ -28,6 +30,7 @@ const defaultOptions: TldrawToImageOptionsRequired = {
 	frames: false,
 	name: undefined,
 	output: './',
+	print: false,
 	stripStyle: false,
 	transparent: false,
 	verbose: false,
@@ -37,11 +40,19 @@ export async function tldrawToImage(
 	tldrPathOrUrl: string,
 	options?: TldrawToImageOptions,
 ): Promise<string[]> {
+	if (options?.print && options.output !== undefined) {
+		throw new Error('Cannot use --output with --print')
+	}
+
+	if (options?.print && options.name !== undefined) {
+		console.warn('Ignoring --name when using --print')
+	}
+
 	const resolvedOptions: TldrawToImageOptionsRequired = {
 		...defaultOptions,
 		...stripUndefined(options ?? {}),
 	}
-	const { darkMode, format, frames, name, output, stripStyle, transparent, verbose } =
+	const { darkMode, format, frames, name, output, print, stripStyle, transparent, verbose } =
 		resolvedOptions
 
 	if (verbose) console.time('Export time')
@@ -93,6 +104,7 @@ export async function tldrawToImage(
 			outputFilename,
 			format,
 			stripStyle,
+			print,
 		)
 	} else if (Array.isArray(frames) && frames.length > 0) {
 		exportReport = await tldrawController.downloadFrames(
@@ -101,9 +113,16 @@ export async function tldrawToImage(
 			format,
 			stripStyle,
 			frames,
+			print,
 		)
 	} else {
-		exportReport = await tldrawController.download(output, outputFilename, format, stripStyle)
+		exportReport = await tldrawController.download(
+			output,
+			outputFilename,
+			format,
+			stripStyle,
+			print,
+		)
 	}
 
 	// Clean up

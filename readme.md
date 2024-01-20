@@ -65,16 +65,17 @@ Export a tldraw `.tldr` file or tldraw\.com URL to SVG, PNG, and other formats.
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `<file-or-url>` | The sketch to export — either a path to a local `.tldr` file, or a tldraw\.com sketch URL. Prints the absolute path(s) to the exported image(s) to `stdout`. |
 
-| Option              | Alias | Description Value                                                                                                                                          | Default Value |
-| ------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `--format <string>` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                               | `svg`         |
-| `--dark-mode `      | `-d`  | Output a dark theme version of the image.                                                                                                                  | `false`       |
-| `--transparent `    | `-t`  | Output an image with a transparent background.                                                                                                             | `false`       |
-| `--output <string>` | `-o`  | Output directory.                                                                                                                                          | `./`          |
-| `--name <string>`   | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                   |               |
-| `--frames <array?>` |       | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames. | `false`       |
-| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets.                     | `false`       |
-| `--verbose`         |       | Enable verbose output.                                                                                                                                     | `false`       |
+| Option              | Alias | Description Value                                                                                                                                                | Default Value |
+| ------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `--format <string>` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                                     | `svg`         |
+| `--dark-mode `      | `-d`  | Output a dark theme version of the image.                                                                                                                        | `false`       |
+| `--transparent `    | `-t`  | Output an image with a transparent background.                                                                                                                   | `false`       |
+| `--output <string>` | `-o`  | Output directory.                                                                                                                                                | `./`          |
+| `--name <string>`   | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                         |               |
+| `--frames <array?>` |       | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames.       | `false`       |
+| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets.                           | `false`       |
+| `--print`           | `-p`  | Print the exported image(s) to stdout instead of saving to a file. Incompatible with --output, and overrides --name. PNGs are printed as base64-encoded strings. | `false`       |
+| `--verbose`         |       | Enable verbose output.                                                                                                                                           | `false`       |
 
 #### Command: Open
 
@@ -112,7 +113,7 @@ The file will retain its original name, e.g. `your-drawing.svg`
 tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 ```
 
-The tldraw URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
+The tldraw.com URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
 
 This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → Export As → SVG" menu item.
 
@@ -158,7 +159,7 @@ tldraw-cli export your-drawing.tldr --output ~/Desktop --name not-your-drawing
 
 Exports to `~/Desktop/not-your-drawing.svg`
 
-### Export all frames from a tldraw URL
+### Export all frames from a tldraw.com URL
 
 ```sh
 tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
@@ -174,13 +175,13 @@ The frame name will be slugified.
 
 It's possible in tldraw to give multiple frames in a single sketch the same name. In these cases, the frame ID is used in addition to the name to ensure unique output file names.
 
-### Export a specific frame from a tldraw URL
+### Export a specific frame from a tldraw.com URL
 
 ```sh
 tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 3"
 ```
 
-### Export multiple frames from a tldraw URL
+### Export multiple frames from a tldraw.com URL
 
 ```sh
 tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
@@ -188,11 +189,21 @@ tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "
 
 ### Export to JSON
 
+```sh
+tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --format "json"
+```
+
 The `.tldr` file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
 
 I'm not completely clear on the use-case for this format, but since tldr.com supports it, so too shall `tldraw-cli`.
 
-### Open a tldraw URL
+### Write an SVG to stdout
+
+```sh
+tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --print
+```
+
+### Open a tldraw.com URL
 
 ```sh
 tldraw-cli open https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
@@ -236,10 +247,10 @@ import { tldrawToImage } from '@kitschpatrol/tldraw-cli'
 const [imagePath] = await tldrawToImage('./some-file.tldr', { format: 'png', output: './' })
 console.log(`Wrote image to: "${imagePath}"`)
 
-// Convert a remote tldraw URL to SVG
+// Convert a remote tldraw.com URL to SVG
 await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 
-// Convert all frames from a single tldraw URL to separate SVGs
+// Convert all frames from a single tldraw.com URL to separate SVGs
 // When the `frames` option is set, the function returns an array
 // of resulting file paths, instead of a solitary string
 const framePathsArray = await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
@@ -247,7 +258,7 @@ const framePathsArray = await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RY
 })
 console.log(`Wrote frames to: "${framePathsArray}"`)
 
-// Convert a specific frame from a tldraw URL to a PNG
+// Convert a specific frame from a tldraw.com URL to a PNG
 await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
   frames: ['Frame 3'],
   format: 'png',
@@ -299,6 +310,8 @@ This is a very minimal implementation. Current plans for future improvements inc
 - Implement the ability to export specific pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format
 - Additional commands beyond sketch conversion / export?
+- There's room for optimization in how tldraw functions are passed to Puppeteer
+- There's room for optimization in the `--print` option implementation
 
 Any other suggestions are welcome.
 

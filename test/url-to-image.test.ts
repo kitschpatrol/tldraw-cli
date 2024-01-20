@@ -1,7 +1,7 @@
 // Note this tests the dist build, because of the iife inlining from esbuild
 import { tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid } from './utilities/file'
-import { randomId } from './utilities/random'
+import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync, rmdirSync } from 'node:fs'
 import { expect, it } from 'vitest'
 
@@ -37,7 +37,7 @@ it('should export the tldraw url to a png when specified', async () => {
 })
 
 it('should export the file to a specific directory when specified', async () => {
-	const randomPath = randomId()
+	const randomPath = nanoid()
 	mkdirSync(randomPath)
 
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
