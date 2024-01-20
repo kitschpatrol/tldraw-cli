@@ -64,8 +64,8 @@
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^4.3.3",
 		"@sindresorhus/slugify": "^2.2.1",
-		"@tldraw/assets": "2.0.0-beta.2",
-		"@tldraw/tldraw": "2.0.0-beta.2",
+		"@tldraw/assets": "2.0.0-canary.ade38247d8a4",
+		"@tldraw/tldraw": "2.0.0-canary.ade38247d8a4",
 		"@types/express": "^4.17.21",
 		"@types/react": "^18.2.48",
 		"@types/react-dom": "^18.2.18",
