@@ -28,7 +28,7 @@ function getStableSvgHash(filePath: string): string {
 
 	// Tldraw SVGs with multiple frames will have multiple clipPath ids
 	if (ids.length === 0) {
-		console.warn('No <clipPath> id found in SVG file, using unstable hash')
+		// Console.warn('No <clipPath> id found in SVG file, using unstable hash')
 	} else {
 		for (const id of ids) {
 			svgContent = svgContent.replace(new RegExp(`${id}`, 'g'), '')

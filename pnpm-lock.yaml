@@ -20,11 +20,11 @@ devDependencies:
     specifier: ^2.2.1
     version: 2.2.1
   '@tldraw/assets':
-    specifier: 2.0.0-beta.2
-    version: 2.0.0-beta.2
+    specifier: 2.0.0-canary.ade38247d8a4
+    version: 2.0.0-canary.ade38247d8a4
   '@tldraw/tldraw':
-    specifier: 2.0.0-beta.2
-    version: 2.0.0-beta.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 2.0.0-canary.ade38247d8a4
+    version: 2.0.0-canary.ade38247d8a4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -58,6 +58,12 @@ devDependencies:
   get-port:
     specifier: ^7.0.0
     version: 7.0.0
+  nanoid:
+    specifier: ^5.0.4
+    version: 5.0.4
+  open:
+    specifier: ^10.0.3
+    version: 10.0.3
   path-type:
     specifier: ^5.0.0
     version: 5.0.0
@@ -2255,23 +2261,23 @@ packages:
       '@taplo/core': 0.1.1
     dev: true
 
-  /@tldraw/assets@2.0.0-beta.2:
-    resolution: {integrity: sha512-7fLE+jhzRQU93sgUuxwwSSRyRLc3pRrvfY+MRENV10ItgWktwmHkZXEuix4oLAd/36jxsLCJi3r3KHYcqcNiQA==}
+  /@tldraw/assets@2.0.0-canary.ade38247d8a4:
+    resolution: {integrity: sha512-1OE/+J8o+UwZVamLpRQZRKgWAXRozd8t6nYPotHWbpPrpvHcGNUyBzckEYRPn5yfJmduySxiQ9wq9pu64qnnNg==}
     dependencies:
-      '@tldraw/utils': 2.0.0-beta.2
+      '@tldraw/utils': 2.0.0-canary.ade38247d8a4
     dev: true
 
-  /@tldraw/editor@2.0.0-beta.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-CEWIyqO+CdSrIVT03OIpVhRB2PcDDkqU40vVdMYJfX5e1oWWGAPC6d/DVTaAUbZt3L4PSx7IVutyvQX7R9bYeA==}
+  /@tldraw/editor@2.0.0-canary.ade38247d8a4(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-vPFjk8cGsdPPuyywU/E5Nnp6Pq0/W8qlzX6yBTqkKyZKsCNkLpr8ugo0h1/0zDN/WjS6OouwUfwg943NSL/TnA==}
     peerDependencies:
       react: ^18
       react-dom: ^18
     dependencies:
-      '@tldraw/state': 2.0.0-beta.2(react@18.2.0)
-      '@tldraw/store': 2.0.0-beta.2(react@18.2.0)
-      '@tldraw/tlschema': 2.0.0-beta.2(react@18.2.0)
-      '@tldraw/utils': 2.0.0-beta.2
-      '@tldraw/validate': 2.0.0-beta.2
+      '@tldraw/state': 2.0.0-canary.ade38247d8a4(react@18.2.0)
+      '@tldraw/store': 2.0.0-canary.ade38247d8a4(react@18.2.0)
+      '@tldraw/tlschema': 2.0.0-canary.ade38247d8a4(react@18.2.0)
+      '@tldraw/utils': 2.0.0-canary.ade38247d8a4
+      '@tldraw/validate': 2.0.0-canary.ade38247d8a4
       '@types/core-js': 2.5.8
       '@use-gesture/react': 10.3.0(react@18.2.0)
       classnames: 2.5.1
@@ -2286,27 +2292,27 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: true
 
-  /@tldraw/state@2.0.0-beta.2(react@18.2.0):
-    resolution: {integrity: sha512-2hJlswI9o+i5l8+semFsASAcrrgoXE9EyMS7hXq46GS2FLJcEGA7K+se8zip3pCls5mdOtq2kNT9rZ0hPuaKBg==}
+  /@tldraw/state@2.0.0-canary.ade38247d8a4(react@18.2.0):
+    resolution: {integrity: sha512-v8ppQzXaIgIIb6K7Z25SCXgEjejzZ+6FvfGKvEzG/ylRIrCJ1frG469PTCrpVGUPvDfH+IdYTrDjpvcuuubrwg==}
     peerDependencies:
       react: ^18
     dependencies:
       react: 18.2.0
     dev: true
 
-  /@tldraw/store@2.0.0-beta.2(react@18.2.0):
-    resolution: {integrity: sha512-lRQbucF9o/lM1cagXHKlyx4IN2vg+wtD61/iOtOXykIkdjBVub2V8FViapNKuLERI22dnA2DCC1Q+nWN1g17TQ==}
+  /@tldraw/store@2.0.0-canary.ade38247d8a4(react@18.2.0):
+    resolution: {integrity: sha512-fYHItrt0OpxaYslc4bBR0+gcPQOT09uHXJK900BGz4MKT5LUIaONPPygxE6YuGfSp3KQZ+vQ/oXhvZUs6YQ0UA==}
     dependencies:
-      '@tldraw/state': 2.0.0-beta.2(react@18.2.0)
-      '@tldraw/utils': 2.0.0-beta.2
+      '@tldraw/state': 2.0.0-canary.ade38247d8a4(react@18.2.0)
+      '@tldraw/utils': 2.0.0-canary.ade38247d8a4
       lodash.isequal: 4.5.0
       nanoid: 4.0.2
     transitivePeerDependencies:
       - react
     dev: true
 
-  /@tldraw/tldraw@2.0.0-beta.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-gQU7JyTHobWSJ+azcrNRdjpqDknAT+3NGas/9BG9YZc+h2y+uwcy2DaY9FiAEJjQTyS+dSOrm18F6QyOUntY9g==}
+  /@tldraw/tldraw@2.0.0-canary.ade38247d8a4(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-26yPezznjLpn9EicdDeP1aGVWjk/zH5AEwJAOPlc2uOAjr7YMDH09wsXWtlLVr7gxdf/a2iKuKh9E3tHMp8yQA==}
     peerDependencies:
       react: ^18
       react-dom: ^18
@@ -2319,10 +2325,9 @@ packages:
       '@radix-ui/react-select': 1.2.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-slider': 1.1.2(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-toast': 1.1.5(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
-      '@tldraw/editor': 2.0.0-beta.2(react-dom@18.2.0)(react@18.2.0)
+      '@tldraw/editor': 2.0.0-canary.ade38247d8a4(react-dom@18.2.0)(react@18.2.0)
       canvas-size: 1.2.6
       classnames: 2.5.1
-      downscale: 1.0.6
       hotkeys-js: 3.13.5
       lz-string: 1.5.0
       react: 18.2.0
@@ -2332,26 +2337,26 @@ packages:
       - '@types/react-dom'
     dev: true
 
-  /@tldraw/tlschema@2.0.0-beta.2(react@18.2.0):
-    resolution: {integrity: sha512-PRwetIFNEs9i90W8Wph3PbWmXlEKheRpAb9gjQD/iG2L82ZOBV1c91QAcEksc1ho+3j3Fbvs8yVqDU8SQkpQMA==}
+  /@tldraw/tlschema@2.0.0-canary.ade38247d8a4(react@18.2.0):
+    resolution: {integrity: sha512-Cirvw/7nFBaoMWJv9NVvP7eHCTTtrbtbbxALVZZ4lFsxTiBjRS6uEpS/VxobQ6/P2fyF0g6RANdRZtbTZANFAw==}
     dependencies:
-      '@tldraw/state': 2.0.0-beta.2(react@18.2.0)
-      '@tldraw/store': 2.0.0-beta.2(react@18.2.0)
-      '@tldraw/utils': 2.0.0-beta.2
-      '@tldraw/validate': 2.0.0-beta.2
+      '@tldraw/state': 2.0.0-canary.ade38247d8a4(react@18.2.0)
+      '@tldraw/store': 2.0.0-canary.ade38247d8a4(react@18.2.0)
+      '@tldraw/utils': 2.0.0-canary.ade38247d8a4
+      '@tldraw/validate': 2.0.0-canary.ade38247d8a4
       nanoid: 4.0.2
     transitivePeerDependencies:
       - react
     dev: true
 
-  /@tldraw/utils@2.0.0-beta.2:
-    resolution: {integrity: sha512-TEfd1l/+q0V0nr5pWIxT5kZXGHnU/FuzMi4HgHudoI4arTP/cv7FTnviXnd3nda+FUQe9LM+nwMaWDxg5wLjPA==}
+  /@tldraw/utils@2.0.0-canary.ade38247d8a4:
+    resolution: {integrity: sha512-q0sDEVRxcqCa4CVN5l9DEL1L2ZL9qIB91ybTBZ6uMv7RyX+fjiXBE4N5iAlzpF4Mn7xesJC+hLvGutajHySo1w==}
     dev: true
 
-  /@tldraw/validate@2.0.0-beta.2:
-    resolution: {integrity: sha512-AmpZ1OcnwJeYzj0qofBfOm7tnpecSThNNmqciRxXIb8TxIiSJDbGi6zEm10Exgx4oJ/XpZCS5Qk+StFMkdanSQ==}
+  /@tldraw/validate@2.0.0-canary.ade38247d8a4:
+    resolution: {integrity: sha512-9DZi2UgVB81xZCx7R/kBqOIvYR2OCqne5Ln+4K5gpF1pieM+hcg5LE6kBxrA5jzY6T7RB/jmvgAMzbcuma7vFw==}
     dependencies:
-      '@tldraw/utils': 2.0.0-beta.2
+      '@tldraw/utils': 2.0.0-canary.ade38247d8a4
     dev: true
 
   /@tootallnate/quickjs-emscripten@0.23.0:
@@ -3170,6 +3175,13 @@ packages:
       semver: 7.5.4
     dev: true
 
+  /bundle-name@4.1.0:
+    resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
+    engines: {node: '>=18'}
+    dependencies:
+      run-applescript: 7.0.0
+    dev: true
+
   /bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
@@ -3780,6 +3792,19 @@ packages:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: true
 
+  /default-browser-id@5.0.0:
+    resolution: {integrity: sha512-A6p/pu/6fyBcA1TRz/GqWYPViplrftcW2gZC9q79ngNCKAeR/X3gcEdXQHl4KNXV+3wgIJ1CPkJQ3IHM6lcsyA==}
+    engines: {node: '>=18'}
+    dev: true
+
+  /default-browser@5.2.1:
+    resolution: {integrity: sha512-WY/3TUME0x3KPYdRRxEJJvXRHV4PyPoUsxtZa78lwItwRQRHhd2U9xOscaT/YTf8uCXIAjeJOFBVEh/7FtD8Xg==}
+    engines: {node: '>=18'}
+    dependencies:
+      bundle-name: 4.1.0
+      default-browser-id: 5.0.0
+    dev: true
+
   /define-data-property@1.1.1:
     resolution: {integrity: sha512-E7uGkTzkk1d0ByLeSc6ZsFS79Axg+m1P/VsgYsxHgiuc3tFSj+MjMIwe90FC4lOAZzNBdY7kkO2P2wKdsQ1vgQ==}
     engines: {node: '>= 0.4'}
@@ -3787,6 +3812,11 @@ packages:
       get-intrinsic: 1.2.2
       gopd: 1.0.1
       has-property-descriptors: 1.0.1
+
+  /define-lazy-prop@3.0.0:
+    resolution: {integrity: sha512-N+MeXYoqr3pOgn8xfyRPREN7gHakLYjhsHhWGT3fWAiL4IkAt0iDw14QiiEm2bE30c5XX5q0FtAA3CK5f9/BUg==}
+    engines: {node: '>=12'}
+    dev: true
 
   /define-properties@1.2.1:
     resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
@@ -3908,10 +3938,6 @@ packages:
   /dotenv@16.3.2:
     resolution: {integrity: sha512-HTlk5nmhkm8F6JcdXvHIzaorzCoziNQT9mGxLPVXW8wJF1TiGSL60ZGB4gHWabHOaMmWmhvk2/lPHfnBiT78AQ==}
     engines: {node: '>=12'}
-    dev: true
-
-  /downscale@1.0.6:
-    resolution: {integrity: sha512-Arh9ftj+wo3CkFoT48SgT/crMyqmgZtNaaV/etjzHaUqNAaS36GS38ECURnfl7X/XvXN5uZNigGF7Vhffrm/pg==}
     dev: true
 
   /eastasianwidth@0.2.0:
@@ -5327,6 +5353,12 @@ packages:
     resolution: {integrity: sha512-AAB9hiomQs5DXWcRB1rqsxGUstbRroFOPPVAomNk/3XHR5JyEZChOyTWe2oayKnsSsr/kcGqF+z6yuH6HHpN0A==}
     dev: true
 
+  /is-docker@3.0.0:
+    resolution: {integrity: sha512-eljcgEDlEns/7AXFosB5K/2nCM4P7FQPkGc/DWLy5rmFEWvZayGrik1d9/QIY5nJ4f9YsVvBkA6kJpHn9rISdQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    hasBin: true
+    dev: true
+
   /is-empty@1.2.0:
     resolution: {integrity: sha512-F2FnH/otLNJv0J6wc73A5Xo7oHLNnqplYqZhUu01tD54DIPvxIRSTSLkrUB/M0nHO4vo1O9PDfN4KoTxCzLh/w==}
     dev: true
@@ -5366,6 +5398,14 @@ packages:
 
   /is-hexadecimal@2.0.1:
     resolution: {integrity: sha512-DgZQp241c8oO6cA1SbTEWiXeoxV42vlcJxgH+B3hi1AiqqKruZR3ZGF8In3fj4+/y/7rHvlOZLZtgJ/4ttYGZg==}
+    dev: true
+
+  /is-inside-container@1.0.0:
+    resolution: {integrity: sha512-KIYLCCJghfHZxqjYBE7rEy0OBuTd5xCHS7tHVgvCLkx7StIoaxwNW3hCALgEUjFfeRk+MG/Qxmp/vtETEF3tRA==}
+    engines: {node: '>=14.16'}
+    hasBin: true
+    dependencies:
+      is-docker: 3.0.0
     dev: true
 
   /is-map@2.0.2:
@@ -5478,6 +5518,13 @@ packages:
     dependencies:
       call-bind: 1.0.5
       get-intrinsic: 1.2.2
+    dev: true
+
+  /is-wsl@3.1.0:
+    resolution: {integrity: sha512-UcVfVfaK4Sc4m7X3dUSoHoozQGBEFeDC+zVo06t98xe8CzHSZZBekNXH+tu0NalHolcJ/QAGqS46Hef7QXBIMw==}
+    engines: {node: '>=16'}
+    dependencies:
+      is-inside-container: 1.0.0
     dev: true
 
   /isarray@2.0.5:
@@ -6805,6 +6852,12 @@ packages:
     hasBin: true
     dev: true
 
+  /nanoid@5.0.4:
+    resolution: {integrity: sha512-vAjmBf13gsmhXSgBrtIclinISzFFy22WwCYoyilZlsrRXNIHSwgFQ1bEdjRwMT3aoadeIF6HMuDRlOxzfXV8ig==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: true
+
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
     dev: true
@@ -6977,6 +7030,16 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       mimic-fn: 4.0.0
+    dev: true
+
+  /open@10.0.3:
+    resolution: {integrity: sha512-dtbI5oW7987hwC9qjJTyABldTaa19SuyJse1QboWv3b0qCcrrLNVDqBx1XgELAjh9QTVQaP/C5b1nhQebd1H2A==}
+    engines: {node: '>=18'}
+    dependencies:
+      default-browser: 5.2.1
+      define-lazy-prop: 3.0.0
+      is-inside-container: 1.0.0
+      is-wsl: 3.1.0
     dev: true
 
   /optionator@0.9.3:
@@ -8426,6 +8489,11 @@ packages:
       '@rollup/rollup-win32-ia32-msvc': 4.9.5
       '@rollup/rollup-win32-x64-msvc': 4.9.5
       fsevents: 2.3.3
+    dev: true
+
+  /run-applescript@7.0.0:
+    resolution: {integrity: sha512-9by4Ij99JUr/MCFBUkDKLWK3G9HVXmabKz9U5MlIAIuvuzkiOicRYs8XJLxX+xahD+mLiiCYDqF9dKAgtzKP1A==}
+    engines: {node: '>=18'}
     dev: true
 
   /run-parallel@1.2.0:

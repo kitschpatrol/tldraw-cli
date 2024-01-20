@@ -7,11 +7,16 @@ import { fileURLToPath } from 'node:url'
 
 export default class LocalTldrawServer {
 	verbose: boolean
+
 	// eslint-disable-next-line perfectionist/sort-classes
 	private server?: Server
 
-	constructor(verbose = false) {
+	constructor(
+		private readonly tldrData?: string,
+		verbose = false,
+	) {
 		this.verbose = verbose
+		this.tldrData = tldrData
 	}
 
 	close(): void {
@@ -39,6 +44,17 @@ export default class LocalTldrawServer {
 		if (this.verbose) console.log(`tldraw served from "${tldrawPath}"`)
 		const app = express()
 		const port = await getPort()
+
+		// Provide the initial state data at an endpoint
+		app.get('/tldr-data', (_, response) => {
+			if (this.tldrData === undefined) {
+				response.status(404).send('No tldr data provided')
+			} else {
+				response.setHeader('Content-Type', 'text/plain; charset=utf-8')
+				response.send(this.tldrData)
+			}
+		})
+
 		app.use(express.static(tldrawPath))
 
 		try {

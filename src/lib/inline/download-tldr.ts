@@ -16,13 +16,11 @@
 /* eslint-disable unicorn/prefer-top-level-await */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 
-import { type TLStore, serializeTldrawJsonBlob } from '@tldraw/tldraw'
+import { type Editor, serializeTldrawJsonBlob } from '@tldraw/tldraw'
 
 declare global {
 	interface Window {
-		editor: {
-			store: TLStore | undefined
-		}
+		editor: Editor
 	}
 }
 

@@ -1,16 +1,33 @@
 #!/usr/bin/env node
 import { version } from '../../package.json'
+import { tldrawOpen } from '../lib/tldraw-open'
 import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
 await yargs(hideBin(process.argv))
+	.scriptName('tldraw-cli')
+	.command('$0 <command>', 'CLI tools for tldraw.')
 	.command(
-		'$0 <file-or-url>',
-		'Export a tldraw ".tldr" file or tldraw.com URL to an svg or png image',
+		'open [file-or-url]',
+		'Open a tldraw ".tldr" file or tldraw.com URL your default browser. Uses a locally-hosted instance of tldraw. Call open without an argument to open a blank sketch.',
+		(yargs) =>
+			yargs.positional('file-or-url', {
+				describe:
+					'The .tldr file or tldraw.com sketch url to open. Omit to open a blank sketch. Prints the url of the local server to stdout.',
+				type: 'string',
+			}),
+		async (argv) => {
+			const { fileOrUrl } = argv
+			const localUrl = await tldrawOpen(fileOrUrl)
+			console.log(localUrl)
+		},
+	)
+	.command(
+		'export <file-or-url>',
+		'Export a local tldraw ".tldr" file or a tldraw.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.',
 		(yargs) =>
 			yargs
-				.scriptName('tldraw-cli')
 				.positional('file-or-url', {
 					demandOption: true,
 					describe:
@@ -21,13 +38,13 @@ await yargs(hideBin(process.argv))
 					alias: 'f',
 					choices: ['png', 'svg', 'json', 'tldr'],
 					default: 'svg',
-					describe: 'Output image format',
+					describe: 'Output image format.',
 					type: 'string',
 				})
 				.option('output', {
 					alias: 'o',
 					default: './',
-					describe: 'Output image directory',
+					describe: 'Output image directory.',
 					type: 'string',
 				})
 				.option('name', {
@@ -39,13 +56,13 @@ await yargs(hideBin(process.argv))
 				.option('transparent', {
 					alias: 't',
 					default: false,
-					describe: 'Output an image with a transparent background',
+					describe: 'Output an image with a transparent background.',
 					type: 'boolean',
 				})
 				.option('dark-mode', {
 					alias: 'd',
 					default: false,
-					describe: 'Output a dark theme version of the image',
+					describe: 'Output a dark theme version of the image.',
 					type: 'boolean',
 				})
 				.option('frames', {
@@ -66,7 +83,7 @@ await yargs(hideBin(process.argv))
 					// absence of the option
 					defaultDescription: 'false',
 					describe:
-						'Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs',
+						'Export each sketch "frame" as a separate image, use the option flag alone to export all frames, or pass one or more frame names or IDs.',
 					type: 'array',
 				})
 				.option('strip-style', {

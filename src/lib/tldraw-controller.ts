@@ -23,12 +23,10 @@ export default class TldrawController {
 
 	constructor(
 		private readonly href: string,
-		private readonly tldrData?: string,
 		verbose = false,
 	) {
 		this.verbose = verbose
 		this.href = href
-		this.tldrData = tldrData
 	}
 
 	private get isLocal(): boolean {
@@ -66,27 +64,6 @@ export default class TldrawController {
 			downloadPath: os.tmpdir(),
 			eventsEnabled: true,
 		})
-
-		if (this.isLocal) {
-			// Hush the favicon kvetch (for local tldraw)
-			await this.page.setRequestInterception(true)
-			this.page.on('request', (request) => {
-				if (request.url().endsWith('favicon.ico')) {
-					void request.respond({ status: 200 })
-				} else {
-					void request.continue()
-				}
-			})
-		}
-
-		// Load tldr data and put it in local storage
-		if (this.tldrData) {
-			if (this.verbose) console.log(`Setting tldr data"`)
-			await this.page.evaluateOnNewDocument((data) => {
-				localStorage.clear()
-				localStorage.setItem('tldrData', data)
-			}, this.tldrData)
-		}
 
 		// Navigate to tldraw
 		if (this.verbose) console.log(`Navigating to: ${this.href}`)

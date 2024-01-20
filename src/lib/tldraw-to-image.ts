@@ -12,7 +12,6 @@ export type TldrawToImageOptions = {
 	frames?: boolean | string[]
 	name?: string
 	output?: string
-	print?: boolean
 	stripStyle?: boolean
 	transparent?: boolean
 	verbose?: boolean
@@ -29,19 +28,9 @@ const defaultOptions: TldrawToImageOptionsRequired = {
 	frames: false,
 	name: undefined,
 	output: './',
-	print: false,
 	stripStyle: false,
 	transparent: false,
 	verbose: false,
-}
-
-export function openTldraw(tldrPathOrUrl?: string) {
-	// Start the server
-	console.log(`tldrPathOrUrl: ${tldrPathOrUrl}`)
-
-	// Load the file
-
-	// open in browser
 }
 
 export async function tldrawToImage(
@@ -78,17 +67,15 @@ export async function tldrawToImage(
 			: sanitizeName(name, format)
 
 	// Start up local server if appropriate
-	const tldrawServer = new LocalTldrawServer(verbose)
-	let tldrData: string | undefined
-	if (isLocal) {
-		await tldrawServer.start()
-		if (verbose) console.log(`Loading tldr data "${validatedPathOrUrl}"`)
-		tldrData = await fs.readFile(validatedPathOrUrl, 'utf8')
-	}
+
+	if (isLocal && verbose) console.log(`Loading tldr data "${validatedPathOrUrl}"`)
+	const tldrData = isLocal ? await fs.readFile(validatedPathOrUrl, 'utf8') : undefined
+	const tldrawServer = new LocalTldrawServer(tldrData, verbose)
+	if (isLocal) await tldrawServer.start()
 
 	// Start puppeteer controller
 	const tldrawUrl = isLocal ? tldrawServer.href : validatedPathOrUrl.href
-	const tldrawController = new TldrawController(tldrawUrl, tldrData, verbose)
+	const tldrawController = new TldrawController(tldrawUrl, verbose)
 	await tldrawController.start()
 
 	// Set transparency
