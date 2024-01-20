@@ -38,9 +38,9 @@ npm install --global @kitschpatrol/tldraw-cli
 tldraw-cli file-or-url {options}
 ```
 
-| Argument      | Description                                                                                                 |
-| ------------- | ----------------------------------------------------------------------------------------------------------- |
-| `file-or-url` | The sketch to convert export an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. |
+| Argument      | Description                                                                                                                                                                   |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `file-or-url` | The sketch to convert export an image — either a path to a local ".tldr" file, or a tldraw\.com sketch URL. Prints the absolute path(s) to the exported image(s) to `stdout`. |
 
 | Option              | Alias | Description Value                                                                                                                                                              | Default Value |
 | ------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
@@ -75,7 +75,7 @@ npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 
 The tldraw URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
 
-This is approximately equivalent to clicking the tldraw.com "☰ → Edit → Export As → SVG" menu item.
+This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → Export As → SVG" menu item.
 
 ### Export a remote tldraw\.com image to a local .tldr file
 
@@ -83,7 +83,7 @@ This is approximately equivalent to clicking the tldraw.com "☰ → Edit → Ex
 npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4 --format tldr
 ```
 
-This is approximately equivalent to clicking the tldraw.com "☰ → File → Save a copy" menu item.
+This is approximately equivalent to clicking the tldraw\.com "☰ → File → Save a copy" menu item.
 
 Note that using `--format tldr` with a _file path_ instead of a _URL_ will still send the file through the pipeline, but it's effectively a no-op. (Except perhaps rare edge cases where tldraw performs a file format version migration).
 
@@ -93,7 +93,7 @@ Note that using `--format tldr` with a _file path_ instead of a _URL_ will still
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --format png
 ```
 
-This is approximately equivalent to clicking the tldraw.com "☰ → Edit → Export As → PNG" menu item.
+This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → Export As → PNG" menu item.
 
 ### Export with a transparent background
 
@@ -101,7 +101,7 @@ This is approximately equivalent to clicking the tldraw.com "☰ → Edit → Ex
 npx @kitschpatrol/tldraw-cli your-drawing.tldr --transparent --format png
 ```
 
-This is approximately equivalent to checking the tldraw.com "☰ → Edit → Export As → ☐ Transparent" menu item.
+This is approximately equivalent to checking the tldraw\.com "☰ → Edit → Export As → ☐ Transparent" menu item.
 
 ### Export to a specific destination
 
@@ -119,7 +119,7 @@ npx @kitschpatrol/tldraw-cli your-drawing.tldr --output ~/Desktop --name not-you
 
 Exports to `~/Desktop/not-your-drawing.svg`
 
-### Export all frames from a single tldraw URL
+### Export all frames from a tldraw URL
 
 ```sh
 npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
@@ -149,6 +149,8 @@ npx @kitschpatrol/tldraw-cli https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
 
 The .tldr file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
 
+I'm not completely clear on the use-case for this format, but since tldr.com supports it, so too shall `tldraw-cli`.
+
 ## API usage
 
 The conversion tool's functionality is also exposed as a module for use in TypeScript or JavaScript Node projects.
@@ -160,26 +162,29 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
   tldrPathOrUrl: string,
   {
     darkMode?: boolean
-    output?: string
-    format?: 'png' | 'svg' | 'json' | 'tldr'
+    format?: 'svg' | 'png' | 'json' | 'tldr'
     frames?: boolean | string[]
+    name?: string
+    output?: string
     stripStyle?: boolean
     transparent?: boolean
     verbose?: boolean
- }): Promise<string | string[]>;
+ }): Promise<string[]>;
 ```
 
-The function exports the image in the requested format returns the full path to the output image or file.
+The function exports the image in the requested format returns an array of the output image(s) or file(s).
+
+Generally, a single file is returned — but the `string[]` return type also accommodates invocations with `frame: true` where multiple images will be generated.
 
 Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it may be used as follows:
 
 ```ts
-// tldr-cli-api-test.ts
+// tldraw-cli-api-test.ts
 
 import { tldrawToImage } from '@kitschpatrol/tldraw-cli'
 
 // Convert a local file to PNG
-const imagePath = await tldrawToImage('./some-file.tldr', { format: 'png', output: './' })
+const [imagePath] = await tldrawToImage('./some-file.tldr', { format: 'png', output: './' })
 console.log(`Wrote image to: "${imagePath}"`)
 
 // Convert a remote tldraw URL to SVG
@@ -199,14 +204,14 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
   format: 'png',
 })
 
-// You can also use the frame id instead of name, if you're into that sort of thing
+// You can also use the frame id instead of the frame name, if you're into that sort of thing
 // It will work with or without the `shape:` prefix
 await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
   frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],
 })
 ```
 
-_Note that the library provided is ESM only, and requires a Node-compatible runtime. TypeScript type definitions are included._
+_Note that the library provided is ESM-only, and requires a Node-compatible runtime. TypeScript type definitions are included._
 
 ## Background
 
