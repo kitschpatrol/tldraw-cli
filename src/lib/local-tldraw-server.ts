@@ -1,4 +1,4 @@
-import * as logger from './utilities/logger'
+import log from './utilities/log'
 import express from 'express'
 import getPort from 'get-port'
 import { type Server } from 'node:http'
@@ -16,12 +16,12 @@ export default class LocalTldrawServer {
 	close(): void {
 		if (!this.server) throw new Error('Server not started')
 		this.server.close()
-		logger.info('Stopped tldraw server')
+		log.info('Stopped tldraw server')
 	}
 
 	async start() {
 		// Serve local tldraw
-		logger.info('Starting tldraw server...')
+		log.info('Starting tldraw server...')
 
 		const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 
@@ -35,7 +35,7 @@ export default class LocalTldrawServer {
 					: '../dist/tldraw',
 		)
 
-		logger.info(`tldraw served from "${tldrawPath}"`)
+		log.info(`tldraw served from "${tldrawPath}"`)
 		const app = express()
 		const port = await getPort()
 
@@ -54,10 +54,10 @@ export default class LocalTldrawServer {
 		try {
 			this.server = app.listen(port)
 		} catch (error) {
-			logger.error(error)
+			log.error(error)
 		}
 
-		logger.info(`tldraw hosted at "${this.href}"`)
+		log.info(`tldraw hosted at "${this.href}"`)
 	}
 
 	get href(): string {

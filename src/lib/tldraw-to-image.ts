@@ -1,6 +1,6 @@
 import LocalTldrawServer from './local-tldraw-server'
 import TldrawController from './tldraw-controller'
-import * as logger from './utilities/logger'
+import log from './utilities/log'
 import { validatePathOrUrl } from './validation'
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -17,7 +17,6 @@ export type TldrawToImageOptions = {
 	print?: boolean
 	stripStyle?: boolean
 	transparent?: boolean
-	verbose?: boolean
 }
 
 // Name should default to undefined
@@ -34,7 +33,6 @@ const defaultOptions: TldrawToImageOptionsRequired = {
 	print: false,
 	stripStyle: false,
 	transparent: false,
-	verbose: false,
 }
 
 export async function tldrawToImage(
@@ -45,18 +43,14 @@ export async function tldrawToImage(
 		...defaultOptions,
 		...stripUndefined(options ?? {}),
 	}
-	const { darkMode, format, frames, name, output, print, stripStyle, transparent, verbose } =
-		resolvedOptions
-
-	const initialVerbosity = logger.verbose
-	logger.setVerbose(verbose)
+	const { darkMode, format, frames, name, output, print, stripStyle, transparent } = resolvedOptions
 
 	if (options?.print && options.output !== undefined) {
 		throw new Error('Cannot use --output with --print')
 	}
 
 	if (options?.print && options.name !== undefined) {
-		logger.warn('Ignoring --name when using --print')
+		log.warn('Ignoring --name when using --print')
 	}
 
 	const startTime = performance.now()
@@ -69,7 +63,7 @@ export async function tldrawToImage(
 
 	// Identify URL vs. file path
 	const isLocal = typeof validatedPathOrUrl === 'string'
-	logger.info(isLocal ? 'Local file detected' : 'tldraw URL detected')
+	log.info(isLocal ? 'Local file detected' : 'tldraw URL detected')
 
 	// Use name flag if available then source filename if available, otherwise the ID from the URL
 	// May be suffixed if --frames is set
@@ -83,7 +77,7 @@ export async function tldrawToImage(
 
 	// Start up local server if appropriate
 
-	if (isLocal) logger.info(`Loading tldr data "${validatedPathOrUrl}"`)
+	if (isLocal) log.info(`Loading tldr data "${validatedPathOrUrl}"`)
 	const tldrData = isLocal ? await fs.readFile(validatedPathOrUrl, 'utf8') : undefined
 	const tldrawServer = new LocalTldrawServer(tldrData)
 	if (isLocal) await tldrawServer.start()
@@ -133,10 +127,7 @@ export async function tldrawToImage(
 	await tldrawController.close()
 	if (isLocal) tldrawServer.close()
 
-	logger.info(`Export time: ${prettyMilliseconds(performance.now() - startTime)}`)
-
-	// Reset verbosity
-	logger.setVerbose(initialVerbosity)
+	log.info(`Export time: ${prettyMilliseconds(performance.now() - startTime)}`)
 
 	return exportReport
 }

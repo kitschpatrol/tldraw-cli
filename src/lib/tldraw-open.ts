@@ -1,6 +1,6 @@
 import LocalTldrawServer from './local-tldraw-server'
 import { tldrawToImage } from './tldraw-to-image'
-import * as logger from './utilities/logger'
+import log from './utilities/log'
 import { validatePathOrUrl } from './validation'
 import { nanoid } from 'nanoid'
 import fs from 'node:fs/promises'
@@ -43,9 +43,9 @@ export async function tldrawOpen(tldrPathOrUrl?: string): Promise<string> {
 	// If running form the cli, we have to return the href before opening the
 	// browser since it's long-running
 	if (tldrPathOrUrl === undefined) {
-		logger.info(`Opened empty tldraw sketch at ${tldrawServer.href}`)
+		log.info(`Opened empty tldraw sketch at ${tldrawServer.href}`)
 	} else {
-		logger.info(`Opened tldraw sketch "${tldrPathOrUrl}" at ${tldrawServer.href}`)
+		log.info(`Opened tldraw sketch "${tldrPathOrUrl}" at ${tldrawServer.href}`)
 	}
 
 	process.stdout.write(`${tldrawServer.href}\n`)

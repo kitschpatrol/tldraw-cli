@@ -226,7 +226,6 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
     output?: string
     stripStyle?: boolean
     transparent?: boolean
-    verbose?: boolean
  }): Promise<string[]>;
 ```
 
@@ -267,6 +266,22 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
 await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
   frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],
 })
+```
+
+By default, the Node API only logs warnings and errors. If you want to log the equivalent of the `--verbose` flag from the command line version, then you can set a flag on a logging object exported from the library:
+
+```ts
+// tldraw-cli-api-verbose-test.ts
+
+import { tldrawToImage, log } from '@kitschpatrol/tldraw-cli'
+
+// this will log extra info
+log.verbose = true
+await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
+
+// now we'll only log errors and warnings
+log.verbose = false
+await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 ```
 
 _Note that the library provided is ESM-only, and requires a Node-compatible runtime. TypeScript type definitions are included._

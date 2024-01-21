@@ -1,5 +1,5 @@
 // Note this tests the dist build, because of the iife inlining from esbuild
-import { tldrawToImage } from '../dist/lib'
+import { log, tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 import { nanoid } from 'nanoid'
@@ -406,4 +406,20 @@ it('should fail if print and output are combined', async () => {
 			print: true,
 		}),
 	).rejects.toThrow()
+})
+
+it('should log extra stuff if asked', async () => {
+	log.verbose = true
+
+	const warnSpy = vi.spyOn(console, 'warn')
+	await tldrawToImage(tldrTestFilePath)
+	expect(warnSpy).toHaveBeenCalled()
+
+	log.verbose = false
+})
+
+it('should not log extra stuff by default', async () => {
+	const warnSpy = vi.spyOn(console, 'warn')
+	await tldrawToImage(tldrTestFilePath)
+	expect(warnSpy).not.toHaveBeenCalled()
 })

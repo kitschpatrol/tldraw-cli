@@ -2,13 +2,11 @@
 import { version } from '../../package.json'
 import { tldrawOpen } from '../lib/tldraw-open'
 import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
-import * as logger from '../lib/utilities/logger'
+import log from '../lib/utilities/log'
 import chalk from 'chalk'
 import plur from 'plur'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-
-logger.setCli(true)
 
 await yargs(hideBin(process.argv))
 	.scriptName('tldraw-cli')
@@ -123,9 +121,9 @@ await yargs(hideBin(process.argv))
 				verbose,
 			} = argv
 
-			logger.setVerbose(verbose)
+			log.verbose = verbose
 
-			logger.info(`Exporting ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)}...`)
+			log.info(`Exporting ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)}...`)
 
 			let nameIndex = 0
 
@@ -146,7 +144,6 @@ await yargs(hideBin(process.argv))
 						print,
 						stripStyle,
 						transparent,
-						verbose,
 					})
 
 					process.stdout.write(`${exportList.join('\n')}\n`)
@@ -159,21 +156,19 @@ await yargs(hideBin(process.argv))
 
 			const successCount = filesOrUrls.length - errorReport.length
 			if (errorReport.length > 0) {
-				logger.error(
+				log.error(
 					`${successCount} of ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)} exported successfully`,
 				)
-				logger.error(errorReport.join('\n'))
+				log.error(errorReport.join('\n'))
 				process.exit(1)
 			}
 
 			if (successCount === 0) {
-				logger.error(
+				log.error(
 					`${successCount} of ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)} exported successfully`,
 				)
 			} else {
-				logger.info(
-					`All ${successCount} ${plur('sketch', filesOrUrls.length)} exported successfully`,
-				)
+				log.info(`All ${successCount} ${plur('sketch', filesOrUrls.length)} exported successfully`)
 			}
 
 			process.exit(0)
@@ -201,7 +196,7 @@ await yargs(hideBin(process.argv))
 				} catch (error) {
 					errorCount++
 					if (error instanceof Error) {
-						logger.error(`Failed to open:": ${error.message}`)
+						log.error(`Failed to open:": ${error.message}`)
 					}
 				}
 			} else {
@@ -212,17 +207,17 @@ await yargs(hideBin(process.argv))
 					} catch (error) {
 						errorCount++
 						if (error instanceof Error) {
-							logger.error(`Failed to open "${fileOrUrl}": ${error.message}`)
+							log.error(`Failed to open "${fileOrUrl}": ${error.message}`)
 						}
 					}
 				}
 			}
 
-			logger.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
+			log.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
 			await Promise.all(resultPromises)
 
 			// Must keep running the process until the browsers are closed
-			logger.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
+			log.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
 			if (errorCount === 0) {
 				process.exit(0)
 			} else {
