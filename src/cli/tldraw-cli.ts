@@ -87,7 +87,7 @@ await yargs(hideBin(process.argv))
 					alias: 'p',
 					default: false,
 					describe:
-						'Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and overrides `--name`. PNGs are printed as base64-encoded strings.',
+						'Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and disregards `--name`. PNGs are printed as base64-encoded strings.',
 					type: 'boolean',
 				})
 				// Too aggro, just warn instead...
@@ -181,7 +181,7 @@ await yargs(hideBin(process.argv))
 	)
 	.command(
 		'open [files-or-urls..]',
-		'Open a tldraw `.tldr` file or tldraw.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch. Sketches opened via URL are temporarily copied to the local system, and will not be kept in sync with tldraw.com.',
+		'Open a tldraw `.tldr` file or tldraw.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch. Sketches opened via URL are temporarily copied to the local system, and will not be kept in sync with tldraw.com. This process does not exit until the browser is closed.',
 		(yargs) =>
 			yargs.positional('files-or-urls', {
 				describe:
