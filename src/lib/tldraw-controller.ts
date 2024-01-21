@@ -3,7 +3,6 @@ import downloadTldrInlineScript from './inline/download-tldr?iife'
 import type { TldrawFormat } from './tldraw-to-image'
 import log from './utilities/log'
 import slugify from '@sindresorhus/slugify'
-import chalk from 'chalk'
 import * as cheerio from 'cheerio'
 import fs from 'node:fs/promises'
 import os from 'node:os'
@@ -46,11 +45,11 @@ export default class TldrawController {
 			const messageText = message.text()
 
 			if (messageType === 'error') {
-				log.error(chalk.blue('[Browser]'), messageText)
+				log.errorPrefixed('Browser', messageText)
 			} else if (messageType === 'warning') {
-				log.warn(chalk.blue('[Browser]'), messageText)
+				log.warnPrefixed('Browser', messageText)
 			} else {
-				log.info(chalk.blue('[Browser]'), messageText)
+				log.infoPrefixed('Browser', messageText)
 			}
 		})
 
