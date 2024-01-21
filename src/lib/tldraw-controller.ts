@@ -1,7 +1,9 @@
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
 import downloadTldrInlineScript from './inline/download-tldr?iife'
 import type { TldrawFormat } from './tldraw-to-image'
+import * as logger from './utilities/logger'
 import slugify from '@sindresorhus/slugify'
+import chalk from 'chalk'
 import * as cheerio from 'cheerio'
 import fs from 'node:fs/promises'
 import os from 'node:os'
@@ -14,18 +16,13 @@ type PageFrame = { id: string; name: string }
 
 /* eslint-disable perfectionist/sort-classes */
 export default class TldrawController {
-	verbose: boolean
 	private page?: Page
 	private isEmpty?: boolean
 	private browser?: Browser
 	private client?: CDPSession
 	private originalDarkMode?: boolean
 
-	constructor(
-		private readonly href: string,
-		verbose = false,
-	) {
-		this.verbose = verbose
+	constructor(private readonly href: string) {
 		this.href = href
 	}
 
@@ -35,7 +32,7 @@ export default class TldrawController {
 
 	async start() {
 		// Set up Puppeteer
-		if (this.verbose) console.log('Starting Puppeteer...')
+		logger.info('Starting Puppeteer...')
 		this.browser = await puppeteer.launch({
 			args: this.isLocal ? ['--no-sandbox', '--disable-web-security'] : [],
 			headless: 'new',
@@ -49,11 +46,11 @@ export default class TldrawController {
 			const messageText = message.text()
 
 			if (messageType === 'error') {
-				console.error(`[Browser] ${messageText}`)
+				logger.error(chalk.blue('[Browser]'), messageText)
 			} else if (messageType === 'warning') {
-				console.warn(`[Browser] ${messageText}`)
-			} else if (this.verbose) {
-				console.log(`[Browser] ${messageText}`)
+				logger.warn(chalk.blue('[Browser]'), messageText)
+			} else {
+				logger.info(chalk.blue('[Browser]'), messageText)
 			}
 		})
 
@@ -66,7 +63,7 @@ export default class TldrawController {
 		})
 
 		// Navigate to tldraw
-		if (this.verbose) console.log(`Navigating to: ${this.href}`)
+		logger.info(`Navigating to: ${this.href}`)
 		await this.page.goto(this.href, { waitUntil: 'networkidle0' })
 
 		// Check for emptiness
@@ -77,12 +74,12 @@ export default class TldrawController {
 	async close() {
 		if (!this.browser) throw new Error('Controller not started')
 		if (this.originalDarkMode !== undefined) {
-			if (this.verbose) console.log(`Restoring dark mode: ${this.originalDarkMode}`)
+			logger.info(`Restoring dark mode: ${this.originalDarkMode}`)
 			await this.setDarkMode(this.originalDarkMode)
 		}
 
 		await this.browser.close()
-		if (this.verbose) console.log('Stopped controller')
+		logger.info('Stopped controller')
 	}
 
 	// Public method doesn't expose pageFrame
@@ -121,7 +118,7 @@ export default class TldrawController {
 		for (const frame of frameNamesOrIds) {
 			const pageFrame = await this.getPageFrameWithNameOrId(frame)
 			if (pageFrame === undefined) {
-				console.warn(`Frame "${frame}" not found, skipping`)
+				logger.warn(`Frame "${frame}" not found, skipping`)
 			} else {
 				validPageFrames.push(pageFrame)
 			}
@@ -135,8 +132,8 @@ export default class TldrawController {
 		const validFrameNames = validPageFrames.map((frame) => slugify(frame.name))
 		const isFrameNameCollision = validFrameNames.length !== new Set(validFrameNames).size
 
-		if (this.verbose && isFrameNameCollision) {
-			console.warn(
+		if (isFrameNameCollision) {
+			logger.warn(
 				'Frame names are not unique, including frame IDs in the output filenames to avoid collisions',
 			)
 		}
@@ -174,7 +171,7 @@ export default class TldrawController {
 	// Ephemeral means we don't have to restore the user's value
 	async setTransparency(transparent: boolean): Promise<void> {
 		if (!this.page) throw new Error('Controller not started')
-		if (this.verbose) console.log(`Setting background transparency: ${transparent}`)
+		logger.info(`Setting background transparency: ${transparent}`)
 		await this.page.evaluate(
 			`editor.updateInstanceState(
 			{ exportBackground: ${!transparent} },
@@ -185,7 +182,7 @@ export default class TldrawController {
 
 	async setDarkMode(darkMode: boolean) {
 		if (!this.page) throw new Error('Controller not started')
-		if (this.verbose) console.log(`Setting dark mode: ${darkMode}`)
+		logger.info(`Setting dark mode: ${darkMode}`)
 		if (!this.originalDarkMode) this.originalDarkMode = await this.getDarkMode()
 		await this.page.evaluate(`editor.user.updateUserPreferences({ isDarkMode: ${darkMode}})`)
 	}
@@ -206,11 +203,11 @@ export default class TldrawController {
 		}
 
 		if (stripStyle && format !== 'svg') {
-			console.warn('--strip-style is only supported for SVG output')
+			logger.warn('--strip-style is only supported for SVG output')
 		}
 
 		if (pageFrame !== undefined && format === 'tldr') {
-			console.warn('--frames is not supported for tldr output, downloading entire document')
+			logger.warn('--frames is not supported for tldr output, downloading entire document')
 		}
 
 		// Brittle, TODO how to invoke this from the browser console?
@@ -221,9 +218,7 @@ export default class TldrawController {
 
 		// Todo what happens with tldr?
 		if (pageFrame !== undefined && format !== 'tldr') {
-			if (this.verbose) {
-				console.log(`Selecting sketch frame "${pageFrame.name}" with ID "${pageFrame.id}"`)
-			}
+			logger.info(`Selecting sketch frame "${pageFrame.name}" with ID "${pageFrame.id}"`)
 
 			frameSuffix = `-${slugify(pageFrame.name)}`
 

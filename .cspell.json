@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-	"ignorePaths": ["/test/assets/**/*"],
+	"ignorePaths": ["/test/assets/**/*", "./test/__snapshots__/**/*"],
 	"import": "@kitschpatrol/cspell-config",
 	"words": [
 		"Atjsy",

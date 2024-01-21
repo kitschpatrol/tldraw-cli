@@ -41,11 +41,11 @@ export default function App() {
 						console.log('Loaded tldr file from local endpoint')
 						setStore(parseFileResult.value)
 					} else {
-						console.error(`Error parsing tldr file: ${String(parseFileResult.error.type)}`)
+						console.error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
 					}
 				})
 				.catch((error) => {
-					console.error('Error fetching data:', error)
+					console.error("Couldn't fetch data:", error)
 				})
 		} else {
 			editor.updateViewportScreenBounds()

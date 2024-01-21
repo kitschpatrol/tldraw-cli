@@ -146,7 +146,22 @@ it('should warn if stripStyle and format png are combined', async () => {
 		stripStyle: true,
 	})
 
-	expect(warnSpy).toHaveBeenCalledWith('--strip-style is only supported for SVG output')
+	expect(warnSpy).toMatchInlineSnapshot(`
+		[MockFunction warn] {
+		  "calls": [
+		    [
+		      "[33m[Warning][39m",
+		      "--strip-style is only supported for SVG output",
+		    ],
+		  ],
+		  "results": [
+		    {
+		      "type": "return",
+		      "value": undefined,
+		    },
+		  ],
+		}
+	`)
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -366,7 +381,22 @@ it('should warn if print and name are combined', async () => {
 		print: true,
 	})
 
-	expect(warnSpy).toHaveBeenCalledWith('Ignoring --name when using --print')
+	expect(warnSpy).toMatchInlineSnapshot(`
+		[MockFunction warn] {
+		  "calls": [
+		    [
+		      "[33m[Warning][39m",
+		      "Ignoring --name when using --print",
+		    ],
+		  ],
+		  "results": [
+		    {
+		      "type": "return",
+		      "value": undefined,
+		    },
+		  ],
+		}
+	`)
 })
 
 it('should fail if print and output are combined', async () => {

@@ -44,9 +44,9 @@ tldraw-cli <command>
 
 The top-level collection of CLI tools for tldraw.
 
-| Argument  | Description         |
-| --------- | ------------------- |
-| `command` | `export` or `open`. |
+| Argument  | Description                                                       |
+| --------- | ----------------------------------------------------------------- |
+| `command` | CLI tools for tldraw. Available commands are `export` and `open`. |
 
 | Option      | Alias | Description Value    |
 | ----------- | ----- | -------------------- |
@@ -56,42 +56,40 @@ The top-level collection of CLI tools for tldraw.
 #### Command: Export
 
 ```sh
-tldraw-cli export <file-or-url>
+tldraw-cli export <files-or-urls..>
 ```
 
 Export a tldraw `.tldr` file or tldraw\.com URL to SVG, PNG, and other formats.
 
-| Argument        | Description                                                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `<file-or-url>` | The sketch to export — either a path to a local `.tldr` file, or a tldraw\.com sketch URL. Prints the absolute path(s) to the exported image(s) to `stdout`. |
+| Argument            | Description                                                                                                                                                                                                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<files-or-urls..>` | The tldraw sketch to export. May be one or more paths to local `.tldr` files, or tldraw.com sketch URLs. Accepts a mix of both file paths and URLs, and supports glob matching via your shell. Prints the absolute path(s) to the exported image(s) to `stdout`. |
 
-| Option              | Alias | Description Value                                                                                                                                                | Default Value |
-| ------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `--format <string>` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                                     | `svg`         |
-| `--dark-mode `      | `-d`  | Output a dark theme version of the image.                                                                                                                        | `false`       |
-| `--transparent `    | `-t`  | Output an image with a transparent background.                                                                                                                   | `false`       |
-| `--output <string>` | `-o`  | Output directory.                                                                                                                                                | `./`          |
-| `--name <string>`   | `-n`  | Output file name without extension; by default the original file name or URL id is used.                                                                         |               |
-| `--frames <array?>` |       | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames.       | `false`       |
-| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets.                           | `false`       |
-| `--print`           | `-p`  | Print the exported image(s) to stdout instead of saving to a file. Incompatible with --output, and overrides --name. PNGs are printed as base64-encoded strings. | `false`       |
-| `--verbose`         |       | Enable verbose output.                                                                                                                                           | `false`       |
+| Option              | Alias | Description Value                                                                                                                                                    | Default Value |
+| ------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `--format [string]` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                                         | `svg`         |
+| `--output <string>` | `-o`  | Output image directory.                                                                                                                                              | `./`          |
+| `--name <string>`   | `-n`  | Output image name (without extension). By default the original file name or URL id is used.                                                                          |               |
+| `--frames [array]`  |       | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames.           | `false`       |
+| `--transparent `    | `-t`  | Export an image with a transparent background.                                                                                                                       | `false`       |
+| `--dark-mode `      | `-d`  | Export a dark theme version of the image.                                                                                                                            | `false`       |
+| `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets. Applies to SVG output only.   | `false`       |
+| `--print`           | `-p`  | Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and overrides `--name`. PNGs are printed as base64-encoded strings. | `false`       |
+| `--verbose`         |       | Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.                                      | `false`       |
 
 #### Command: Open
 
 ```sh
-tldraw-cli open [file-or-url]
+tldraw-cli open [files-or-urls..]
 ```
 
-Open a tldraw `.tldr` file or tldraw\.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch.
-
-Sketches opened via URL are copied to the local system, and will not be kept in sync with tldraw.com.
+Open a tldraw `.tldr` file or tldraw\.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch. Sketches opened via URL are temporarily copied to the local system, and will not be kept in sync with tldraw.com.
 
 _"Save as" support is not yet implemented in the local tldraw instance, so the `open` command is only recommended for viewing purposes at the moment._
 
-| Argument        | Description                                                                                                                                   |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[file-or-url]` | The `.tldr` file or tldraw\.com sketch url to open. Omit the argument to open a blank sketch. Prints the url of the local server to `stdout`. |
+| Argument            | Description                                                                                                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `[files-or-urls..]` | The `.tldr` file(s) or tldraw\.com sketch URL(s) to open. Omit the argument to open a blank sketch. Supports glob matching via your shell. Prints the URL of the local server to `stdout`. |
 
 No options.
 
@@ -306,6 +304,7 @@ The local instance of tldraw includes its assets dependencies, so the tool shoul
 This is a very minimal implementation. Current plans for future improvements include the following:
 
 - Add save button to local tldraw
+- Accept globs and optimize batch processing with a single puppeteer instance
 - Add CLI tests
 - Implement the ability to export specific pages as separate image files
 - Add an option flag to set dpi when exporting to a bitmap format

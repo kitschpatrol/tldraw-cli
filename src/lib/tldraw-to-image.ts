@@ -1,9 +1,10 @@
-/* eslint-disable complexity */
 import LocalTldrawServer from './local-tldraw-server'
 import TldrawController from './tldraw-controller'
+import * as logger from './utilities/logger'
 import { validatePathOrUrl } from './validation'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import prettyMilliseconds from 'pretty-ms'
 
 export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
 
@@ -40,14 +41,6 @@ export async function tldrawToImage(
 	tldrPathOrUrl: string,
 	options?: TldrawToImageOptions,
 ): Promise<string[]> {
-	if (options?.print && options.output !== undefined) {
-		throw new Error('Cannot use --output with --print')
-	}
-
-	if (options?.print && options.name !== undefined) {
-		console.warn('Ignoring --name when using --print')
-	}
-
 	const resolvedOptions: TldrawToImageOptionsRequired = {
 		...defaultOptions,
 		...stripUndefined(options ?? {}),
@@ -55,7 +48,18 @@ export async function tldrawToImage(
 	const { darkMode, format, frames, name, output, print, stripStyle, transparent, verbose } =
 		resolvedOptions
 
-	if (verbose) console.time('Export time')
+	const initialVerbosity = logger.verbose
+	logger.setVerbose(verbose)
+
+	if (options?.print && options.output !== undefined) {
+		throw new Error('Cannot use --output with --print')
+	}
+
+	if (options?.print && options.name !== undefined) {
+		logger.warn('Ignoring --name when using --print')
+	}
+
+	const startTime = performance.now()
 
 	const validatedPathOrUrl = validatePathOrUrl(tldrPathOrUrl, {
 		requireFileExistence: true,
@@ -65,7 +69,7 @@ export async function tldrawToImage(
 
 	// Identify URL vs. file path
 	const isLocal = typeof validatedPathOrUrl === 'string'
-	if (verbose) console.log(isLocal ? 'Local file detected' : 'tldraw URL detected')
+	logger.info(isLocal ? 'Local file detected' : 'tldraw URL detected')
 
 	// Use name flag if available then source filename if available, otherwise the ID from the URL
 	// May be suffixed if --frames is set
@@ -79,14 +83,14 @@ export async function tldrawToImage(
 
 	// Start up local server if appropriate
 
-	if (isLocal && verbose) console.log(`Loading tldr data "${validatedPathOrUrl}"`)
+	if (isLocal) logger.info(`Loading tldr data "${validatedPathOrUrl}"`)
 	const tldrData = isLocal ? await fs.readFile(validatedPathOrUrl, 'utf8') : undefined
-	const tldrawServer = new LocalTldrawServer(tldrData, verbose)
+	const tldrawServer = new LocalTldrawServer(tldrData)
 	if (isLocal) await tldrawServer.start()
 
 	// Start puppeteer controller
 	const tldrawUrl = isLocal ? tldrawServer.href : validatedPathOrUrl.href
-	const tldrawController = new TldrawController(tldrawUrl, verbose)
+	const tldrawController = new TldrawController(tldrawUrl)
 	await tldrawController.start()
 
 	// Set transparency
@@ -128,7 +132,11 @@ export async function tldrawToImage(
 	// Clean up
 	await tldrawController.close()
 	if (isLocal) tldrawServer.close()
-	if (verbose) console.timeEnd('Export time')
+
+	logger.info(`Export time: ${prettyMilliseconds(performance.now() - startTime)}`)
+
+	// Reset verbosity
+	logger.setVerbose(initialVerbosity)
 
 	return exportReport
 }

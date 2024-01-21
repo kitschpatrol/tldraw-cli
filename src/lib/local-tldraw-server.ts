@@ -1,3 +1,4 @@
+import * as logger from './utilities/logger'
 import express from 'express'
 import getPort from 'get-port'
 import { type Server } from 'node:http'
@@ -6,28 +7,21 @@ import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 export default class LocalTldrawServer {
-	verbose: boolean
-
-	// eslint-disable-next-line perfectionist/sort-classes
 	private server?: Server
 
-	constructor(
-		private readonly tldrData?: string,
-		verbose = false,
-	) {
-		this.verbose = verbose
+	constructor(private readonly tldrData?: string) {
 		this.tldrData = tldrData
 	}
 
 	close(): void {
 		if (!this.server) throw new Error('Server not started')
 		this.server.close()
-		if (this.verbose) console.log('Stopped tldraw server')
+		logger.info('Stopped tldraw server')
 	}
 
 	async start() {
 		// Serve local tldraw
-		if (this.verbose) console.log('Starting tldraw server...')
+		logger.info('Starting tldraw server...')
 
 		const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 
@@ -41,7 +35,7 @@ export default class LocalTldrawServer {
 					: '../dist/tldraw',
 		)
 
-		if (this.verbose) console.log(`tldraw served from "${tldrawPath}"`)
+		logger.info(`tldraw served from "${tldrawPath}"`)
 		const app = express()
 		const port = await getPort()
 
@@ -60,10 +54,10 @@ export default class LocalTldrawServer {
 		try {
 			this.server = app.listen(port)
 		} catch (error) {
-			console.error(error)
+			logger.error(error)
 		}
 
-		if (this.verbose) console.log(`tldraw hosted at "${this.href}"`)
+		logger.info(`tldraw hosted at "${this.href}"`)
 	}
 
 	get href(): string {
