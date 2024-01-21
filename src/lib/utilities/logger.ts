@@ -13,11 +13,6 @@ export function setVerbose(value: boolean) {
 	verbose = value
 }
 
-export function log(...data: unknown[]): void {
-	// To stdout in all contexts
-	console.log(...data)
-}
-
 export function warn(...data: unknown[]): void {
 	// To stderr in all contexts
 	console.warn(chalk.yellow('[Warning]'), ...data)

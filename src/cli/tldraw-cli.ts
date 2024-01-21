@@ -149,7 +149,7 @@ await yargs(hideBin(process.argv))
 						verbose,
 					})
 
-					logger.log(exportList.join('\n'))
+					process.stdout.write(`${exportList.join('\n')}\n`)
 				} catch (error: unknown) {
 					if (error instanceof Error) {
 						errorReport.push(`Failed to export "${fileOrUrl}": ${error.message}`)
@@ -218,11 +218,11 @@ await yargs(hideBin(process.argv))
 				}
 			}
 
-			logger.log(chalk.yellow(`Note: This process will exit once the browser is closed.`))
+			logger.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
 			await Promise.all(resultPromises)
 
 			// Must keep running the process until the browsers are closed
-			logger.log(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
+			logger.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
 			if (errorCount === 0) {
 				process.exit(0)
 			} else {

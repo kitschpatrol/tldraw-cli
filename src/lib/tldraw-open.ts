@@ -43,10 +43,12 @@ export async function tldrawOpen(tldrPathOrUrl?: string): Promise<string> {
 	// If running form the cli, we have to return the href before opening the
 	// browser since it's long-running
 	if (tldrPathOrUrl === undefined) {
-		logger.log(`Opened empty tldraw sketch at ${tldrawServer.href}`)
+		logger.info(`Opened empty tldraw sketch at ${tldrawServer.href}`)
 	} else {
-		logger.log(`Opened tldraw sketch "${tldrPathOrUrl}" at ${tldrawServer.href}`)
+		logger.info(`Opened tldraw sketch "${tldrPathOrUrl}" at ${tldrawServer.href}`)
 	}
+
+	process.stdout.write(`${tldrawServer.href}\n`)
 
 	// Open in default browser
 	// Some tldraw functions require continued access to the server,
