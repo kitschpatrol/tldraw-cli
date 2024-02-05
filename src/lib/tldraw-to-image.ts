@@ -9,7 +9,7 @@ import prettyMilliseconds from 'pretty-ms'
 export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
 
 export type TldrawToImageOptions = {
-	darkMode?: boolean
+	dark?: boolean
 	format?: TldrawFormat
 	frames?: boolean | string[]
 	name?: string
@@ -25,7 +25,7 @@ type TldrawToImageOptionsRequired = Required<Omit<TldrawToImageOptions, 'name'>>
 	Pick<TldrawToImageOptions, 'name'>
 
 const defaultOptions: TldrawToImageOptionsRequired = {
-	darkMode: false,
+	dark: false,
 	format: 'svg',
 	frames: false,
 	name: undefined,
@@ -43,7 +43,7 @@ export async function tldrawToImage(
 		...defaultOptions,
 		...stripUndefined(options ?? {}),
 	}
-	const { darkMode, format, frames, name, output, print, stripStyle, transparent } = resolvedOptions
+	const { dark, format, frames, name, output, print, stripStyle, transparent } = resolvedOptions
 
 	if (options?.print && options.output !== undefined) {
 		throw new Error('Cannot use --output with --print')
@@ -91,7 +91,7 @@ export async function tldrawToImage(
 	await tldrawController.setTransparency(transparent)
 
 	// Set dark mode
-	await tldrawController.setDarkMode(darkMode)
+	await tldrawController.setDarkMode(dark)
 
 	// Run the download
 	let exportReport: string[]

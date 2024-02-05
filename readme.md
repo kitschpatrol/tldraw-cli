@@ -72,7 +72,7 @@ Export a tldraw `.tldr` file or tldraw\.com URL to SVG, PNG, and other formats.
 | `--name <string>`   | `-n`  | Output image name (without extension). By default the original file name or URL id is used.                                                                        |               |
 | `--frames [array]`  |       | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames.         | `false`       |
 | `--transparent `    | `-t`  | Export an image with a transparent background.                                                                                                                     | `false`       |
-| `--dark-mode `      | `-d`  | Export a dark theme version of the image.                                                                                                                          | `false`       |
+| `--dark `           | `-d`  | Export a dark theme version of the image.                                                                                                                          | `false`       |
 | `--strip-style`     |       | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets. Applies to SVG output only. | `false`       |
 | `--print`           | `-p`  | Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and ignores `--name`. PNGs are printed as base64-encoded strings. | `false`       |
 | `--verbose`         |       | Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.                                    | `false`       |
@@ -219,7 +219,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
  async function tldrawToImage(
   tldrPathOrUrl: string,
   {
-    darkMode?: boolean
+    dark?: boolean
     format?: 'svg' | 'png' | 'json' | 'tldr'
     frames?: boolean | string[]
     name?: string

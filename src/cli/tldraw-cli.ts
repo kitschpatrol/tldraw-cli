@@ -72,7 +72,7 @@ await yargsInstance
 					describe: 'Export an image with a transparent background.',
 					type: 'boolean',
 				})
-				.option('dark-mode', {
+				.option('dark', {
 					alias: 'd',
 					default: false,
 					describe: 'Export a dark theme version of the image.',
@@ -112,7 +112,7 @@ await yargsInstance
 				}),
 		async (argv) => {
 			const {
-				darkMode,
+				dark,
 				filesOrUrls,
 				format,
 				frames,
@@ -138,7 +138,7 @@ await yargsInstance
 						filesOrUrls.length > 1 && name !== undefined ? `${name}-${nameIndex++}` : name
 
 					const exportList = await tldrawToImage(fileOrUrl, {
-						darkMode,
+						dark,
 						format: format as TldrawFormat,
 						// CLI never returns false, but the function accepts it for stand-alone use
 						frames,
