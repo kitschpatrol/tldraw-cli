@@ -3,13 +3,35 @@
 
 import chalk from 'chalk'
 
+const isNode = process?.versions?.node !== undefined
+
 const log = {
 	verbose: false,
 
+	// Intended for temporary logging
+	log(...data: unknown[]): void {
+		if (!this.verbose) return
+		const levelPrefix = chalk.gray('[Log]')
+		if (isNode) {
+			// Log to stderr in node for ease of redirection
+			console.warn(levelPrefix, ...data)
+		} else {
+			console.log(levelPrefix, ...data)
+		}
+	},
+	logPrefixed(prefix: string, ...data: unknown[]): void {
+		this.info(chalk.blue(`[${prefix}]`), ...data)
+	},
+
 	info(...data: unknown[]): void {
 		if (!this.verbose) return
-		// Even info logs to stderr for ease of redirection
-		console.warn(chalk.green('[Info]'), ...data)
+		const levelPrefix = chalk.green('[Info]')
+		if (isNode) {
+			// Log info to stderr in node for ease of redirection
+			console.warn(levelPrefix, ...data)
+		} else {
+			console.info(levelPrefix, ...data)
+		}
 	},
 	infoPrefixed(prefix: string, ...data: unknown[]): void {
 		this.info(chalk.blue(`[${prefix}]`), ...data)
