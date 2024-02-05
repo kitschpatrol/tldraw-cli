@@ -1,5 +1,6 @@
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
 import downloadTldrInlineScript from './inline/download-tldr?iife'
+import uploadTldrInlineScript from './inline/upload-tldr?iife'
 import type { TldrawFormat } from './tldraw-to-image'
 import log from './utilities/log'
 import slugify from '@sindresorhus/slugify'
@@ -34,7 +35,7 @@ export default class TldrawController {
 		log.info('Starting Puppeteer...')
 		this.browser = await puppeteer.launch({
 			args: this.isLocal ? ['--no-sandbox', '--disable-web-security'] : [],
-			headless: 'new',
+			headless: true,
 		})
 
 		this.page = await this.browser.newPage()
@@ -46,7 +47,7 @@ export default class TldrawController {
 
 			if (messageType === 'error') {
 				log.errorPrefixed('Browser', messageText)
-			} else if (messageType === 'warning') {
+			} else if (messageType === 'warn') {
 				log.warnPrefixed('Browser', messageText)
 			} else {
 				log.infoPrefixed('Browser', messageText)
@@ -184,6 +185,43 @@ export default class TldrawController {
 		log.info(`Setting dark mode: ${darkMode}`)
 		if (!this.originalDarkMode) this.originalDarkMode = await this.getDarkMode()
 		await this.page.evaluate(`editor.user.updateUserPreferences({ isDarkMode: ${darkMode}})`)
+	}
+
+	async loadFile(filePath: string) {
+		if (!this.page) throw new Error('Controller not started')
+		if (this.isLocal)
+			throw new Error(
+				'File loading is only supported for remote tldraw.com instances. See tldraw-open for local file loading approach.',
+			)
+
+		await this.closeMenus()
+		await this.page.evaluate(`userPreferences.showFileOpenWarning.set(false);`)
+
+		log.info(`Uploading local file to tldraw.com: ${filePath}`)
+		const tldrFile = await fs.readFile(filePath, 'utf8')
+
+		// We have to call a custom function to upload the tldr file,
+		// puppeteer waitForFileChooser fileInput.accept etc. does NOT work
+		await this.page.evaluate(uploadTldrInlineScript)
+		await this.page.evaluate("console.log('window.uploadTldr')")
+		await this.page.evaluate(`window.uploadTldr(${tldrFile.toString()})`)
+	}
+
+	async getShareUrl(): Promise<string> {
+		if (!this.page) throw new Error('Controller not started')
+		if (this.isLocal)
+			throw new Error('Share URLs are only supported for remote tldraw.com instances.')
+
+		await this.closeMenus()
+		await this.clickMenuTestIds(['main.menu', 'menu-item.file', 'menu-item.share-project'])
+		await this.page.waitForNavigation({ waitUntil: 'networkidle0' })
+
+		// Clear search params with viewport offset
+		// Tried zooming to fit and then waiting for param update,
+		// but wasn't reliable
+		const shareUrl = new URL(this.page.url())
+		shareUrl.search = ''
+		return shareUrl.href
 	}
 
 	// eslint-disable-next-line @typescript-eslint/naming-convention

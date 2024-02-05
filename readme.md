@@ -65,7 +65,7 @@ Export a tldraw `.tldr` file or tldraw\.com URL to SVG, PNG, and other formats.
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `<files-or-urls..>` | The tldraw sketch to export. May be one or more paths to local `.tldr` files, or tldraw.com sketch URLs. Accepts a mix of both file paths and URLs, and supports glob matching via your shell. Prints the absolute path(s) to the exported image(s) to `stdout`. |
 
-| Option              | Alias | Description Value                                                                                                                                                  | Default Value |
+| Option              | Alias | Description                                                                                                                                                        | Default Value |
 | ------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
 | `--format [string]` | `-f`  | Output image format, one of `svg`, `png`, `json`, or `tldr`.                                                                                                       | `svg`         |
 | `--output <string>` | `-o`  | Output image directory.                                                                                                                                            | `./`          |

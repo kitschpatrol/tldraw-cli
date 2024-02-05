@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { version } from '../../package.json'
+
 import { tldrawOpen } from '../lib/tldraw-open'
 import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
 import log from '../lib/utilities/log'
@@ -8,7 +8,9 @@ import plur from 'plur'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-await yargs(hideBin(process.argv))
+const yargsInstance = yargs(hideBin(process.argv))
+
+await yargsInstance
 	.scriptName('tldraw-cli')
 	.command('$0 <command>', 'CLI tools for tldraw.')
 	.command(
@@ -17,6 +19,7 @@ await yargs(hideBin(process.argv))
 		(yargs) =>
 			yargs
 				.positional('files-or-urls', {
+					array: true,
 					demandOption: true,
 					describe:
 						'The tldraw sketch to export. May be one or more paths to local `.tldr` files, or tldraw.com sketch URLs. Accepts a mix of both file paths and URLs, and supports glob matching via your shell. Prints the absolute path(s) to the exported image(s) to `stdout`.',
@@ -24,7 +27,7 @@ await yargs(hideBin(process.argv))
 				})
 				.option('format', {
 					alias: 'f',
-					choices: ['png', 'svg', 'json', 'tldr'],
+					choices: ['png', 'svg', 'json', 'tldr'] as const,
 					default: 'svg',
 					describe: 'Output image format.',
 					type: 'string',
@@ -178,13 +181,29 @@ await yargs(hideBin(process.argv))
 		'open [files-or-urls..]',
 		'Open a tldraw `.tldr` file or tldraw.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch. Sketches opened via URL are temporarily copied to the local system, and will not be kept in sync with tldraw.com. This process does not exit until the browser is closed.',
 		(yargs) =>
-			yargs.positional('files-or-urls', {
-				describe:
-					'The `.tldr` file(s) or tldraw.com sketch URL(s) to open. Omit the argument to open a blank sketch. Supports glob matching via your shell. Prints the URL of the local server to `stdout`.',
-				type: 'string',
-			}),
+			yargs
+				.positional('files-or-urls', {
+					array: true,
+					describe:
+						'The `.tldr` file(s) or tldraw.com sketch URL(s) to open. Omit the argument to open a blank sketch. Supports glob matching via your shell. Prints the URL of the local server to `stdout`.',
+					type: 'string',
+				})
+				.option('local', {
+					alias: 'l',
+					default: false,
+					describe: 'Open the file or URL in a local instance of tldraw, instead of tldraw.com.',
+					type: 'boolean',
+				})
+				.option('verbose', {
+					default: false,
+					describe:
+						'Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.',
+					type: 'boolean',
+				}),
 		async (argv) => {
-			const { filesOrUrls } = argv
+			const { filesOrUrls, local, verbose } = argv
+
+			log.verbose = verbose
 
 			const resultPromises = []
 			let errorCount = 0
@@ -192,7 +211,7 @@ await yargs(hideBin(process.argv))
 			if (filesOrUrls === undefined || filesOrUrls.length === 0) {
 				try {
 					// This prints server URLs to stdout
-					resultPromises.push(tldrawOpen())
+					resultPromises.push(tldrawOpen(undefined, local))
 				} catch (error) {
 					errorCount++
 					if (error instanceof Error) {
@@ -203,7 +222,7 @@ await yargs(hideBin(process.argv))
 				for (const fileOrUrl of filesOrUrls) {
 					try {
 						// This prints server URLs to stdout
-						resultPromises.push(tldrawOpen(fileOrUrl))
+						resultPromises.push(tldrawOpen(fileOrUrl, local))
 					} catch (error) {
 						errorCount++
 						if (error instanceof Error) {
@@ -213,11 +232,17 @@ await yargs(hideBin(process.argv))
 				}
 			}
 
-			log.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
+			if (local) {
+				log.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
+			}
+
 			await Promise.all(resultPromises)
 
 			// Must keep running the process until the browsers are closed
-			log.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
+			if (local) {
+				log.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
+			}
+
 			if (errorCount === 0) {
 				process.exit(0)
 			} else {
@@ -226,7 +251,8 @@ await yargs(hideBin(process.argv))
 		},
 	)
 	.alias('h', 'help')
-	.version('version', version)
+	.version('version')
 	.alias('v', 'version')
 	.help()
+	.wrap(process.stdout.isTTY ? Math.min(120, yargsInstance.terminalWidth()) : 0)
 	.parse()
