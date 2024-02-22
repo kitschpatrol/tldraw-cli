@@ -213,7 +213,9 @@ export default class TldrawController {
 			throw new Error('Share URLs are only supported for remote tldraw.com instances.')
 
 		await this.closeMenus()
-		await this.clickMenuTestIds(['main.menu', 'menu-item.file', 'menu-item.share-project'])
+		await this.clickButtonTitles(['Menu', 'File', 'Share this project'])
+		// Recently broken
+		// await this.clickMenuTestIds(['main.menu', 'menu-item.file', 'menu.share-project'])
 		await this.page.waitForNavigation({ waitUntil: 'networkidle0' })
 
 		// Clear search params with viewport offset
@@ -276,12 +278,15 @@ export default class TldrawController {
 			await this.page.evaluate(downloadTldrInlineScript)
 		} else {
 			// Export
-			await this.clickMenuTestIds([
-				'main.menu',
-				'menu-item.edit',
-				'menu-item.export-as',
-				`menu-item.export-as-${format}`,
-			])
+			// await this.clickMenuTestIds([
+			// 	'main.menu',
+			// 	'menu-item.edit', // now missing
+			// 	'menu-item.export-as',  // now missing
+			// 	`menu-item.export-as-${format}`,
+			// ])
+
+			// TODO more robust
+			await this.clickButtonTitles(['Menu', 'Edit', 'Export as', format.toUpperCase()])
 		}
 
 		const downloadGuid = await completionPromise
@@ -330,11 +335,22 @@ export default class TldrawController {
 		await this.page.evaluate(`app.clearOpenMenus()`)
 	}
 
-	private async clickMenuTestIds(testIds: string[]) {
+	// These have gone missing lately from the tldraw.com UI
+	// private async clickMenuTestIds(testIds: string[]) {
+	// 	if (!this.page) throw new Error('Controller not started')
+	// 	for (const testId of testIds) {
+	// 		await this.page.waitForSelector(`[data-testid="${testId}"]`)
+	// 		await this.page.click(`[data-testid="${testId}"]`)
+	// 	}
+	// }
+
+	// Band-aide which will break under different translations
+	// TODO more robust
+	private async clickButtonTitles(titles: string[]) {
 		if (!this.page) throw new Error('Controller not started')
-		for (const testId of testIds) {
-			await this.page.waitForSelector(`[data-testid="${testId}"]`)
-			await this.page.click(`[data-testid="${testId}"]`)
+		for (const title of titles) {
+			await this.page.waitForSelector(`button[title="${title}"]`)
+			await this.page.click(`button[title="${title}"]`)
 		}
 	}
 
