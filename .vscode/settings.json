@@ -3,7 +3,7 @@
 	"explorer.fileNesting.expand": false,
 	"explorer.fileNesting.patterns": {
 		".env": ".env.*",
-		"package.json": ".*.js, .*.json, .*.cjs, .*rc, .*ignore, pnpm-lock.yaml, pnpm-workspace.yaml",
+		"package.json": ".*.ts, .*.js, .*.json, .*.cjs, .*rc, .*ignore, pnpm-lock.yaml, pnpm-workspace.yaml",
 		"readme.md": "license*, changelog*"
 	},
 	"cSpell.enabled": true,
@@ -33,6 +33,5 @@
 	"prettier.documentSelectors": ["**/.prettierignore", "**/.npmrc", "**/.eslintignore"],
 	"prettier.enable": true,
 	"stylelint.enable": true,
-	"stylelint.validate": ["css", "html"],
-	"testing.automaticallyOpenPeekView": "never"
+	"stylelint.validate": ["css", "html"]
 }

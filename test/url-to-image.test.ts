@@ -11,6 +11,7 @@ const tldrawTestThreeFramesUrl = 'https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4O
 
 it(
 	'should export the tldraw url to an svg in the current folder by default',
+	{ timeout: 10_000 },
 	async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrawTestUrl)
 
@@ -19,37 +20,29 @@ it(
 
 		if (cleanUp) rmSync(savedImageFileName)
 	},
-	{ timeout: 10_000 },
 )
 
-it(
-	'should export the tldraw url to an svg when specified',
-	async () => {
-		const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
+it('should export the tldraw url to an svg when specified', { timeout: 10_000 }, async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
-		expectFileToBeValid(savedImageFileName, 'svg')
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
+	expectFileToBeValid(savedImageFileName, 'svg')
 
-		if (cleanUp) rmSync(savedImageFileName)
-	},
-	{ timeout: 10_000 },
-)
+	if (cleanUp) rmSync(savedImageFileName)
+})
 
-it(
-	'should export the tldraw url to a png when specified',
-	async () => {
-		const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'png' })
+it('should export the tldraw url to a png when specified', { timeout: 10_000 }, async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'png' })
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.png`)
-		expectFileToBeValid(savedImageFileName, 'png')
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.png`)
+	expectFileToBeValid(savedImageFileName, 'png')
 
-		if (cleanUp) rmSync(savedImageFileName)
-	},
-	{ timeout: 10_000 },
-)
+	if (cleanUp) rmSync(savedImageFileName)
+})
 
 it(
 	'should export the file to a specific directory when specified',
+	{ timeout: 10_000 },
 	async () => {
 		const randomPath = nanoid()
 		mkdirSync(randomPath)
@@ -64,11 +57,11 @@ it(
 
 		if (cleanUp) rmSync(randomPath, { recursive: true })
 	},
-	{ timeout: 10_000 },
 )
 
 it(
 	'should export the entire image if multiple frames are present and --frames is not set',
+	{ timeout: 10_000 },
 	async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrawTestThreeFramesUrl)
 
@@ -76,80 +69,63 @@ it(
 
 		if (cleanUp) rmSync(savedImageFileName)
 	},
-	{ timeout: 10_000 },
 )
 
-it(
-	'should export each frame individually if --frames is set',
-	async () => {
-		const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
-			frames: true,
-		})
+it('should export each frame individually if --frames is set', { timeout: 10_000 }, async () => {
+	const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
+		frames: true,
+	})
 
-		expect(savedImageFileNames).toHaveLength(3)
+	expect(savedImageFileNames).toHaveLength(3)
 
+	for (const fileName of savedImageFileNames) {
+		expectFileToBeValid(fileName, 'svg')
+	}
+
+	if (cleanUp) {
 		for (const fileName of savedImageFileNames) {
-			expectFileToBeValid(fileName, 'svg')
+			rmSync(fileName)
 		}
+	}
+})
 
-		if (cleanUp) {
-			for (const fileName of savedImageFileNames) {
-				rmSync(fileName)
-			}
-		}
-	},
-	{ timeout: 10_000 },
-)
+it('should export to json', { timeout: 10_000 }, async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
+		format: 'json',
+	})
 
-it(
-	'should export to json',
-	async () => {
-		const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
-			format: 'json',
-		})
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.json`)
+	expectFileToBeValid(savedImageFileName, 'json')
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.json`)
-		expectFileToBeValid(savedImageFileName, 'json')
+	if (cleanUp) rmSync(savedImageFileName)
+})
 
-		if (cleanUp) rmSync(savedImageFileName)
-	},
-	{ timeout: 10_000 },
-)
+it('should export frames to json', { timeout: 10_000 }, async () => {
+	const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
+		format: 'json',
+		frames: true,
+	})
 
-it(
-	'should export frames to json',
-	async () => {
-		const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
-			format: 'json',
-			frames: true,
-		})
+	expect(savedImageFileNames).toHaveLength(3)
 
-		expect(savedImageFileNames).toHaveLength(3)
+	for (const fileName of savedImageFileNames) {
+		expectFileToBeValid(fileName, 'json')
+	}
 
+	if (cleanUp) {
 		for (const fileName of savedImageFileNames) {
-			expectFileToBeValid(fileName, 'json')
+			rmSync(fileName)
 		}
+	}
+})
 
-		if (cleanUp) {
-			for (const fileName of savedImageFileNames) {
-				rmSync(fileName)
-			}
-		}
-	},
-	{ timeout: 10_000 },
-)
+it('should export to tldr', { timeout: 10_000 }, async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
+		format: 'tldr',
+	})
 
-it(
-	'should export to tldr',
-	async () => {
-		const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
-			format: 'tldr',
-		})
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr`)
+	expectFileToBeValid(savedImageFileName, 'tldr')
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr`)
-		expectFileToBeValid(savedImageFileName, 'tldr')
-
-		if (cleanUp) rmSync(savedImageFileName)
-	},
-	{ timeout: 10_000 },
-)
+	if (cleanUp) rmSync(savedImageFileName)
+})
