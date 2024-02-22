@@ -62,7 +62,7 @@
 		"puppeteer": "^22.2.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.4.0",
+		"@kitschpatrol/shared-config": "^4.4.1",
 		"@sindresorhus/slugify": "^2.2.1",
 		"@tldraw/assets": "2.0.0-canary.e6e4e7f6cbac",
 		"@tldraw/tldraw": "2.0.0-canary.e6e4e7f6cbac",

@@ -20,6 +20,7 @@ await yargsInstance
 			yargs
 				.positional('files-or-urls', {
 					array: true,
+					default: undefined,
 					demandOption: true,
 					describe:
 						'The tldraw sketch to export. May be one or more paths to local `.tldr` files, or tldraw.com sketch URLs. Accepts a mix of both file paths and URLs, and supports glob matching via your shell. Prints the absolute path(s) to the exported image(s) to `stdout`.',
@@ -184,6 +185,7 @@ await yargsInstance
 			yargs
 				.positional('files-or-urls', {
 					array: true,
+					default: undefined,
 					describe:
 						'The `.tldr` file(s) or tldraw.com sketch URL(s) to open. Omit the argument to open a blank sketch. Supports glob matching via your shell. Prints the URL of the local server to `stdout`.',
 					type: 'string',
