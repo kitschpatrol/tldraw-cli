@@ -444,14 +444,18 @@ it('should log extra stuff if asked', { timeout: 10_000 }, async () => {
 	log.verbose = true
 
 	const warnSpy = vi.spyOn(console, 'warn')
-	await tldrawToImage(tldrTestFilePath)
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 	expect(warnSpy).toHaveBeenCalled()
 
 	log.verbose = false
+
+	if (cleanUp) rmSync(savedImageFileName)
 })
 
 it('should not log extra stuff by default', { timeout: 10_000 }, async () => {
 	const warnSpy = vi.spyOn(console, 'warn')
-	await tldrawToImage(tldrTestFilePath)
+	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 	expect(warnSpy).not.toHaveBeenCalled()
+
+	if (cleanUp) rmSync(savedImageFileName)
 })
