@@ -62,12 +62,12 @@
 		"puppeteer": "^22.2.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.4.1",
+		"@kitschpatrol/shared-config": "^4.4.2",
 		"@sindresorhus/slugify": "^2.2.1",
 		"@tldraw/assets": "2.0.0-canary.e6e4e7f6cbac",
 		"@tldraw/tldraw": "2.0.0-canary.e6e4e7f6cbac",
 		"@types/express": "^4.17.21",
-		"@types/react": "^18.2.57",
+		"@types/react": "^18.2.58",
 		"@types/react-dom": "^18.2.19",
 		"@types/yargs": "^17.0.32",
 		"@vitejs/plugin-react-swc": "^3.6.0",

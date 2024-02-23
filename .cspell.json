@@ -1,22 +1,5 @@
 {
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-	"ignorePaths": ["/test/assets/**/*", "./test/__snapshots__/**/*"],
 	"import": "@kitschpatrol/cspell-config",
-	"words": [
-		"Atjsy",
-		"ceci",
-		"Exukis",
-		"jorisjh",
-		"networkidle",
-		"Nitsuj",
-		"Qsrq",
-		"sindresorhus",
-		"slugified",
-		"testid",
-		"tldr",
-		"tldraw",
-		"untildify",
-		"Vitest",
-		"Wbdp"
-	]
+	"words": ["v2_c_FI5RYWbdpAtjsy4OIKrKw"]
 }
