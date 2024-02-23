@@ -183,7 +183,7 @@ export default class TldrawController {
 	async setDarkMode(darkMode: boolean) {
 		if (!this.page) throw new Error('Controller not started')
 		log.info(`Setting dark mode: ${darkMode}`)
-		if (!this.originalDarkMode) this.originalDarkMode = await this.getDarkMode()
+		this.originalDarkMode ??= await this.getDarkMode()
 		await this.page.evaluate(`editor.user.updateUserPreferences({ isDarkMode: ${darkMode}})`)
 	}
 
