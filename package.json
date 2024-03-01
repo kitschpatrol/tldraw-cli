@@ -2,7 +2,7 @@
 	"name": "@kitschpatrol/tldraw-cli",
 	"version": "4.1.2",
 	"type": "module",
-	"description": "A tiny little CLI tool for exporting tldraw sketches to svg or png images.",
+	"description": "A CLI tool for exporting tldraw sketches to SVG or PNG images.",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/kitschpatrol/tldraw-cli.git"
@@ -39,7 +39,8 @@
 		"diagram",
 		"drawing",
 		"sketch",
-		"export"
+		"export",
+		"npm-package"
 	],
 	"scripts": {
 		"build": "pnpm run build:tldraw && pnpm run build:lib && pnpm run build:cli",
@@ -58,16 +59,16 @@
 		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
-		"express": "^4.18.2",
-		"puppeteer": "^22.2.0"
+		"express": "^4.18.3",
+		"puppeteer": "^22.3.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.4.2",
+		"@kitschpatrol/shared-config": "^4.5.0",
 		"@sindresorhus/slugify": "^2.2.1",
 		"@tldraw/assets": "2.0.0-canary.e6e4e7f6cbac",
 		"@tldraw/tldraw": "2.0.0-canary.e6e4e7f6cbac",
 		"@types/express": "^4.17.21",
-		"@types/react": "^18.2.58",
+		"@types/react": "^18.2.61",
 		"@types/react-dom": "^18.2.19",
 		"@types/yargs": "^17.0.32",
 		"@vitejs/plugin-react-swc": "^3.6.0",
@@ -79,7 +80,7 @@
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"get-port": "^7.0.0",
 		"nanoid": "^5.0.6",
-		"open": "^10.0.3",
+		"open": "^10.0.4",
 		"path-type": "^5.0.0",
 		"plur": "^5.1.0",
 		"pretty-ms": "^9.0.0",

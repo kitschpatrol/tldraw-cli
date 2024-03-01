@@ -7,7 +7,7 @@
 [![NPM Package @kitschpatrol/tldraw-cli](https://img.shields.io/npm/v/@kitschpatrol/tldraw-cli.svg)](https://npmjs.com/package/@kitschpatrol/tldraw-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**A tiny little CLI tool for exporting tldraw sketches to svg or png images.**
+**A CLI tool for exporting tldraw sketches to SVG or PNG images.**
 
 <!-- /header -->
 
@@ -31,7 +31,7 @@
 
 ## Overview
 
-A CLI app to automate conversion and export of [tldraw](https://tldraw.dev) URLs and `.tldr` files into SVG or PNG image formats.
+A CLI app to automate conversion and export of [tldraw](https://tldraw.dev) URLs and `.tldr` files into SVG or PNG image formats, exposing a number of options along the way. It also provides commands for opening tldraw files in either local or remote instances of the tldraw editor website.
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 
@@ -75,10 +75,10 @@ Usage:
 tldraw-cli <command>
 ```
 
-| Command  | Argument            | Description                                                                                                                                                                                                                                                                                                                                      |
-| -------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `export` | `<files-or-urls..>` | Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.                                                                                                                                                                                      |
-| `open`   | `[files-or-urls..]` | Open a tldraw `.tldr` file or tldraw\.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch. Sketches opened via URL are temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. |
+| Command  | Argument            | Description                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `export` | `<files-or-urls..>` | Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.                                                                                                                                                                                                                                                                |
+| `open`   | `[files-or-urls..]` | Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. |
 
 | Option      | Alias | Description         | Type      |
 | ----------- | ----- | ------------------- | --------- |
@@ -117,7 +117,7 @@ tldraw-cli export <files-or-urls..>
 
 #### Subcommand: `tldraw-cli open`
 
-Open a tldraw `.tldr` file or tldraw\.com URL your default browser. Uses a locally-hosted instance of tldraw. Call `open` without an argument to open a blank sketch. Sketches opened via URL are temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed.
+Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed.
 
 Usage:
 
