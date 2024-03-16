@@ -12,15 +12,15 @@ exports[`should export frames to json 2`] = `"a23a5d1d2cd0f85f2ef083e06229dc9a76
 
 exports[`should export frames to json 3`] = `"1b90eb253c18fdd33a30160d88290cb596f66a3064ba07fa678edfe5ab0c0db0"`;
 
-exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"c54def5a62ed65c8cd35ea5ac6ee6acde097027f5e55b573b5e56bd071b7b015"`;
+exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"3a2ed51305f3fbeb89340c2dcb7835285ccd83354747fb57555f93a54acf099e"`;
 
-exports[`should export the file to a specific directory when specified 1`] = `"91972b198ff9254ab3fedc9eb5af5e76143025227905e9e8c5ee42aeae634cbb"`;
+exports[`should export the file to a specific directory when specified 1`] = `"48b7014378db5f989c8463a278f151c099974e2f4f8bb6769752b44fb66fbb4c"`;
 
-exports[`should export the tldraw url to a png when specified 1`] = `"91972b198ff9254ab3fedc9eb5af5e76143025227905e9e8c5ee42aeae634cbb"`;
+exports[`should export the tldraw url to a png when specified 1`] = `"48b7014378db5f989c8463a278f151c099974e2f4f8bb6769752b44fb66fbb4c"`;
 
-exports[`should export the tldraw url to an svg in the current folder by default 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+exports[`should export the tldraw url to an svg in the current folder by default 1`] = `"e13f5e2dd8f40d4f25e0cd60b7d2dc3608876c2ee00110dc96e4980b2f888d26"`;
 
-exports[`should export the tldraw url to an svg when specified 1`] = `"e48f33d96c7cf113b4fafed71bc8e38bce540eef9bf56d0e2a93adad9c3e9c2b"`;
+exports[`should export the tldraw url to an svg when specified 1`] = `"e13f5e2dd8f40d4f25e0cd60b7d2dc3608876c2ee00110dc96e4980b2f888d26"`;
 
 exports[`should export to json 1`] = `"ddd61bb1c09c798dc0d10a86f77fbba77d6863b2a7bc4edadafa72ee3f5f67b4"`;
 

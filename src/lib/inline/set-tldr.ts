@@ -13,32 +13,31 @@
 // they need to work on live tldraw.com URLs as well.
 
 // No top level await in IIFE or in ES6 (the target for the inline-bundler)
-/* eslint-disable unicorn/prefer-top-level-await */
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 
-import { type Editor, serializeTldrawJsonBlob } from '@tldraw/tldraw'
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
+import { type Editor, parseTldrawJsonFile } from 'tldraw'
 
 declare global {
 	interface Window {
 		editor: Editor
+		setTldr: (tldrData: string) => void
 	}
 }
 
+if (!window.editor) throw new Error('Editor is undefined')
 if (!window.editor.store) throw new Error('Store is undefined')
 
-// No top-level await in iife or es6
-serializeTldrawJsonBlob(window.editor.store)
-	.then((blob) => {
-		const name = '' // Managed by Puppeteer
-		const file = new File([blob], name, { type: blob.type })
-		const link = document.createElement('a')
-		const url = URL.createObjectURL(file)
+window.setTldr = (tldrData: string): void => {
+	if (tldrData === undefined) return
 
-		link.href = url
-		link.download = file.name
-		link.click()
-		URL.revokeObjectURL(url)
+	const parseFileResult = parseTldrawJsonFile({
+		json: JSON.stringify(tldrData),
+		schema: (window.editor as Editor).store.schema,
 	})
-	.catch((error) => {
-		console.error(error)
-	})
+	if (parseFileResult.ok) {
+		const snapshot = parseFileResult.value.getSnapshot()
+		;(window.editor as Editor).store.loadSnapshot(snapshot)
+	} else {
+		console.error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
+	}
+}

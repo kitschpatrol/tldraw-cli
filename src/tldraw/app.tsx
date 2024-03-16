@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
+import './index.css'
 /* eslint-disable @typescript-eslint/naming-convention */
 import { getAssetUrls } from '@tldraw/assets/selfHosted'
-import { type Editor, type TLStore, Tldraw, parseTldrawJsonFile } from '@tldraw/tldraw'
-import '@tldraw/tldraw/tldraw.css'
 import { useState } from 'react'
+import { type Editor, type TLStore, Tldraw, parseTldrawJsonFile } from 'tldraw'
 
 // Can't get this to work
 // import { getAssetUrlsByImport } from '@tldraw/assets/imports'
 
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 declare global {
 	interface Window {
-		app: {
-			clearOpenMenus: () => void
-		}
+		editor: Editor
 	}
 }
 
@@ -21,6 +19,10 @@ export default function App() {
 
 	// Load store data from local endpoint
 	function onMount(editor: Editor) {
+		// Expose editor to window
+		// Works around https://github.com/tldraw/tldraw/pull/2995
+		window.editor = editor
+
 		if (store === undefined) {
 			fetch('/tldr-data')
 				.then(async (response) => {
@@ -48,9 +50,8 @@ export default function App() {
 					console.error("Couldn't fetch data:", error)
 				})
 		} else {
-			editor.updateViewportScreenBounds()
 			editor.zoomToFit()
-			window.app.clearOpenMenus()
+			editor.clearOpenMenus()
 		}
 	}
 

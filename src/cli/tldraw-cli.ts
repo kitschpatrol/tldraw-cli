@@ -112,18 +112,8 @@ await yargsInstance
 					return true
 				}),
 		async (argv) => {
-			const {
-				dark,
-				filesOrUrls,
-				format,
-				frames,
-				name,
-				output,
-				print,
-				stripStyle,
-				transparent,
-				verbose,
-			} = argv
+			const filesOrUrls = argv.filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
+			const { dark, format, frames, name, output, print, stripStyle, transparent, verbose } = argv
 
 			log.verbose = verbose
 
@@ -222,6 +212,7 @@ await yargsInstance
 				}
 			} else {
 				for (const fileOrUrl of filesOrUrls) {
+					if (fileOrUrl === undefined || fileOrUrl === null) continue
 					try {
 						// This prints server URLs to stdout
 						resultPromises.push(tldrawOpen(fileOrUrl, local))
@@ -252,6 +243,7 @@ await yargsInstance
 			}
 		},
 	)
+	.demandCommand(1)
 	.alias('h', 'help')
 	.version('version')
 	.alias('v', 'version')

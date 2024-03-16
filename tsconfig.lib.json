@@ -7,5 +7,5 @@
 		"emitDeclarationOnly": true,
 		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"]
 	},
-	"include": ["src/lib/index.ts"]
+	"include": ["src/lib/index.ts", "src/lib/inline/*.ts"]
 }

@@ -1,15 +1,16 @@
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
-import downloadTldrInlineScript from './inline/download-tldr?iife'
-import uploadTldrInlineScript from './inline/upload-tldr?iife'
+import getImageInlineScript from './inline/get-image?iife'
+import getTldrInlineScript from './inline/get-tldr?iife'
+import setTldrInlineScript from './inline/set-tldr?iife'
 import type { TldrawFormat } from './tldraw-to-image'
 import log from './utilities/log'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
 import fs from 'node:fs/promises'
-import os from 'node:os'
 import path from 'node:path'
 import puppeteer from 'puppeteer'
-import type { Browser, CDPSession, Page } from 'puppeteer'
+import type { Browser, Page } from 'puppeteer'
+import { base64ToString, base64ToUint8Array, stringToBase64 } from 'uint8array-extras'
 import untildify from 'untildify'
 
 type PageFrame = { id: string; name: string }
@@ -19,8 +20,6 @@ export default class TldrawController {
 	private page?: Page
 	private isEmpty?: boolean
 	private browser?: Browser
-	private client?: CDPSession
-	private originalDarkMode?: boolean
 
 	constructor(private readonly href: string) {
 		this.href = href
@@ -54,14 +53,6 @@ export default class TldrawController {
 			}
 		})
 
-		// Set up download rules
-		this.client = await this.page.target().createCDPSession()
-		await this.client.send('Browser.setDownloadBehavior', {
-			behavior: 'allowAndName',
-			downloadPath: os.tmpdir(),
-			eventsEnabled: true,
-		})
-
 		// Navigate to tldraw
 		log.info(`Navigating to: ${this.href}`)
 		await this.page.goto(this.href, { waitUntil: 'networkidle0' })
@@ -73,10 +64,6 @@ export default class TldrawController {
 
 	async close() {
 		if (!this.browser) throw new Error('Controller not started')
-		if (this.originalDarkMode !== undefined) {
-			log.info(`Restoring dark mode: ${this.originalDarkMode}`)
-			await this.setDarkMode(this.originalDarkMode)
-		}
 
 		await this.browser.close()
 		log.info('Stopped controller')
@@ -89,8 +76,10 @@ export default class TldrawController {
 		format: TldrawFormat,
 		stripStyle: boolean,
 		print: boolean,
+		dark: boolean,
+		transparent: boolean,
 	): Promise<string[]> {
-		return this._download(output, filename, format, stripStyle, undefined, print)
+		return this._download(output, filename, format, stripStyle, undefined, print, dark, transparent)
 	}
 
 	async downloadFrame(
@@ -100,8 +89,19 @@ export default class TldrawController {
 		stripStyle: boolean,
 		frameNameOrId: string,
 		print: boolean,
+		dark: boolean,
+		transparent: boolean,
 	): Promise<string[]> {
-		return this.downloadFrames(output, filename, format, stripStyle, [frameNameOrId], print)
+		return this.downloadFrames(
+			output,
+			filename,
+			format,
+			stripStyle,
+			[frameNameOrId],
+			print,
+			dark,
+			transparent,
+		)
 	}
 
 	async downloadFrames(
@@ -111,6 +111,8 @@ export default class TldrawController {
 		stripStyle: boolean,
 		frameNamesOrIds: string[],
 		print: boolean,
+		dark: boolean,
+		transparent: boolean,
 	): Promise<string[]> {
 		// Validate frame existence
 		const validPageFrames: PageFrame[] = []
@@ -149,6 +151,8 @@ export default class TldrawController {
 					stripStyle,
 					frame,
 					print,
+					dark,
+					transparent,
 				)),
 			)
 		}
@@ -162,36 +166,28 @@ export default class TldrawController {
 		format: TldrawFormat,
 		stripStyle: boolean,
 		print: boolean,
+		dark: boolean,
+		transparent: boolean,
 	): Promise<string[]> {
 		const pageFrames = await this.getPageFrames()
 		const frameNamesOrIds = pageFrames.map((f) => f.id)
-		return this.downloadFrames(output, filename, format, stripStyle, frameNamesOrIds, print)
-	}
-
-	// Ephemeral means we don't have to restore the user's value
-	async setTransparency(transparent: boolean): Promise<void> {
-		if (!this.page) throw new Error('Controller not started')
-		log.info(`Setting background transparency: ${transparent}`)
-		await this.page.evaluate(
-			`editor.updateInstanceState(
-			{ exportBackground: ${!transparent} },
-			{ ephemeral: true },
-		 )`,
+		return this.downloadFrames(
+			output,
+			filename,
+			format,
+			stripStyle,
+			frameNamesOrIds,
+			print,
+			dark,
+			transparent,
 		)
-	}
-
-	async setDarkMode(darkMode: boolean) {
-		if (!this.page) throw new Error('Controller not started')
-		log.info(`Setting dark mode: ${darkMode}`)
-		this.originalDarkMode ??= await this.getDarkMode()
-		await this.page.evaluate(`editor.user.updateUserPreferences({ isDarkMode: ${darkMode}})`)
 	}
 
 	async loadFile(filePath: string) {
 		if (!this.page) throw new Error('Controller not started')
 		if (this.isLocal)
 			throw new Error(
-				'File loading is only supported for remote tldraw.com instances. See tldraw-open for local file loading approach.',
+				'File loading is only supported for remote tldraw.com instances. See tldraw-open.ts for local file loading approach.',
 			)
 
 		await this.closeMenus()
@@ -202,9 +198,8 @@ export default class TldrawController {
 
 		// We have to call a custom function to upload the tldr file,
 		// puppeteer waitForFileChooser fileInput.accept etc. does NOT work
-		await this.page.evaluate(uploadTldrInlineScript)
-		await this.page.evaluate("console.log('window.uploadTldr')")
-		await this.page.evaluate(`window.uploadTldr(${tldrFile.toString()})`)
+		await this.page.evaluate(setTldrInlineScript)
+		await this.page.evaluate(`window.setTldr(${tldrFile})`)
 	}
 
 	async getShareUrl(): Promise<string> {
@@ -212,6 +207,7 @@ export default class TldrawController {
 		if (this.isLocal)
 			throw new Error('Share URLs are only supported for remote tldraw.com instances.')
 
+		// TODO revisit this without UI manipulation
 		await this.closeMenus()
 		await this.clickButtonTitles(['Menu', 'File', 'Share this project'])
 		// Recently broken
@@ -234,6 +230,8 @@ export default class TldrawController {
 		stripStyle: boolean,
 		pageFrame: PageFrame | undefined, // Trust that existence has been validated
 		print: boolean,
+		dark: boolean,
+		transparent: boolean,
 	): Promise<string[]> {
 		if (!this.page) throw new Error('Controller not started')
 
@@ -249,100 +247,75 @@ export default class TldrawController {
 			log.warn('--frames is not supported for tldr output, downloading entire document')
 		}
 
-		// Brittle, TODO how to invoke this from the browser console?
-		const completionPromise = this.waitForDownloadCompletion()
-		await this.closeMenus()
+		// TODO more tldr warnings
 
 		let frameSuffix = ''
+		let base64String = ''
 
-		// Todo what happens with tldr?
-		if (pageFrame !== undefined && format !== 'tldr') {
-			log.info(`Selecting sketch frame "${pageFrame.name}" with ID "${pageFrame.id}"`)
-
-			frameSuffix = `-${slugify(pageFrame.name)}`
-
-			// Select the frame shape
-			await this.page.evaluate('editor.selectNone()')
-			await this.page.evaluate(`editor.select('${pageFrame.id}')`)
-		}
-
-		if (pageFrame === undefined && format === 'json') {
-			// For some reason json export returns undefined when nothing
-			// is selected
-			await this.page.evaluate('editor.selectAll()')
-		}
-
-		// eslint-disable-next-line unicorn/prefer-ternary
 		if (format === 'tldr') {
-			// We have to call a custom function to download the tldr file
-			await this.page.evaluate(downloadTldrInlineScript)
+			// Downloading to TLDR format
+			await this.page.evaluate(getTldrInlineScript)
+			base64String = await this.page.evaluate(async () => window.getTldr())
 		} else {
-			// Export
-			// await this.clickMenuTestIds([
-			// 	'main.menu',
-			// 	'menu-item.edit', // now missing
-			// 	'menu-item.export-as',  // now missing
-			// 	`menu-item.export-as-${format}`,
-			// ])
+			// Downloading to an image format
+			if (pageFrame === undefined) {
+				await this.page.evaluate('editor.selectAll()')
+			} else {
+				// Select frame
+				log.info(`Selecting sketch frame "${pageFrame.name}" with ID "${pageFrame.id}"`)
+				frameSuffix = `-${slugify(pageFrame.name)}`
 
-			// TODO more robust
-			await this.clickButtonTitles(['Menu', 'Edit', 'Export as', format.toUpperCase()])
+				// Select the frame shape
+				await this.page.evaluate('editor.selectNone()')
+				await this.page.evaluate(`editor.select('${pageFrame.id}')`)
+			}
+
+			// Load the function
+			await this.page.evaluate(getImageInlineScript)
+
+			// Define options for exportToBlob
+			const options: Parameters<Window['getImage']>[0] = {
+				background: !transparent,
+				darkMode: dark,
+				format,
+				padding: 10,
+				scale: 1,
+			}
+			base64String = await this.page.evaluate(
+				async (options_) => window.getImage(options_),
+				options,
+			)
+
+			// TODO strip style
+			if (stripStyle && format === 'svg') {
+				// Strip style from the SVG
+				base64String = stringToBase64(this.stripStyleElement(base64ToString(base64String)))
+			}
 		}
 
-		const downloadGuid = await completionPromise
+		const outputPath = path.resolve(
+			untildify(path.join(output, `${filename}${frameSuffix}.${format}`)),
+		)
 
-		// _really_ wait for download to complete, can get intermittent failures
-		// without this
-		await this.page.waitForNetworkIdle()
-
-		// Move and rename the downloaded file from temp to output destination
-		const downloadPath = path.join(os.tmpdir(), downloadGuid)
-
-		// Don't move the file if we're printing
-		const outputPath = print
-			? downloadPath
-			: path.resolve(untildify(path.join(output, `${filename}${frameSuffix}.${format}`)))
-
-		if (!print) await fs.rename(downloadPath, outputPath)
-
-		if (stripStyle && format === 'svg') {
-			// Strip style from the SVG
-			const svg = await fs.readFile(outputPath, 'utf8')
-			const strippedSvg = this.stripStyleElement(svg)
-			await fs.writeFile(outputPath, strippedSvg)
-		}
-
-		// Naive implementation
 		if (print) {
 			if (format === 'png') {
-				// Convert to base64
-				const buffer = await fs.readFile(outputPath)
-				const outputBase64 = buffer.toString('base64')
-				return [outputBase64]
+				// TODO ready for url use?
+				return [base64String]
 			}
 
 			// All others are plain text, without newlines
-			const outputString: string = await fs.readFile(outputPath, 'utf8')
-			const outputStringNoNewlines = outputString.replaceAll('\n', '')
-			return [outputStringNoNewlines]
+			const plainString = base64ToString(base64String).replaceAll('\n', '')
+			return [plainString]
 		}
 
+		await fs.writeFile(outputPath, base64ToUint8Array(base64String))
 		return [outputPath]
 	}
 
 	private async closeMenus(): Promise<void> {
 		if (!this.page) throw new Error('Controller not started')
-		await this.page.evaluate(`app.clearOpenMenus()`)
+		await this.page.evaluate(`editor.clearOpenMenus()`)
 	}
-
-	// These have gone missing lately from the tldraw.com UI
-	// private async clickMenuTestIds(testIds: string[]) {
-	// 	if (!this.page) throw new Error('Controller not started')
-	// 	for (const testId of testIds) {
-	// 		await this.page.waitForSelector(`[data-testid="${testId}"]`)
-	// 		await this.page.click(`[data-testid="${testId}"]`)
-	// 	}
-	// }
 
 	// Band-aide which will break under different translations
 	// TODO more robust
@@ -352,19 +325,6 @@ export default class TldrawController {
 			await this.page.waitForSelector(`button[title="${title}"]`)
 			await this.page.click(`button[title="${title}"]`)
 		}
-	}
-
-	private async waitForDownloadCompletion(): Promise<string> {
-		return new Promise((resolve, reject) => {
-			if (!this.client) throw new Error('Controller not started')
-			this.client.on('Browser.downloadProgress', (event) => {
-				if (event.state === 'completed') {
-					resolve(event.guid)
-				} else if (event.state === 'canceled') {
-					reject(new Error('Download was canceled'))
-				}
-			})
-		})
 	}
 
 	// TODO memoize...
@@ -381,16 +341,6 @@ export default class TldrawController {
 				(f) => f.id === (nameOrId.startsWith('shape:') ? nameOrId : `shape:${nameOrId}`),
 			)
 		)
-	}
-
-	// TODO possible performance gains by only setting transparency as needed?
-	// async function getTransparency(page: Page): Promise<boolean> {
-	// 	return !(await page.evaluate('editor.getInstanceState().exportBackground'))
-	// }
-
-	private async getDarkMode(): Promise<boolean> {
-		if (!this.page) throw new Error('Controller not started')
-		return Boolean(await this.page.evaluate('editor.user.getUserPreferences().isDarkMode'))
 	}
 
 	// TODO memoize

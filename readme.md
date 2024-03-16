@@ -7,7 +7,7 @@
 [![NPM Package @kitschpatrol/tldraw-cli](https://img.shields.io/npm/v/@kitschpatrol/tldraw-cli.svg)](https://npmjs.com/package/@kitschpatrol/tldraw-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**A CLI tool for exporting tldraw sketches to SVG or PNG images.**
+**A CLI tool for exporting tldraw sketch URLs and local .tldr files to SVG or PNG images.**
 
 <!-- /header -->
 
@@ -344,8 +344,8 @@ On GitHub:
 
 On Discord:
 
-- [@jorisjh in #ideas_old](https://discord.com/channels/859816885297741824/859816885801713730/1156880056501665802)
-- [@Nitsuj in #ideas_old](https://discord.com/channels/859816885297741824/859816885801713730/1020352607920869406)
+- [@jorisjh in #ideas\_old](https://discord.com/channels/859816885297741824/859816885801713730/1156880056501665802)
+- [@Nitsuj in #ideas\_old](https://discord.com/channels/859816885297741824/859816885801713730/1020352607920869406)
 
 ## Implementation notes
 
@@ -358,6 +358,8 @@ This can be a bit slow, (exporting seems to take a second or two), but in the co
 In terms of Puppeteer vs. Playwright and other headless browser automation tools, it [looks like](https://www.checklyhq.com/blog/puppeteer-vs-selenium-vs-playwright-speed-comparison/) Puppeteer's performance likely compares favorably. (Though I have not tested and benchmarked the alternatives in the specific context of `tldraw-cli`.)
 
 The local instance of tldraw includes its assets dependencies, so the tool should work correctly without internet access.
+
+Track the [tldraw changelog](https://github.com/tldraw/tldraw/blob/main/CHANGELOG.md).
 
 ## The future
 

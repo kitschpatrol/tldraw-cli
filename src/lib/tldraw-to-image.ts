@@ -6,6 +6,15 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import prettyMilliseconds from 'pretty-ms'
 
+// Essentially TLExportType + 'tldr'
+// export type TldrawFormat = 'tldr' | Parameters<typeof exportToBlob>[0]['format']
+
+// TODO
+// scale: number;
+// background: boolean;
+// padding: number;
+// darkMode?: boolean | undefined;
+
 export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
 
 export type TldrawToImageOptions = {
@@ -76,7 +85,6 @@ export async function tldrawToImage(
 			: sanitizeName(name, format)
 
 	// Start up local server if appropriate
-
 	if (isLocal) log.info(`Loading tldr data "${validatedPathOrUrl}"`)
 	const tldrData = isLocal ? await fs.readFile(validatedPathOrUrl, 'utf8') : undefined
 	const tldrawServer = new LocalTldrawServer(tldrData)
@@ -86,12 +94,6 @@ export async function tldrawToImage(
 	const tldrawUrl = isLocal ? tldrawServer.href : validatedPathOrUrl.href
 	const tldrawController = new TldrawController(tldrawUrl)
 	await tldrawController.start()
-
-	// Set transparency
-	await tldrawController.setTransparency(transparent)
-
-	// Set dark mode
-	await tldrawController.setDarkMode(dark)
 
 	// Run the download
 	let exportReport: string[]
@@ -103,6 +105,8 @@ export async function tldrawToImage(
 			format,
 			stripStyle,
 			print,
+			dark,
+			transparent,
 		)
 	} else if (Array.isArray(frames) && frames.length > 0) {
 		exportReport = await tldrawController.downloadFrames(
@@ -112,6 +116,8 @@ export async function tldrawToImage(
 			stripStyle,
 			frames,
 			print,
+			dark,
+			transparent,
 		)
 	} else {
 		exportReport = await tldrawController.download(
@@ -120,6 +126,8 @@ export async function tldrawToImage(
 			format,
 			stripStyle,
 			print,
+			dark,
+			transparent,
 		)
 	}
 

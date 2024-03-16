@@ -11,19 +11,19 @@ const tldrTestFilePath = './test/assets/test-sketch.tldr'
 const tldrTestFileThreeFramesPath = './test/assets/test-sketch-three-frames.tldr'
 
 it(
-	'should export the tldr file to an svg in the current folder by default',
+	'should export local tldr file to an svg in the current folder by default',
 	{ timeout: 10_000 },
 	async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
-		expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 
+		expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
 		expectFileToBeValid(savedImageFileName, 'svg')
 
 		if (cleanUp) rmSync(savedImageFileName)
 	},
 )
 
-it('should export the tldr file to an svg when specified', { timeout: 10_000 }, async () => {
+it('should export local tldr file to an svg when specified', { timeout: 10_000 }, async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { format: 'svg' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
@@ -32,7 +32,7 @@ it('should export the tldr file to an svg when specified', { timeout: 10_000 }, 
 	if (cleanUp) rmSync(savedImageFileName)
 })
 
-it('should export the tldr file to a png when specified', { timeout: 10_000 }, async () => {
+it('should export local tldr file to a png when specified', { timeout: 10_000 }, async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, { format: 'png' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.png`)
@@ -42,7 +42,7 @@ it('should export the tldr file to a png when specified', { timeout: 10_000 }, a
 })
 
 it(
-	'should export the file to a specific directory when specified',
+	'should export local tldr file to a specific directory when specified',
 	{ timeout: 10_000 },
 	async () => {
 		const randomPath = nanoid()
@@ -60,12 +60,12 @@ it(
 	},
 )
 
-it('should fail on empty files', { timeout: 10_000 }, async () => {
+it('should fail on local empty tldr files', { timeout: 10_000 }, async () => {
 	await expect(tldrawToImage('./test/assets/test-sketch-empty.tldr')).rejects.toThrow()
 })
 
 it(
-	'should export the entire image if multiple frames are present and frames is not set',
+	'should export the entire local tldr to an image if multiple frames are present and frames is not set',
 	{ timeout: 10_000 },
 	async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath)
@@ -76,25 +76,29 @@ it(
 	},
 )
 
-it('should export each frame individually if frames is set', { timeout: 10_000 }, async () => {
-	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
-		frames: true,
-	})
+it(
+	'should export each frame of a local tldr file individually if frames is set',
+	{ timeout: 10_000 },
+	async () => {
+		const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
+			frames: true,
+		})
 
-	expect(savedImageFileNames).toHaveLength(3)
+		expect(savedImageFileNames).toHaveLength(3)
 
-	for (const fileName of savedImageFileNames) {
-		expectFileToBeValid(fileName, 'svg')
-	}
-
-	if (cleanUp) {
 		for (const fileName of savedImageFileNames) {
-			rmSync(fileName)
+			expectFileToBeValid(fileName, 'svg')
 		}
-	}
-})
 
-it('should export specific frames by name', { timeout: 10_000 }, async () => {
+		if (cleanUp) {
+			for (const fileName of savedImageFileNames) {
+				rmSync(fileName)
+			}
+		}
+	},
+)
+
+it('should export specific frames of a local tldr file by name', { timeout: 10_000 }, async () => {
 	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['Frame 3'],
 	})
@@ -105,7 +109,7 @@ it('should export specific frames by name', { timeout: 10_000 }, async () => {
 	if (cleanUp) rmSync(savedImageFileNames[0])
 })
 
-it('should accommodate slugified frame name', { timeout: 10_000 }, async () => {
+it('should export slugified frame name from local tldr file', { timeout: 10_000 }, async () => {
 	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['frame-3'],
 	})
@@ -116,7 +120,7 @@ it('should accommodate slugified frame name', { timeout: 10_000 }, async () => {
 	if (cleanUp) rmSync(savedImageFileNames[0])
 })
 
-it('should export specific frames by id', { timeout: 10_000 }, async () => {
+it('should export frames by id from local tldr file', { timeout: 10_000 }, async () => {
 	const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
 		frames: ['shape:x8z3Qf7Hgw4Qqp2AC-eet'],
 	})
@@ -128,7 +132,7 @@ it('should export specific frames by id', { timeout: 10_000 }, async () => {
 })
 
 it(
-	'should export specific frames by id even without the shape: prefix',
+	'should export specific frames by id from local tldr file even without the shape: prefix',
 	{ timeout: 10_000 },
 	async () => {
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreeFramesPath, {
@@ -142,13 +146,17 @@ it(
 	},
 )
 
-it('should fail if a nonexistent frame is requested', { timeout: 10_000 }, async () => {
-	await expect(
-		tldrawToImage(tldrTestFileThreeFramesPath, {
-			frames: ['ceci-nest-pas-un-cadre'],
-		}),
-	).rejects.toThrow()
-})
+it(
+	'should fail if a nonexistent frame is requested from local tldr file',
+	{ timeout: 10_000 },
+	async () => {
+		await expect(
+			tldrawToImage(tldrTestFileThreeFramesPath, {
+				frames: ['ceci-nest-pas-un-cadre'],
+			}),
+		).rejects.toThrow()
+	},
+)
 
 it('should warn if stripStyle and format png are combined', { timeout: 10_000 }, async () => {
 	const warnSpy = vi.spyOn(console, 'warn')
