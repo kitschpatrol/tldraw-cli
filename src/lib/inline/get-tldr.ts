@@ -26,9 +26,6 @@ declare global {
 	}
 }
 
-if (!window.editor) throw new Error('Editor is undefined')
-if (!window.editor.store) throw new Error('Store is undefined')
-
 window.getTldr = async (): Promise<string> => {
 	const editor = window.editor as Editor
 

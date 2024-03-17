@@ -344,8 +344,8 @@ On GitHub:
 
 On Discord:
 
-- [@jorisjh in #ideas\_old](https://discord.com/channels/859816885297741824/859816885801713730/1156880056501665802)
-- [@Nitsuj in #ideas\_old](https://discord.com/channels/859816885297741824/859816885801713730/1020352607920869406)
+- [@jorisjh in #ideas_old](https://discord.com/channels/859816885297741824/859816885801713730/1156880056501665802)
+- [@Nitsuj in #ideas_old](https://discord.com/channels/859816885297741824/859816885801713730/1020352607920869406)
 
 ## Implementation notes
 

@@ -142,9 +142,9 @@ await yargsInstance
 
 					process.stdout.write(`${exportList.join('\n')}\n`)
 				} catch (error: unknown) {
-					if (error instanceof Error) {
-						errorReport.push(`Failed to export "${fileOrUrl}": ${error.message}`)
-					}
+					errorReport.push(
+						`Failed to export "${fileOrUrl}": ${error instanceof Error ? error.message : 'Unknown Error'}`,
+					)
 				}
 			}
 
@@ -207,9 +207,7 @@ await yargsInstance
 					resultPromises.push(tldrawOpen(undefined, local))
 				} catch (error) {
 					errorCount++
-					if (error instanceof Error) {
-						log.error(`Failed to open:": ${error.message}`)
-					}
+					log.error(`Failed to open:": ${error instanceof Error ? error.message : 'Unknown Error'}`)
 				}
 			} else {
 				for (const fileOrUrl of filesOrUrls) {
@@ -219,9 +217,10 @@ await yargsInstance
 						resultPromises.push(tldrawOpen(fileOrUrl, local))
 					} catch (error) {
 						errorCount++
-						if (error instanceof Error) {
-							log.error(`Failed to open "${fileOrUrl}": ${error.message}`)
-						}
+
+						log.error(
+							`Failed to open "${fileOrUrl}": ${error instanceof Error ? error.message : 'Unknown Error'}`,
+						)
 					}
 				}
 			}

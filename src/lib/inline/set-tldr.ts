@@ -24,9 +24,6 @@ declare global {
 	}
 }
 
-if (!window.editor) throw new Error('Editor is undefined')
-if (!window.editor.store) throw new Error('Store is undefined')
-
 window.setTldr = (tldrData: string): void => {
 	if (tldrData === undefined) return
 
@@ -38,6 +35,6 @@ window.setTldr = (tldrData: string): void => {
 		const snapshot = parseFileResult.value.getSnapshot()
 		;(window.editor as Editor).store.loadSnapshot(snapshot)
 	} else {
-		console.error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
+		throw new Error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
 	}
 }

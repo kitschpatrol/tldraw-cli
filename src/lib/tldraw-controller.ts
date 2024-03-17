@@ -281,6 +281,7 @@ export default class TldrawController {
 				padding: 10,
 				scale: 1,
 			}
+
 			base64String = await this.page.evaluate(
 				async (options_) => window.getImage(options_),
 				options,

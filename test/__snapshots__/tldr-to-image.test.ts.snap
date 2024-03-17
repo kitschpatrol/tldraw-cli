@@ -28,7 +28,7 @@ exports[`should export specific frames by id from local tldr file even without t
 
 exports[`should export specific frames of a local tldr file by name 1`] = `"e8df2f859cc94d8ca5b4c7653775499616666d1fd4bca0d99c7699cb9e1db009"`;
 
-exports[`should export the entire local tldr to an image if multiple frames are present and frames is not set 1`] = `"b62de3607d50d6748e2bca419a5e70df19e75312784368a09d2c01ba666ea80c"`;
+exports[`should export the entire local tldr to an image if multiple frames are present and frames is not set 1`] = `"7e718fa1126617d3aeed9fa98ba444bcae5875383e753b1ce0c42a103aef5082"`;
 
 exports[`should export to json 1`] = `"ddd61bb1c09c798dc0d10a86f77fbba77d6863b2a7bc4edadafa72ee3f5f67b4"`;
 

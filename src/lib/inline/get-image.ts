@@ -32,12 +32,17 @@ declare global {
 	}
 }
 
-if (!window.editor) throw new Error('Editor is undefined')
-
+// Assumes the shape selections have already been set
+// before this function is called.
 window.getImage = async ({ background, darkMode, format, padding, scale }): Promise<string> => {
 	const editor = window.editor as Editor
 	let ids = editor.getSelectedShapeIds()
-	if (ids.length === 0) ids = [...editor.getCurrentPageShapeIds().values()]
+
+	if (ids.length === 0) {
+		console.warn('No shapes selected, attempting to select all shapes')
+		ids = [...editor.getCurrentPageShapeIds().values()]
+	}
+
 	if (ids.length === 0) {
 		throw new Error('No shapes to download')
 	}
