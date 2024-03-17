@@ -16,7 +16,7 @@ export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
 // TODO what about preserveAspectRatio?
 export type TldrawToImageOptions = {
 	dark?: boolean
-	format: TldrawFormat
+	format?: TldrawFormat
 	frames?: boolean | string[]
 	name?: string
 	output?: string
@@ -29,18 +29,13 @@ export type TldrawToImageOptions = {
 
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
-	options?: TldrawToImageOptions,
+	options = {} as TldrawToImageOptions,
 ): Promise<string[]> {
-	const resolvedOptions: TldrawToImageOptions = {
-		format: options?.format ?? 'svg',
-		...options,
-	}
-
-	if (resolvedOptions.print && resolvedOptions.output !== undefined) {
+	if (options.print && options.output !== undefined) {
 		throw new Error('Cannot use --output with --print')
 	}
 
-	if (resolvedOptions.print && resolvedOptions.name !== undefined) {
+	if (options.print && options.name !== undefined) {
 		log.warn('Ignoring --name when using --print')
 	}
 
@@ -59,12 +54,12 @@ export async function tldrawToImage(
 	// Use name flag if available then source filename if available, otherwise the ID from the URL
 	// May be suffixed if --frames is set
 	// TODO consider 'editor.getDocumentSettings().name', but always appears empty?
-	resolvedOptions.name =
-		resolvedOptions.name === undefined
+	options.name =
+		options.name === undefined
 			? isLocal
 				? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
 				: validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname
-			: sanitizeName(resolvedOptions.name, resolvedOptions.format)
+			: sanitizeName(options.name, options.format ?? 'svg')
 
 	// Start up local server if appropriate
 	if (isLocal) log.info(`Loading tldr data "${validatedPathOrUrl}"`)
@@ -80,12 +75,12 @@ export async function tldrawToImage(
 	// Run the download
 	let exportReport: string[]
 
-	if (resolvedOptions.frames && typeof resolvedOptions.frames === 'boolean') {
-		exportReport = await tldrawController.downloadAllFrames(resolvedOptions)
-	} else if (Array.isArray(resolvedOptions.frames) && resolvedOptions.frames.length > 0) {
-		exportReport = await tldrawController.downloadFrames(resolvedOptions.frames, resolvedOptions)
+	if (options.frames && typeof options.frames === 'boolean') {
+		exportReport = await tldrawController.downloadAllFrames(options)
+	} else if (Array.isArray(options.frames) && options.frames.length > 0) {
+		exportReport = await tldrawController.downloadFrames(options.frames, options)
 	} else {
-		exportReport = await tldrawController.download(resolvedOptions)
+		exportReport = await tldrawController.download(options)
 	}
 
 	// Clean up
