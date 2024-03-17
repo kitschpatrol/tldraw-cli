@@ -79,6 +79,18 @@ await yargsInstance
 					describe: 'Export a dark theme version of the image.',
 					type: 'boolean',
 				})
+				.option('padding', {
+					default: undefined,
+					defaultDescription: '32',
+					describe: 'Set a specific padding amount around the exported image.',
+					type: 'number',
+				})
+				.option('scale', {
+					default: undefined,
+					defaultDescription: '1',
+					describe: 'Set a sampling amount for raster image exports.',
+					type: 'number',
+				})
 				.option('strip-style', {
 					default: false,
 					describe:
@@ -113,7 +125,19 @@ await yargsInstance
 				}),
 		async (argv) => {
 			const filesOrUrls = argv.filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
-			const { dark, format, frames, name, output, print, stripStyle, transparent, verbose } = argv
+			const {
+				dark,
+				format,
+				frames,
+				name,
+				output,
+				padding,
+				print,
+				scale,
+				stripStyle,
+				transparent,
+				verbose,
+			} = argv
 
 			log.verbose = verbose
 
@@ -135,7 +159,9 @@ await yargsInstance
 						frames,
 						name: resolvedName,
 						output,
+						padding,
 						print,
+						scale,
 						stripStyle,
 						transparent,
 					})

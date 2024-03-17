@@ -9,7 +9,8 @@ import prettyMilliseconds from 'pretty-ms'
 // Essentially TLExportType + 'tldr'
 
 // Basically TLExportType + 'tldr'
-export type TldrawFormat = 'jpeg' | 'json' | 'png' | 'svg' | 'tldr' | 'webp'
+// 'jpeg' | 'webp' formats should be supported but result in "Not a PNG" errors
+export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
 
 // Basically TLSvgOptions, with some extra options
 // TODO what about preserveAspectRatio?

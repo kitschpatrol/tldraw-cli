@@ -25,7 +25,8 @@ declare global {
 		getImage: (options: {
 			background?: boolean
 			darkMode?: boolean
-			format: 'jpeg' | 'json' | 'png' | 'svg' | 'webp'
+			// 'jpeg' | 'webp' formats should be supported but result in "Not a PNG" errors
+			format: 'json' | 'png' | 'svg'
 			padding?: number
 			scale?: number
 		}) => Promise<string>
