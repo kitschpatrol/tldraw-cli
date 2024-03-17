@@ -7,58 +7,39 @@ import path from 'node:path'
 import prettyMilliseconds from 'pretty-ms'
 
 // Essentially TLExportType + 'tldr'
-// export type TldrawFormat = 'tldr' | Parameters<typeof exportToBlob>[0]['format']
 
-// TODO
-// scale: number;
-// background: boolean;
-// padding: number;
-// darkMode?: boolean | undefined;
+// Basically TLExportType + 'tldr'
+export type TldrawFormat = 'jpeg' | 'json' | 'png' | 'svg' | 'tldr' | 'webp'
 
-export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
-
+// Basically TLSvgOptions, with some extra options
+// TODO what about preserveAspectRatio?
 export type TldrawToImageOptions = {
 	dark?: boolean
-	format?: TldrawFormat
+	format: TldrawFormat
 	frames?: boolean | string[]
 	name?: string
 	output?: string
+	padding?: number
 	print?: boolean
+	scale?: number
 	stripStyle?: boolean
 	transparent?: boolean
-}
-
-// Name should default to undefined
-
-type TldrawToImageOptionsRequired = Required<Omit<TldrawToImageOptions, 'name'>> &
-	Pick<TldrawToImageOptions, 'name'>
-
-const defaultOptions: TldrawToImageOptionsRequired = {
-	dark: false,
-	format: 'svg',
-	frames: false,
-	name: undefined,
-	output: './',
-	print: false,
-	stripStyle: false,
-	transparent: false,
 }
 
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
 	options?: TldrawToImageOptions,
 ): Promise<string[]> {
-	const resolvedOptions: TldrawToImageOptionsRequired = {
-		...defaultOptions,
-		...stripUndefined(options ?? {}),
+	const resolvedOptions: TldrawToImageOptions = {
+		format: options?.format ?? 'svg',
+		...options,
 	}
-	const { dark, format, frames, name, output, print, stripStyle, transparent } = resolvedOptions
 
-	if (options?.print && options.output !== undefined) {
+	if (resolvedOptions.print && resolvedOptions.output !== undefined) {
 		throw new Error('Cannot use --output with --print')
 	}
 
-	if (options?.print && options.name !== undefined) {
+	if (resolvedOptions.print && resolvedOptions.name !== undefined) {
 		log.warn('Ignoring --name when using --print')
 	}
 
@@ -77,12 +58,12 @@ export async function tldrawToImage(
 	// Use name flag if available then source filename if available, otherwise the ID from the URL
 	// May be suffixed if --frames is set
 	// TODO consider 'editor.getDocumentSettings().name', but always appears empty?
-	const outputFilename =
-		name === undefined
+	resolvedOptions.name =
+		resolvedOptions.name === undefined
 			? isLocal
 				? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
 				: validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname
-			: sanitizeName(name, format)
+			: sanitizeName(resolvedOptions.name, resolvedOptions.format)
 
 	// Start up local server if appropriate
 	if (isLocal) log.info(`Loading tldr data "${validatedPathOrUrl}"`)
@@ -98,37 +79,12 @@ export async function tldrawToImage(
 	// Run the download
 	let exportReport: string[]
 
-	if (typeof frames === 'boolean' && frames) {
-		exportReport = await tldrawController.downloadAllFrames(
-			output,
-			outputFilename,
-			format,
-			stripStyle,
-			print,
-			dark,
-			transparent,
-		)
-	} else if (Array.isArray(frames) && frames.length > 0) {
-		exportReport = await tldrawController.downloadFrames(
-			output,
-			outputFilename,
-			format,
-			stripStyle,
-			frames,
-			print,
-			dark,
-			transparent,
-		)
+	if (resolvedOptions.frames && typeof resolvedOptions.frames === 'boolean') {
+		exportReport = await tldrawController.downloadAllFrames(resolvedOptions)
+	} else if (Array.isArray(resolvedOptions.frames) && resolvedOptions.frames.length > 0) {
+		exportReport = await tldrawController.downloadFrames(resolvedOptions.frames, resolvedOptions)
 	} else {
-		exportReport = await tldrawController.download(
-			output,
-			outputFilename,
-			format,
-			stripStyle,
-			print,
-			dark,
-			transparent,
-		)
+		exportReport = await tldrawController.download(resolvedOptions)
 	}
 
 	// Clean up
@@ -138,11 +94,6 @@ export async function tldrawToImage(
 	log.info(`Export time: ${prettyMilliseconds(performance.now() - startTime)}`)
 
 	return exportReport
-}
-
-// Helpers
-function stripUndefined(options: Record<string, unknown>): Record<string, unknown> {
-	return Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
 }
 
 function sanitizeName(name: string, format: TldrawFormat): string {

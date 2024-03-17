@@ -23,11 +23,11 @@ declare global {
 	interface Window {
 		editor: Editor
 		getImage: (options: {
-			background: boolean
-			darkMode: boolean
-			format: Parameters<typeof exportToBlob>[0]['format']
-			padding: number
-			scale: number
+			background?: boolean
+			darkMode?: boolean
+			format: 'jpeg' | 'json' | 'png' | 'svg' | 'webp'
+			padding?: number
+			scale?: number
 		}) => Promise<string>
 	}
 }

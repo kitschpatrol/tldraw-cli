@@ -2,7 +2,7 @@
 import getImageInlineScript from './inline/get-image?iife'
 import getTldrInlineScript from './inline/get-tldr?iife'
 import setTldrInlineScript from './inline/set-tldr?iife'
-import type { TldrawFormat } from './tldraw-to-image'
+import type { TldrawToImageOptions } from './tldraw-to-image'
 import log from './utilities/log'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
@@ -13,6 +13,7 @@ import type { Browser, Page } from 'puppeteer'
 import { base64ToString, base64ToUint8Array, stringToBase64 } from 'uint8array-extras'
 import untildify from 'untildify'
 
+type DownloadOptions = Omit<TldrawToImageOptions, 'frames'>
 type PageFrame = { id: string; name: string }
 
 /* eslint-disable perfectionist/sort-classes */
@@ -70,53 +71,17 @@ export default class TldrawController {
 	}
 
 	// Public method doesn't expose pageFrame
-	async download(
-		output: string,
-		filename: string,
-		format: TldrawFormat,
-		stripStyle: boolean,
-		print: boolean,
-		dark: boolean,
-		transparent: boolean,
-	): Promise<string[]> {
-		return this._download(output, filename, format, stripStyle, undefined, print, dark, transparent)
+	async download(options: DownloadOptions): Promise<string[]> {
+		return this._download(undefined, options)
 	}
 
-	async downloadFrame(
-		output: string,
-		filename: string,
-		format: TldrawFormat,
-		stripStyle: boolean,
-		frameNameOrId: string,
-		print: boolean,
-		dark: boolean,
-		transparent: boolean,
-	): Promise<string[]> {
-		return this.downloadFrames(
-			output,
-			filename,
-			format,
-			stripStyle,
-			[frameNameOrId],
-			print,
-			dark,
-			transparent,
-		)
+	async downloadFrame(frameNameOrId: string, options: DownloadOptions): Promise<string[]> {
+		return this.downloadFrames([frameNameOrId], options)
 	}
 
-	async downloadFrames(
-		output: string,
-		filename: string,
-		format: TldrawFormat,
-		stripStyle: boolean,
-		frameNamesOrIds: string[],
-		print: boolean,
-		dark: boolean,
-		transparent: boolean,
-	): Promise<string[]> {
+	async downloadFrames(frameNamesOrIds: string[], options: DownloadOptions): Promise<string[]> {
 		// Validate frame existence
 		const validPageFrames: PageFrame[] = []
-
 		for (const frame of frameNamesOrIds) {
 			const pageFrame = await this.getPageFrameWithNameOrId(frame)
 			if (pageFrame === undefined) {
@@ -144,43 +109,20 @@ export default class TldrawController {
 		for (const frame of validPageFrames) {
 			const frameSuffix = isFrameNameCollision ? `-${frame.id.replace('shape:', '')}` : ''
 			outputAccumulator.push(
-				...(await this._download(
-					output,
-					`${filename}${frameSuffix}`,
-					format,
-					stripStyle,
-					frame,
-					print,
-					dark,
-					transparent,
-				)),
+				...(await this._download(frame, {
+					...options,
+					name: `${options.name}${frameSuffix}`,
+				})),
 			)
 		}
 
 		return outputAccumulator
 	}
 
-	async downloadAllFrames(
-		output: string,
-		filename: string,
-		format: TldrawFormat,
-		stripStyle: boolean,
-		print: boolean,
-		dark: boolean,
-		transparent: boolean,
-	): Promise<string[]> {
+	async downloadAllFrames(options: DownloadOptions): Promise<string[]> {
 		const pageFrames = await this.getPageFrames()
 		const frameNamesOrIds = pageFrames.map((f) => f.id)
-		return this.downloadFrames(
-			output,
-			filename,
-			format,
-			stripStyle,
-			frameNamesOrIds,
-			print,
-			dark,
-			transparent,
-		)
+		return this.downloadFrames(frameNamesOrIds, options)
 	}
 
 	async loadFile(filePath: string) {
@@ -224,30 +166,61 @@ export default class TldrawController {
 
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	private async _download(
-		output: string,
-		filename: string,
-		format: TldrawFormat,
-		stripStyle: boolean,
 		pageFrame: PageFrame | undefined, // Trust that existence has been validated
-		print: boolean,
-		dark: boolean,
-		transparent: boolean,
+		options: DownloadOptions,
 	): Promise<string[]> {
+		// Validate options at the last minute
 		if (!this.page) throw new Error('Controller not started')
+		if (this.isEmpty) throw new Error('Cannot export an empty document')
 
-		if (this.isEmpty) {
-			throw new Error('Cannot export an empty document')
-		}
-
-		if (stripStyle && format !== 'svg') {
+		// Only SVGs have style tags
+		if (options.stripStyle && options.format !== 'svg')
 			log.warn('--strip-style is only supported for SVG output')
+
+		// Many flags don't make sense for TLDR
+		if (options.format === 'tldr') {
+			if (pageFrame !== undefined)
+				log.warn(
+					'--frames is not supported when exporting to "tldr", ignoring flag and exporting entire sketch file',
+				)
+
+			if (options.dark !== false) {
+				log.warn(
+					'--dark is not supported when exporting to "tldr", ignoring flag and exporting sketch file',
+				)
+			}
+
+			if (options.padding !== undefined) {
+				log.warn(
+					'--padding is not supported when exporting to "tldr", ignoring flag and exporting sketch file',
+				)
+			}
+
+			if (options.scale !== undefined) {
+				log.warn(
+					'--scale is not supported when exporting to "tldr", ignoring flag and exporting sketch file',
+				)
+			}
+
+			if (options.transparent !== false) {
+				log.warn(
+					'--transparent is not supported when exporting to "tldr", ignoring flag and exporting sketch file',
+				)
+			}
 		}
 
-		if (pageFrame !== undefined && format === 'tldr') {
-			log.warn('--frames is not supported for tldr output, downloading entire document')
-		}
-
-		// TODO more tldr warnings
+		// Set defaults, most come from tldraw itself or the cli tools
+		const {
+			dark = false,
+			format = 'svg',
+			name: filename,
+			output = './',
+			padding,
+			print = false,
+			scale,
+			stripStyle = false,
+			transparent = false,
+		} = this.stripUndefined(options) as DownloadOptions
 
 		let frameSuffix = ''
 		let base64String = ''
@@ -270,26 +243,18 @@ export default class TldrawController {
 				await this.page.evaluate(`editor.select('${pageFrame.id}')`)
 			}
 
-			// Load the function
+			// Load the getImage function into the page
 			await this.page.evaluate(getImageInlineScript)
 
-			// Define options for exportToBlob
-			const options: Parameters<Window['getImage']>[0] = {
-				background: !transparent,
+			base64String = await this.page.evaluate(async (options) => window.getImage(options), {
+				background: transparent === undefined ? undefined : !transparent,
 				darkMode: dark,
 				format,
-				padding: 10,
-				scale: 1,
-			}
+				padding,
+				scale,
+			})
 
-			base64String = await this.page.evaluate(
-				async (options_) => window.getImage(options_),
-				options,
-			)
-
-			// TODO strip style
 			if (stripStyle && format === 'svg') {
-				// Strip style from the SVG
 				base64String = stringToBase64(this.stripStyleElement(base64ToString(base64String)))
 			}
 		}
@@ -300,7 +265,6 @@ export default class TldrawController {
 
 		if (print) {
 			if (format === 'png') {
-				// TODO ready for url use?
 				return [base64String]
 			}
 
@@ -358,9 +322,14 @@ export default class TldrawController {
 		)) as PageFrame[]
 	}
 
+	// Helpers
 	private stripStyleElement(svg: string): string {
 		const dom = cheerio.load(svg, { xmlMode: true })
 		dom('style').remove()
 		return dom.xml()
+	}
+
+	private stripUndefined(options: Record<string, unknown>): Record<string, unknown> {
+		return Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
 	}
 }
