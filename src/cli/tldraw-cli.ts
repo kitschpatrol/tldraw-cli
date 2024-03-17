@@ -193,7 +193,8 @@ await yargsInstance
 					type: 'boolean',
 				}),
 		async (argv) => {
-			const { filesOrUrls, local, verbose } = argv
+			const filesOrUrls = argv.filesOrUrls?.filter((fileOrUrl) => fileOrUrl !== undefined)
+			const { local, verbose } = argv
 
 			log.verbose = verbose
 
