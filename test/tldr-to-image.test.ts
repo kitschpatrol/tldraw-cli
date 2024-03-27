@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
 import { describe, expect, it, vi } from 'vitest'
 
-const cleanUp = false
+const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
 const tldrTestFileThreeFramesPath = './test/assets/test-sketch-three-frames.tldr'
 
