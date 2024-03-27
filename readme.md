@@ -118,7 +118,7 @@ tldraw-cli export <files-or-urls..>
 | `--transparent` | `-t`  |            | Export an image with a transparent background.                                                                                                                        | `boolean` | `false`                                   |
 | `--dark`        | `-d`  |            | Export a dark theme version of the image.                                                                                                                             | `boolean` | `false`                                   |
 | `--padding`     |       | `[number]` | Set a specific padding amount around the exported image.                                                                                                              |           | `32`                                      |
-| `--scale`       |       | `[number]` | Set a sampling amount for raster image exports.                                                                                                                       |           | `1`                                       |
+| `--scale`       |       | `[number]` | Set a sampling factor for raster image exports.                                                                                                                       |           | `1`                                       |
 | `--strip-style` |       |            | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets. Applies to SVG output only.    | `boolean` | `false`                                   |
 | `--print`       | `-p`  |            | Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and disregards `--name`. PNGs are printed as base64-encoded strings. | `boolean` | `false`                                   |
 | `--verbose`     |       |            | Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.                                       | `boolean` | `false`                                   |
@@ -362,9 +362,9 @@ On Discord:
 
 ## Implementation notes
 
-This tool is not a part of the official tldraw project, and it is currently only tested and known to be compatible with tldraw 2.0.0-beta.2.\_
+This tool is not a part of the official tldraw project.
 
-Due to the current implementation of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app serves a local instance of tldraw, then loads a `.tldr` and invokes the export download via the [Puppeteer](https://pptr.dev) headless browser automation tool.
+Due to the architecture of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app serves a local instance of tldraw, then loads a `.tldr` and invokes the export download via the [Puppeteer](https://pptr.dev) headless browser automation tool.
 
 This can be a bit slow, (exporting seems to take a second or two), but in the context of a statically-generated content pipeline it's not the end of the world.
 
