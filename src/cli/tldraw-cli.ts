@@ -88,7 +88,7 @@ await yargsInstance
 				.option('scale', {
 					default: undefined,
 					defaultDescription: '1',
-					describe: 'Set a sampling amount for raster image exports.',
+					describe: 'Set a sampling factor for raster image exports.',
 					type: 'number',
 				})
 				.option('strip-style', {
