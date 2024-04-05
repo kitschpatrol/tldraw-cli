@@ -35,6 +35,9 @@ function getStableSvgHash(filePath: string): string {
 		}
 	}
 
+	// Remove style elements and comments, since font embed ordering is not deterministic
+	svgContent = stripUnstableElements(svgContent)
+
 	const hash = createHash('sha256')
 	hash.update(svgContent)
 	return hash.digest('hex')
@@ -81,4 +84,20 @@ export function getStyleElementCount(filePath: string): number {
 	const svg = readFileSync(filePath, { encoding: 'utf8' })
 	const dom = cheerio.load(svg, { xmlMode: true })
 	return dom('style').length
+}
+
+export function stripUnstableElements(svg: string): string {
+	const dom = cheerio.load(svg, { xmlMode: true })
+	dom('style').remove()
+
+	// Remove all comment nodes
+	dom('*')
+		.contents()
+		.filter(function () {
+			// Node type 8 corresponds to comments
+			return this.nodeType === 8
+		})
+		.remove()
+
+	return dom.xml()
 }
