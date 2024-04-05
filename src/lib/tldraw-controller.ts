@@ -66,6 +66,11 @@ export default class TldrawController {
 	async close() {
 		if (!this.browser) throw new Error('Controller not started')
 
+		// Avoid lingering Chrome processes
+		// https://stackoverflow.com/a/76505750/2437832
+		const pages = await this.browser.pages()
+		await Promise.all(pages.map(async (page) => page.close()))
+
 		await this.browser.close()
 		log.info('Stopped controller')
 	}
