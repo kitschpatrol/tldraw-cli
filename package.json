@@ -62,7 +62,7 @@
 	"dependencies": {
 		"@fontsource/inter": "^5.0.17",
 		"express": "^4.19.2",
-		"puppeteer": "^22.6.2",
+		"puppeteer": "^22.6.3",
 		"uint8array-extras": "^1.1.0"
 	},
 	"devDependencies": {
@@ -90,7 +90,7 @@
 		"react-dom": "^18.2.0",
 		"tldraw": "^2.0.2",
 		"tsx": "^4.7.2",
-		"typescript": "^5.4.3",
+		"typescript": "^5.4.4",
 		"untildify": "^5.0.0",
 		"vite": "^5.2.8",
 		"vitest": "^1.4.0",
