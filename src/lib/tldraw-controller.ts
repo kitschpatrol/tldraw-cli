@@ -321,6 +321,7 @@ export default class TldrawController {
 			`editor.getCurrentPageShapes().reduce((accumulator, shape) => {
 				if (shape.type === 'frame') {
 					accumulator.push({ id: shape.id, name: shape.props.name })
+					accumulator.push({ id: shape.id, name: shape.props.name === '' ? 'Frame' : shape.props.name })
 				}
 				return accumulator
 			}, [])`,
