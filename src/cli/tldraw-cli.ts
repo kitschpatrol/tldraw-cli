@@ -64,7 +64,28 @@ await yargsInstance
 					// absence of the option
 					defaultDescription: 'false',
 					describe:
-						'Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or skip the arguments to export all frames.',
+						'Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or pass the flag without the arguments to export all frames. By default, the entire first page is exported with all frames.',
+					type: 'array',
+				})
+				.option('pages', {
+					coerce(args: string[]) {
+						// If --pages is not passed, missing from argv, and therefore it's automatically undefined
+						// If --pages is passed without arguments, it's an empty array, which we treat as true
+
+						// Could also handle --pages true and --pages false, but this
+						// creates a minor edge case of not being able to pass "true" or
+						// "false" as a frame name if we do this... so we don't
+						// if (args.length === 1 && (args[0] === 'true')) return true
+						// if (args.length === 1 && (args[0] === 'false')) return false
+
+						return args.length === 0 ? true : args
+					},
+					// Do not set a default value, so we can coerce --pages without a
+					// value to true, and still be able to extract meaning from the
+					// absence of the option
+					defaultDescription: 'false',
+					describe:
+						'Export each sketch "page" as a separate image. Pass one or more page names or IDs to export specific page, or pass the flag without the arguments to export all pages. By default, only the first page is exported.',
 					type: 'array',
 				})
 				.option('transparent', {
@@ -132,6 +153,7 @@ await yargsInstance
 				name,
 				output,
 				padding,
+				pages,
 				print,
 				scale,
 				stripStyle,
@@ -160,6 +182,7 @@ await yargsInstance
 						name: resolvedName,
 						output,
 						padding,
+						pages,
 						print,
 						scale,
 						stripStyle,

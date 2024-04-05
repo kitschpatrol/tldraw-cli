@@ -33,7 +33,7 @@ declare global {
 	}
 }
 
-// Assumes the shape selections have already been set
+// Assumes the shape / page selections have already been set
 // before this function is called.
 window.getImage = async ({ background, darkMode, format, padding, scale }): Promise<string> => {
 	const editor = window.editor as Editor

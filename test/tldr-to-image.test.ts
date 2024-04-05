@@ -9,6 +9,7 @@ import { describe, expect, it, vi } from 'vitest'
 const cleanUp = true
 const tldrTestFilePath = './test/assets/test-sketch.tldr'
 const tldrTestFileThreeFramesPath = './test/assets/test-sketch-three-frames.tldr'
+const tldrTestFileThreePagesPath = './test/assets/test-sketch-three-pages.tldr'
 
 describe('default behavior', () => {
 	it(
@@ -18,6 +19,19 @@ describe('default behavior', () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
+	it(
+		'should export the first page of a multi-page local tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath)
+
+			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages.svg`)
 			expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
@@ -209,6 +223,139 @@ describe('frames', () => {
 	)
 })
 
+describe('pages', () => {
+	it(
+		'should export a specific named page of a multi-page tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
+				pages: ['Page With a Name'],
+			})
+
+			expect(savedImageFileName).toBe(
+				`${process.cwd()}/test-sketch-three-pages-page-with-a-name.svg`,
+			)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
+	it(
+		'should export a specific page id of a multi-page tldr file blah',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
+				pages: ['BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
+			})
+
+			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages-page-2.svg`)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
+	it(
+		'should export a specific page id with a prefix of a multi-page tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
+				pages: ['page:BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
+			})
+
+			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages-page-2.svg`)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
+	it(
+		'should export a multiple specific pages of a multi-page tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
+				pages: ['BiSbFe49DEkSQRQs28yJV', 'Page With a Name'], // Cspell:disable-line
+			})
+
+			expect(savedImageFileNames).toHaveLength(2)
+
+			for (const fileName of savedImageFileNames) {
+				expectFileToBeValid(fileName, 'svg')
+			}
+
+			if (cleanUp) {
+				for (const fileName of savedImageFileNames) {
+					rmSync(fileName)
+				}
+			}
+		},
+	)
+
+	it('should export all pages of a multi-page tldr file', { timeout: 10_000 }, async () => {
+		const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
+			pages: true,
+		})
+
+		expect(savedImageFileNames).toHaveLength(3)
+
+		for (const fileName of savedImageFileNames) {
+			expectFileToBeValid(fileName, 'svg')
+		}
+
+		if (cleanUp) {
+			for (const fileName of savedImageFileNames) {
+				rmSync(fileName)
+			}
+		}
+	})
+
+	it(
+		'should export first page of a multi-page tldr file when pages is explicitly false',
+		{ timeout: 10_000 },
+		async () => {
+			const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
+				pages: false,
+			})
+
+			expect(savedImageFileNames).toHaveLength(1)
+
+			for (const fileName of savedImageFileNames) {
+				expectFileToBeValid(fileName, 'svg')
+			}
+
+			if (cleanUp) {
+				for (const fileName of savedImageFileNames) {
+					rmSync(fileName)
+				}
+			}
+		},
+	)
+
+	it(
+		'should export frames from a specific page id of a multi-page tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
+				frames: true,
+				pages: ['BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
+			})
+
+			expect(savedImageFileNames).toHaveLength(2)
+			for (const fileName of savedImageFileNames) {
+				expectFileToBeValid(fileName, 'svg')
+			}
+
+			if (cleanUp) {
+				for (const fileName of savedImageFileNames) {
+					rmSync(fileName)
+				}
+			}
+		},
+	)
+})
+
 describe('warnings and failures', () => {
 	it('should fail on empty files', { timeout: 10_000 }, async () => {
 		await expect(tldrawToImage('./test/assets/test-sketch-empty.tldr')).rejects.toThrow()
@@ -220,13 +367,73 @@ describe('warnings and failures', () => {
 		async () => {
 			const warnSpy = vi.spyOn(console, 'warn')
 
-			await tldrawToImage(tldrTestFileThreeFramesPath, {
+			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath, {
 				frames: ['ceci-nest-pas-un-cadre'],
 			})
 
-			expect(warnSpy).toMatchInlineSnapshot()
+			expect(warnSpy).toMatchInlineSnapshot(`
+				[MockFunction warn] {
+				  "calls": [
+				    [
+				      "[33m[Warning][39m",
+				      "Frame "ceci-nest-pas-un-cadre" not found in sketch",
+				    ],
+				    [
+				      "[33m[Warning][39m",
+				      "None of the requested frames were found in sketch, ignoring frames option",
+				    ],
+				  ],
+				  "results": [
+				    {
+				      "type": "return",
+				      "value": undefined,
+				    },
+				    {
+				      "type": "return",
+				      "value": undefined,
+				    },
+				  ],
+				}
+			`)
+
+			if (cleanUp) rmSync(savedImageFileName)
 		},
 	)
+
+	it('should warn if a bogus page is requested', { timeout: 10_000 }, async () => {
+		const warnSpy = vi.spyOn(console, 'warn')
+
+		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
+			pages: ['i do not exist'],
+		})
+
+		expect(warnSpy).toMatchInlineSnapshot(`
+			[MockFunction warn] {
+			  "calls": [
+			    [
+			      "[33m[Warning][39m",
+			      "Page "i do not exist" not found in sketch",
+			    ],
+			    [
+			      "[33m[Warning][39m",
+			      "None of the requested pages were found in sketch, ignoring pages option",
+			    ],
+			  ],
+			  "results": [
+			    {
+			      "type": "return",
+			      "value": undefined,
+			    },
+			    {
+			      "type": "return",
+			      "value": undefined,
+			    },
+			  ],
+			}
+		`)
+
+		if (cleanUp) rmSync(savedImageFileName)
+	})
 
 	it('should warn if stripStyle and format png are combined', { timeout: 10_000 }, async () => {
 		const warnSpy = vi.spyOn(console, 'warn')
@@ -294,8 +501,8 @@ describe('warnings and failures', () => {
 
 function flagToString(object: Record<string, unknown>) {
 	return Object.entries(object)
-		.map(([key, value]) => `${key}-${String(value)}`)
-		.join('-')
+		.map(([key, value]) => `${key} ${String(value)}`)
+		.join(' ')
 		.toLowerCase()
 }
 

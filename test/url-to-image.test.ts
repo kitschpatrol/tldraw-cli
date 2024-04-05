@@ -8,6 +8,7 @@ import { expect, it } from 'vitest'
 const cleanUp = true
 const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'
 const tldrawTestThreeFramesUrl = 'https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw'
+const tldrawTestThreePagesUrl = 'https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD'
 
 it(
 	'should export the tldraw url to an svg in the current folder by default',
@@ -74,6 +75,24 @@ it(
 it('should export each frame individually if --frames is set', { timeout: 10_000 }, async () => {
 	const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
 		frames: true,
+	})
+
+	expect(savedImageFileNames).toHaveLength(3)
+
+	for (const fileName of savedImageFileNames) {
+		expectFileToBeValid(fileName, 'svg')
+	}
+
+	if (cleanUp) {
+		for (const fileName of savedImageFileNames) {
+			rmSync(fileName)
+		}
+	}
+})
+
+it('should export each page individually if --pages is set', { timeout: 10_000 }, async () => {
+	const savedImageFileNames = await tldrawToImage(tldrawTestThreePagesUrl, {
+		pages: true,
 	})
 
 	expect(savedImageFileNames).toHaveLength(3)

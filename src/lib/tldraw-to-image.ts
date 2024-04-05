@@ -21,6 +21,7 @@ export type TldrawToImageOptions = {
 	name?: string
 	output?: string
 	padding?: number
+	pages?: boolean | string[]
 	print?: boolean
 	scale?: number
 	stripStyle?: boolean
@@ -52,7 +53,7 @@ export async function tldrawToImage(
 	log.info(isLocal ? 'Local file detected' : 'tldraw URL detected')
 
 	// Use name flag if available then source filename if available, otherwise the ID from the URL
-	// May be suffixed if --frames is set
+	// May be suffixed if --frames or --pages is set
 	// TODO consider 'editor.getDocumentSettings().name', but always appears empty?
 	options.name =
 		options.name === undefined
@@ -73,15 +74,7 @@ export async function tldrawToImage(
 	await tldrawController.start()
 
 	// Run the download
-	let exportReport: string[]
-
-	if (options.frames && typeof options.frames === 'boolean') {
-		exportReport = await tldrawController.downloadAllFrames(options)
-	} else if (Array.isArray(options.frames) && options.frames.length > 0) {
-		exportReport = await tldrawController.downloadFrames(options.frames, options)
-	} else {
-		exportReport = await tldrawController.download(options)
-	}
+	const exportReport = await tldrawController.download(options)
 
 	// Clean up
 	await tldrawController.close()
