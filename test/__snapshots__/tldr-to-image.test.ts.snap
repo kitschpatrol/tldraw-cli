@@ -82,6 +82,8 @@ exports[`pages > should export a multiple specific pages of a multi-page tldr fi
 
 exports[`pages > should export a multiple specific pages of a multi-page tldr file 2`] = `"15a009c9fac32d442afdc1140f0f0f42fc6508d25363e3788881143929f3447d"`;
 
+exports[`pages > should export a single page specified by an index of a multi-page tldr file 1`] = `"15a009c9fac32d442afdc1140f0f0f42fc6508d25363e3788881143929f3447d"`;
+
 exports[`pages > should export a specific named page of a multi-page tldr file 1`] = `"15a009c9fac32d442afdc1140f0f0f42fc6508d25363e3788881143929f3447d"`;
 
 exports[`pages > should export a specific page id of a multi-page tldr file blah 1`] = `"09e8c3801470786fd90c055ab002fdff6e2ceb233305ed7e7185db8214e2027d"`;
@@ -99,6 +101,10 @@ exports[`pages > should export first page of a multi-page tldr file when pages i
 exports[`pages > should export frames from a specific page id of a multi-page tldr file 1`] = `"fe6b6142dcd8d19c3679cd94b78303a6adfd80e5826dee477274f1b492d9d530"`;
 
 exports[`pages > should export frames from a specific page id of a multi-page tldr file 2`] = `"ea918c4388baa4d009127f1e6caa5d167130759eb91aa38f8666237c2696f07b"`;
+
+exports[`pages > should export multiple pages specified by index of a multi-page tldr file 1`] = `"0f8afb3dbe21482d465dd3af304dfd6d1707ab56f4e526e7078d030f1698d6ec"`;
+
+exports[`pages > should export multiple pages specified by index of a multi-page tldr file 2`] = `"15a009c9fac32d442afdc1140f0f0f42fc6508d25363e3788881143929f3447d"`;
 
 exports[`save to format > should export local tldr file to an json 1`] = `"e947f78d5393a822c860295337d76edc16c1502c85ac546750377dd41d9cb661"`;
 

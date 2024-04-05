@@ -109,22 +109,22 @@ tldraw-cli export <files-or-urls..>
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | `files-or-urls`     | The tldraw sketch to export. May be one or more paths to local `.tldr` files, or tldraw\.com sketch URLs. Accepts a mix of both file paths and URLs, and supports glob matching via your shell. Prints the absolute path(s) to the exported image(s) to `stdout`. _(Required.)_ | `array` |
 
-| Option          | Alias | Argument   | Description                                                                                                                                                                                                                                | Type      | Default                                   |
-| --------------- | ----- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- | ----------------------------------------- |
-| `--format`      | `-f`  |            | Output image format.                                                                                                                                                                                                                       | `string`  | `"svg"`                                   |
-| `--output`      | `-o`  |            | Output image directory.                                                                                                                                                                                                                    | `string`  | `"./"`                                    |
-| `--name`        | `-n`  |            | Output image name (without extension).                                                                                                                                                                                                     | `string`  | The original file name or URL id is used. |
-| `--frames`      |       |            | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or pass the flag without the arguments to export all frames. By default, the entire first page is exported with all frames. | `array`   | `false`                                   |
-| `--pages`       |       |            | Export each sketch "page" as a separate image. Pass one or more page names or IDs to export specific page, or pass the flag without the arguments to export all pages. By default, only the first page is exported.                        | `array`   | `false`                                   |
-| `--transparent` | `-t`  |            | Export an image with a transparent background.                                                                                                                                                                                             | `boolean` | `false`                                   |
-| `--dark`        | `-d`  |            | Export a dark theme version of the image.                                                                                                                                                                                                  | `boolean` | `false`                                   |
-| `--padding`     |       | `[number]` | Set a specific padding amount around the exported image.                                                                                                                                                                                   |           | `32`                                      |
-| `--scale`       |       | `[number]` | Set a sampling factor for raster image exports.                                                                                                                                                                                            |           | `1`                                       |
-| `--strip-style` |       |            | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets. Applies to SVG output only.                                                                         | `boolean` | `false`                                   |
-| `--print`       | `-p`  |            | Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and disregards `--name`. PNGs are printed as base64-encoded strings.                                                                      | `boolean` | `false`                                   |
-| `--verbose`     |       |            | Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.                                                                                                            | `boolean` | `false`                                   |
-| `--help`        | `-h`  |            | Show help                                                                                                                                                                                                                                  | `boolean` |                                           |
-| `--version`     | `-v`  |            | Show version number                                                                                                                                                                                                                        | `boolean` |                                           |
+| Option          | Alias | Argument   | Description                                                                                                                                                                                                                                                          | Type      | Default                                   |
+| --------------- | ----- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------------------------------------- |
+| `--format`      | `-f`  |            | Output image format.                                                                                                                                                                                                                                                 | `string`  | `"svg"`                                   |
+| `--output`      | `-o`  |            | Output image directory.                                                                                                                                                                                                                                              | `string`  | `"./"`                                    |
+| `--name`        | `-n`  |            | Output image name (without extension).                                                                                                                                                                                                                               | `string`  | The original file name or URL id is used. |
+| `--frames`      |       |            | Export each sketch "frame" as a separate image. Pass one or more frame names or IDs to export specific frames, or pass the flag without the arguments to export all frames. By default, the entire first page is exported with all frames.                           | `array`   | `false`                                   |
+| `--pages`       |       |            | Export each sketch "page" as a separate image. Pass one or more page names or IDs to export specific page, or pass one or more page index numbers (from 0), or pass the flag without the arguments to export all pages. By default, only the first page is exported. | `array`   | `false`                                   |
+| `--transparent` | `-t`  |            | Export an image with a transparent background.                                                                                                                                                                                                                       | `boolean` | `false`                                   |
+| `--dark`        | `-d`  |            | Export a dark theme version of the image.                                                                                                                                                                                                                            | `boolean` | `false`                                   |
+| `--padding`     |       | `[number]` | Set a specific padding amount around the exported image.                                                                                                                                                                                                             |           | `32`                                      |
+| `--scale`       |       | `[number]` | Set a sampling factor for raster image exports.                                                                                                                                                                                                                      |           | `1`                                       |
+| `--strip-style` |       |            | Remove `<style>` elements from SVG output, useful to lighten the load of embedded fonts if you intend to provide your own stylesheets. Applies to SVG output only.                                                                                                   | `boolean` | `false`                                   |
+| `--print`       | `-p`  |            | Print the exported image(s) to stdout instead of saving to a file. Incompatible with `--output`, and disregards `--name`. PNGs are printed as base64-encoded strings.                                                                                                | `boolean` | `false`                                   |
+| `--verbose`     |       |            | Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.                                                                                                                                      | `boolean` | `false`                                   |
+| `--help`        | `-h`  |            | Show help                                                                                                                                                                                                                                                            | `boolean` |                                           |
+| `--version`     | `-v`  |            | Show version number                                                                                                                                                                                                                                                  | `boolean` |                                           |
 
 #### Subcommand: `tldraw-cli open`
 
@@ -241,6 +241,24 @@ tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "
 tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
 ```
 
+##### Export a specific page by name from a tldraw\.com URL
+
+```sh
+tldraw-cli export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages "Page 3"
+```
+
+##### Export a specific pages by index from a tldraw\.com URL
+
+```sh
+tldraw-cli export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages 0 2
+```
+
+##### Export each pages as its own SVG from a tldraw\.com URL
+
+```sh
+tldraw-cli export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages
+```
+
 ##### Export to JSON
 
 ```sh
@@ -281,7 +299,7 @@ The library exports a single async function, `tldrawToImage`, which takes an opt
     name?: string
     output?: string
     padding?: number
-    pages?: boolean | string[]
+    pages?: boolean | string[] | number[]
     print?: boolean
     scale?: number
     stripStyle?: boolean

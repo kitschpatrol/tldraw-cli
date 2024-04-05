@@ -291,15 +291,19 @@ export default class TldrawController {
 	// Deduplicates, verifies existence, and normalizes to ids of the style 'page:xxxx'
 	private validatePages(
 		sketch: TlPage[],
-		pages: boolean | string[] | undefined,
+		pages: boolean | number[] | string[] | undefined,
 	): boolean | string[] | undefined {
 		if (Array.isArray(pages)) {
 			const validPages: string[] = []
 			for (const p of pages) {
-				const matchingPage = sketch.find(
-					(page) =>
-						slugify(p) === slugify(page.name) || `page:${p.replace(/^page:/, '')}` === page.id,
-				)
+				const matchingPage =
+					typeof p === 'number'
+						? sketch[p]
+						: sketch.find(
+								(page) =>
+									slugify(p) === slugify(page.name) ||
+									`page:${p.replace(/^page:/, '')}` === page.id,
+							)
 				if (matchingPage) {
 					if (!validPages.includes(matchingPage.id)) {
 						validPages.push(matchingPage.id)
@@ -322,7 +326,7 @@ export default class TldrawController {
 
 	private validateFrames(
 		sketch: TlPage[],
-		pages: boolean | string[] | undefined,
+		pages: boolean | number[] | string[] | undefined,
 		frames: boolean | string[] | undefined,
 	): boolean | string[] | undefined {
 		if (Array.isArray(frames)) {
@@ -332,10 +336,11 @@ export default class TldrawController {
 					(typeof pages === 'boolean' && !pages && index === 0) ||
 					(typeof pages === 'boolean' && pages) ||
 					(Array.isArray(pages) &&
-						pages.some(
-							(p) =>
-								slugify(p) === slugify(page.name) ||
-								p.replace(/^page:/, '') === page.id.replace(/^page:/, ''),
+						pages.some((p, index) =>
+							typeof p === 'number'
+								? index === p
+								: slugify(p) === slugify(page.name) ||
+									p.replace(/^page:/, '') === page.id.replace(/^page:/, ''),
 						)),
 			)
 
@@ -378,7 +383,7 @@ export default class TldrawController {
 	// eslint-disable-next-line complexity
 	private getDownloadPlans(
 		sketch: TlPage[],
-		pages?: boolean | string[],
+		pages?: boolean | number[] | string[],
 		frames?: boolean | string[],
 	): DownloadPlan[] {
 		const validPages = this.validatePages(sketch, pages)

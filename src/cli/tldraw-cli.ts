@@ -85,7 +85,7 @@ await yargsInstance
 					// absence of the option
 					defaultDescription: 'false',
 					describe:
-						'Export each sketch "page" as a separate image. Pass one or more page names or IDs to export specific page, or pass the flag without the arguments to export all pages. By default, only the first page is exported.',
+						'Export each sketch "page" as a separate image. Pass one or more page names or IDs to export specific page, or pass one or more page index numbers (from 0), or pass the flag without the arguments to export all pages. By default, only the first page is exported.',
 					type: 'array',
 				})
 				.option('transparent', {

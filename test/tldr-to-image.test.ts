@@ -354,6 +354,50 @@ describe('pages', () => {
 			}
 		},
 	)
+
+	it(
+		'should export a single page specified by an index of a multi-page tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
+				frames: true,
+				pages: [2],
+			})
+
+			expect(savedImageFileNames).toHaveLength(1)
+			for (const fileName of savedImageFileNames) {
+				expectFileToBeValid(fileName, 'svg')
+			}
+
+			if (cleanUp) {
+				for (const fileName of savedImageFileNames) {
+					rmSync(fileName)
+				}
+			}
+		},
+	)
+
+	it(
+		'should export multiple pages specified by index of a multi-page tldr file',
+		{ timeout: 10_000 },
+		async () => {
+			const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
+				frames: true,
+				pages: [0, 2],
+			})
+
+			expect(savedImageFileNames).toHaveLength(2)
+			for (const fileName of savedImageFileNames) {
+				expectFileToBeValid(fileName, 'svg')
+			}
+
+			if (cleanUp) {
+				for (const fileName of savedImageFileNames) {
+					rmSync(fileName)
+				}
+			}
+		},
+	)
 })
 
 describe('warnings and failures', () => {
@@ -413,6 +457,41 @@ describe('warnings and failures', () => {
 			    [
 			      "[33m[Warning][39m",
 			      "Page "i do not exist" not found in sketch",
+			    ],
+			    [
+			      "[33m[Warning][39m",
+			      "None of the requested pages were found in sketch, ignoring pages option",
+			    ],
+			  ],
+			  "results": [
+			    {
+			      "type": "return",
+			      "value": undefined,
+			    },
+			    {
+			      "type": "return",
+			      "value": undefined,
+			    },
+			  ],
+			}
+		`)
+
+		if (cleanUp) rmSync(savedImageFileName)
+	})
+
+	it('should warn if requested page index is out of bounds', { timeout: 10_000 }, async () => {
+		const warnSpy = vi.spyOn(console, 'warn')
+
+		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
+			pages: [42],
+		})
+
+		expect(warnSpy).toMatchInlineSnapshot(`
+			[MockFunction warn] {
+			  "calls": [
+			    [
+			      "[33m[Warning][39m",
+			      "Page "42" not found in sketch",
 			    ],
 			    [
 			      "[33m[Warning][39m",

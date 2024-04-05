@@ -21,7 +21,7 @@ export type TldrawToImageOptions = {
 	name?: string
 	output?: string
 	padding?: number
-	pages?: boolean | string[]
+	pages?: boolean | number[] | string[]
 	print?: boolean
 	scale?: number
 	stripStyle?: boolean
