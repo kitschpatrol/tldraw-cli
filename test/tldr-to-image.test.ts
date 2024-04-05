@@ -215,14 +215,16 @@ describe('warnings and failures', () => {
 	})
 
 	it(
-		'should fail if a nonexistent frame is requested from local tldr file',
+		'should warn if a nonexistent frame is requested from local tldr file',
 		{ timeout: 10_000 },
 		async () => {
-			await expect(
-				tldrawToImage(tldrTestFileThreeFramesPath, {
-					frames: ['ceci-nest-pas-un-cadre'],
-				}),
-			).rejects.toThrow()
+			const warnSpy = vi.spyOn(console, 'warn')
+
+			await tldrawToImage(tldrTestFileThreeFramesPath, {
+				frames: ['ceci-nest-pas-un-cadre'],
+			})
+
+			expect(warnSpy).toMatchInlineSnapshot()
 		},
 	)
 
