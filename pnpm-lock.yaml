@@ -17,6 +17,9 @@ dependencies:
   uint8array-extras:
     specifier: ^1.1.0
     version: 1.1.0
+  yargs:
+    specifier: ^17.7.2
+    version: 17.7.2
 
 devDependencies:
   '@kitschpatrol/shared-config':
@@ -103,9 +106,6 @@ devDependencies:
   vitest:
     specifier: ^1.4.0
     version: 1.4.0
-  yargs:
-    specifier: ^17.7.2
-    version: 17.7.2
 
 packages:
 

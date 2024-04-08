@@ -4,7 +4,7 @@ import esbuild from 'esbuild'
 await esbuild.build({
 	bundle: true,
 	entryPoints: ['src/cli/cli.ts'],
-	external: ['express', 'puppeteer'],
+	external: ['express', 'puppeteer', 'yargs'],
 	format: 'esm',
 	minify: false,
 	outfile: 'bin/cli.js',
