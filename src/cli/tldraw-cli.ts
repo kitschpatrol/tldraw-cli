@@ -294,7 +294,7 @@ await yargsInstance
 	)
 	.demandCommand(1)
 	.alias('h', 'help')
-	.version('version')
+	.version()
 	.alias('v', 'version')
 	.help()
 	.wrap(process.stdout.isTTY ? Math.min(120, yargsInstance.terminalWidth()) : 0)
