@@ -27,7 +27,7 @@ declare global {
 }
 
 window.getTldr = async (): Promise<string> => {
-	const editor = window.editor as Editor
+	const { editor } = window
 
 	try {
 		const blob = await serializeTldrawJsonBlob(editor.store)

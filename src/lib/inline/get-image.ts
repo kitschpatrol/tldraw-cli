@@ -36,7 +36,7 @@ declare global {
 // Assumes the shape / page selections have already been set
 // before this function is called.
 window.getImage = async ({ background, darkMode, format, padding, scale }): Promise<string> => {
-	const editor = window.editor as Editor
+	const { editor } = window
 	let ids = editor.getSelectedShapeIds()
 
 	if (ids.length === 0) {

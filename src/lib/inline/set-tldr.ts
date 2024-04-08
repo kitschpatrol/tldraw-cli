@@ -29,11 +29,11 @@ window.setTldr = (tldrData: string): void => {
 
 	const parseFileResult = parseTldrawJsonFile({
 		json: JSON.stringify(tldrData),
-		schema: (window.editor as Editor).store.schema,
+		schema: window.editor.store.schema,
 	})
 	if (parseFileResult.ok) {
 		const snapshot = parseFileResult.value.getSnapshot()
-		;(window.editor as Editor).store.loadSnapshot(snapshot)
+		window.editor.store.loadSnapshot(snapshot)
 	} else {
 		throw new Error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
 	}
