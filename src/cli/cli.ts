@@ -11,7 +11,7 @@ import { hideBin } from 'yargs/helpers'
 const yargsInstance = yargs(hideBin(process.argv))
 
 await yargsInstance
-	.scriptName('tldraw-cli')
+	.scriptName('tldraw')
 	.command('$0 <command>', 'CLI tools for tldraw.')
 	.command(
 		'export <files-or-urls..>',

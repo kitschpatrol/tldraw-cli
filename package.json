@@ -24,7 +24,8 @@
 		"pnpm": ">=8.0.0"
 	},
 	"bin": {
-		"tldraw-cli": "bin/cli.js"
+		"tldraw-cli": "bin/cli.js",
+		"tldraw": "bin/cli.js"
 	},
 	"main": "./dist/lib/index.js",
 	"module": "./dist/lib/index.js",
@@ -48,6 +49,7 @@
 		"build:cli": "tsx ./scripts/build-cli.ts",
 		"build:lib": "tsx ./scripts/build-lib.ts && tsc -p tsconfig.lib.json",
 		"build:tldraw": "pnpm run tldraw:copy-assets && vite build",
+		"clean": "git clean -fdX",
 		"dev": "pnpm run dev:tldraw",
 		"dev:tldraw": "pnpm run tldraw:copy-assets && vite",
 		"fix": "shared-config --fix",

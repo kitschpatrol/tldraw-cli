@@ -3,7 +3,7 @@ import esbuild from 'esbuild'
 
 await esbuild.build({
 	bundle: true,
-	entryPoints: ['src/cli/tldraw-cli.ts'],
+	entryPoints: ['src/cli/cli.ts'],
 	external: ['express', 'puppeteer'],
 	format: 'esm',
 	minify: false,

@@ -69,18 +69,23 @@ npm install --global @kitschpatrol/tldraw-cli
 
 ### CLI
 
+> \[!NOTE]\
+> As of version 4.5.0, command line functionality is aliased to both `tldraw` and `tldraw-cli`.
+>
+> **The less verbose `tldraw` command is preferred.** The `tldraw-cli` alias is deprecated and will be removed in the next major version.
+
 <!-- cli-help -->
 
-#### Command: `tldraw-cli`
+#### Command: `tldraw`
 
 CLI tools for tldraw.
 
-This section lists top-level commands for `tldraw-cli`.
+This section lists top-level commands for `tldraw`.
 
 Usage:
 
 ```txt
-tldraw-cli <command>
+tldraw <command>
 ```
 
 | Command  | Argument            | Description                                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -95,14 +100,14 @@ tldraw-cli <command>
 
 _See the sections below for more information on each subcommand._
 
-#### Subcommand: `tldraw-cli export`
+#### Subcommand: `tldraw export`
 
 Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.
 
 Usage:
 
 ```txt
-tldraw-cli export <files-or-urls..>
+tldraw export <files-or-urls..>
 ```
 
 | Positional Argument | Description                                                                                                                                                                                                                                                                     | Type    |
@@ -126,14 +131,14 @@ tldraw-cli export <files-or-urls..>
 | `--help`        | `-h`  |            | Show help                                                                                                                                                                                                                                                            | `boolean` |                                           |
 | `--version`     | `-v`  |            | Show version number                                                                                                                                                                                                                                                  | `boolean` |                                           |
 
-#### Subcommand: `tldraw-cli open`
+#### Subcommand: `tldraw open`
 
 Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed.
 
 Usage:
 
 ```txt
-tldraw-cli open [files-or-urls..]
+tldraw open [files-or-urls..]
 ```
 
 | Positional Argument | Description                                                                                                                                                                                              | Type    |
@@ -156,7 +161,7 @@ tldraw-cli open [files-or-urls..]
 To export the file `your-drawing.tldr` to an SVG named `your-drawing.svg` in the current working directory, run the following command. Note that the default output format is SVG, and the default export location is the current working directory.
 
 ```sh
-tldraw-cli export your-drawing.tldr
+tldraw export your-drawing.tldr
 ```
 
 The file will retain its original name, e.g. `your-drawing.svg`
@@ -164,7 +169,7 @@ The file will retain its original name, e.g. `your-drawing.svg`
 ##### Basic tldraw\.com image download
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
+tldraw export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4
 ```
 
 The tldraw\.com URL's id (e.g. `v2_c_JsxJk8dag6QsrqExukis4`) will be used for the file name.
@@ -174,7 +179,7 @@ This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → E
 ##### Export a remote tldraw\.com image to a local .tldr file
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4 --format tldr
+tldraw export https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4 --format tldr
 ```
 
 This is approximately equivalent to clicking the tldraw\.com "☰ → File → Save a copy" menu item.
@@ -184,7 +189,7 @@ Note that using `--format tldr` with a _file path_ instead of a _URL_ will still
 ##### Export to a specific image / file format
 
 ```sh
-tldraw-cli export your-drawing.tldr --format png
+tldraw export your-drawing.tldr --format png
 ```
 
 This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → Export As → PNG" menu item.
@@ -192,7 +197,7 @@ This is approximately equivalent to clicking the tldraw\.com "☰ → Edit → E
 ##### Export with a transparent background
 
 ```sh
-tldraw-cli export your-drawing.tldr --transparent --format png
+tldraw export your-drawing.tldr --transparent --format png
 ```
 
 This is approximately equivalent to checking the tldraw\.com "☰ → Edit → Export As → ☐ Transparent" menu item.
@@ -200,7 +205,7 @@ This is approximately equivalent to checking the tldraw\.com "☰ → Edit → E
 ##### Export to a specific destination
 
 ```sh
-tldraw-cli export your-drawing.tldr --output ~/Desktop
+tldraw export your-drawing.tldr --output ~/Desktop
 ```
 
 Exports to `~/Desktop/your-drawing.svg`
@@ -208,7 +213,7 @@ Exports to `~/Desktop/your-drawing.svg`
 ##### Export to a specific destination and filename
 
 ```sh
-tldraw-cli export your-drawing.tldr --output ~/Desktop --name not-your-drawing
+tldraw export your-drawing.tldr --output ~/Desktop --name not-your-drawing
 ```
 
 Exports to `~/Desktop/not-your-drawing.svg`
@@ -216,7 +221,7 @@ Exports to `~/Desktop/not-your-drawing.svg`
 ##### Export all frames from a tldraw\.com URL
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
+tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames
 ```
 
 The exported files will be suffixed with their frame name, e.g.:
@@ -232,37 +237,37 @@ It's possible in tldraw to give multiple frames in a single sketch the same name
 ##### Export a specific frame from a tldraw\.com URL
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 3"
+tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 3"
 ```
 
 ##### Export multiple frames from a tldraw\.com URL
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
+tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Frame 1" "Frame 3"
 ```
 
 ##### Export a specific page by name from a tldraw\.com URL
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages "Page 3"
+tldraw export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages "Page 3"
 ```
 
 ##### Export a specific pages by index from a tldraw\.com URL
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages 0 2
+tldraw export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages 0 2
 ```
 
 ##### Export each pages as its own SVG from a tldraw\.com URL
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages
+tldraw export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages
 ```
 
 ##### Export to JSON
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --format "json"
+tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --format "json"
 ```
 
 The `.tldr` file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
@@ -272,13 +277,13 @@ I'm not completely clear on the use-case for this format, but since tldr.com sup
 ##### Write an SVG to stdout
 
 ```sh
-tldraw-cli export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --print
+tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --print
 ```
 
 ##### Open a tldraw\.com URL
 
 ```sh
-tldraw-cli open https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
+tldraw open https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
 ```
 
 The remote sketch is copied to a locally-hosted instance of tldraw, which is then opened in your default browser.
