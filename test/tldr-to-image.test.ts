@@ -46,7 +46,7 @@ describe('save to format', () => {
 				format,
 				name: 'local-tldr-save-to-format',
 			})
-			expectFileToBeValid(savedImageFileName, 'svg')
+			expectFileToBeValid(savedImageFileName, format)
 			if (cleanUp) rmSync(savedImageFileName)
 		})
 	}
@@ -602,7 +602,7 @@ describe('export options', () => {
 						format,
 						name: `local-tldr-export-options-${flagToString(flag)}`,
 					})
-					expectFileToBeValid(savedImageFileName, 'svg')
+					expectFileToBeValid(savedImageFileName, format)
 					if (cleanUp) rmSync(savedImageFileName)
 				},
 			)
