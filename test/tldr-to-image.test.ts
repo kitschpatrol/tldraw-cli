@@ -25,6 +25,22 @@ describe('default behavior', () => {
 		},
 	)
 
+	// Test for https://github.com/kitschpatrol/tldraw-cli/issues/2
+	it(
+		'should export tldr files with shape record version 4 correctly',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage(
+				'./test/assets/test-shape-record-version-4.tldr',
+			)
+
+			expect(savedImageFileName).toBe(`${process.cwd()}/test-shape-record-version-4.svg`)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
 	it(
 		'should export the first page of a multi-page local tldr file',
 		{ timeout: 10_000 },

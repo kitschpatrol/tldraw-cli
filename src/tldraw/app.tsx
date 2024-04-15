@@ -35,10 +35,14 @@ export default function App() {
 				})
 				.then((tldrData) => {
 					if (tldrData === undefined) return
+
+					// Note alternate approach with createTLSchema
+					// https://github.com/tldraw/tldraw/issues/3155
 					const parseFileResult = parseTldrawJsonFile({
 						json: tldrData,
 						schema: editor.store.schema,
 					})
+
 					if (parseFileResult.ok) {
 						console.log('Loaded tldr file from local endpoint')
 						setStore(parseFileResult.value)
