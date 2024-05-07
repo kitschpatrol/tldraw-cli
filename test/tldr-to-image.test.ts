@@ -4,6 +4,7 @@ import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
+import stripAnsi from 'strip-ansi'
 import { describe, expect, it, vi } from 'vitest'
 
 const cleanUp = true
@@ -431,30 +432,9 @@ describe('warnings and failures', () => {
 				frames: ['ceci-nest-pas-un-cadre'],
 			})
 
-			expect(warnSpy).toMatchInlineSnapshot(`
-				[MockFunction warn] {
-				  "calls": [
-				    [
-				      "[33m[Warning][39m",
-				      "Frame "ceci-nest-pas-un-cadre" not found in sketch",
-				    ],
-				    [
-				      "[33m[Warning][39m",
-				      "None of the requested frames were found in sketch, ignoring frames option",
-				    ],
-				  ],
-				  "results": [
-				    {
-				      "type": "return",
-				      "value": undefined,
-				    },
-				    {
-				      "type": "return",
-				      "value": undefined,
-				    },
-				  ],
-				}
-			`)
+			expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+				`"[Warning],Frame "ceci-nest-pas-un-cadre" not found in sketch,[Warning],None of the requested frames were found in sketch, ignoring frames option"`,
+			)
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -467,30 +447,9 @@ describe('warnings and failures', () => {
 			pages: ['i do not exist'],
 		})
 
-		expect(warnSpy).toMatchInlineSnapshot(`
-			[MockFunction warn] {
-			  "calls": [
-			    [
-			      "[33m[Warning][39m",
-			      "Page "i do not exist" not found in sketch",
-			    ],
-			    [
-			      "[33m[Warning][39m",
-			      "None of the requested pages were found in sketch, ignoring pages option",
-			    ],
-			  ],
-			  "results": [
-			    {
-			      "type": "return",
-			      "value": undefined,
-			    },
-			    {
-			      "type": "return",
-			      "value": undefined,
-			    },
-			  ],
-			}
-		`)
+		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+			`"[Warning],Page "i do not exist" not found in sketch,[Warning],None of the requested pages were found in sketch, ignoring pages option"`,
+		)
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -502,30 +461,9 @@ describe('warnings and failures', () => {
 			pages: [42],
 		})
 
-		expect(warnSpy).toMatchInlineSnapshot(`
-			[MockFunction warn] {
-			  "calls": [
-			    [
-			      "[33m[Warning][39m",
-			      "Page "42" not found in sketch",
-			    ],
-			    [
-			      "[33m[Warning][39m",
-			      "None of the requested pages were found in sketch, ignoring pages option",
-			    ],
-			  ],
-			  "results": [
-			    {
-			      "type": "return",
-			      "value": undefined,
-			    },
-			    {
-			      "type": "return",
-			      "value": undefined,
-			    },
-			  ],
-			}
-		`)
+		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+			`"[Warning],Page "42" not found in sketch,[Warning],None of the requested pages were found in sketch, ignoring pages option"`,
+		)
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -538,22 +476,9 @@ describe('warnings and failures', () => {
 			stripStyle: true,
 		})
 
-		expect(warnSpy).toMatchInlineSnapshot(`
-			[MockFunction warn] {
-			  "calls": [
-			    [
-			      "[33m[Warning][39m",
-			      "--strip-style is only supported for SVG output",
-			    ],
-			  ],
-			  "results": [
-			    {
-			      "type": "return",
-			      "value": undefined,
-			    },
-			  ],
-			}
-		`)
+		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+			`"[Warning],--strip-style is only supported for SVG output"`,
+		)
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -566,22 +491,9 @@ describe('warnings and failures', () => {
 			print: true,
 		})
 
-		expect(warnSpy).toMatchInlineSnapshot(`
-			[MockFunction warn] {
-			  "calls": [
-			    [
-			      "[33m[Warning][39m",
-			      "Ignoring --name when using --print",
-			    ],
-			  ],
-			  "results": [
-			    {
-			      "type": "return",
-			      "value": undefined,
-			    },
-			  ],
-			}
-		`)
+		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+			`"[Warning],Ignoring --name when using --print"`,
+		)
 	})
 
 	it('should fail if print and output are combined', { timeout: 10_000 }, async () => {
