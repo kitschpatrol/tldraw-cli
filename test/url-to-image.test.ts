@@ -7,6 +7,7 @@ import { expect, it } from 'vitest'
 
 const cleanUp = true
 const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'
+const tldrawTestUrlSchema2 = 'https://www.tldraw.com/s/v2_c_85CiFqkLgUaiwmed4kIa_'
 const tldrawTestThreeFramesUrl = 'https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw'
 const tldrawTestThreePagesUrl = 'https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD'
 
@@ -144,6 +145,26 @@ it('should export to tldr', { timeout: 10_000 }, async () => {
 	})
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr`)
+	expectFileToBeValid(savedImageFileName, 'tldr')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should export schema 2 sketches to svg', { timeout: 10_000 }, async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrlSchema2)
+
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_85CiFqkLgUaiwmed4kIa_.svg`)
+	expectFileToBeValid(savedImageFileName, 'svg')
+
+	if (cleanUp) rmSync(savedImageFileName)
+})
+
+it('should export schema 2 sketches to tldr', { timeout: 10_000 }, async () => {
+	const [savedImageFileName] = await tldrawToImage(tldrawTestUrlSchema2, {
+		format: 'tldr',
+	})
+
+	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_85CiFqkLgUaiwmed4kIa_.tldr`)
 	expectFileToBeValid(savedImageFileName, 'tldr')
 
 	if (cleanUp) rmSync(savedImageFileName)

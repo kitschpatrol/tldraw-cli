@@ -43,6 +43,34 @@ describe('default behavior', () => {
 	)
 
 	it(
+		'should export tldr files saved from the browser with schema 2 correctly',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage(
+				'./test/assets/test-schema-2-from-browser.tldr',
+			)
+
+			expect(savedImageFileName).toBe(`${process.cwd()}/test-schema-2-from-browser.svg`)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
+	it(
+		'should export tldr files saved from tldraw cli with schema 2 correctly',
+		{ timeout: 10_000 },
+		async () => {
+			const [savedImageFileName] = await tldrawToImage('./test/assets/test-schema-2-from-cli.tldr')
+
+			expect(savedImageFileName).toBe(`${process.cwd()}/test-schema-2-from-cli.svg`)
+			expectFileToBeValid(savedImageFileName, 'svg')
+
+			if (cleanUp) rmSync(savedImageFileName)
+		},
+	)
+
+	it(
 		'should export the first page of a multi-page local tldr file',
 		{ timeout: 10_000 },
 		async () => {

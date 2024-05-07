@@ -18,6 +18,10 @@ exports[`should export frames to json 2`] = `"97dc46e7e5a1625b841faaf47512587115
 
 exports[`should export frames to json 3`] = `"60f3fed4c9f3da368b6adaf369b6b64dbbac1d9336fc5e8963d6825fd5a70aef"`;
 
+exports[`should export schema 2 sketches to svg 1`] = `"e478ab790d8ec5f216f7e9b3a86b183455e604ad5646b748e5a9d929db05a0ca"`;
+
+exports[`should export schema 2 sketches to tldr 1`] = `"5bc292a8d74f427bb189f3e395befbc4f821d1343149aee849ad5aebfbb51a8f"`;
+
 exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"7f769d185895f04dfaa9ecdc9ee8ba27682bb1d919cf82e508baf5d33ac849c3"`;
 
 exports[`should export the file to a specific directory when specified 1`] = `"65647c533fe4f3939d2f36ee985920a76bc5d80529fa316bbd8d175ac02fff0c"`;
