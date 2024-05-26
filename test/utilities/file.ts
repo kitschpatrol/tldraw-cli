@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import stringify from 'safe-stable-stringify'
+import phash from 'sharp-phash'
 import { expect } from 'vitest'
 
 function getFileHash(filePath: string): string {
@@ -10,6 +11,21 @@ function getFileHash(filePath: string): string {
 	const hash = createHash('sha256')
 	hash.update(fileBuffer)
 	return hash.digest('hex')
+}
+
+async function expectBitmapToMatchHash(filePath: string): Promise<void> {
+	const hash = await getStableBitmapHash(filePath)
+	expect(hash).matchSnapshot()
+}
+
+async function getStableBitmapHash(filePath: string): Promise<string> {
+	// Alternate, still not stable enough...
+	// const pixelBuffer = await sharp(filePath).raw().toBuffer()
+	// const hash = createHash('sha256')
+	// hash.update(pixelBuffer)
+	// return hash
+
+	return phash(filePath)
 }
 
 function getStableJsonHash(filePath: string): string {
@@ -86,7 +102,7 @@ function expectFileToHaveType(filePath: string, extension: string): void {
 	expect(filePath.endsWith(`.${extension}`))
 }
 
-export function expectFileToBeValid(filePath: string, extension: string): void {
+export async function expectFileToBeValid(filePath: string, extension: string): Promise<void> {
 	expectFileToExist(filePath)
 	expectFileToHaveType(filePath, extension)
 
@@ -105,6 +121,11 @@ export function expectFileToBeValid(filePath: string, extension: string): void {
 
 		case 'svg': {
 			expectSvgToMatchHash(filePath)
+			break
+		}
+
+		case 'png': {
+			await expectBitmapToMatchHash(filePath)
 			break
 		}
 

@@ -20,7 +20,7 @@ describe('default behavior', () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -36,7 +36,7 @@ describe('default behavior', () => {
 			)
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-shape-record-version-4.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -51,7 +51,7 @@ describe('default behavior', () => {
 			)
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-schema-2-from-browser.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -64,7 +64,7 @@ describe('default behavior', () => {
 			const [savedImageFileName] = await tldrawToImage('./test/assets/test-schema-2-from-cli.tldr')
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-schema-2-from-cli.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -77,7 +77,7 @@ describe('default behavior', () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath)
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -91,7 +91,7 @@ describe('save to format', () => {
 				format,
 				name: 'local-tldr-save-to-format',
 			})
-			expectFileToBeValid(savedImageFileName, format)
+			await expectFileToBeValid(savedImageFileName, format)
 			if (cleanUp) rmSync(savedImageFileName)
 		})
 	}
@@ -108,7 +108,7 @@ describe('names and paths', () => {
 		})
 
 		expect(savedImageFileName).toBe(`${process.cwd()}/${randomPath}/test-sketch.png`)
-		expectFileToBeValid(savedImageFileName, 'png')
+		await expectFileToBeValid(savedImageFileName, 'png')
 		if (cleanUp) rmSync(randomPath, { recursive: true })
 	})
 
@@ -117,7 +117,7 @@ describe('names and paths', () => {
 			name: 'tiny-little-name',
 		})
 
-		expectFileToBeValid(savedImageFileName, 'svg')
+		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.svg`)
 
 		if (cleanUp) rmSync(savedImageFileName)
@@ -128,7 +128,7 @@ describe('names and paths', () => {
 			name: 'I am Un-slugified',
 		})
 
-		expectFileToBeValid(savedImageFileName, 'svg')
+		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(`${process.cwd()}/I am Un-slugified.svg`)
 
 		if (cleanUp) rmSync(savedImageFileName)
@@ -139,7 +139,7 @@ describe('names and paths', () => {
 			name: 'tiny-little-name.svg',
 		})
 
-		expectFileToBeValid(savedImageFileName, 'svg')
+		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.svg`)
 
 		if (cleanUp) rmSync(savedImageFileName)
@@ -150,7 +150,7 @@ describe('names and paths', () => {
 			name: 'tiny-little-name.unexpected',
 		})
 
-		expectFileToBeValid(savedImageFileName, 'svg')
+		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.unexpected.svg`)
 
 		if (cleanUp) rmSync(savedImageFileName)
@@ -165,7 +165,7 @@ describe('names and paths', () => {
 		expect(savedImageFileNames).toHaveLength(3)
 
 		for (const fileName of savedImageFileNames) {
-			expectFileToBeValid(fileName, 'svg')
+			await expectFileToBeValid(fileName, 'svg')
 		}
 
 		expect(savedImageFileNames.at(0)).toBe(`${process.cwd()}/tiny-little-name-frame-1.svg`)
@@ -187,7 +187,7 @@ describe('frames', () => {
 		async () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath)
 
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -204,7 +204,7 @@ describe('frames', () => {
 			expect(savedImageFileNames).toHaveLength(3)
 
 			for (const fileName of savedImageFileNames) {
-				expectFileToBeValid(fileName, 'svg')
+				await expectFileToBeValid(fileName, 'svg')
 			}
 
 			if (cleanUp) {
@@ -224,7 +224,7 @@ describe('frames', () => {
 			})
 
 			expect(savedImageFileNames).toHaveLength(1)
-			expectFileToBeValid(savedImageFileNames[0], 'svg')
+			await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
 			if (cleanUp) rmSync(savedImageFileNames[0])
 		},
@@ -236,7 +236,7 @@ describe('frames', () => {
 		})
 
 		expect(savedImageFileNames).toHaveLength(1)
-		expectFileToBeValid(savedImageFileNames[0], 'svg')
+		await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
 		if (cleanUp) rmSync(savedImageFileNames[0])
 	})
@@ -247,7 +247,7 @@ describe('frames', () => {
 		})
 
 		expect(savedImageFileNames).toHaveLength(1)
-		expectFileToBeValid(savedImageFileNames[0], 'svg')
+		await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
 		if (cleanUp) rmSync(savedImageFileNames[0])
 	})
@@ -261,7 +261,7 @@ describe('frames', () => {
 			})
 
 			expect(savedImageFileNames).toHaveLength(1)
-			expectFileToBeValid(savedImageFileNames[0], 'svg')
+			await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
 			if (cleanUp) rmSync(savedImageFileNames[0])
 		},
@@ -280,14 +280,14 @@ describe('pages', () => {
 			expect(savedImageFileName).toBe(
 				`${process.cwd()}/test-sketch-three-pages-page-with-a-name.svg`,
 			)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
 	)
 
 	it(
-		'should export a specific page id of a multi-page tldr file blah',
+		'should export a specific page id of a multi-page tldr file',
 		{ timeout: 10_000 },
 		async () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
@@ -295,7 +295,7 @@ describe('pages', () => {
 			})
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages-page-2.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -310,7 +310,7 @@ describe('pages', () => {
 			})
 
 			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages-page-2.svg`)
-			expectFileToBeValid(savedImageFileName, 'svg')
+			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
 		},
@@ -327,7 +327,7 @@ describe('pages', () => {
 			expect(savedImageFileNames).toHaveLength(2)
 
 			for (const fileName of savedImageFileNames) {
-				expectFileToBeValid(fileName, 'svg')
+				await expectFileToBeValid(fileName, 'svg')
 			}
 
 			if (cleanUp) {
@@ -346,7 +346,7 @@ describe('pages', () => {
 		expect(savedImageFileNames).toHaveLength(3)
 
 		for (const fileName of savedImageFileNames) {
-			expectFileToBeValid(fileName, 'svg')
+			await expectFileToBeValid(fileName, 'svg')
 		}
 
 		if (cleanUp) {
@@ -367,7 +367,7 @@ describe('pages', () => {
 			expect(savedImageFileNames).toHaveLength(1)
 
 			for (const fileName of savedImageFileNames) {
-				expectFileToBeValid(fileName, 'svg')
+				await expectFileToBeValid(fileName, 'svg')
 			}
 
 			if (cleanUp) {
@@ -389,7 +389,7 @@ describe('pages', () => {
 
 			expect(savedImageFileNames).toHaveLength(2)
 			for (const fileName of savedImageFileNames) {
-				expectFileToBeValid(fileName, 'svg')
+				await expectFileToBeValid(fileName, 'svg')
 			}
 
 			if (cleanUp) {
@@ -411,7 +411,7 @@ describe('pages', () => {
 
 			expect(savedImageFileNames).toHaveLength(1)
 			for (const fileName of savedImageFileNames) {
-				expectFileToBeValid(fileName, 'svg')
+				await expectFileToBeValid(fileName, 'svg')
 			}
 
 			if (cleanUp) {
@@ -433,7 +433,7 @@ describe('pages', () => {
 
 			expect(savedImageFileNames).toHaveLength(2)
 			for (const fileName of savedImageFileNames) {
-				expectFileToBeValid(fileName, 'svg')
+				await expectFileToBeValid(fileName, 'svg')
 			}
 
 			if (cleanUp) {
@@ -558,7 +558,7 @@ describe('export options', () => {
 						format,
 						name: `local-tldr-export-options-${flagToString(flag)}`,
 					})
-					expectFileToBeValid(savedImageFileName, format)
+					await expectFileToBeValid(savedImageFileName, format)
 					if (cleanUp) rmSync(savedImageFileName)
 				},
 			)
@@ -585,7 +585,7 @@ describe('export options', () => {
 			stripStyle: true,
 		})
 
-		expectFileToBeValid(savedImageFileName, 'svg')
+		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(getStyleElementCount(savedImageFileName)).toBe(0)
 
 		if (cleanUp) rmSync(savedImageFileName)

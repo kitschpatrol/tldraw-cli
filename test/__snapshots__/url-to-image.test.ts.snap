@@ -1,37 +1,37 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`should export each frame individually if --frames is set 1`] = `"73e8959e1e998b6f2066d3be02a4b2c3c14b8b3795a7cfb707677487cdc3ed57"`;
+exports[`should export each frame individually if --frames is set 1`] = `"7918cb9fbb25056d47f5b9b9ac4831d3cc95a93494d1558944b310ca72062021"`;
 
-exports[`should export each frame individually if --frames is set 2`] = `"dca65a70cc71fc849310cc31bf7fa78add1668651e2d8d02a7aa1b0e893ad6ab"`;
+exports[`should export each frame individually if --frames is set 2`] = `"9e869454835720d439ea4a04d0e792e3bce1bf6ad8a038527ff31af8cb82ce01"`;
 
-exports[`should export each frame individually if --frames is set 3`] = `"42b6aff76aa935d200dac78099815a3cbe47d90ff035ddfeaab66b379aebea43"`;
+exports[`should export each frame individually if --frames is set 3`] = `"5cb3eb0b9f4dcf7ed10dfdbd00e7df31750ebfe47a4726dfc2910d00635fb0f9"`;
 
-exports[`should export each page individually if --pages is set 1`] = `"75d008039731ae38dc4bbb9b1762a6668f9de8f82c4f30ad1f9c0d4fb42007eb"`;
+exports[`should export each page individually if --pages is set 1`] = `"a62aaa4e6730a20162f9ae40f0c93e4cc9ee04770129ee6ec64edc2536fbed3d"`;
 
-exports[`should export each page individually if --pages is set 2`] = `"8e6402ef39f783aad088d0b216ab3c270eb3f1e5754eb6e2a4752b864360a282"`;
+exports[`should export each page individually if --pages is set 2`] = `"cb0a78e0dbcb6152c6a883bded4ae20d4dd07c45a70d9a460c2d293db9d12a51"`;
 
-exports[`should export each page individually if --pages is set 3`] = `"14f08bab12cac6c0b51405135f0e1c2fcb16c7b3f24dcfcb6eeaa752d9a9fcda"`;
+exports[`should export each page individually if --pages is set 3`] = `"e7907f1cf15ac7c05427ae2b0b5256bad1d13d0e29c01b46571bdfe0ecf7a21d"`;
 
-exports[`should export frames to json 1`] = `"6606bcdf44da58200570fa11277a3725a34aec95834298f1cd062718bed950cf"`;
+exports[`should export frames to json 1`] = `"042730a1f892f91f5bf18cf9bdaada3ce484fdfd349221f7345346c1e4d02550"`;
 
-exports[`should export frames to json 2`] = `"97dc46e7e5a1625b841faaf47512587115becb067cf41af22be32a060e1f25ca"`;
+exports[`should export frames to json 2`] = `"5cdb89ab84843756deb0b7c50c61dc1db6277a1011f4fe33b6f6055805d67187"`;
 
-exports[`should export frames to json 3`] = `"60f3fed4c9f3da368b6adaf369b6b64dbbac1d9336fc5e8963d6825fd5a70aef"`;
+exports[`should export frames to json 3`] = `"ca4d8de3c424cdd4c50a0f4fadbfa57882a94cf5966bad733edf21a214d80bb9"`;
 
 exports[`should export schema 2 sketches to svg 1`] = `"e478ab790d8ec5f216f7e9b3a86b183455e604ad5646b748e5a9d929db05a0ca"`;
 
-exports[`should export schema 2 sketches to tldr 1`] = `"5bc292a8d74f427bb189f3e395befbc4f821d1343149aee849ad5aebfbb51a8f"`;
+exports[`should export schema 2 sketches to tldr 1`] = `"8eff051fe82716ccc1bc7ce73eb35e6bfe0977d786f1ce4d5c840a104d926d9e"`;
 
-exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"7f769d185895f04dfaa9ecdc9ee8ba27682bb1d919cf82e508baf5d33ac849c3"`;
+exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"f060c82ae2ca58cd0100e768415988e0eaa2e7706330949c0364ca5282a95700"`;
 
-exports[`should export the file to a specific directory when specified 1`] = `"65647c533fe4f3939d2f36ee985920a76bc5d80529fa316bbd8d175ac02fff0c"`;
+exports[`should export the file to a specific directory when specified 1`] = `"1100111001110010101100011011001110110010101100110100110100110011"`;
 
-exports[`should export the tldraw url to a png when specified 1`] = `"65647c533fe4f3939d2f36ee985920a76bc5d80529fa316bbd8d175ac02fff0c"`;
+exports[`should export the tldraw url to a png when specified 1`] = `"1100111001110010101100011011001110110010101100110100110100110011"`;
 
-exports[`should export the tldraw url to an svg in the current folder by default 1`] = `"1246abd44742df2d4e59b773a82741d50f856385fa4dc8ab8c03781d90cee419"`;
+exports[`should export the tldraw url to an svg in the current folder by default 1`] = `"2f1f7a5e9c8b14db98e227b470957510ec561fb1cfe571a64c55105f0a4a3f94"`;
 
-exports[`should export the tldraw url to an svg when specified 1`] = `"1246abd44742df2d4e59b773a82741d50f856385fa4dc8ab8c03781d90cee419"`;
+exports[`should export the tldraw url to an svg when specified 1`] = `"2f1f7a5e9c8b14db98e227b470957510ec561fb1cfe571a64c55105f0a4a3f94"`;
 
-exports[`should export to json 1`] = `"598b6a535d0fdbc4c3d31cc515e8a4366ea6f1b55ace422f9de2df5bad1677ce"`;
+exports[`should export to json 1`] = `"06bef173a8a2e1e2dabe83444b3758bfa5afa83e1862dd51eafcfc5d67852d38"`;
 
-exports[`should export to tldr 1`] = `"28ca217c6a81d9d62f0e3ce9e66e1d8bdc316b54bba79efb04cbb342f1d9c95b"`;
+exports[`should export to tldr 1`] = `"de5f381a80db846dd0940a21c96aeff27e52155e86595bb8f9aae59fe2a15f23"`;

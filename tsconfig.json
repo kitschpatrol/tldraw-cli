@@ -20,7 +20,8 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 
-		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"]
+		/* sharp-phash types via https://github.com/btd/sharp-phash/pull/16 */
+		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts", "./types/sharp-phash.d.ts"]
 	},
 	"include": ["src", "test"],
 	"references": [{ "path": "./tsconfig.node.json" }]
