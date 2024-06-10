@@ -97,7 +97,7 @@ function expectJsonToMatchHash(filePath: string): void {
 	expect(getStableJsonHash(filePath)).matchSnapshot()
 }
 
-function expectFileToExist(filePath: string): void {
+export function expectFileToExist(filePath: string): void {
 	expect(existsSync(filePath))
 }
 
