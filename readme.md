@@ -290,9 +290,15 @@ The remote sketch is copied to a locally-hosted instance of tldraw, which is the
 
 ### API
 
-The `export` command's functionality is also provided in module form for use in TypeScript or JavaScript Node projects.
+The `tldraw-cli` command line functionality is also provided in module form for programmatic use in TypeScript or JavaScript Node projects.
 
-The library exports a single async function, `tldrawToImage`, which takes an options argument mirroring the arguments available via the command line. The same default values apply:
+The library exports two async function, `tldrawToImage`, and `tldrawOpen`.
+
+#### `tldrawToImage`
+
+This mirrors the `tldraw export` CLI command.
+
+It takes an options argument mirroring the arguments available via the command line. The same default values apply:
 
 ```ts
  async function tldrawToImage(
@@ -367,7 +373,49 @@ log.verbose = false
 await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 ```
 
-_Note that the library provided is ESM-only, and requires a Node-compatible runtime. TypeScript type definitions are included._
+#### `tldrawOpen`
+
+Mirrors the `tldraw open` CLI command.
+
+```tsx
+async function tldrawOpen(
+  tldrPathOrUrl?: string,
+  options?: Partial<{
+    location: 'local' | 'remote'
+  }>,
+): Promise<{
+  browserExitPromise: Promise<ChildProcess>
+  openedSketchUrl: string
+}>
+```
+
+It's important to note that the returned result includes `browserExitPromise`, which resolves when the user has completely exited the web browser used to open the tldr file or url.
+
+You _must_ await the `browserExitPromise` (or somehow keep script's process alive) if you're opening a tldr file with the \`location: 'local'\`. This prevents the local server from closing prematurely, which would interfere with any server-dependent actions in tldraw.
+
+Example of opening a local file:
+
+```ts
+import { tldrawOpen } from 'tldraw-cli'
+
+const { browserExitPromise } = await tldrawOpen('./sketch.tldr', {
+  location: 'local',
+})
+
+// Wait for the browser to close to keep
+// the local tldraw instance running!
+await browserExitPromise
+```
+
+While opening the file remotely on tldraw\.com is more casual:
+
+```ts
+import { tldrawOpen } from 'tldraw-cli'
+
+await tldrawOpen('./sketch.tldr', {
+  location: 'remote',
+})
+```
 
 ## Background
 
