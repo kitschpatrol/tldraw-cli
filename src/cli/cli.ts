@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { version } from '../../package.json'
 import { tldrawOpen } from '../lib/tldraw-open'
 import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
 import log from '../lib/utilities/log'
@@ -294,7 +295,7 @@ await yargsInstance
 	)
 	.demandCommand(1)
 	.alias('h', 'help')
-	.version()
+	.version(version)
 	.alias('v', 'version')
 	.help()
 	.wrap(process.stdout.isTTY ? Math.min(120, yargsInstance.terminalWidth()) : 0)
