@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { version } from '../../package.json'
-import { tldrawOpen } from '../lib/tldraw-open'
+import { type TldrawOpenOptions, type TldrawOpenResult, tldrawOpen } from '../lib/tldraw-open'
 import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
 import log from '../lib/utilities/log'
 import chalk from 'chalk'
@@ -145,35 +145,35 @@ await yargsInstance
 
 					return true
 				}),
-		async (argv) => {
-			const filesOrUrls = argv.filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
-			const {
-				dark,
-				format,
-				frames,
-				name,
-				output,
-				padding,
-				pages,
-				print,
-				scale,
-				stripStyle,
-				transparent,
-				verbose,
-			} = argv
+		async ({
+			dark,
+			filesOrUrls,
+			format,
+			frames,
+			name,
+			output,
+			padding,
+			pages,
+			print,
+			scale,
+			stripStyle,
+			transparent,
+			verbose,
+		}) => {
+			const cleanFilesOrUrls = filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
 
 			log.verbose = verbose
 
-			log.info(`Exporting ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)}...`)
+			log.info(`Exporting ${cleanFilesOrUrls.length} ${plur('sketch', cleanFilesOrUrls.length)}...`)
 
 			let nameIndex = 0
 
 			const errorReport = []
-			for (const fileOrUrl of filesOrUrls) {
+			for (const fileOrUrl of cleanFilesOrUrls) {
 				try {
 					// Increment names if multiple files are exported
 					const resolvedName =
-						filesOrUrls.length > 1 && name !== undefined ? `${name}-${nameIndex++}` : name
+						cleanFilesOrUrls.length > 1 && name !== undefined ? `${name}-${nameIndex++}` : name
 
 					const exportList = await tldrawToImage(fileOrUrl, {
 						dark,
@@ -198,10 +198,10 @@ await yargsInstance
 				}
 			}
 
-			const successCount = filesOrUrls.length - errorReport.length
+			const successCount = cleanFilesOrUrls.length - errorReport.length
 			if (errorReport.length > 0) {
 				log.error(
-					`${successCount} of ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)} exported successfully`,
+					`${successCount} of ${cleanFilesOrUrls.length} ${plur('sketch', cleanFilesOrUrls.length)} exported successfully`,
 				)
 				log.error(errorReport.join('\n'))
 				process.exit(1)
@@ -209,10 +209,12 @@ await yargsInstance
 
 			if (successCount === 0) {
 				log.error(
-					`${successCount} of ${filesOrUrls.length} ${plur('sketch', filesOrUrls.length)} exported successfully`,
+					`${successCount} of ${cleanFilesOrUrls.length} ${plur('sketch', cleanFilesOrUrls.length)} exported successfully`,
 				)
 			} else {
-				log.info(`All ${successCount} ${plur('sketch', filesOrUrls.length)} exported successfully`)
+				log.info(
+					`All ${successCount} ${plur('sketch', cleanFilesOrUrls.length)} exported successfully`,
+				)
 			}
 
 			process.exit(0)
@@ -242,47 +244,43 @@ await yargsInstance
 						'Enable verbose logging. All verbose logs and prefixed with their log level and are printed to `stderr` for ease of redirection.',
 					type: 'boolean',
 				}),
-		async (argv) => {
-			const filesOrUrls = argv.filesOrUrls?.filter((fileOrUrl) => fileOrUrl !== undefined)
-			const { local, verbose } = argv
+		async ({ filesOrUrls, local, verbose }) => {
+			const cleanFilesOrUrls =
+				filesOrUrls === undefined
+					? [undefined]
+					: filesOrUrls.length > 1
+						? filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
+						: filesOrUrls
 
+			const tlDrawOpenOptions: TldrawOpenOptions = { location: local ? 'local' : 'remote' }
 			log.verbose = verbose
 
-			const resultPromises = []
 			let errorCount = 0
+			const browserExitPromises: Array<TldrawOpenResult['browserExitPromise']> = []
 
-			if (filesOrUrls === undefined || filesOrUrls.length === 0) {
+			// Open everything
+			for (const fileOrUrl of cleanFilesOrUrls) {
+				console.log('opening----------------------------------')
+				console.log(fileOrUrl)
 				try {
 					// This prints server URLs to stdout
-					resultPromises.push(tldrawOpen(undefined, local))
+					const openResult = await tldrawOpen(fileOrUrl, tlDrawOpenOptions)
+					process.stdout.write(`${openResult.openedSketchUrl}\n`)
+					browserExitPromises.push(openResult.browserExitPromise)
 				} catch (error) {
 					errorCount++
-					log.error(`Failed to open:": ${error instanceof Error ? error.message : 'Unknown Error'}`)
-				}
-			} else {
-				for (const fileOrUrl of filesOrUrls) {
-					if (fileOrUrl === undefined || fileOrUrl === null) continue
-					try {
-						// This prints server URLs to stdout
-						resultPromises.push(tldrawOpen(fileOrUrl, local))
-					} catch (error) {
-						errorCount++
-
-						log.error(
-							`Failed to open "${fileOrUrl}": ${error instanceof Error ? error.message : 'Unknown Error'}`,
-						)
-					}
+					log.error(
+						`Failed to open "${fileOrUrl}": ${error instanceof Error ? error.message : 'Unknown Error'}`,
+					)
 				}
 			}
 
+			// Some tldraw actions require access to the server, so we wait for the
+			// browser to close before exiting, so that we don't close the local
+			// server too early
 			if (local) {
 				log.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
-			}
-
-			await Promise.all(resultPromises)
-
-			// Must keep running the process until the browsers are closed
-			if (local) {
+				await Promise.allSettled(browserExitPromises)
 				log.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
 			}
 
