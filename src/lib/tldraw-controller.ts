@@ -56,6 +56,7 @@ export default class TldrawController {
 			const messageText = message.text()
 
 			if (messageType === 'error') {
+				// TODO remove this
 				// Suppress CSP warnings pending
 				// https://github.com/tldraw/tldraw/pull/3906
 				if (
@@ -65,7 +66,15 @@ export default class TldrawController {
 					log.errorPrefixed('Browser', messageText)
 				}
 			} else if (messageType === 'warn') {
-				log.warnPrefixed('Browser', messageText)
+				// TODO remove this
+				// Suppress this warning until loadSnapshot is in the local tldraw version as well:
+				// https://github.com/tldraw/tldraw/blob/main/packages/editor/src/lib/config/TLEditorSnapshot.ts
+				if (
+					messageText !==
+					"[tldraw] `Store.loadSnapshot` is deprecated and will be removed in a future release. Use `loadSnapshot` from the 'tldraw' package instead."
+				) {
+					log.warnPrefixed('Browser', messageText)
+				}
 			} else {
 				log.infoPrefixed('Browser', messageText)
 			}
