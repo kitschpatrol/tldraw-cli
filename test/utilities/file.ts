@@ -28,6 +28,12 @@ async function getStableBitmapHash(filePath: string): Promise<string> {
 	return phash(filePath)
 }
 
+export function stripUnstableIds(text: string): string {
+	// Even then, some of the IDs seem to fluctuate from run to run
+	// This is brittle
+	return text.replace(/:([^\s",.:]{21})"/g, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
+}
+
 function getStableJsonHash(filePath: string): string {
 	const jsonContent = readFileSync(filePath, { encoding: 'utf8' })
 	const stableJsonString = stringify(JSON.parse(jsonContent))
@@ -38,10 +44,7 @@ function getStableJsonHash(filePath: string): string {
 
 	// Even then, some of the IDs seem to fluctuate from run to run
 	// This is brittle
-	const ultraStableJsonString = stableJsonString.replace(
-		/:([^\s,.:]{21})"/g,
-		() => `:XXXXXXXXXXXXXXXXXXXXX"`,
-	)
+	const ultraStableJsonString = stripUnstableIds(stableJsonString)
 
 	const hash = createHash('sha256')
 	hash.update(ultraStableJsonString)

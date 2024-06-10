@@ -1,6 +1,6 @@
 // Note this tests the dist build, because of the IIFE inlining from esbuild
 import { log, tldrawToImage } from '../dist/lib'
-import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
+import { expectFileToBeValid, getStyleElementCount, stripUnstableIds } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
@@ -545,7 +545,7 @@ describe('export options', () => {
 
 				expect(results).toHaveLength(1)
 				expectSingleLine(results[0])
-				expect(results[0]).toMatchSnapshot()
+				expect(stripUnstableIds(results[0])).toMatchSnapshot()
 			},
 		)
 	}
