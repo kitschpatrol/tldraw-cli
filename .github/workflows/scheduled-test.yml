@@ -1,0 +1,81 @@
+name: Scheduled Test Runner
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+    env:
+      ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+      TESTS_PASSED: true
+    steps:
+      - name: Log Token Type
+        run: |
+          if [ "${{ env.ACCESS_TOKEN }}" = "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "🗝️ Authenticated with GitHub Token"
+          else
+            echo "🔑 Authenticated with Personal Access token"
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run tests
+        id: tests
+        run: |
+          if pnpm test; then
+            echo "✅ Tests passed"
+          else
+            echo "TESTS_PASSED=false" >> $GITHUB_ENV
+            echo "🐛 Tests failed"
+          fi
+
+      - name: Check if tests failed and create an issue
+        if: env.TESTS_PASSED == 'false'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ env.ACCESS_TOKEN }}
+          script: |
+            // Create an issue linking to the failed test run
+            const titlePrefix = 'Scheduled test failed on '
+
+            // But don't tell me twice
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+
+            const anyScheduledTestissueAlreadyExists = issues.some(issue => issue.title.startsWith(titlePrefix));
+
+            if (!anyScheduledTestissueAlreadyExists) {
+              const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
+              const actionUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+              
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `${titlePrefix}${today}`,
+                body: `Scheduled test failed.<br><br>@${context.repo.owner} please review the <a href="${actionUrl}">test results</a>.`,
+                labels: ["bug"],
+                assignees: [context.repo.owner]
+              });
+            }
