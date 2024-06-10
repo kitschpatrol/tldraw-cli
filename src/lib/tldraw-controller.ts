@@ -56,7 +56,14 @@ export default class TldrawController {
 			const messageText = message.text()
 
 			if (messageType === 'error') {
-				log.errorPrefixed('Browser', messageText)
+				// Suppress CSP warnings pending
+				// https://github.com/tldraw/tldraw/pull/3906
+				if (
+					messageText !==
+					"The Content-Security-Policy directive name 'default-src:' contains one or more invalid characters. Only ASCII alphanumeric characters or dashes '-' are allowed in directive names."
+				) {
+					log.errorPrefixed('Browser', messageText)
+				}
 			} else if (messageType === 'warn') {
 				log.warnPrefixed('Browser', messageText)
 			} else {
