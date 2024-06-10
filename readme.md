@@ -417,6 +417,14 @@ await tldrawOpen('./sketch.tldr', {
 })
 ```
 
+#### `tldrawToShareUrl`
+
+```ts
+async function tldrawToShareUrl(tldrPathOrUrl: string): Promise<string>
+```
+
+Returns a live "share" url for a given local or remote tldraw sketch URL.
+
 ## Background
 
 The potential utility of a tldraw CLI app has received mention a few times.
