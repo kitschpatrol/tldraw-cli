@@ -34,7 +34,7 @@ export function stripUnstableIds(text: string): string {
 	return text.replace(/:([^\s",.:]{21})"/g, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
 }
 
-function getStableJsonHash(filePath: string): string {
+function getStableJson(filePath: string): string {
 	const jsonContent = readFileSync(filePath, { encoding: 'utf8' })
 	const stableJsonString = stringify(JSON.parse(jsonContent))
 
@@ -46,15 +46,22 @@ function getStableJsonHash(filePath: string): string {
 	// This is brittle
 	const ultraStableJsonString = stripUnstableIds(stableJsonString)
 
-	const hash = createHash('sha256')
-	hash.update(ultraStableJsonString)
-	return hash.digest('hex')
+	return ultraStableJsonString
 }
 
+// Using the full JSON instead of hash for easier debugging
+// function getStableJsonHash(filePath: string): string {
+// 	const ultraStableJsonString = getStableJson(filePath)
+
+// 	const hash = createHash('sha256')
+// 	hash.update(ultraStableJsonString)
+// 	return hash.digest('hex')
+// }
+
 // Value of e.g. <clipPath id="sbpPSR9XbI1"> changes across runs, and appears in
-// multiple locations in the SVG file. This function removes it before taking
-// the hash to ensure stability across test runs
-function getStableSvgHash(filePath: string): string {
+// multiple locations in the SVG file. This function removes it
+// to ensure stability across test runs
+function getStableSvg(filePath: string): string {
 	let svgContent = readFileSync(filePath, { encoding: 'utf8' })
 
 	// Could use jsdom...
@@ -78,10 +85,17 @@ function getStableSvgHash(filePath: string): string {
 	// Remove style elements and comments, since font embed ordering is not deterministic
 	svgContent = stripUnstableElements(svgContent)
 
-	const hash = createHash('sha256')
-	hash.update(svgContent)
-	return hash.digest('hex')
+	return svgContent
 }
+
+// Using the full SVG instead of hash for easier debugging
+// function getStableSvgHash(filePath: string): string {
+// 	const svgContent = getStableSvg(filePath)
+
+// 	const hash = createHash('sha256')
+// 	hash.update(svgContent)
+// 	return hash.digest('hex')
+// }
 
 function expectFileToMatchHash(filePath: string): void {
 	// Also tested jest-image-snapshot, which was interesting, but it's only
@@ -89,13 +103,23 @@ function expectFileToMatchHash(filePath: string): void {
 	expect(getFileHash(filePath)).matchSnapshot()
 }
 
-function expectSvgToMatchHash(filePath: string): void {
-	expect(getStableSvgHash(filePath)).matchSnapshot()
+function expectSvgToMatch(filePath: string): void {
+	expect(getStableSvg(filePath)).matchSnapshot()
 }
 
-function expectJsonToMatchHash(filePath: string): void {
-	expect(getStableJsonHash(filePath)).matchSnapshot()
+// Using the full SVG instead of hash for easier debugging
+// function expectSvgToMatchHash(filePath: string): void {
+// 	expect(getStableSvgHash(filePath)).matchSnapshot()
+// }
+
+function expectJsonToMatch(filePath: string): void {
+	expect(getStableJson(filePath)).matchSnapshot()
 }
+
+// Using the full JSON for easier debugging
+// function expectJsonToMatchHash(filePath: string): void {
+// 	expect(getStableJsonHash(filePath)).matchSnapshot()
+// }
 
 export function expectFileToExist(filePath: string): void {
 	expect(existsSync(filePath))
@@ -113,17 +137,21 @@ export async function expectFileToBeValid(filePath: string, extension: string): 
 	// compatible with PNGs, and it and pollutes the repo with big files
 	switch (extension) {
 		case 'json': {
-			expectJsonToMatchHash(filePath)
+			expectJsonToMatch(filePath)
 			break
 		}
 
 		case 'tldr': {
-			expectJsonToMatchHash(filePath)
+			// Using the full JSON file instead of hash for easier debugging
+			// expectJsonToMatchHash(filePath)
+			expectJsonToMatch(filePath)
 			break
 		}
 
 		case 'svg': {
-			expectSvgToMatchHash(filePath)
+			// Using the full SVG file instead of hash for easier debugging
+			// expectSvgToMatchHash(filePath)
+			expectSvgToMatch(filePath)
 			break
 		}
 

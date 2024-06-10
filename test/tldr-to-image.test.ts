@@ -56,7 +56,7 @@ describe('save to svg (default behavior)', () => {
 
 describe('save to format', () => {
 	for (const format of ['svg', 'png', 'json', 'tldr'] as const) {
-		it(`should export local tldr file to an ${format}`, { timeout: 10_000 }, async () => {
+		it(`should export local tldr file to a ${format}`, { timeout: 10_000 }, async () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 				format,
 				name: 'local-tldr-save-to-format',
@@ -520,7 +520,7 @@ describe('export options', () => {
 			{ scale: 4 },
 		] as const) {
 			it(
-				`should export local tldr file to an ${format} with ${flagToString(flag)}`,
+				`should export local tldr file to a ${format} with ${flagToString(flag)}`,
 				{ timeout: 10_000 },
 				async () => {
 					const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
@@ -534,20 +534,16 @@ describe('export options', () => {
 			)
 		}
 
-		it(
-			`should export local tldr file to an ${format} with print`,
-			{ timeout: 10_000 },
-			async () => {
-				const results = await tldrawToImage(tldrTestFilePath, {
-					format,
-					print: true,
-				})
+		it(`should export local tldr file to a ${format} with print`, { timeout: 10_000 }, async () => {
+			const results = await tldrawToImage(tldrTestFilePath, {
+				format,
+				print: true,
+			})
 
-				expect(results).toHaveLength(1)
-				expectSingleLine(results[0])
-				expect(stripUnstableIds(results[0])).toMatchSnapshot()
-			},
-		)
+			expect(results).toHaveLength(1)
+			expectSingleLine(results[0])
+			expect(stripUnstableIds(results[0])).toMatchSnapshot()
+		})
 	}
 
 	it('should strip style elements from SVGs', { timeout: 10_000 }, async () => {
