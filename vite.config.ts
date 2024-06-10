@@ -14,13 +14,14 @@ export default defineConfig({
 	root: 'src/tldraw',
 	test: {
 		// Disable concurrent test execution across files
-		maxConcurrency: 1,
-		maxWorkers: 1,
-		minWorkers: 1,
+		// maxConcurrency: 1,
+		// maxWorkers: 1,
+		// minWorkers: 1,
 		root: '.',
-		sequence: {
-			// Disable concurrent test execution within files
-			concurrent: false,
-		},
+		// Not needed
+		// sequence: {
+		// 	// Disable concurrent test execution within files
+		// 	concurrent: false,
+		// },
 	},
 })
