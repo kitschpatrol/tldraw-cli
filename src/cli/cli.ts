@@ -222,7 +222,7 @@ await yargsInstance
 	)
 	.command(
 		'open [files-or-urls..]',
-		'Open a tldraw `.tldr` file or tldraw.com URL in your default browser with either the official tldraw.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw.com. This process does not exit until the browser is closed.',
+		'Open a tldraw `.tldr` file or tldraw.com URL in your default browser with either the official tldraw.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw.com. This process does not exit until the browser is closed. Warning: Passing a local .tldr file without the `--local` option will upload and share the sketch on tldraw.com.',
 		(yargs) =>
 			yargs
 				.positional('files-or-urls', {

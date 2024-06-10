@@ -88,10 +88,10 @@ Usage:
 tldraw <command>
 ```
 
-| Command  | Argument            | Description                                                                                                                                                                                                                                                                                                                                                                                                                |
-| -------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `export` | `<files-or-urls..>` | Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.                                                                                                                                                                                                                                                                |
-| `open`   | `[files-or-urls..]` | Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. |
+| Command  | Argument            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `export` | `<files-or-urls..>` | Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.                                                                                                                                                                                                                                                                                                                                                                                  |
+| `open`   | `[files-or-urls..]` | Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. Warning: Passing a local .tldr file without the `--local` option will upload and share the sketch on tldraw\.com. |
 
 | Option      | Alias | Description         | Type      |
 | ----------- | ----- | ------------------- | --------- |
@@ -133,7 +133,7 @@ tldraw export <files-or-urls..>
 
 #### Subcommand: `tldraw open`
 
-Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed.
+Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. Warning: Passing a local .tldr file without the `--local` option will upload and share the sketch on tldraw\.com.
 
 Usage:
 
@@ -377,6 +377,9 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 
 Mirrors the `tldraw open` CLI command.
 
+> \[!CAUTION]
+> Passing a local .tldr file with the `location: 'remote'` option will upload and share your sketch on tldraw\.com.
+
 ```tsx
 async function tldrawOpen(
   tldrPathOrUrl?: string,
@@ -424,6 +427,9 @@ async function tldrawToShareUrl(tldrPathOrUrl: string): Promise<string>
 ```
 
 Returns a live "share" url for a given local or remote tldraw sketch URL.
+
+> \[!CAUTION]
+> Passing a local .tldr file to this function will upload and share your local file to tldraw\.com.
 
 ## Background
 
