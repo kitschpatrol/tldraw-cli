@@ -3,7 +3,7 @@ import express from 'express'
 import getPort from 'get-port'
 import { type Server } from 'node:http'
 import { type AddressInfo } from 'node:net'
-import path, { dirname } from 'node:path'
+import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 export default class LocalTldrawServer {
@@ -23,7 +23,7 @@ export default class LocalTldrawServer {
 		// Serve local tldraw
 		log.info('Starting tldraw server...')
 
-		const scriptDirectory = dirname(fileURLToPath(import.meta.url))
+		const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 
 		// Handle dev or prod relative paths, brittle
 		const tldrawPath = path.join(

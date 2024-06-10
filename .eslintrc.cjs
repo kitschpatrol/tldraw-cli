@@ -5,9 +5,15 @@ module.exports = {
 	extends: ['@kitschpatrol/eslint-config'],
 	overrides: [
 		{
+			files: ['*/**'],
+			rules: {
+				'n/no-unsupported-features/node-builtins': 'off',
+			},
+		},
+		{
 			files: ['src/cli/**/*'],
 			rules: {
-				'n/shebang': 'off',
+				'n/hashbang': 'off',
 			},
 		},
 	],
