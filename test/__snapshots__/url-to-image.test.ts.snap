@@ -10,7 +10,7 @@ exports[`should export each page individually if --pages is set 1`] = `"a62aaa4e
 
 exports[`should export each page individually if --pages is set 2`] = `"cb0a78e0dbcb6152c6a883bded4ae20d4dd07c45a70d9a460c2d293db9d12a51"`;
 
-exports[`should export each page individually if --pages is set 3`] = `"e7907f1cf15ac7c05427ae2b0b5256bad1d13d0e29c01b46571bdfe0ecf7a21d"`;
+exports[`should export each page individually if --pages is set 3`] = `"c9e558bcf8f55d78e5ac1f1c121cc45a2cb7130fa9756ba479523895c66cf45f"`;
 
 exports[`should export frames to json 1`] = `"042730a1f892f91f5bf18cf9bdaada3ce484fdfd349221f7345346c1e4d02550"`;
 
@@ -28,9 +28,9 @@ exports[`should export the file to a specific directory when specified 1`] = `"1
 
 exports[`should export the tldraw url to a png when specified 1`] = `"1100111001110010101100011011001110110010101100110100110100110011"`;
 
-exports[`should export the tldraw url to an svg in the current folder by default 1`] = `"2f1f7a5e9c8b14db98e227b470957510ec561fb1cfe571a64c55105f0a4a3f94"`;
+exports[`should export the tldraw url to an svg in the current folder by default 1`] = `"2e5e3991f98740059ee46076c4de024958ccf5fdd3c1d650633f3d42e7eaffc6"`;
 
-exports[`should export the tldraw url to an svg when specified 1`] = `"2f1f7a5e9c8b14db98e227b470957510ec561fb1cfe571a64c55105f0a4a3f94"`;
+exports[`should export the tldraw url to an svg when specified 1`] = `"2e5e3991f98740059ee46076c4de024958ccf5fdd3c1d650633f3d42e7eaffc6"`;
 
 exports[`should export to json 1`] = `"06bef173a8a2e1e2dabe83444b3758bfa5afa83e1862dd51eafcfc5d67852d38"`;
 

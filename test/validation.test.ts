@@ -12,9 +12,9 @@ it('should correctly distinguish between files and URLs', () => {
 	expect(
 		validatePathOrUrl('https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H', validationOptions),
 	).toBeInstanceOf(URL)
-	expect(validatePathOrUrl('./test/assets/test-sketch.tldr', validationOptions)).toBeTypeOf(
-		'string',
-	)
+	expect(
+		validatePathOrUrl('./test/assets/valid/2024-01-test-sketch-basic.tldr', validationOptions),
+	).toBeTypeOf('string')
 })
 
 it('should expand the home directory', () => {
@@ -28,7 +28,10 @@ it('should expand the home directory', () => {
 
 it('should export file URLs to paths', () => {
 	expect(
-		validatePathOrUrl(`file:///${process.cwd()}/test/assets/test-sketch.tldr`, validationOptions),
+		validatePathOrUrl(
+			`file:///${process.cwd()}/test/assets/valid/2024-01-test-sketch-basic.tldr`,
+			validationOptions,
+		),
 	).toBeTypeOf('string')
 })
 

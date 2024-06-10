@@ -1,87 +1,57 @@
-// Note this tests the dist build, because of the iife inlining from esbuild
+// Note this tests the dist build, because of the IIFE inlining from esbuild
 import { log, tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
+import fs from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
 import stripAnsi from 'strip-ansi'
-import { describe, expect, it, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 
 const cleanUp = true
-const tldrTestFilePath = './test/assets/test-sketch.tldr'
-const tldrTestFileThreeFramesPath = './test/assets/test-sketch-three-frames.tldr'
-const tldrTestFileThreePagesPath = './test/assets/test-sketch-three-pages.tldr'
+const tldrTestFilePath = './test/assets/valid/2024-01-test-sketch-basic.tldr'
+const tldrTestFileThreeFramesPath = './test/assets/valid/2024-01-test-sketch-three-frames.tldr'
+const tldrTestFileThreePagesPath = './test/assets/valid/2024-04-test-sketch-three-pages.tldr'
+const tldrTestFilePathEmpty = './test/assets/invalid/2024-01-test-sketch-empty.tldr'
 
-describe('default behavior', () => {
-	it(
-		'should export local tldr file to an svg in the current folder',
-		{ timeout: 10_000 },
-		async () => {
-			const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
+describe('save to svg (default behavior)', () => {
+	let tempAssetPath: string
+	let testFilePaths: string[]
 
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch.svg`)
+	beforeAll(async () => {
+		// Create temp directory
+		tempAssetPath = path.join(os.tmpdir(), `tldraw-cli-test-${Date.now().toString()}`)
+		await fs.mkdir(tempAssetPath, { recursive: true })
+
+		const files = await fs.readdir('./test/assets/valid/', { withFileTypes: true })
+		for (const { name, parentPath } of files) {
+			await fs.copyFile(path.join(parentPath, name), `${tempAssetPath}/${name}`)
+		}
+
+		const tempFiles = await fs.readdir(tempAssetPath, { withFileTypes: true })
+		testFilePaths = tempFiles
+			.filter((file) => file.isFile() && file.name.endsWith('.tldr'))
+			.map((file) => `${tempAssetPath}/${file.name}`)
+	})
+
+	it(`should export local tldr file to an svg by default`, { timeout: 60_000 }, async () => {
+		for (const testFilePath of testFilePaths) {
+			const [savedImageFileName] = await tldrawToImage(testFilePath)
+			const expectedName = path.join(process.cwd(), `${path.basename(testFilePath, '.tldr')}.svg`)
+
+			expect(savedImageFileName).toBe(expectedName)
 			await expectFileToBeValid(savedImageFileName, 'svg')
-
 			if (cleanUp) rmSync(savedImageFileName)
-		},
-	)
+		}
+	})
 
-	// Test for https://github.com/kitschpatrol/tldraw-cli/issues/2
-	it(
-		'should export tldr files with shape record version 4 correctly',
-		{ timeout: 10_000 },
-		async () => {
-			const [savedImageFileName] = await tldrawToImage(
-				'./test/assets/test-shape-record-version-4.tldr',
-			)
-
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-shape-record-version-4.svg`)
-			await expectFileToBeValid(savedImageFileName, 'svg')
-
-			if (cleanUp) rmSync(savedImageFileName)
-		},
-	)
-
-	it(
-		'should export tldr files saved from the browser with schema 2 correctly',
-		{ timeout: 10_000 },
-		async () => {
-			const [savedImageFileName] = await tldrawToImage(
-				'./test/assets/test-schema-2-from-browser.tldr',
-			)
-
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-schema-2-from-browser.svg`)
-			await expectFileToBeValid(savedImageFileName, 'svg')
-
-			if (cleanUp) rmSync(savedImageFileName)
-		},
-	)
-
-	it(
-		'should export tldr files saved from tldraw cli with schema 2 correctly',
-		{ timeout: 10_000 },
-		async () => {
-			const [savedImageFileName] = await tldrawToImage('./test/assets/test-schema-2-from-cli.tldr')
-
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-schema-2-from-cli.svg`)
-			await expectFileToBeValid(savedImageFileName, 'svg')
-
-			if (cleanUp) rmSync(savedImageFileName)
-		},
-	)
-
-	it(
-		'should export the first page of a multi-page local tldr file',
-		{ timeout: 10_000 },
-		async () => {
-			const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath)
-
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages.svg`)
-			await expectFileToBeValid(savedImageFileName, 'svg')
-
-			if (cleanUp) rmSync(savedImageFileName)
-		},
-	)
+	afterAll(async () => {
+		if (cleanUp) {
+			await fs.rm(tempAssetPath, { recursive: true })
+		}
+	})
 })
 
 describe('save to format', () => {
@@ -107,7 +77,7 @@ describe('names and paths', () => {
 			output: `./${randomPath}/`,
 		})
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/${randomPath}/test-sketch.png`)
+		expect(savedImageFileName).toBe(`${process.cwd()}/${randomPath}/2024-01-test-sketch-basic.png`)
 		await expectFileToBeValid(savedImageFileName, 'png')
 		if (cleanUp) rmSync(randomPath, { recursive: true })
 	})
@@ -278,7 +248,7 @@ describe('pages', () => {
 			})
 
 			expect(savedImageFileName).toBe(
-				`${process.cwd()}/test-sketch-three-pages-page-with-a-name.svg`,
+				`${process.cwd()}/2024-04-test-sketch-three-pages-page-with-a-name.svg`,
 			)
 			await expectFileToBeValid(savedImageFileName, 'svg')
 
@@ -294,7 +264,7 @@ describe('pages', () => {
 				pages: ['BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
 			})
 
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages-page-2.svg`)
+			expect(savedImageFileName).toBe(`${process.cwd()}/2024-04-test-sketch-three-pages-page-2.svg`)
 			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
@@ -309,7 +279,7 @@ describe('pages', () => {
 				pages: ['page:BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
 			})
 
-			expect(savedImageFileName).toBe(`${process.cwd()}/test-sketch-three-pages-page-2.svg`)
+			expect(savedImageFileName).toBe(`${process.cwd()}/2024-04-test-sketch-three-pages-page-2.svg`)
 			await expectFileToBeValid(savedImageFileName, 'svg')
 
 			if (cleanUp) rmSync(savedImageFileName)
@@ -447,7 +417,7 @@ describe('pages', () => {
 
 describe('warnings and failures', () => {
 	it('should fail on empty files', { timeout: 10_000 }, async () => {
-		await expect(tldrawToImage('./test/assets/test-sketch-empty.tldr')).rejects.toThrow()
+		await expect(tldrawToImage(tldrTestFilePathEmpty)).rejects.toThrow()
 	})
 
 	it(

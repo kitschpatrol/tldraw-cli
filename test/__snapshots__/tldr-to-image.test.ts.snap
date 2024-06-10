@@ -1,15 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`default behavior > should export local tldr file to an svg in the current folder 1`] = `"d67cf7c327d4fbd602e14be5c534978084cfb19d0ab7b513a40467e661495fc5"`;
-
-exports[`default behavior > should export the first page of a multi-page local tldr file 1`] = `"a62aaa4e6730a20162f9ae40f0c93e4cc9ee04770129ee6ec64edc2536fbed3d"`;
-
-exports[`default behavior > should export tldr files saved from the browser with schema 2 correctly 1`] = `"42d194f1e9aa78d8e3d13c1d33fa628db980d098a7463d5e6d2dcaccc21cb1ce"`;
-
-exports[`default behavior > should export tldr files saved from tldraw cli with schema 2 correctly 1`] = `"e478ab790d8ec5f216f7e9b3a86b183455e604ad5646b748e5a9d929db05a0ca"`;
-
-exports[`default behavior > should export tldr files with shape record version 4 correctly 1`] = `"8729811b3b6c0f5dc72d5a2ab1bc562e183d552c9785dff14991706e35412fd2"`;
-
 exports[`export options > should export local tldr file to an json with dark true 1`] = `"46f89076b5a224b2e0515e260bc668f2c7753915e1ade4ef0ba8d175a401a9c0"`;
 
 exports[`export options > should export local tldr file to an json with padding 0 1`] = `"46f89076b5a224b2e0515e260bc668f2c7753915e1ade4ef0ba8d175a401a9c0"`;
@@ -119,3 +109,19 @@ exports[`save to format > should export local tldr file to an png 1`] = `"110011
 exports[`save to format > should export local tldr file to an svg 1`] = `"d67cf7c327d4fbd602e14be5c534978084cfb19d0ab7b513a40467e661495fc5"`;
 
 exports[`save to format > should export local tldr file to an tldr 1`] = `"16ca80d49c262f4257e47626d0751925851d0ddb9a113e3188f8fd5531cc203d"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 1`] = `"d67cf7c327d4fbd602e14be5c534978084cfb19d0ab7b513a40467e661495fc5"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 2`] = `"a06bfe32069da157619bc940fad5fbb856e6f1820179f8e40476639ebc2e6705"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 3`] = `"0d0aab6959533ca2caba383b359cfa051d09a7e0f53234c730ff793d9743f0bd"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 4`] = `"eb3c802fdb3dee56a520805de329a6ad458154f799b98d787a082f1897efd428"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 5`] = `"42d194f1e9aa78d8e3d13c1d33fa628db980d098a7463d5e6d2dcaccc21cb1ce"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 6`] = `"8729811b3b6c0f5dc72d5a2ab1bc562e183d552c9785dff14991706e35412fd2"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 7`] = `"a62aaa4e6730a20162f9ae40f0c93e4cc9ee04770129ee6ec64edc2536fbed3d"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 8`] = `"e478ab790d8ec5f216f7e9b3a86b183455e604ad5646b748e5a9d929db05a0ca"`;
