@@ -84,6 +84,9 @@ export default class TldrawController {
 		log.info(`Navigating to: ${this.href}`)
 		await this.page.goto(this.href, { waitUntil: 'networkidle0' })
 
+		// Wait until editor is available
+		await this.page.waitForFunction('editor !== undefined')
+
 		// Check for emptiness
 		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
 		this.isEmpty = shapeCount === 0
@@ -201,6 +204,9 @@ export default class TldrawController {
 				await this.setCurrentPage(download.pageId)
 				pageChanged = true
 			}
+
+			// Wait until editor is available
+			await this.page.waitForFunction('editor !== undefined')
 
 			if (download.frameId === undefined) {
 				await this.page.evaluate('editor.selectAll()')
