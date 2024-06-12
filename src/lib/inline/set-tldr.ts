@@ -15,7 +15,7 @@
 // No top level await in IIFE or in ES6 (the target for the inline-bundler)
 
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { type Editor, parseTldrawJsonFile } from 'tldraw'
+import { type Editor, parseTldrawJsonFile, getSnapshot, loadSnapshot } from 'tldraw'
 
 declare global {
 	interface Window {
@@ -32,8 +32,8 @@ window.setTldr = (tldrData: string): void => {
 		schema: window.editor.store.schema,
 	})
 	if (parseFileResult.ok) {
-		const snapshot = parseFileResult.value.getSnapshot()
-		window.editor.store.loadSnapshot(snapshot)
+		const snapshot = getSnapshot(parseFileResult.value)
+		loadSnapshot(window.editor.store, snapshot)
 	} else {
 		throw new Error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
 	}
