@@ -30,7 +30,7 @@ window.getTldr = async (): Promise<string> => {
 	const { editor } = window
 
 	try {
-		const blob = await serializeTldrawJsonBlob(editor.store)
+		const blob = await serializeTldrawJsonBlob(editor)
 		const uint8Array = new Uint8Array(await blob.arrayBuffer())
 		return uint8ArrayToBase64(uint8Array)
 	} catch (error) {

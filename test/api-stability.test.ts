@@ -16,6 +16,9 @@ describe('api stability', () => {
 			'./test/assets/valid/2024-01-test-sketch-basic.tldr',
 		)
 
+		console.log('----------------------------------')
+		console.log('remoteSketchUrl', remoteSketchUrl)
+
 		// Download as a tldr file
 		const [localSketchFromWeb] = await tldrawToImage(remoteSketchUrl, {
 			dark: false,

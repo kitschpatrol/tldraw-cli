@@ -15,8 +15,8 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
       puppeteer:
-        specifier: ^22.11.0
-        version: 22.11.0(typescript@5.4.5)
+        specifier: ^22.11.2
+        version: 22.11.2(typescript@5.4.5)
       uint8array-extras:
         specifier: ^1.1.0
         version: 1.1.0
@@ -31,8 +31,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       '@tldraw/assets':
-        specifier: 2.2.0
-        version: 2.2.0
+        specifier: 2.3.0-canary.fef462bd67aa
+        version: 2.3.0-canary.fef462bd67aa
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -103,11 +103,11 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       tldraw:
-        specifier: 2.2.0
-        version: 2.2.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 2.3.0-canary.fef462bd67aa
+        version: 2.3.0-canary.fef462bd67aa(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tsx:
-        specifier: ^4.15.4
-        version: 4.15.4
+        specifier: ^4.15.6
+        version: 4.15.6
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -1437,35 +1437,35 @@ packages:
   '@taplo/lib@0.4.0-alpha.2':
     resolution: {integrity: sha512-DV/Re3DPVY+BhBtLZ3dmP4mP6YMLSsgq9qGLXwOV38lvNF/fBlgvQswzlXmzCEefL/3q2eMoefZpOI/+GLuCNA==}
 
-  '@tldraw/assets@2.2.0':
-    resolution: {integrity: sha512-kHkeUGbb1sc4AhIPARbMcAquQ4vhpymo5y1UK/xRb2runU8BvqOQFa24hWVlFQqp10z0Zu1jRFPHWEQkH8Dlmg==}
+  '@tldraw/assets@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-lzUbDM+ytvwN2AnPy6Iy3sQSppbi3l2UYb/nkjoBxptFxuDFCKVAJL3F7ZCymY+Y1kkP77ZlpNMkgDpTeV1IiQ==}
 
-  '@tldraw/editor@2.2.0':
-    resolution: {integrity: sha512-UCKGjFKMPUU09MrdxDCjAcNlGmzPxszXwqshmp1EihLf0aS5hU7Xjx1VTcnHya3FTO6B9oF9fB0tGpzgIjmp6A==}
+  '@tldraw/editor@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-X/xW59/wlOCcUcCBENXA91WCjewXabN1GNmeWpDYZQk564AR8VNpPSOhoRR2HX8T8PRIxxqzXNkJDy6Fr1AfHg==}
     peerDependencies:
       react: ^18
       react-dom: ^18
 
-  '@tldraw/state@2.2.0':
-    resolution: {integrity: sha512-7FviUH43NpRYLTmO204jL1hbKqwFduqp6bnWq8bQTSE9n8UXvf/JQ61UhHw67OZXzCr5rTH6CbYFA1zA1HfFzA==}
+  '@tldraw/state@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-cVf5TRPzfk7L4s8Ne1eq6DjP7cIiQDmwUb0ivotmd7gCPwSIT9Jgphd4w45mpdUp5TFaxDwvYxuO3/T34PUsww==}
     peerDependencies:
       react: ^18
 
-  '@tldraw/store@2.2.0':
-    resolution: {integrity: sha512-RotX8ZwdKiQc9ehVBttBJbHf7cvJPkx75eRtIJoTme9hP1BXTnk1wQIwoiLHZ0ZGpbkfSrCn7rDKytScbqnHdQ==}
+  '@tldraw/store@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-NwnpmBMOhsoJJ6K3WH8X3F0n9GFVgCFR6EzMVCwdTLiX9do28vEzRQpAiRgMRLgsXgTRjqI9SONUKEv88bjsiA==}
     peerDependencies:
       react: ^18
 
-  '@tldraw/tlschema@2.2.0':
-    resolution: {integrity: sha512-1TuQed08Gb+cxOSGymFZ8KfqIhg8LibH6W0VQxBsYYJi88aN4w/5zzZGoV1nUdFaVva9CvgBIRj0C4TowLfcsw==}
+  '@tldraw/tlschema@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-Zy4wkLg39cDp1/hqpdn7O/Md58Rz8V29/txcSIaYefxaPdrXFZbunHnF4eKvKhlfIAQTbjRO9QLyLh97XISR3A==}
     peerDependencies:
       react: ^18
 
-  '@tldraw/utils@2.2.0':
-    resolution: {integrity: sha512-tcoKvi7fP0qO8I3Mf2706opshonoCZv3PKd2Xk24A/o3ZdoJkaKPh6oBFuzrExtHj6APHKMZBUBQeWi0rmvrRg==}
+  '@tldraw/utils@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-0ZKLxsNn6DS1M6tiVLlLKQa9gqn+qqsx2ADA6+SCRrpUaqR5jV383EBYjLdW8DYnNyKMZ/duTrPUcuBTFHx1Lw==}
 
-  '@tldraw/validate@2.2.0':
-    resolution: {integrity: sha512-tWJl4XLh9tPbVzOXpswe7JtmaOcVLlCWhjDJ6+2z3lHvaFCoVSw8C2dLYioTKeNCRNzxXwW5zS6bhNiZ5At2Bw==}
+  '@tldraw/validate@2.3.0-canary.fef462bd67aa':
+    resolution: {integrity: sha512-CEDS+FCI34bagDFEsKyUegy6Z17iZuzTsP99/6fgjomxioeEVGYP05lmZcTqXNNS7UQnNSQrP6nU1+vnQ/HLhQ==}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
@@ -4164,12 +4164,12 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  puppeteer-core@22.11.0:
-    resolution: {integrity: sha512-57YUjhRoSpZWg9lCssWsgzM1/X/1jQnkKbbspbeW0bhZTt3TD4WdNXEYI7KrFFnSvx21tyHhfWW0zlxzbwYSAA==}
+  puppeteer-core@22.11.2:
+    resolution: {integrity: sha512-vQo+YDuePyvj+92Z9cdtxi/HalKf+k/R4tE80nGtQqJRNqU81eHaHkbVfnLszdaLlvwFF5tipnnSCzqWlEddtw==}
     engines: {node: '>=18'}
 
-  puppeteer@22.11.0:
-    resolution: {integrity: sha512-U5U0Dx5Tsd/ec39BmflhcSFIK9UnZxGQfyUzvQVHivt6gIi6RgJqYL9MJaU90OG6tTz65XqzN4wF0ZyDyY0NuA==}
+  puppeteer@22.11.2:
+    resolution: {integrity: sha512-8fjdQSgW0sq7471ftca24J7sXK+jXZ7OW7Gx+NEBFNyXrcTiBfukEI46gNq6hiMhbLEDT30NeylK/1ZoPdlKSA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -4849,8 +4849,8 @@ packages:
     resolution: {integrity: sha512-KYad6Vy5VDWV4GH3fjpseMQ/XU2BhIYP7Vzd0LG44qRWm/Yt2WCOTicFdvmgo6gWaqooMQCawTtILVQJupKu7A==}
     engines: {node: '>=14.0.0'}
 
-  tldraw@2.2.0:
-    resolution: {integrity: sha512-G+LJoEVwJ0MAcSCh4LaZYiI656no+VinUNnlJ3w8N2ChSSTG04OQsnklqw3CIyz6+dGfEu0dbjEtmbWoJEAg0A==}
+  tldraw@2.3.0-canary.fef462bd67aa:
+    resolution: {integrity: sha512-hK2VfKv1QHo3zUrH4zzr43Ql2/wVV6FJ+aX+FnbUXVJrifSqo4GxMzXEYy7uLyNIPg5RPSwSwpwIwPbG14smXw==}
     peerDependencies:
       react: ^18
       react-dom: ^18
@@ -4878,8 +4878,8 @@ packages:
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
-  tsx@4.15.4:
-    resolution: {integrity: sha512-d++FLCwJLrXaBFtRcqdPBzu6FiVOJ2j+UsvUZPtoTrnYtCGU5CEW7iHXtNZfA2fcRTvJFWPqA6SWBuB0GSva9w==}
+  tsx@4.15.6:
+    resolution: {integrity: sha512-is0VQQlfNZRHEuSSTKA6m4xw74IU4AizmuB6lAYLRt9XtuyeQnyJYexhNZOPCB59SqC4JzmSzPnHGBXxf3k0hA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -5202,8 +5202,8 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  ws@8.17.0:
-    resolution: {integrity: sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==}
+  ws@8.17.1:
+    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -5972,7 +5972,7 @@ snapshots:
     dependencies:
       '@fontsource/inter': 5.0.18
       express: 4.19.2
-      puppeteer: 22.11.0(typescript@5.4.5)
+      puppeteer: 22.11.2(typescript@5.4.5)
       uint8array-extras: 1.1.0
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -6655,17 +6655,17 @@ snapshots:
     dependencies:
       '@taplo/core': 0.1.1
 
-  '@tldraw/assets@2.2.0':
+  '@tldraw/assets@2.3.0-canary.fef462bd67aa':
     dependencies:
-      '@tldraw/utils': 2.2.0
+      '@tldraw/utils': 2.3.0-canary.fef462bd67aa
 
-  '@tldraw/editor@2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tldraw/editor@2.3.0-canary.fef462bd67aa(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tldraw/state': 2.2.0(react@18.3.1)
-      '@tldraw/store': 2.2.0(react@18.3.1)
-      '@tldraw/tlschema': 2.2.0(react@18.3.1)
-      '@tldraw/utils': 2.2.0
-      '@tldraw/validate': 2.2.0
+      '@tldraw/state': 2.3.0-canary.fef462bd67aa(react@18.3.1)
+      '@tldraw/store': 2.3.0-canary.fef462bd67aa(react@18.3.1)
+      '@tldraw/tlschema': 2.3.0-canary.fef462bd67aa(react@18.3.1)
+      '@tldraw/utils': 2.3.0-canary.fef462bd67aa
+      '@tldraw/validate': 2.3.0-canary.fef462bd67aa
       '@types/core-js': 2.5.8
       '@use-gesture/react': 10.3.1(react@18.3.1)
       classnames: 2.5.1
@@ -6673,38 +6673,39 @@ snapshots:
       eventemitter3: 4.0.7
       idb: 7.1.1
       is-plain-object: 5.0.0
-      lodash.throttle: 4.1.1
-      lodash.uniq: 4.5.0
       nanoid: 4.0.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tldraw/state@2.2.0(react@18.3.1)':
+  '@tldraw/state@2.3.0-canary.fef462bd67aa(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
-  '@tldraw/store@2.2.0(react@18.3.1)':
+  '@tldraw/store@2.3.0-canary.fef462bd67aa(react@18.3.1)':
     dependencies:
-      '@tldraw/state': 2.2.0(react@18.3.1)
-      '@tldraw/utils': 2.2.0
+      '@tldraw/state': 2.3.0-canary.fef462bd67aa(react@18.3.1)
+      '@tldraw/utils': 2.3.0-canary.fef462bd67aa
       lodash.isequal: 4.5.0
       nanoid: 4.0.2
       react: 18.3.1
 
-  '@tldraw/tlschema@2.2.0(react@18.3.1)':
+  '@tldraw/tlschema@2.3.0-canary.fef462bd67aa(react@18.3.1)':
     dependencies:
-      '@tldraw/state': 2.2.0(react@18.3.1)
-      '@tldraw/store': 2.2.0(react@18.3.1)
-      '@tldraw/utils': 2.2.0
-      '@tldraw/validate': 2.2.0
+      '@tldraw/state': 2.3.0-canary.fef462bd67aa(react@18.3.1)
+      '@tldraw/store': 2.3.0-canary.fef462bd67aa(react@18.3.1)
+      '@tldraw/utils': 2.3.0-canary.fef462bd67aa
+      '@tldraw/validate': 2.3.0-canary.fef462bd67aa
       nanoid: 4.0.2
       react: 18.3.1
 
-  '@tldraw/utils@2.2.0': {}
-
-  '@tldraw/validate@2.2.0':
+  '@tldraw/utils@2.3.0-canary.fef462bd67aa':
     dependencies:
-      '@tldraw/utils': 2.2.0
+      lodash.throttle: 4.1.1
+      lodash.uniq: 4.5.0
+
+  '@tldraw/validate@2.3.0-canary.fef462bd67aa':
+    dependencies:
+      '@tldraw/utils': 2.3.0-canary.fef462bd67aa
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
@@ -6975,7 +6976,7 @@ snapshots:
 
   agent-base@7.1.1:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.5
     transitivePeerDependencies:
       - supports-color
 
@@ -8226,7 +8227,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.5
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -8416,7 +8417,7 @@ snapshots:
     dependencies:
       basic-ftp: 5.0.5
       data-uri-to-buffer: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.5
       fs-extra: 11.2.0
     transitivePeerDependencies:
       - supports-color
@@ -8573,14 +8574,14 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.4
+      debug: 4.3.5
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@7.0.4:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.4
+      debug: 4.3.5
     transitivePeerDependencies:
       - supports-color
 
@@ -9700,7 +9701,7 @@ snapshots:
     dependencies:
       '@tootallnate/quickjs-emscripten': 0.23.0
       agent-base: 7.1.1
-      debug: 4.3.4
+      debug: 4.3.5
       get-uri: 6.0.3
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.4
@@ -9952,7 +9953,7 @@ snapshots:
   proxy-agent@6.4.0:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.4
+      debug: 4.3.5
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.4
       lru-cache: 7.18.3
@@ -9971,24 +9972,24 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  puppeteer-core@22.11.0:
+  puppeteer-core@22.11.2:
     dependencies:
       '@puppeteer/browsers': 2.2.3
       chromium-bidi: 0.5.23(devtools-protocol@0.0.1299070)
       debug: 4.3.5
       devtools-protocol: 0.0.1299070
-      ws: 8.17.0
+      ws: 8.17.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  puppeteer@22.11.0(typescript@5.4.5):
+  puppeteer@22.11.2(typescript@5.4.5):
     dependencies:
       '@puppeteer/browsers': 2.2.3
       cosmiconfig: 9.0.0(typescript@5.4.5)
       devtools-protocol: 0.0.1299070
-      puppeteer-core: 22.11.0
+      puppeteer-core: 22.11.2
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -10794,7 +10795,7 @@ snapshots:
   socks-proxy-agent@8.0.3:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.4
+      debug: 4.3.5
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
@@ -11089,7 +11090,7 @@ snapshots:
 
   tinyspy@2.2.1: {}
 
-  tldraw@2.2.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  tldraw@2.3.0-canary.fef462bd67aa(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@radix-ui/react-alert-dialog': 1.0.5(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-context-menu': 2.1.5(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11099,11 +11100,12 @@ snapshots:
       '@radix-ui/react-select': 1.2.2(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-slider': 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-toast': 1.1.5(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tldraw/editor': 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tldraw/store': 2.2.0(react@18.3.1)
+      '@tldraw/editor': 2.3.0-canary.fef462bd67aa(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tldraw/store': 2.3.0-canary.fef462bd67aa(react@18.3.1)
       canvas-size: 1.2.6
       classnames: 2.5.1
       hotkeys-js: 3.13.7
+      idb: 7.1.1
       lz-string: 1.5.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -11127,7 +11129,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsx@4.15.4:
+  tsx@4.15.6:
     dependencies:
       esbuild: 0.21.5
       get-tsconfig: 4.7.5
@@ -11548,7 +11550,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@8.17.0: {}
+  ws@8.17.1: {}
 
   xdg-basedir@5.1.0: {}
 
