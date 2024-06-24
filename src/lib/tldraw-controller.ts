@@ -178,15 +178,14 @@ export default class TldrawController {
 		const outputAccumulator: string[] = []
 
 		const initialPageId = await this.getCurrentPage()
-		let pageChanged = false
 
 		for (const download of downloadPlan) {
-			if (download.pageId !== initialPageId) {
-				// Select frame
+			// Change page if necessary
+			const currentPageId = await this.getCurrentPage()
+			if (download.pageId !== currentPageId) {
 				log.info(`Selecting sketch page "${download.pageId}"`)
 
 				await this.setCurrentPage(download.pageId)
-				pageChanged = true
 			}
 
 			// Wait until editor is available
@@ -233,7 +232,9 @@ export default class TldrawController {
 			}
 		}
 
-		if (pageChanged) {
+		// Restore page if necessary
+		const currentPageId = await this.getCurrentPage()
+		if (currentPageId !== initialPageId) {
 			await this.setCurrentPage(initialPageId)
 		}
 
