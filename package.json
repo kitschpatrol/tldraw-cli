@@ -1,6 +1,6 @@
 {
 	"name": "@kitschpatrol/tldraw-cli",
-	"version": "4.6.4",
+	"version": "4.6.5",
 	"type": "module",
 	"description": "A CLI tool for exporting tldraw sketch URLs and local .tldr files to SVG or PNG images.",
 	"repository": {
