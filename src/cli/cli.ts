@@ -213,7 +213,7 @@ await yargsInstance
 				)
 			} else {
 				log.info(
-					`All ${successCount} ${plur('sketch', cleanFilesOrUrls.length)} exported successfully`,
+					`${successCount} of ${cleanFilesOrUrls.length} ${plur('sketch', cleanFilesOrUrls.length)} exported successfully`,
 				)
 			}
 
