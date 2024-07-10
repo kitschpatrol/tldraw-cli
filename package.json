@@ -71,7 +71,7 @@
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^4.7.2",
 		"@sindresorhus/slugify": "^2.2.1",
-		"@tldraw/assets": "2.3.0",
+		"@tldraw/assets": "2.4.0-canary.922dd416b17f",
 		"@types/express": "^4.17.21",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
@@ -95,7 +95,7 @@
 		"sharp": "^0.33.4",
 		"sharp-phash": "^2.1.0",
 		"strip-ansi": "^7.1.0",
-		"tldraw": "2.3.0",
+		"tldraw": "2.4.0-canary.922dd416b17f",
 		"tsx": "^4.15.7",
 		"typescript": "^5.5.2",
 		"untildify": "^5.0.0",
