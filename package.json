@@ -18,7 +18,7 @@
 		"url": "https://ericmika.com"
 	},
 	"license": "MIT",
-	"packageManager": "pnpm@9.4.0",
+	"packageManager": "pnpm@9.5.0",
 	"engines": {
 		"node": ">=18.0.0",
 		"pnpm": ">=9.0.0"
@@ -62,10 +62,10 @@
 		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
-		"@fontsource/inter": "^5.0.18",
+		"@fontsource/inter": "^5.0.19",
 		"express": "^4.19.2",
-		"puppeteer": "^22.12.1",
-		"uint8array-extras": "^1.1.0",
+		"puppeteer": "^22.13.0",
+		"uint8array-extras": "^1.3.0",
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
@@ -80,9 +80,9 @@
 		"bumpp": "^9.4.1",
 		"chalk": "^5.3.0",
 		"cheerio": "1.0.0-rc.12",
-		"esbuild": "^0.21.5",
+		"esbuild": "^0.23.0",
 		"eslint-plugin-react-hooks": "^4.6.2",
-		"eslint-plugin-react-refresh": "^0.4.7",
+		"eslint-plugin-react-refresh": "^0.4.8",
 		"get-port": "^7.1.0",
 		"nanoid": "^5.0.7",
 		"open": "^10.1.0",
@@ -96,11 +96,11 @@
 		"sharp-phash": "^2.1.0",
 		"strip-ansi": "^7.1.0",
 		"tldraw": "2.4.0-canary.922dd416b17f",
-		"tsx": "^4.15.7",
-		"typescript": "^5.5.2",
+		"tsx": "^4.16.2",
+		"typescript": "^5.5.3",
 		"untildify": "^5.0.0",
-		"vite": "^5.3.2",
-		"vitest": "^1.6.0"
+		"vite": "^5.3.3",
+		"vitest": "^2.0.2"
 	},
 	"publishConfig": {
 		"access": "public"

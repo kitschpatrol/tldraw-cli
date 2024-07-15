@@ -39,7 +39,7 @@ describe('api stability', () => {
 		spyError.mockRestore()
 		spyWarn.mockRestore()
 
-		//  Clean up
+		// Clean up
 		if (cleanUp) {
 			await fs.rm(localSketchFromWeb, { force: true })
 			await fs.rm(localFile, { force: true })

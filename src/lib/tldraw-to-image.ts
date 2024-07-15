@@ -59,7 +59,7 @@ export async function tldrawToImage(
 		options.name === undefined
 			? isLocal
 				? path.basename(validatedPathOrUrl, path.extname(validatedPathOrUrl))
-				: validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname
+				: (validatedPathOrUrl.pathname.split('/').pop() ?? validatedPathOrUrl.pathname)
 			: sanitizeName(options.name, options.format ?? 'svg')
 
 	// Start up local server if appropriate
