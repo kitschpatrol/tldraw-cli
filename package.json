@@ -18,7 +18,7 @@
 		"url": "https://ericmika.com"
 	},
 	"license": "MIT",
-	"packageManager": "pnpm@9.5.0",
+	"packageManager": "pnpm@9.6.0",
 	"engines": {
 		"node": ">=18.0.0",
 		"pnpm": ">=9.0.0"
@@ -64,7 +64,7 @@
 	"dependencies": {
 		"@fontsource/inter": "^5.0.19",
 		"express": "^4.19.2",
-		"puppeteer": "^22.13.1",
+		"puppeteer": "^22.14.0",
 		"uint8array-extras": "^1.4.0",
 		"yargs": "^17.7.2"
 	},
@@ -82,13 +82,13 @@
 		"cheerio": "1.0.0-rc.12",
 		"esbuild": "^0.23.0",
 		"eslint-plugin-react-hooks": "^4.6.2",
-		"eslint-plugin-react-refresh": "^0.4.8",
+		"eslint-plugin-react-refresh": "^0.4.9",
 		"get-port": "^7.1.0",
 		"nanoid": "^5.0.7",
 		"open": "^10.1.0",
-		"path-type": "^5.0.0",
+		"path-type": "^6.0.0",
 		"plur": "^5.1.0",
-		"pretty-ms": "^9.0.0",
+		"pretty-ms": "^9.1.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"safe-stable-stringify": "^2.4.3",
@@ -97,10 +97,10 @@
 		"strip-ansi": "^7.1.0",
 		"tldraw": "2.4.0-canary.8347697097ab",
 		"tsx": "^4.16.2",
-		"typescript": "^5.5.3",
+		"typescript": "^5.5.4",
 		"untildify": "^5.0.0",
-		"vite": "^5.3.4",
-		"vitest": "^2.0.3"
+		"vite": "^5.3.5",
+		"vitest": "^2.0.4"
 	},
 	"publishConfig": {
 		"access": "public"
