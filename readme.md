@@ -28,6 +28,7 @@
 - [Usage](#usage)
   - [CLI](#cli)
   - [API](#api)
+  - [Common workflows](#common-workflows)
 - [Background](#background)
 - [Implementation notes](#implementation-notes)
 - [The future](#the-future)
@@ -430,6 +431,66 @@ Returns a live "share" url for a given local or remote tldraw sketch URL.
 
 > \[!CAUTION]
 > Passing a local .tldr file to this function will upload and share your local file to tldraw\.com.
+
+### Common workflows
+
+If you're working with .tldr files and `tldraw-cli` locally, it's often convenient to automatically export image files from your sketches whenever they've changed.
+
+Depending on your workspace and particularly use-cases, there are several approaches that can work well to trigger re-export on change:
+
+#### A pure CLI workflow
+
+The [`chokidar-cli`](https://www.npmjs.com/package/chokidar-cli) tool (which wraps the [Chokidar](https://github.com/paulmillr/chokidar) library) makes quick work of this:
+
+```sh
+npx chokidar-cli "**/*.tldr" -c "npx @kitschpatrol/tldraw-cli export ${path}"
+```
+
+This will watch for changes to .tldr files anywhere in or below the current directory, and then export an SVG every time they change. Pass [additional flags](#subcommand-tldraw-export) to `tldraw-cli export` if you need particular export settings.
+
+#### VS Code tldraw extension workflow
+
+The [tldraw extension for VS Code](https://marketplace.visualstudio.com/items?itemName=tldraw-org.tldraw-vscode) allows you to edit local .tldr files directly from a tab in your editor. This combines well with the [File Watcher](https://marketplace.visualstudio.com/items?itemName=appulate.filewatcher) extension to trigger re-exports after making edits in a tldraw tab:
+
+Install the extensions (assuming you have `code` in your path):
+
+```sh
+code --install-extension tldraw-org.tldraw-vscode
+code --install-extension appulate.filewatcher
+```
+
+Then configure your workspace's `.vscode/settings.json` file to include the following:
+
+```json
+{
+  "filewatcher.commands": [
+    {
+      "match": "\\.tldr",
+      "isAsync": true,
+      "cmd": "cd ${workspaceRoot} && npx @kitschpatrol/tldraw-cli export ${file}",
+      "event": "onFileChange"
+    }
+  ]
+}
+```
+
+#### Vite / static-site workflow
+
+If you're using one of the many [Vite](https://vitejs.dev/)-powered web frameworks out there, the [`@kitschpatrol/vite-plugin-tldraw`](https://github.com/kitschpatrol/vite-plugin-tldraw) plugin can help you treat .tldr as regular importable / linkable assets in your site by automating conversion to a web-friendly format during both development and production builds of your site.
+
+See the [plugin's readme](https://github.com/kitschpatrol/vite-plugin-tldraw/blob/main/readme.md) for details, but the gist is that it lets you import and use .tldr files as if they were already SVGs:
+
+```ts
+import tldrFile from './test-sketch.tldr'
+
+document.body.innerHTML = `<img src="${tldrFile}">`
+```
+
+Will render:
+
+```html
+<img src="./test-sketch.svg" />
+```
 
 ## Background
 
