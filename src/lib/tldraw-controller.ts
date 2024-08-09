@@ -49,6 +49,7 @@ export default class TldrawController {
 		})
 
 		this.page = await this.browser.newPage()
+		this.page.setDefaultTimeout(120_000)
 
 		// Set up console logging passthrough
 		this.page.on('console', (message) => {
