@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-and-report:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     env:
       ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
       TESTS_PASSED: true

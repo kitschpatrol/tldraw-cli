@@ -64,7 +64,7 @@
 	"dependencies": {
 		"@fontsource/inter": "^5.0.20",
 		"express": "^4.19.2",
-		"puppeteer": "^23.0.2",
+		"puppeteer": "^22.15.0",
 		"uint8array-extras": "^1.4.0",
 		"yargs": "^17.7.2"
 	},
