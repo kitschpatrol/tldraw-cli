@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-and-report:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
       TESTS_PASSED: true
@@ -64,9 +64,9 @@ jobs:
               state: 'open'
             });
 
-            const anyScheduledTestissueAlreadyExists = issues.some(issue => issue.title.startsWith(titlePrefix));
+            const anyScheduledTestIssueAlreadyExists = issues.some(issue => issue.title.startsWith(titlePrefix));
 
-            if (!anyScheduledTestissueAlreadyExists) {
+            if (!anyScheduledTestIssueAlreadyExists) {
               const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
               const actionUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
               

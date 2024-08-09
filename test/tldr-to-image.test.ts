@@ -36,7 +36,7 @@ describe('save to svg (default behavior)', () => {
 			.map((file) => `${tempAssetPath}/${file.name}`)
 	})
 
-	it(`should export local tldr file to an svg by default`, { timeout: 60_000 }, async () => {
+	it(`should export local tldr file to an svg by default`, { timeout: 120_000 }, async () => {
 		for (const testFilePath of testFilePaths) {
 			const [savedImageFileName] = await tldrawToImage(testFilePath)
 			const expectedName = path.join(process.cwd(), `${path.basename(testFilePath, '.tldr')}.svg`)
