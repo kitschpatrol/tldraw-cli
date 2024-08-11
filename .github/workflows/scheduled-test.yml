@@ -44,38 +44,6 @@ jobs:
           if pnpm test; then
             echo "✅ Tests passed"
           else
-            echo "TESTS_PASSED=false" >> $GITHUB_ENV
             echo "🐛 Tests failed"
+            exit 1
           fi
-
-      - name: Check if tests failed and create an issue
-        if: env.TESTS_PASSED == 'false'
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ env.ACCESS_TOKEN }}
-          script: |
-            // Create an issue linking to the failed test run
-            const titlePrefix = 'Scheduled test failed on '
-
-            // But don't tell me twice
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open'
-            });
-
-            const anyScheduledTestIssueAlreadyExists = issues.some(issue => issue.title.startsWith(titlePrefix));
-
-            if (!anyScheduledTestIssueAlreadyExists) {
-              const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
-              const actionUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
-              
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: `${titlePrefix}${today}`,
-                body: `Scheduled test failed.<br><br>@${context.repo.owner} please review the <a href="${actionUrl}">test results</a>.`,
-                labels: ["bug"],
-                assignees: [context.repo.owner]
-              });
-            }
