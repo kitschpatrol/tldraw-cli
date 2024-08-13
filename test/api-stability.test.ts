@@ -6,10 +6,10 @@ import { describe, expect, it, vi } from 'vitest'
 const cleanUp = true
 
 describe('api stability', () => {
-	it('should survive a round trip to and from tldraw.com', { timeout: 120_000 }, async () => {
+	it('should survive a round trip to and from tldraw.com', async () => {
 		// Spy on console.error and console.warn
-		const spyError = vi.spyOn(console, 'error')
-		const spyWarn = vi.spyOn(console, 'warn')
+		const spyError = vi.spyOn(console, 'error').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockImplementation(() => 0)
 
 		// Open a local sketch on tldraw.com, receiving its url
 		const remoteSketchUrl = await tldrawToShareUrl(

@@ -111,7 +111,7 @@ export default class TldrawController {
 					'--pages is not supported when exporting to "tldr", ignoring flag and exporting entire sketch file',
 				)
 
-			if (options.dark !== false) {
+			if (options.dark !== undefined && options.dark) {
 				log.warn(
 					'--dark is not supported when exporting to "tldr", ignoring flag and exporting sketch file',
 				)
@@ -129,7 +129,7 @@ export default class TldrawController {
 				)
 			}
 
-			if (options.transparent !== false) {
+			if (options.transparent !== undefined && options.transparent) {
 				log.warn(
 					'--transparent is not supported when exporting to "tldr", ignoring flag and exporting sketch file',
 				)
