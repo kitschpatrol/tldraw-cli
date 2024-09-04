@@ -313,7 +313,7 @@ describe('pages', () => {
 	})
 
 	it('should export frames from a specific page id of a multi-page tldr file', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
 			frames: true,
@@ -325,7 +325,7 @@ describe('pages', () => {
 			await expectFileToBeValid(fileName, 'svg')
 		}
 
-		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
 			`"[Warning],Frame names are not unique, including frame IDs in the output filenames to avoid collisions"`,
 		)
 
@@ -379,13 +379,13 @@ describe('warnings and failures', () => {
 	})
 
 	it('should warn if a nonexistent frame is requested from local tldr file', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath, {
 			frames: ['ceci-nest-pas-un-cadre'],
 		})
 
-		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
 			`"[Warning],Frame "ceci-nest-pas-un-cadre" not found in sketch,[Warning],None of the requested frames were found in sketch, ignoring frames option"`,
 		)
 
@@ -393,13 +393,13 @@ describe('warnings and failures', () => {
 	})
 
 	it('should warn if a bogus page is requested', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
 			pages: ['i do not exist'],
 		})
 
-		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
 			`"[Warning],Page "i do not exist" not found in sketch,[Warning],None of the requested pages were found in sketch, ignoring pages option"`,
 		)
 
@@ -407,13 +407,13 @@ describe('warnings and failures', () => {
 	})
 
 	it('should warn if requested page index is out of bounds', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
 			pages: [42],
 		})
 
-		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
 			`"[Warning],Page "42" not found in sketch,[Warning],None of the requested pages were found in sketch, ignoring pages option"`,
 		)
 
@@ -421,14 +421,14 @@ describe('warnings and failures', () => {
 	})
 
 	it('should warn if stripStyle and format png are combined', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 			format: 'png',
 			stripStyle: true,
 		})
 
-		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
 			`"[Warning],--strip-style is only supported for SVG output"`,
 		)
 
@@ -436,14 +436,14 @@ describe('warnings and failures', () => {
 	})
 
 	it('should warn if print and name are combined', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		await tldrawToImage(tldrTestFilePath, {
 			name: 'impossible',
 			print: true,
 		})
 
-		expect(stripAnsi(String(warnSpy.mock.calls))).toMatchInlineSnapshot(
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
 			`"[Warning],Ignoring --name when using --print"`,
 		)
 	})
@@ -574,9 +574,9 @@ describe('logging', () => {
 	it('should log extra stuff if asked', async () => {
 		log.verbose = true
 
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
-		expect(warnSpy).toHaveBeenCalled()
+		expect(spyWarn).toHaveBeenCalled()
 
 		log.verbose = false
 
@@ -584,9 +584,9 @@ describe('logging', () => {
 	})
 
 	it('should not log extra stuff by default', async () => {
-		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
-		expect(warnSpy).not.toHaveBeenCalled()
+		expect(spyWarn).not.toHaveBeenCalled()
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})

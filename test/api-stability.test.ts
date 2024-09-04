@@ -8,8 +8,8 @@ const cleanUp = true
 describe('api stability', () => {
 	it('should survive a round trip to and from tldraw.com', async () => {
 		// Spy on console.error and console.warn
-		const spyError = vi.spyOn(console, 'error').mockImplementation(() => 0)
-		const spyWarn = vi.spyOn(console, 'warn').mockImplementation(() => 0)
+		const spyError = vi.spyOn(console, 'error').mockReturnValue()
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
 
 		// Open a local sketch on tldraw.com, receiving its url
 		const remoteSketchUrl = await tldrawToShareUrl(
