@@ -1,17 +1,17 @@
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
-import getImageInlineScript from './inline/get-image?iife'
-import getTldrInlineScript from './inline/get-tldr?iife'
-import setTldrInlineScript from './inline/set-tldr?iife'
-import type { TldrawToImageOptions } from './tldraw-to-image'
-import log from './utilities/log'
+import type { Browser, Page } from 'puppeteer'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import puppeteer from 'puppeteer'
-import type { Browser, Page } from 'puppeteer'
 import { base64ToString, base64ToUint8Array, stringToBase64 } from 'uint8array-extras'
 import untildify from 'untildify'
+import type { TldrawToImageOptions } from './tldraw-to-image'
+import getImageInlineScript from './inline/get-image?iife'
+import getTldrInlineScript from './inline/get-tldr?iife'
+import setTldrInlineScript from './inline/set-tldr?iife'
+import log from './utilities/log'
 
 type TlPage = {
 	frames: TlFrame[]
@@ -32,9 +32,7 @@ export default class TldrawController {
 	private isEmpty?: boolean
 	private browser?: Browser
 
-	constructor(private readonly href: string) {
-		this.href = href
-	}
+	constructor(private readonly href: string) {}
 
 	private get isLocal(): boolean {
 		return this.href.startsWith('http://localhost')

@@ -1,8 +1,8 @@
-import './index.css'
 /* eslint-disable @typescript-eslint/naming-convention */
 import { getAssetUrls } from '@tldraw/assets/selfHosted'
 import { useState } from 'react'
-import { type Editor, type TLStore, Tldraw, parseTldrawJsonFile } from 'tldraw'
+import { type Editor, parseTldrawJsonFile, Tldraw, type TLStore } from 'tldraw'
+import './index.css'
 
 // Can't get this to work
 // import { getAssetUrlsByImport } from '@tldraw/assets/imports'
@@ -50,7 +50,7 @@ export default function App() {
 						console.error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
 					}
 				})
-				.catch((error) => {
+				.catch((error: unknown) => {
 					console.error("Couldn't fetch data:", error)
 				})
 		} else {

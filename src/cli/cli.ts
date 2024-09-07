@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-import { version } from '../../package.json'
-import { type TldrawOpenOptions, type TldrawOpenResult, tldrawOpen } from '../lib/tldraw-open'
-import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
-import log from '../lib/utilities/log'
 import chalk from 'chalk'
 import plur from 'plur'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import { version } from '../../package.json'
+import { tldrawOpen, type TldrawOpenOptions, type TldrawOpenResult } from '../lib/tldraw-open'
+import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
+import log from '../lib/utilities/log'
 
 const yargsInstance = yargs(hideBin(process.argv))
 

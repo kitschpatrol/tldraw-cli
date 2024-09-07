@@ -10,7 +10,7 @@ export function validatePathOrUrl(
 		validFileExtensions?: string[]
 		validHostnames?: string[]
 	} = {},
-): URL | string {
+): string | URL {
 	const { requireFileExistence, validFileExtensions, validHostnames } = options
 
 	if (URL.canParse(pathOrUrl)) {

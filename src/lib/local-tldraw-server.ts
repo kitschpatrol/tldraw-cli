@@ -1,17 +1,15 @@
-import log from './utilities/log'
 import express from 'express'
 import getPort from 'get-port'
 import { type Server } from 'node:http'
 import { type AddressInfo } from 'node:net'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import log from './utilities/log'
 
 export default class LocalTldrawServer {
 	private server?: Server
 
-	constructor(private readonly tldrData?: string) {
-		this.tldrData = tldrData
-	}
+	constructor(private readonly tldrData?: string) {}
 
 	close(): void {
 		if (!this.server) throw new Error('Server not started')

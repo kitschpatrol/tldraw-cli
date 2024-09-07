@@ -5,6 +5,7 @@ import chalk from 'chalk'
 
 const isNode = process?.versions?.node !== undefined
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const log = {
 	verbose: false,
 

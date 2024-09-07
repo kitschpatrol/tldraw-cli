@@ -1,6 +1,6 @@
 // Note this tests the src implementation, because it's not exported
-import { validatePathOrUrl } from '../src/lib/validation'
 import { expect, it } from 'vitest'
+import { validatePathOrUrl } from '../src/lib/validation'
 
 const validationOptions = {
 	requireFileExistence: true,

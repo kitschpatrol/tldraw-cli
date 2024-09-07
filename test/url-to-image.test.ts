@@ -1,9 +1,9 @@
 // Note this tests the dist build, because of the iife inlining from esbuild
-import { tldrawToImage } from '../dist/lib'
-import { expectFileToBeValid } from './utilities/file'
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
 import { expect, it } from 'vitest'
+import { tldrawToImage } from '../dist/lib'
+import { expectFileToBeValid } from './utilities/file'
 
 const cleanUp = true
 const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'

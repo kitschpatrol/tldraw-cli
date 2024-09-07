@@ -1,5 +1,5 @@
-import iifePlugin from './plugins/esbuild-plugin-iife'
 import esbuild from 'esbuild'
+import iifePlugin from './plugins/esbuild-plugin-iife'
 
 await esbuild.build({
 	bundle: true,

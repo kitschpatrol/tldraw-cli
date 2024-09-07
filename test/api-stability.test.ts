@@ -1,7 +1,7 @@
-import { tldrawToImage, tldrawToShareUrl } from '../dist/lib'
-import { expectFileToExist } from './utilities/file'
 import fs from 'node:fs/promises'
 import { describe, expect, it, vi } from 'vitest'
+import { tldrawToImage, tldrawToShareUrl } from '../dist/lib'
+import { expectFileToExist } from './utilities/file'
 
 const cleanUp = true
 

@@ -1,7 +1,4 @@
 // Note this tests the dist build, because of the IIFE inlining from esbuild
-import { log, tldrawToImage } from '../dist/lib'
-import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
-import { expectSingleLine } from './utilities/string'
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
 import fs from 'node:fs/promises'
@@ -9,6 +6,9 @@ import os from 'node:os'
 import path from 'node:path'
 import stripAnsi from 'strip-ansi'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+import { log, tldrawToImage } from '../dist/lib'
+import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
+import { expectSingleLine } from './utilities/string'
 
 const cleanUp = true
 const tldrTestFilePath = './test/assets/valid/2024-01-test-sketch-basic.tldr'
