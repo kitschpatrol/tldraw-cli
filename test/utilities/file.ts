@@ -194,7 +194,8 @@ export function stripUnstableElements(svg: string): string {
 }
 
 // Rounding errors create instability across test platforms...
-// Sometimes up to the major digit.
+// Sometimes up to the major digit. Also strip sign since that
+// can exhibit hysteresis as well.
 export function stripNumbers(text: string): string {
-	return text.replace(/[\d.A-Z]+/g, 'x')
+	return text.replace(/[\d.A-Z]+/g, 'x').replaceAll('-x', 'x')
 }
