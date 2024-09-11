@@ -18,7 +18,7 @@
 		"url": "https://ericmika.com"
 	},
 	"license": "MIT",
-	"packageManager": "pnpm@9.9.0",
+	"packageManager": "pnpm@9.10.0",
 	"engines": {
 		"node": ">=18.0.0",
 		"pnpm": ">=9.0.0"
@@ -49,7 +49,7 @@
 		"build:cli": "tsx ./scripts/build-cli.ts",
 		"build:lib": "tsx ./scripts/build-lib.ts && tsc -p tsconfig.lib.json",
 		"build:tldraw": "pnpm run tldraw:copy-assets && vite build",
-		"clean": "git clean -fdX && rm -f pnpm-lock.yaml",
+		"clean": "rimraf pnpm-lock.yaml ; git clean -fdX",
 		"dev": "pnpm run dev:tldraw",
 		"dev:tldraw": "pnpm run tldraw:copy-assets && vite",
 		"fix": "shared-config --fix",
@@ -62,8 +62,8 @@
 		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
-		"@fontsource/inter": "^5.0.20",
-		"express": "^4.19.2",
+		"@fontsource/inter": "^5.0.21",
+		"express": "^4.20.0",
 		"puppeteer": "^23.3.0",
 		"uint8array-extras": "^1.4.0",
 		"yargs": "^17.7.2"
@@ -91,15 +91,16 @@
 		"pretty-ms": "^9.1.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
+		"rimraf": "^6.0.1",
 		"safe-stable-stringify": "^2.5.0",
 		"sharp": "^0.33.5",
 		"sharp-phash": "^2.1.0",
 		"strip-ansi": "^7.1.0",
 		"tldraw": "2.4.6",
 		"tsx": "^4.19.0",
-		"typescript": "^5.5.4",
+		"typescript": "^5.6.2",
 		"untildify": "^5.0.0",
-		"vite": "^5.4.3",
+		"vite": "^5.4.4",
 		"vitest": "^2.0.5"
 	},
 	"publishConfig": {
