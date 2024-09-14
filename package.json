@@ -50,7 +50,7 @@
 		"lint": "shared-config --lint",
 		"preview": "pnpm run preview:tldraw",
 		"preview:tldraw": "vite preview",
-		"release": "pnpm bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"release": "bumpp --commit 'Release: %s' && pnpm run build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"test": "vitest --run",
 		"test:watch": "pnpm run build && vitest",
 		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
