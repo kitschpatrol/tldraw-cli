@@ -25,9 +25,17 @@ describe('save to svg (default behavior)', () => {
 		tempAssetPath = path.join(os.tmpdir(), `tldraw-cli-test-${Date.now().toString()}`)
 		await fs.mkdir(tempAssetPath, { recursive: true })
 
-		const files = await fs.readdir('./test/assets/valid/', { withFileTypes: true })
-		for (const { name, parentPath } of files) {
-			await fs.copyFile(path.join(parentPath, name), `${tempAssetPath}/${name}`)
+		const sourceDirectory = './test/assets/valid/'
+		const files = await fs.readdir(sourceDirectory, { withFileTypes: true })
+		for (const { name } of files) {
+			// Construct the full path of the source file using sourceDirectory and the file name
+			const fullSourcePath = path.join(sourceDirectory, name)
+
+			// Construct the destination path
+			const destinationPath = path.join(tempAssetPath, name)
+
+			// Copy the file to the destination path
+			await fs.copyFile(fullSourcePath, destinationPath)
 		}
 
 		const tempFiles = await fs.readdir(tempAssetPath, { withFileTypes: true })
