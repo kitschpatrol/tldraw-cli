@@ -145,10 +145,8 @@ export async function expectFileToBeValid(filePath: string, extension: string): 
 			break
 		}
 
-		case 'tldr': {
-			// Using the full JSON file instead of hash for easier debugging
-			// expectJsonToMatchHash(filePath)
-			expectJsonToMatch(filePath)
+		case 'png': {
+			await expectBitmapToMatchHash(filePath)
 			break
 		}
 
@@ -159,8 +157,10 @@ export async function expectFileToBeValid(filePath: string, extension: string): 
 			break
 		}
 
-		case 'png': {
-			await expectBitmapToMatchHash(filePath)
+		case 'tldr': {
+			// Using the full JSON file instead of hash for easier debugging
+			// expectJsonToMatchHash(filePath)
+			expectJsonToMatch(filePath)
 			break
 		}
 
