@@ -15,7 +15,7 @@
 
 <!-- description -->
 
-**A CLI tool for exporting tldraw sketch URLs and local .tldr files to SVG or PNG images.**
+**A CLI tool for exporting tldraw sketch URLs and local .tldr files to a variety of image formats.**
 
 <!-- /description -->
 
