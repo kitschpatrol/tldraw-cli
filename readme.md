@@ -70,7 +70,7 @@ npm install --global @kitschpatrol/tldraw-cli
 
 ### CLI
 
-> \[!NOTE]\
+> [!NOTE]
 > As of version 4.5.0, command line functionality is aliased to both `tldraw` and `tldraw-cli`.
 >
 > **The less verbose `tldraw` command is preferred.** The `tldraw-cli` alias is deprecated and will be removed in the next major version.
@@ -378,7 +378,7 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 
 Mirrors the `tldraw open` CLI command.
 
-> \[!CAUTION]
+> [!CAUTION]
 > Passing a local .tldr file with the `location: 'remote'` option will upload and share your sketch on tldraw\.com.
 
 ```tsx
@@ -429,7 +429,7 @@ async function tldrawToShareUrl(tldrPathOrUrl: string): Promise<string>
 
 Returns a live "share" url for a given local or remote tldraw sketch URL.
 
-> \[!CAUTION]
+> [!CAUTION]
 > Passing a local .tldr file to this function will upload and share your local file to tldraw\.com.
 
 ### Common workflows
