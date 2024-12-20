@@ -12,7 +12,7 @@
 		"url": "https://ericmika.com"
 	},
 	"license": "MIT",
-	"packageManager": "pnpm@9.14.4",
+	"packageManager": "pnpm@9.15.1",
 	"engines": {
 		"node": ">=18.0.0",
 		"pnpm": ">=9.0.0"
@@ -57,8 +57,8 @@
 	},
 	"dependencies": {
 		"@fontsource/inter": "^5.1.0",
-		"express": "^4.21.1",
-		"puppeteer": "^23.10.1",
+		"express": "^4.21.2",
+		"puppeteer": "^23.11.1",
 		"uint8array-extras": "^1.4.0",
 		"yargs": "^17.7.2"
 	},
@@ -68,14 +68,14 @@
 		"@tldraw/assets": "3.6.0",
 		"@types/express": "^4.17.21",
 		"@types/node": "18.0.0",
-		"@types/react": "^18.3.13",
-		"@types/react-dom": "^18.3.1",
+		"@types/react": "^18.3.18",
+		"@types/react-dom": "^18.3.5",
 		"@types/yargs": "^17.0.33",
 		"@vitejs/plugin-react-swc": "^3.7.2",
-		"bumpp": "^9.8.1",
-		"chalk": "^5.3.0",
+		"bumpp": "^9.9.1",
+		"chalk": "^5.4.0",
 		"cheerio": "^1.0.0",
-		"esbuild": "^0.24.0",
+		"esbuild": "^0.24.2",
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"eslint-plugin-react-refresh": "^0.4.16",
 		"get-port": "^7.1.0",
