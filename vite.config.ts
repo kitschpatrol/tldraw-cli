@@ -18,7 +18,7 @@ export default defineConfig({
 		maxWorkers: 1,
 		minWorkers: 1,
 		root: '.',
-		testTimeout: 120_000,
+		testTimeout: 60_000,
 		// Not needed
 		// sequence: {
 		// 	// Disable concurrent test execution within files
