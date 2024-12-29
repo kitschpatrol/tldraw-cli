@@ -12,7 +12,7 @@
 		"url": "https://ericmika.com"
 	},
 	"license": "MIT",
-	"packageManager": "pnpm@9.15.1",
+	"packageManager": "pnpm@9.15.2",
 	"engines": {
 		"node": ">=18.0.0",
 		"pnpm": ">=9.0.0"
@@ -56,7 +56,7 @@
 		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
-		"@fontsource/inter": "^5.1.0",
+		"@fontsource/inter": "^5.1.1",
 		"express": "^4.21.2",
 		"puppeteer": "^23.11.1",
 		"uint8array-extras": "^1.4.0",
@@ -72,7 +72,7 @@
 		"@types/react-dom": "^18.3.5",
 		"@types/yargs": "^17.0.33",
 		"@vitejs/plugin-react-swc": "^3.7.2",
-		"bumpp": "^9.9.1",
+		"bumpp": "^9.9.2",
 		"chalk": "^5.4.1",
 		"cheerio": "^1.0.0",
 		"esbuild": "^0.24.2",
