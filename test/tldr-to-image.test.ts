@@ -63,7 +63,7 @@ describe('save to svg (default behavior)', () => {
 })
 
 describe('save to format', () => {
-	for (const format of ['svg', 'png', 'json', 'tldr'] as const) {
+	for (const format of ['svg', 'png', 'tldr'] as const) {
 		it(`should export local tldr file to a ${format}`, async () => {
 			const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 				format,
@@ -474,7 +474,7 @@ function flagToString(object: Record<string, unknown>) {
 }
 
 describe('export options', () => {
-	for (const format of ['svg', 'png', 'json', 'tldr'] as const) {
+	for (const format of ['svg', 'png', 'tldr'] as const) {
 		for (const flag of [
 			{ dark: true },
 			{ transparent: true },

@@ -10,7 +10,7 @@ import { validatePathOrUrl } from './validation'
 
 // Basically TLExportType + 'tldr'
 // 'jpeg' | 'webp' formats should be supported but result in "Not a PNG" errors
-export type TldrawFormat = 'json' | 'png' | 'svg' | 'tldr'
+export type TldrawFormat = 'png' | 'svg' | 'tldr'
 
 // Basically TLSvgOptions, with some extra options
 // TODO what about preserveAspectRatio?

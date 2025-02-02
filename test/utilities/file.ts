@@ -140,11 +140,6 @@ export async function expectFileToBeValid(filePath: string, extension: string): 
 	// Also tested jest-image-snapshot, which was interesting, but it's only
 	// compatible with PNGs, and it and pollutes the repo with big files
 	switch (extension) {
-		case 'json': {
-			expectJsonToMatch(filePath)
-			break
-		}
-
 		case 'png': {
 			await expectBitmapToMatchHash(filePath)
 			break

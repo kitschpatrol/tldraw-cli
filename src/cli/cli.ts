@@ -29,7 +29,7 @@ await yargsInstance
 				})
 				.option('format', {
 					alias: 'f',
-					choices: ['png', 'svg', 'json', 'tldr'] as const,
+					choices: ['png', 'svg', 'tldr'] as const,
 					default: 'svg',
 					describe: 'Output image format.',
 					type: 'string',

@@ -26,7 +26,7 @@ declare global {
 			background?: boolean
 			darkMode?: boolean
 			// 'jpeg' | 'webp' formats should be supported but result in "Not a PNG" errors
-			format: 'json' | 'png' | 'svg'
+			format: 'png' | 'svg'
 			padding?: number
 			scale?: number
 		}) => Promise<string>

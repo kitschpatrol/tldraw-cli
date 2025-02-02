@@ -97,36 +97,6 @@ it('should export each page individually if --pages is set', async () => {
 	}
 })
 
-it('should export to json', async () => {
-	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
-		format: 'json',
-	})
-
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.json`)
-	await expectFileToBeValid(savedImageFileName, 'json')
-
-	if (cleanUp) rmSync(savedImageFileName)
-})
-
-it('should export frames to json', async () => {
-	const savedImageFileNames = await tldrawToImage(tldrawTestThreeFramesUrl, {
-		format: 'json',
-		frames: true,
-	})
-
-	expect(savedImageFileNames).toHaveLength(3)
-
-	for (const fileName of savedImageFileNames) {
-		await expectFileToBeValid(fileName, 'json')
-	}
-
-	if (cleanUp) {
-		for (const fileName of savedImageFileNames) {
-			rmSync(fileName)
-		}
-	}
-})
-
 it('should export to tldr', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, {
 		format: 'tldr',
