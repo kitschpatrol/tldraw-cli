@@ -21,7 +21,7 @@
 
 > [!IMPORTANT]
 >
-> The tldraw project and website are rapidly evolving, which regularly breaks `tldraw-cli`'s ability to work directly with sketch URLs. Working with local `.tldr` files should be relatively stable, but caveat emptor.
+> The tldraw project and website are rapidly evolving, and time is not always avaialbe to keep `tldraw-cli`'s abstractions up to date, particularly for commands that interface directly with sketch URLs. Working with local `.tldr` files should be relatively stable, but caveat emptor.
 
 <!-- table-of-contents { maxDepth: 2 } -->
 
