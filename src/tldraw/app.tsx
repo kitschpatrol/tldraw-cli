@@ -58,7 +58,7 @@ export default function App() {
 				})
 		} else {
 			editor.zoomToFit()
-			editor.clearOpenMenus()
+			editor.menus.clearOpenMenus()
 		}
 	}
 
