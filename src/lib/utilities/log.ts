@@ -1,4 +1,6 @@
+/* eslint-disable ts/no-unnecessary-condition */
 /* eslint-disable perfectionist/sort-objects */
+
 // Staying basic, always log to stderr
 
 import chalk from 'chalk'

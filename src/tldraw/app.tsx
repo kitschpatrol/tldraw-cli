@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { getAssetUrls } from '@tldraw/assets/selfHosted'
 import { useState } from 'react'
 import { type Editor, parseTldrawJsonFile, Tldraw, type TLStore } from 'tldraw'
@@ -7,13 +6,16 @@ import './index.css'
 // Can't get this to work
 // import { getAssetUrlsByImport } from '@tldraw/assets/imports'
 
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 declare global {
+	// eslint-disable-next-line ts/consistent-type-definitions
 	interface Window {
 		editor: Editor
 	}
 }
 
+/**
+ * Minimal tldraw app
+ */
 export default function App() {
 	const [store, setStore] = useState<TLStore>()
 
@@ -21,7 +23,8 @@ export default function App() {
 	function onMount(editor: Editor) {
 		// Expose editor to window
 		// Works around https://github.com/tldraw/tldraw/pull/2995
-		window.editor = editor
+		// @ts-expect-error - TS doesn't know about globalThis
+		globalThis.editor = editor
 
 		if (store === undefined) {
 			fetch('/tldr-data')

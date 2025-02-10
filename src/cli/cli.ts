@@ -160,7 +160,10 @@ await yargsInstance
 			transparent,
 			verbose,
 		}) => {
-			const cleanFilesOrUrls = filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
+			// Undefined values sneaking through?
+			const cleanFilesOrUrls = (filesOrUrls as Array<string | undefined>).filter(
+				(fileOrUrl) => fileOrUrl !== undefined,
+			)
 
 			log.verbose = verbose
 
@@ -249,7 +252,10 @@ await yargsInstance
 				filesOrUrls === undefined
 					? [undefined]
 					: filesOrUrls.length > 1
-						? filesOrUrls.filter((fileOrUrl) => fileOrUrl !== undefined)
+						? // Undefined values sneaking through?
+							(filesOrUrls as Array<string | undefined>).filter(
+								(fileOrUrl) => fileOrUrl !== undefined,
+							)
 						: filesOrUrls
 
 			const tlDrawOpenOptions: TldrawOpenOptions = { location: local ? 'local' : 'remote' }

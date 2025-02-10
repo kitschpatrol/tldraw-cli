@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
 		"composite": true,
-		"skipLibCheck": true,
 		"module": "ESNext",
 		"moduleResolution": "bundler",
+		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"],
+		"strictNullChecks": true,
 		"allowSyntheticDefaultImports": true,
-		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"]
+		"skipLibCheck": true
 	},
 	"include": ["vite.config.ts"]
 }

@@ -1,7 +1,9 @@
 import TldrawController from './tldraw-controller'
 import { validatePathOrUrl } from './validation'
 
-// Gets a share URL from a tldraw file or URL
+/**
+ * Gets a share URL from a tldraw file or URL
+ */
 export async function tldrawToShareUrl(tldrPathOrUrl: string): Promise<string> {
 	const validatedPathOrUrl = validatePathOrUrl(tldrPathOrUrl, {
 		requireFileExistence: true,

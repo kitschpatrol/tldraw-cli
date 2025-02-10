@@ -1,33 +1,7 @@
 {
 	"name": "@kitschpatrol/tldraw-cli",
 	"version": "4.6.29",
-	"type": "module",
 	"description": "A CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.",
-	"repository": "github:kitschpatrol/tldraw-cli",
-	"homepage": "https://github.com/kitschpatrol/tldraw-cli",
-	"bugs": "https://github.com/kitschpatrol/tldraw-cli/issues",
-	"author": {
-		"name": "Eric Mika",
-		"email": "eric@ericmika.com",
-		"url": "https://ericmika.com"
-	},
-	"license": "MIT",
-	"packageManager": "pnpm@9.15.5",
-	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=9.0.0"
-	},
-	"bin": {
-		"tldraw-cli": "bin/cli.js",
-		"tldraw": "bin/cli.js"
-	},
-	"main": "./dist/lib/index.js",
-	"module": "./dist/lib/index.js",
-	"types": "./dist/lib/index.d.ts",
-	"files": [
-		"bin/*",
-		"dist/*"
-	],
 	"keywords": [
 		"tldraw",
 		"tldr",
@@ -38,16 +12,40 @@
 		"export",
 		"npm-package"
 	],
+	"homepage": "https://github.com/kitschpatrol/tldraw-cli",
+	"bugs": "https://github.com/kitschpatrol/tldraw-cli/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/github:kitschpatrol/tldraw-cli"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Eric Mika",
+		"email": "eric@ericmika.com",
+		"url": "https://ericmika.com"
+	},
+	"type": "module",
+	"main": "./dist/lib/index.js",
+	"module": "./dist/lib/index.js",
+	"types": "./dist/lib/index.d.ts",
+	"bin": {
+		"tldraw": "bin/cli.js",
+		"tldraw-cli": "bin/cli.js"
+	},
+	"files": [
+		"bin/*",
+		"dist/*"
+	],
 	"scripts": {
 		"build": "pnpm run build:tldraw && pnpm run build:lib && pnpm run build:cli",
-		"build:cli": "tsx ./scripts/build-cli.ts",
+		"build:cli": "tsx ./scripts/build-cli.ts && tsc -p tsconfig.build.json",
 		"build:lib": "tsx ./scripts/build-lib.ts && tsc -p tsconfig.lib.json",
 		"build:tldraw": "pnpm run tldraw:copy-assets && vite build",
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
 		"dev": "pnpm run dev:tldraw",
 		"dev:tldraw": "pnpm run tldraw:copy-assets && vite",
-		"fix": "shared-config --fix",
-		"lint": "shared-config --lint",
+		"fix": "kpi fix",
+		"lint": "kpi lint",
 		"preview": "pnpm run preview:tldraw",
 		"preview:tldraw": "vite preview",
 		"release": "bumpp --commit 'Release: %s' && pnpm run build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
@@ -63,7 +61,7 @@
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.7.12",
+		"@kitschpatrol/shared-config": "^5.0.5",
 		"@sindresorhus/slugify": "^2.2.1",
 		"@tldraw/assets": "3.7.2",
 		"@types/express": "^4.17.21",
@@ -76,8 +74,6 @@
 		"chalk": "^5.4.1",
 		"cheerio": "^1.0.0",
 		"esbuild": "^0.24.2",
-		"eslint-plugin-react-hooks": "^4.6.2",
-		"eslint-plugin-react-refresh": "^0.4.18",
 		"get-port": "^7.1.0",
 		"nanoid": "^5.0.9",
 		"open": "^10.1.0",
@@ -97,7 +93,33 @@
 		"vite": "^5.4.14",
 		"vitest": "^2.1.8"
 	},
+	"packageManager": "pnpm@10.2.0",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=10.0.0"
+	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@swc/core",
+			"core-js",
+			"esbuild",
+			"puppeteer",
+			"sharp"
+		],
+		"overrides": {
+			"eslint-plugin-markdown": "^5.1.0"
+		}
+	},
+	"mdat": {
+		"$import": "node_modules/@kitschpatrol/mdat-config/dist/index.js"
+	},
+	"prettier": "@kitschpatrol/prettier-config",
+	"remarkConfig": {
+		"plugins": [
+			"@kitschpatrol/remark-config"
+		]
 	}
 }

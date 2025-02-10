@@ -1,3 +1,7 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable ts/no-unnecessary-condition */
+/* eslint-disable unicorn/prefer-global-this */
+/* eslint-disable import/default */
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
 import type { Browser, Page } from 'puppeteer'
 import slugify from '@sindresorhus/slugify'
@@ -26,54 +30,16 @@ type DownloadPlan = {
 	pageId: string
 }
 
-/* eslint-disable perfectionist/sort-classes */
 export default class TldrawController {
-	private page?: Page
-	private isEmpty?: boolean
 	private browser?: Browser
-
-	constructor(private readonly href: string) {}
+	private isEmpty?: boolean
+	private page?: Page
 
 	private get isLocal(): boolean {
 		return this.href.startsWith('http://localhost')
 	}
 
-	async start() {
-		// Set up Puppeteer
-		log.info('Starting Puppeteer...')
-		this.browser = await puppeteer.launch({
-			args: this.isLocal ? ['--no-sandbox', '--disable-web-security'] : [],
-			headless: true,
-		})
-
-		this.page = await this.browser.newPage()
-		this.page.setDefaultTimeout(120_000)
-
-		// Set up console logging passthrough
-		this.page.on('console', (message) => {
-			const messageType = message.type()
-			const messageText = message.text()
-
-			if (messageType === 'error') {
-				log.errorPrefixed('Browser', messageText)
-			} else if (messageType === 'warn') {
-				log.warnPrefixed('Browser', messageText)
-			} else {
-				log.infoPrefixed('Browser', messageText)
-			}
-		})
-
-		// Navigate to tldraw
-		log.info(`Navigating to: ${this.href}`)
-		await this.page.goto(this.href, { waitUntil: 'networkidle0' })
-
-		// Wait until editor is available
-		await this.page.waitForFunction('editor !== undefined')
-
-		// Check for emptiness
-		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
-		this.isEmpty = shapeCount === 0
-	}
+	constructor(private readonly href: string) {}
 
 	async close() {
 		if (!this.browser) throw new Error('Controller not started')
@@ -240,25 +206,6 @@ export default class TldrawController {
 		return outputAccumulator
 	}
 
-	async loadFile(filePath: string) {
-		if (!this.page) throw new Error('Controller not started')
-		if (this.isLocal)
-			throw new Error(
-				'File loading is only supported for remote tldraw.com instances. See tldraw-open.ts for local file loading approach.',
-			)
-
-		await this.closeMenus()
-		await this.page.evaluate(`userPreferences.showFileOpenWarning.set(false);`)
-
-		log.info(`Uploading local file to tldraw.com: ${filePath}`)
-		const tldrFile = await fs.readFile(filePath, 'utf8')
-
-		// We have to call a custom function to upload the tldr file,
-		// puppeteer waitForFileChooser fileInput.accept etc. does NOT work
-		await this.page.evaluate(setTldrInlineScript)
-		await this.page.evaluate(`window.setTldr(${tldrFile})`)
-	}
-
 	async getShareUrl(): Promise<string> {
 		if (!this.page) throw new Error('Controller not started')
 		if (this.isLocal)
@@ -279,9 +226,60 @@ export default class TldrawController {
 		return shareUrl.href
 	}
 
-	private async closeMenus(): Promise<void> {
+	async loadFile(filePath: string) {
 		if (!this.page) throw new Error('Controller not started')
-		await this.page.evaluate(`editor.clearOpenMenus()`)
+		if (this.isLocal)
+			throw new Error(
+				'File loading is only supported for remote tldraw.com instances. See tldraw-open.ts for local file loading approach.',
+			)
+
+		await this.closeMenus()
+		await this.page.evaluate(`userPreferences.showFileOpenWarning.set(false);`)
+
+		log.info(`Uploading local file to tldraw.com: ${filePath}`)
+		const tldrFile = await fs.readFile(filePath, 'utf8')
+
+		// We have to call a custom function to upload the tldr file,
+		// puppeteer waitForFileChooser fileInput.accept etc. does NOT work
+		await this.page.evaluate(setTldrInlineScript)
+		await this.page.evaluate(`window.setTldr(${tldrFile})`)
+	}
+
+	async start() {
+		// Set up Puppeteer
+		log.info('Starting Puppeteer...')
+		this.browser = await puppeteer.launch({
+			args: this.isLocal ? ['--no-sandbox', '--disable-web-security'] : [],
+			headless: true,
+		})
+
+		this.page = await this.browser.newPage()
+		this.page.setDefaultTimeout(120_000)
+
+		// Set up console logging passthrough
+		this.page.on('console', (message) => {
+			const messageType = message.type()
+			const messageText = message.text()
+
+			if (messageType === 'error') {
+				log.errorPrefixed('Browser', messageText)
+			} else if (messageType === 'warn') {
+				log.warnPrefixed('Browser', messageText)
+			} else {
+				log.infoPrefixed('Browser', messageText)
+			}
+		})
+
+		// Navigate to tldraw
+		log.info(`Navigating to: ${this.href}`)
+		await this.page.goto(this.href, { waitUntil: 'networkidle0' })
+
+		// Wait until editor is available
+		await this.page.waitForFunction('editor !== undefined')
+
+		// Check for emptiness
+		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
+		this.isEmpty = shapeCount === 0
 	}
 
 	// Band-aide which will break under different translations
@@ -294,96 +292,14 @@ export default class TldrawController {
 		}
 	}
 
-	// Deduplicates, verifies existence, and normalizes to ids of the style 'page:xxxx'
-	private validatePages(
-		sketch: TlPage[],
-		pages: boolean | number[] | string[] | undefined,
-	): boolean | string[] | undefined {
-		if (Array.isArray(pages)) {
-			const validPages: string[] = []
-			for (const p of pages) {
-				const matchingPage =
-					typeof p === 'number'
-						? sketch[p]
-						: sketch.find(
-								(page) =>
-									slugify(p) === slugify(page.name) ||
-									`page:${p.replace(/^page:/, '')}` === page.id,
-							)
-				if (matchingPage) {
-					if (!validPages.includes(matchingPage.id)) {
-						validPages.push(matchingPage.id)
-					}
-				} else {
-					log.warn(`Page "${p}" not found in sketch`)
-				}
-			}
-
-			if (validPages.length === 0) {
-				log.warn('None of the requested pages were found in sketch, ignoring pages option')
-				return undefined
-			}
-
-			return validPages
-		}
-
-		return pages
+	private async closeMenus(): Promise<void> {
+		if (!this.page) throw new Error('Controller not started')
+		await this.page.evaluate(`editor.clearOpenMenus()`)
 	}
 
-	private validateFrames(
-		sketch: TlPage[],
-		pages: boolean | number[] | string[] | undefined,
-		frames: boolean | string[] | undefined,
-	): boolean | string[] | undefined {
-		if (Array.isArray(frames)) {
-			const validSketch = sketch.filter(
-				(page, index) =>
-					pages === undefined ||
-					(typeof pages === 'boolean' && !pages && index === 0) ||
-					(typeof pages === 'boolean' && pages) ||
-					(Array.isArray(pages) &&
-						pages.some((p, index) =>
-							typeof p === 'number'
-								? index === p
-								: slugify(p) === slugify(page.name) ||
-									p.replace(/^page:/, '') === page.id.replace(/^page:/, ''),
-						)),
-			)
-
-			const validFrames = []
-
-			for (const f of frames) {
-				const matchingFrames: string[] = []
-
-				// One frame name can match multiple frame IDs across pages
-				for (const page of validSketch) {
-					const match = page.frames.find(
-						(frame) =>
-							slugify(f) === slugify(frame.name) ||
-							`shape:${f.replace(/^shape:/, '')}` === frame.id,
-					)
-
-					if (match && !matchingFrames.includes(match.id)) {
-						matchingFrames.push(match.id)
-					}
-				}
-
-				if (matchingFrames.length === 0) {
-					log.warn(`Frame "${f}" not found in sketch`)
-				} else {
-					validFrames.push(...matchingFrames)
-				}
-
-				if (validFrames.length === 0) {
-					log.warn('None of the requested frames were found in sketch, ignoring frames option')
-					return undefined
-				}
-			}
-
-			return validFrames
-		}
-
-		return frames
+	private async getCurrentPage(): Promise<string> {
+		if (!this.page) throw new Error('Controller not started')
+		return (await this.page.evaluate(`editor.getCurrentPageId()`)) as string
 	}
 
 	// eslint-disable-next-line complexity
@@ -505,27 +421,6 @@ export default class TldrawController {
 		return downloadPlans
 	}
 
-	// Structure
-	private async getSketchStructure(): Promise<TlPage[]> {
-		if (!this.page) throw new Error('Controller not started')
-
-		const document = await this.getPages()
-
-		for (const page of document) {
-			page.frames = await this.getPageFrames(page.id)
-		}
-
-		return document
-	}
-
-	private async getPages(): Promise<TlPage[]> {
-		if (!this.page) throw new Error('Controller not started')
-
-		return (await this.page.evaluate(
-			`editor.getPages().map((page) => ({ id: page.id, name: page.name, frames: []}))`,
-		)) as TlPage[]
-	}
-
 	private async getPageFrames(pageId: string): Promise<TlFrame[]> {
 		if (!this.page) throw new Error('Controller not started')
 
@@ -556,9 +451,25 @@ export default class TldrawController {
 		return frames
 	}
 
-	private async getCurrentPage(): Promise<string> {
+	private async getPages(): Promise<TlPage[]> {
 		if (!this.page) throw new Error('Controller not started')
-		return (await this.page.evaluate(`editor.getCurrentPageId()`)) as string
+
+		return (await this.page.evaluate(
+			`editor.getPages().map((page) => ({ id: page.id, name: page.name, frames: []}))`,
+		)) as TlPage[]
+	}
+
+	// Structure
+	private async getSketchStructure(): Promise<TlPage[]> {
+		if (!this.page) throw new Error('Controller not started')
+
+		const document = await this.getPages()
+
+		for (const page of document) {
+			page.frames = await this.getPageFrames(page.id)
+		}
+
+		return document
 	}
 
 	private async setCurrentPage(pageId?: string): Promise<void> {
@@ -575,5 +486,97 @@ export default class TldrawController {
 
 	private stripUndefined(options: Record<string, unknown>): Record<string, unknown> {
 		return Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
+	}
+
+	private validateFrames(
+		sketch: TlPage[],
+		pages: boolean | number[] | string[] | undefined,
+		frames: boolean | string[] | undefined,
+	): boolean | string[] | undefined {
+		if (Array.isArray(frames)) {
+			const validSketch = sketch.filter(
+				(page, index) =>
+					pages === undefined ||
+					(typeof pages === 'boolean' && !pages && index === 0) ||
+					(typeof pages === 'boolean' && pages) ||
+					(Array.isArray(pages) &&
+						pages.some((p, index) =>
+							typeof p === 'number'
+								? index === p
+								: slugify(p) === slugify(page.name) ||
+									p.replace(/^page:/, '') === page.id.replace(/^page:/, ''),
+						)),
+			)
+
+			const validFrames = []
+
+			for (const f of frames) {
+				const matchingFrames: string[] = []
+
+				// One frame name can match multiple frame IDs across pages
+				for (const page of validSketch) {
+					const match = page.frames.find(
+						(frame) =>
+							slugify(f) === slugify(frame.name) ||
+							`shape:${f.replace(/^shape:/, '')}` === frame.id,
+					)
+
+					if (match && !matchingFrames.includes(match.id)) {
+						matchingFrames.push(match.id)
+					}
+				}
+
+				if (matchingFrames.length === 0) {
+					log.warn(`Frame "${f}" not found in sketch`)
+				} else {
+					validFrames.push(...matchingFrames)
+				}
+
+				if (validFrames.length === 0) {
+					log.warn('None of the requested frames were found in sketch, ignoring frames option')
+					return undefined
+				}
+			}
+
+			return validFrames
+		}
+
+		return frames
+	}
+
+	// Deduplicates, verifies existence, and normalizes to ids of the style 'page:xxxx'
+	private validatePages(
+		sketch: TlPage[],
+		pages: boolean | number[] | string[] | undefined,
+	): boolean | string[] | undefined {
+		if (Array.isArray(pages)) {
+			const validPages: string[] = []
+			for (const p of pages) {
+				const matchingPage =
+					typeof p === 'number'
+						? sketch[p]
+						: sketch.find(
+								(page) =>
+									slugify(p) === slugify(page.name) ||
+									`page:${p.replace(/^page:/, '')}` === page.id,
+							)
+				if (matchingPage) {
+					if (!validPages.includes(matchingPage.id)) {
+						validPages.push(matchingPage.id)
+					}
+				} else {
+					log.warn(`Page "${p}" not found in sketch`)
+				}
+			}
+
+			if (validPages.length === 0) {
+				log.warn('None of the requested pages were found in sketch, ignoring pages option')
+				return undefined
+			}
+
+			return validPages
+		}
+
+		return pages
 	}
 }

@@ -14,7 +14,9 @@
 
 // No top level await in IIFE or in ES6 (the target for the inline-bundler)
 
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
+/* eslint-disable ts/consistent-type-definitions */
+/* eslint-disable unicorn/prefer-global-this */
+
 import { type Editor, getSnapshot, loadSnapshot, parseTldrawJsonFile } from 'tldraw'
 
 declare global {
@@ -24,7 +26,7 @@ declare global {
 	}
 }
 
-window.setTldr = (tldrData: string): void => {
+window.setTldr = (tldrData: string | undefined): void => {
 	if (tldrData === undefined) return
 
 	const parseFileResult = parseTldrawJsonFile({

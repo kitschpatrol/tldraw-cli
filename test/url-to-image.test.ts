@@ -1,3 +1,5 @@
+/* eslint-disable ts/no-unnecessary-condition */
+
 // Note this tests the dist build, because of the iife inlining from esbuild
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'

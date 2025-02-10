@@ -1,3 +1,5 @@
+/* eslint-disable ts/no-unnecessary-condition */
+
 import fs from 'node:fs/promises'
 import { describe, expect, it, vi } from 'vitest'
 import { tldrawToImage, tldrawToShareUrl } from '../dist/lib'

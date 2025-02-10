@@ -28,6 +28,9 @@ export type TldrawToImageOptions = {
 	transparent?: boolean
 }
 
+/**
+ * Downloads a tldraw file or URL as an image.
+ */
 export async function tldrawToImage(
 	tldrPathOrUrl: string,
 	options = {} as TldrawToImageOptions,

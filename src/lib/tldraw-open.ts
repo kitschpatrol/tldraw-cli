@@ -23,6 +23,9 @@ export type TldrawOpenResult = {
 	openedSketchUrl: string
 }
 
+/**
+ * Opens a tldraw file or URL in a browser.
+ */
 export async function tldrawOpen(
 	tldrPathOrUrl?: string,
 	options?: Partial<TldrawOpenOptions>,

@@ -21,7 +21,7 @@
 
 > [!IMPORTANT]
 >
-> The tldraw project and website are rapidly evolving, and time is not always avaialbe to keep `tldraw-cli`'s abstractions up to date, particularly for commands that interface directly with sketch URLs. Working with local `.tldr` files should be relatively stable, but caveat emptor.
+> The tldraw project and website are rapidly evolving, and time is not always available to keep `tldraw-cli`'s abstractions up to date, particularly for commands that interface directly with sketch URLs. Working with local `.tldr` files should be relatively stable, but caveat emptor.
 
 <!-- table-of-contents { maxDepth: 2 } -->
 
@@ -303,24 +303,25 @@ The library exports two async function, `tldrawToImage`, and `tldrawOpen`.
 
 This mirrors the `tldraw export` CLI command.
 
-It takes an options argument mirroring the arguments available via the command line. The same default values apply:
+It takes an options argument mirroring the arguments available via the command line. Here's the full type signature of the function. The same default values from the CLI apply:
 
 ```ts
- async function tldrawToImage(
+type TldrawToImageFn = (
   tldrPathOrUrl: string,
-  {
+  options: {
     dark?: boolean
-    format?: 'svg' | 'png' | 'json' | 'tldr'
+    format?: 'png' | 'svg' | 'tldr'
     frames?: boolean | string[]
     name?: string
     output?: string
     padding?: number
-    pages?: boolean | string[] | number[]
+    pages?: boolean | number[] | string[]
     print?: boolean
     scale?: number
     stripStyle?: boolean
     transparent?: boolean
- }): Promise<string[]>;
+  },
+) => Promise<string[]>
 ```
 
 The function exports the image in the requested format and returns an array of the output image(s) or file(s).
@@ -330,7 +331,7 @@ Generally, a single file is returned — but the `string[]` return type also acc
 Assuming you've installed `@kitschpatrol/tldraw-cli` locally in your project, it may be used as follows:
 
 ```ts
-// tldraw-cli-api-test.ts
+// Tldraw-cli-api-test.ts
 
 import { tldrawToImage } from '@kitschpatrol/tldraw-cli'
 
@@ -351,8 +352,8 @@ console.log(`Wrote frames to: "${framePathsArray}"`)
 
 // Convert a specific frame from a tldraw.com URL to a PNG
 await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
-  frames: ['Frame 3'],
   format: 'png',
+  frames: ['Frame 3'],
 })
 
 // You can also use the frame id instead of the frame name, if you're into that sort of thing
@@ -365,15 +366,15 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw', {
 By default, the Node API only logs warnings and errors. If you want to log the equivalent of the `--verbose` flag from the command line version, then you can set a flag on a logging object exported from the library:
 
 ```ts
-// tldraw-cli-api-verbose-test.ts
+// Tldraw-cli-api-verbose-test.ts
 
-import { tldrawToImage, log } from '@kitschpatrol/tldraw-cli'
+import { log, tldrawToImage } from '@kitschpatrol/tldraw-cli'
 
-// this will log extra info
+// This will log extra info
 log.verbose = true
 await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 
-// now we'll only log errors and warnings
+// Now we'll only log errors and warnings
 log.verbose = false
 await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 ```

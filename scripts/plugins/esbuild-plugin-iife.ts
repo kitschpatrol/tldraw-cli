@@ -2,12 +2,15 @@
 // and then returns the result as a string which may then be inlined or passed
 // to puppeteer's evaluation functions
 
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable ts/no-unsafe-argument */
+/* eslint-disable ts/no-unsafe-member-access */
 import type { Plugin } from 'esbuild'
-import esbuild from 'esbuild'
+import * as esbuild from 'esbuild'
 import path from 'node:path'
 
+/**
+ * IIFE plugin
+ */
 export default function iifePlugin(): Plugin {
 	return {
 		name: 'iife',

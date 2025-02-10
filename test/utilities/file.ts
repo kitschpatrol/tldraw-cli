@@ -32,9 +32,13 @@ async function getStableBitmapHash(filePath: string): Promise<string> {
 	return perceptualHash.slice(0, 3) + perceptualHash.slice(-3)
 }
 
+/**
+ * Remove all dynamic IDs from the given text, replacing them with a stable string.
+ */
 export function stripUnstableIds(text: string): string {
 	// Even then, some of the IDs seem to fluctuate from run to run
 	// This is brittle
+	// eslint-disable-next-line regexp/no-unused-capturing-group
 	return text.replace(/:([^\s",.:]{21})"/g, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
 }
 
@@ -82,7 +86,7 @@ function getStableSvg(filePath: string): string {
 		// Console.warn('No <clipPath> id found in SVG file, using unstable hash')
 	} else {
 		for (const id of ids) {
-			svgContent = svgContent.replace(new RegExp(`${id}`, 'g'), '')
+			svgContent = svgContent.replace(new RegExp(id, 'g'), '')
 		}
 	}
 
@@ -125,6 +129,9 @@ function expectJsonToMatch(filePath: string): void {
 // 	expect(getStableJsonHash(filePath)).matchSnapshot()
 // }
 
+/**
+ * Test fails if the given file does not exist.
+ */
 export function expectFileToExist(filePath: string): void {
 	expect(existsSync(filePath))
 }
@@ -133,6 +140,9 @@ function expectFileToHaveType(filePath: string, extension: string): void {
 	expect(filePath.endsWith(`.${extension}`))
 }
 
+/**
+ * Test fails if the given file is not a valid image or tldr file.
+ */
 export async function expectFileToBeValid(filePath: string, extension: string): Promise<void> {
 	expectFileToExist(filePath)
 	expectFileToHaveType(filePath, extension)
@@ -166,12 +176,18 @@ export async function expectFileToBeValid(filePath: string, extension: string): 
 	}
 }
 
+/**
+ * Gets the number of `<style>` elements in the given SVG file.
+ */
 export function getStyleElementCount(filePath: string): number {
 	const svg = readFileSync(filePath, { encoding: 'utf8' })
 	const dom = cheerio.load(svg, { xmlMode: true })
 	return dom('style').length
 }
 
+/**
+ * Removes all `<style>` elements and comment nodes from the given SVG file.
+ */
 export function stripUnstableElements(svg: string): string {
 	const dom = cheerio.load(svg, { xmlMode: true })
 	dom('style').remove()
@@ -188,9 +204,11 @@ export function stripUnstableElements(svg: string): string {
 	return dom.xml()
 }
 
-// Rounding errors create instability across test platforms...
-// Sometimes up to the major digit. Also strip sign since that
-// can exhibit hysteresis as well.
+/**
+ * Rounding errors create instability across test platforms...
+ * Sometimes up to the major digit. Also strip sign since that
+ * can exhibit hysteresis as well.
+ */
 export function stripNumbers(text: string): string {
 	return text.replace(/[\d.A-Z]+/g, 'x').replaceAll('-x', 'x')
 }

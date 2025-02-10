@@ -14,7 +14,8 @@
 
 // No top level await in IIFE or in ES6 (the target for the inline-bundler)
 
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
+/* eslint-disable ts/consistent-type-definitions */
+/* eslint-disable unicorn/prefer-global-this */
 
 import { type Editor, exportToBlob } from 'tldraw'
 import { uint8ArrayToBase64 } from 'uint8array-extras'

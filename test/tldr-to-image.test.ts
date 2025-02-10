@@ -1,3 +1,6 @@
+/* eslint-disable depend/ban-dependencies */
+/* eslint-disable ts/no-unnecessary-condition */
+
 // Note this tests the dist build, because of the IIFE inlining from esbuild
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'

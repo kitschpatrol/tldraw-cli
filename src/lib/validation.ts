@@ -3,6 +3,9 @@ import { fileURLToPath } from 'node:url'
 import { isFileSync } from 'path-type'
 import untildify from 'untildify'
 
+/**
+ * Validates a path or URL.
+ */
 export function validatePathOrUrl(
 	pathOrUrl: string,
 	options: {

@@ -7,6 +7,12 @@ import { fileURLToPath } from 'node:url'
 import log from './utilities/log'
 
 export default class LocalTldrawServer {
+	get href(): string {
+		if (!this.server) throw new Error('Server not started')
+		const { port } = this.server.address() as AddressInfo
+		return `http://localhost:${port}`
+	}
+
 	private server?: Server
 
 	constructor(private readonly tldrData?: string) {}
@@ -47,6 +53,7 @@ export default class LocalTldrawServer {
 			}
 		})
 
+		// eslint-disable-next-line import/no-named-as-default-member
 		app.use(express.static(tldrawPath))
 
 		try {
@@ -56,11 +63,5 @@ export default class LocalTldrawServer {
 		}
 
 		log.info(`tldraw hosted at "${this.href}"`)
-	}
-
-	get href(): string {
-		if (!this.server) throw new Error('Server not started')
-		const { port } = this.server.address() as AddressInfo
-		return `http://localhost:${port}`
 	}
 }

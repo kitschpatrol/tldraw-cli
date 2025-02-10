@@ -1,11 +1,12 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"noEmit": false,
+		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"],
+		"strictNullChecks": true,
 		"declaration": true,
-		"outDir": "./dist/lib",
 		"emitDeclarationOnly": true,
-		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"]
+		"noEmit": false,
+		"outDir": "./dist/lib"
 	},
 	"include": ["src/lib/index.ts", "src/lib/inline/*.ts"]
 }

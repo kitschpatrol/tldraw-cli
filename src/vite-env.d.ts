@@ -1,2 +1,2 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference */
+/* eslint-disable ts/triple-slash-reference */
 /// <reference types="vite/client" />
