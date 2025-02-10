@@ -15,7 +15,7 @@
 
 <!-- description -->
 
-**A CLI tool for exporting tldraw sketch URLs and local .tldr files to a variety of image formats.**
+**A CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.**
 
 <!-- /description -->
 
