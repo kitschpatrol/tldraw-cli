@@ -266,8 +266,6 @@ await yargsInstance
 
 			// Open everything
 			for (const fileOrUrl of cleanFilesOrUrls) {
-				console.log('opening----------------------------------')
-				console.log(fileOrUrl)
 				try {
 					// This prints server URLs to stdout
 					const openResult = await tldrawOpen(fileOrUrl, tlDrawOpenOptions)
