@@ -229,7 +229,10 @@ export default class TldrawController {
 		// Set up Puppeteer
 		log.info('Starting Puppeteer...')
 		this.browser = await puppeteer.launch({
-			args: this.isLocal ? ['--no-sandbox', '--disable-web-security'] : [],
+			args: this.isLocal
+				? ['--no-sandbox', '--disable-web-security', '--disable-setuid-sandbox']
+				: // Both contexts for now?
+					['--no-sandbox', '--disable-web-security', '--disable-setuid-sandbox'],
 			headless: true,
 		})
 
