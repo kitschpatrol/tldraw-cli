@@ -325,6 +325,7 @@ describe('pages', () => {
 
 	it('should export frames from a specific page id of a multi-page tldr file', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
 			frames: true,
@@ -391,6 +392,7 @@ describe('warnings and failures', () => {
 
 	it('should warn if a nonexistent frame is requested from local tldr file', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath, {
 			frames: ['ceci-nest-pas-un-cadre'],
@@ -405,6 +407,7 @@ describe('warnings and failures', () => {
 
 	it('should warn if a bogus page is requested', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
 			pages: ['i do not exist'],
@@ -419,6 +422,7 @@ describe('warnings and failures', () => {
 
 	it('should warn if requested page index is out of bounds', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
 			pages: [42],
@@ -433,6 +437,7 @@ describe('warnings and failures', () => {
 
 	it('should warn if stripStyle and format png are combined', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath, {
 			format: 'png',
@@ -448,6 +453,7 @@ describe('warnings and failures', () => {
 
 	it('should warn if print and name are combined', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		await tldrawToImage(tldrTestFilePath, {
 			name: 'impossible',
@@ -586,6 +592,7 @@ describe('logging', () => {
 		log.verbose = true
 
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 		expect(spyWarn).toHaveBeenCalled()
 
@@ -596,6 +603,7 @@ describe('logging', () => {
 
 	it('should not log extra stuff by default', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 		expect(spyWarn).not.toHaveBeenCalled()
 

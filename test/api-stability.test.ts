@@ -12,7 +12,9 @@ describe.skip('api stability', () => {
 	it('should survive a round trip to and from tldraw.com', () => {
 		// Spy on console.error and console.warn
 		const spyError = vi.spyOn(console, 'error').mockReturnValue()
+		spyError.mockClear()
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
 
 		// No longer works in recent versions
 		// // Open a local sketch on tldraw.com, receiving its url
