@@ -6,7 +6,6 @@ import { URL } from 'node:url'
 import open from 'open'
 import LocalTldrawServer from './local-tldraw-server'
 import { tldrawToImage } from './tldraw-to-image'
-import { tldrawToShareUrl } from './tldraw-to-share-url'
 import log from './utilities/log'
 import { validatePathOrUrl } from './validation'
 
@@ -83,9 +82,8 @@ export async function tldrawOpen(
 	}
 	// Open local file remotely
 	else if (location === 'remote' && typeof validatedPathOrUrl === 'string') {
-		urlToOpen = await tldrawToShareUrl(validatedPathOrUrl)
-		log.info(
-			`Opened copy of local tldraw sketch "${validatedPathOrUrl}" remotely at "${urlToOpen}"`,
+		throw new Error(
+			'Getting share urls from local files is no longer supported by tldraw-cli due to tldraw.com login requirements.',
 		)
 	}
 	// Open remote url remotely

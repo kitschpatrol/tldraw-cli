@@ -206,26 +206,6 @@ export default class TldrawController {
 		return outputAccumulator
 	}
 
-	async getShareUrl(): Promise<string> {
-		if (!this.page) throw new Error('Controller not started')
-		if (this.isLocal)
-			throw new Error('Share URLs are only supported for remote tldraw.com instances.')
-
-		// TODO revisit this without UI manipulation
-		await this.closeMenus()
-		await this.clickButtonTitles(['Menu', 'File', 'Share this project'])
-		// Recently broken
-		// await this.clickMenuTestIds(['main.menu', 'menu-item.file', 'menu.share-project'])
-		await this.page.waitForNavigation({ waitUntil: 'networkidle0' })
-
-		// Clear search params with viewport offset
-		// Tried zooming to fit and then waiting for param update,
-		// but wasn't reliable
-		const shareUrl = new URL(this.page.url())
-		shareUrl.search = ''
-		return shareUrl.href
-	}
-
 	async loadFile(filePath: string) {
 		if (!this.page) throw new Error('Controller not started')
 		if (this.isLocal)
@@ -280,16 +260,6 @@ export default class TldrawController {
 		// Check for emptiness
 		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
 		this.isEmpty = shapeCount === 0
-	}
-
-	// Band-aide which will break under different translations
-	// TODO more robust
-	private async clickButtonTitles(titles: string[]) {
-		if (!this.page) throw new Error('Controller not started')
-		for (const title of titles) {
-			await this.page.waitForSelector(`button[title="${title}"]`)
-			await this.page.click(`button[title="${title}"]`)
-		}
 	}
 
 	private async closeMenus(): Promise<void> {

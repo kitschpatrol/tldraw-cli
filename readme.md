@@ -383,8 +383,8 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 
 Mirrors the `tldraw open` CLI command.
 
-> [!CAUTION]
-> Passing a local .tldr file with the `location: 'remote'` option will upload and share your sketch on tldraw\.com.
+> [!IMPORTANT]
+> Due to recent tldraw.com requirements to login before sharing a sketch, opening a _local_ .tldr file with the `location: 'remote'` option is no longer supported.
 
 ```tsx
 async function tldrawOpen(
@@ -425,17 +425,6 @@ await tldrawOpen('./sketch.tldr', {
   location: 'remote',
 })
 ```
-
-#### `tldrawToShareUrl`
-
-```ts
-async function tldrawToShareUrl(tldrPathOrUrl: string): Promise<string>
-```
-
-Returns a live "share" url for a given local or remote tldraw sketch URL.
-
-> [!CAUTION]
-> Passing a local .tldr file to this function will upload and share your local file to tldraw\.com.
 
 ### Common workflows
 
