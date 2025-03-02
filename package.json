@@ -1,6 +1,6 @@
 {
 	"name": "@kitschpatrol/tldraw-cli",
-	"version": "4.6.30",
+	"version": "4.6.31",
 	"description": "A CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.",
 	"keywords": [
 		"tldraw",
