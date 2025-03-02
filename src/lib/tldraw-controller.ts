@@ -1,7 +1,6 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable ts/no-unnecessary-condition */
 /* eslint-disable unicorn/prefer-global-this */
-/* eslint-disable import/default */
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
 import type { Browser, Page } from 'puppeteer'
 import slugify from '@sindresorhus/slugify'

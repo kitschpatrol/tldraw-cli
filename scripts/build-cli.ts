@@ -18,5 +18,5 @@ await build({
 	outfile: 'bin/cli.js',
 	platform: 'node',
 	plugins: [iifePlugin()],
-	target: 'node18',
+	target: 'node20',
 })

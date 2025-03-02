@@ -50,6 +50,7 @@ window.getImage = async ({ background, darkMode, format, padding, scale }): Prom
 	}
 
 	try {
+		// eslint-disable-next-line ts/no-deprecated
 		const blob = await exportToBlob({
 			editor,
 			format,
