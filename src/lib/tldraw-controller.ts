@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable ts/no-unnecessary-condition */
 /* eslint-disable unicorn/prefer-global-this */
 // Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
