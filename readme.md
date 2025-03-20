@@ -95,7 +95,7 @@ tldraw <command>
 
 | Command  | Argument            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | -------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `export` | `<files-or-urls..>` | Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.                                                                                                                                                                                                                                                                                                                                                                                  |
+| `export` | `<files-or-urls..>` | Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.                                                                                                                                                                                                                                                                                                                                                                                        |
 | `open`   | `[files-or-urls..]` | Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. Warning: Passing a local .tldr file without the `--local` option will upload and share the sketch on tldraw\.com. |
 
 | Option              | Description         | Type      |
@@ -107,7 +107,7 @@ _See the sections below for more information on each subcommand._
 
 #### Subcommand: `tldraw export`
 
-Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.
+Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.
 
 Usage:
 
@@ -257,27 +257,17 @@ tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --frames "Fram
 tldraw export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages "Page 3"
 ```
 
-##### Export a specific pages by index from a tldraw\.com URL
+##### Export a specific page by index from a tldraw\.com URL
 
 ```sh
 tldraw export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages 0 2
 ```
 
-##### Export each pages as its own SVG from a tldraw\.com URL
+##### Export each page as its own SVG from a tldraw\.com URL
 
 ```sh
 tldraw export https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH2hlD --pages
 ```
-
-##### Export to JSON
-
-```sh
-tldraw export https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw --format "json"
-```
-
-The `.tldr` file format is also JSON under the covers, but the `--format json` flag will yield a slightly different format than `--format tldr`. `--format json` is equivalent to what's produced via the tldraw\.com "☰ → Edit → Export As → JSON" menu item.
-
-I'm not completely clear on the use-case for this format, but since tldr.com supports it, so too shall `tldraw-cli`.
 
 ##### Write an SVG to stdout
 
@@ -384,7 +374,7 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 Mirrors the `tldraw open` CLI command.
 
 > [!IMPORTANT]
-> Due to recent tldraw.com requirements to login before sharing a sketch, opening a _local_ .tldr file with the `location: 'remote'` option is no longer supported.
+> Due to recent tldraw\.com requirements to login before sharing a sketch, opening a _local_ .tldr file with the `location: 'remote'` option is no longer supported.
 
 ```tsx
 async function tldrawOpen(

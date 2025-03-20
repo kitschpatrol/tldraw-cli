@@ -16,7 +16,7 @@ await yargsInstance
 	.command('$0 <command>', 'CLI tools for tldraw.')
 	.command(
 		'export <files-or-urls..>',
-		'Export a local tldraw ".tldr" file or a tldraw.com URL to an svg, png, json, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.',
+		'Export a local tldraw ".tldr" file or a tldraw.com URL to an svg, png, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.',
 		(yargs) =>
 			yargs
 				.positional('files-or-urls', {
