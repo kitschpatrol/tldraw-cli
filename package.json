@@ -76,6 +76,7 @@
 		"esbuild": "^0.25.1",
 		"get-port": "^7.1.0",
 		"nanoid": "^5.1.5",
+		"natural-orderby": "^5.0.0",
 		"open": "^10.1.0",
 		"path-type": "^6.0.0",
 		"plur": "^5.1.0",

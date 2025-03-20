@@ -4,6 +4,7 @@
 import type { Browser, Page } from 'puppeteer'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
+import { orderBy } from 'natural-orderby'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import puppeteer from 'puppeteer'
@@ -201,7 +202,8 @@ export default class TldrawController {
 			await this.setCurrentPage(initialPageId)
 		}
 
-		return outputAccumulator
+		// Sort output naturally in place, addresses rare instability
+		return orderBy(outputAccumulator)
 	}
 
 	async loadFile(filePath: string) {
