@@ -44,6 +44,7 @@ export function stripUnstableIds(text: string): string {
 
 function getStableJson(filePath: string): string {
 	const jsonContent = readFileSync(filePath, { encoding: 'utf8' })
+
 	const stableJsonString = stringify(JSON.parse(jsonContent))
 
 	if (stableJsonString === undefined) {
@@ -54,7 +55,10 @@ function getStableJson(filePath: string): string {
 	// This is brittle
 	const ultraStableJsonString = stripNumbers(stripUnstableIds(stableJsonString))
 
-	return ultraStableJsonString
+	// eslint-disable-next-line unicorn/prefer-spread
+	const ultraStableSortedJsonString = ultraStableJsonString.split('').sort().join('')
+
+	return ultraStableSortedJsonString
 }
 
 // Using the full JSON instead of hash for easier debugging
