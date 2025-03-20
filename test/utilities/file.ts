@@ -2,7 +2,7 @@
 import * as cheerio from 'cheerio'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import stringify from 'safe-stable-stringify'
+import { stringify } from 'safe-stable-stringify'
 import phash from 'sharp-phash'
 import { expect } from 'vitest'
 
