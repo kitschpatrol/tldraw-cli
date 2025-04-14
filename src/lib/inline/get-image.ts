@@ -17,7 +17,8 @@
 /* eslint-disable ts/consistent-type-definitions */
 /* eslint-disable unicorn/prefer-global-this */
 
-import { type Editor, exportToBlob } from 'tldraw'
+import type { Editor } from 'tldraw'
+import { exportToBlob } from 'tldraw'
 import { uint8ArrayToBase64 } from 'uint8array-extras'
 
 declare global {

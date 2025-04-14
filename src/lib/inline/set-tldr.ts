@@ -17,7 +17,8 @@
 /* eslint-disable ts/consistent-type-definitions */
 /* eslint-disable unicorn/prefer-global-this */
 
-import { type Editor, getSnapshot, loadSnapshot, parseTldrawJsonFile } from 'tldraw'
+import type { Editor } from 'tldraw'
+import { getSnapshot, loadSnapshot, parseTldrawJsonFile } from 'tldraw'
 
 declare global {
 	interface Window {

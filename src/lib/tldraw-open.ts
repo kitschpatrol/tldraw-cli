@@ -1,5 +1,5 @@
+import type { ChildProcess } from 'node:child_process'
 import { nanoid } from 'nanoid'
-import { type ChildProcess } from 'node:child_process'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import { URL } from 'node:url'

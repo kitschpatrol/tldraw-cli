@@ -4,9 +4,11 @@ import chalk from 'chalk'
 import plur from 'plur'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import type { TldrawOpenOptions, TldrawOpenResult } from '../lib/tldraw-open'
+import type { TldrawFormat } from '../lib/tldraw-to-image'
 import { version } from '../../package.json'
-import { tldrawOpen, type TldrawOpenOptions, type TldrawOpenResult } from '../lib/tldraw-open'
-import { type TldrawFormat, tldrawToImage } from '../lib/tldraw-to-image'
+import { tldrawOpen } from '../lib/tldraw-open'
+import { tldrawToImage } from '../lib/tldraw-to-image'
 import log from '../lib/utilities/log'
 
 const yargsInstance = yargs(hideBin(process.argv))

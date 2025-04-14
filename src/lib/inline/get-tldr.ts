@@ -17,7 +17,8 @@
 /* eslint-disable ts/consistent-type-definitions */
 /* eslint-disable unicorn/prefer-global-this */
 
-import { type Editor, serializeTldrawJsonBlob } from 'tldraw'
+import type { Editor } from 'tldraw'
+import { serializeTldrawJsonBlob } from 'tldraw'
 import { uint8ArrayToBase64 } from 'uint8array-extras'
 
 declare global {

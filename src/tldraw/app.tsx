@@ -1,6 +1,7 @@
+import type { Editor, TLStore } from 'tldraw'
 import { getAssetUrls } from '@tldraw/assets/selfHosted'
 import { useState } from 'react'
-import { type Editor, parseTldrawJsonFile, Tldraw, type TLStore } from 'tldraw'
+import { parseTldrawJsonFile, Tldraw } from 'tldraw'
 import './index.css'
 
 // Can't get this to work
