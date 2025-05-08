@@ -18,6 +18,7 @@ const tldrTestFilePath = './test/assets/valid/2024-01-test-sketch-basic.tldr'
 const tldrTestFileThreeFramesPath = './test/assets/valid/2024-01-test-sketch-three-frames.tldr'
 const tldrTestFileThreePagesPath = './test/assets/valid/2024-04-test-sketch-three-pages.tldr'
 const tldrTestFilePathEmpty = './test/assets/invalid/2024-01-test-sketch-empty.tldr'
+const tldrTestFileBadUrl = './test/assets/invalid/2025-05-08-bad-url.tldr'
 
 describe('save to svg (default behavior)', () => {
 	let tempAssetPath: string
@@ -388,6 +389,20 @@ describe('pages', () => {
 describe('warnings and failures', () => {
 	it('should fail on empty files', async () => {
 		await expect(tldrawToImage(tldrTestFilePathEmpty)).rejects.toThrow()
+	})
+
+	// See https://github.com/kitschpatrol/tldraw-cli/issues/22
+	it('should warn about a time out on file with a bad embedded asset URL', async () => {
+		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		spyWarn.mockClear()
+
+		const [savedImageFileName] = await tldrawToImage(tldrTestFileBadUrl)
+
+		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
+			`"[Warning],[Browser],[tldraw] Export delay timed out after \${this.maxDelayTimeMs}ms"`,
+		)
+
+		if (cleanUp) rmSync(savedImageFileName)
 	})
 
 	it('should warn if a nonexistent frame is requested from local tldr file', async () => {
