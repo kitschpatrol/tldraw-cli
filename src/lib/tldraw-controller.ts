@@ -261,6 +261,7 @@ export default class TldrawController {
 		await this.page.waitForFunction('editor !== undefined')
 
 		// Check for emptiness
+		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
 		this.isEmpty = shapeCount === 0
 	}
@@ -272,6 +273,7 @@ export default class TldrawController {
 
 	private async getCurrentPage(): Promise<string> {
 		if (!this.page) throw new Error('Controller not started')
+		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(`editor.getCurrentPageId()`)) as string
 	}
 
@@ -407,6 +409,7 @@ export default class TldrawController {
 		// Note that while 'Frame' is the default name shown in the UI... it's an
 		// empty string in the data until explicitly set by the user (consider i18n)
 		// we could pass 'frame' here for nicer filenames
+		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		const frames = (await this.page.evaluate(
 			`editor.getCurrentPageShapes().reduce((accumulator, shape) => {
 				if (shape.type === 'frame') {
@@ -427,6 +430,7 @@ export default class TldrawController {
 	private async getPages(): Promise<TlPage[]> {
 		if (!this.page) throw new Error('Controller not started')
 
+		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(
 			`editor.getPages().map((page) => ({ id: page.id, name: page.name, frames: []}))`,
 		)) as TlPage[]

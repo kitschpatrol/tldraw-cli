@@ -9,6 +9,7 @@ import log from './utilities/log'
 export default class LocalTldrawServer {
 	get href(): string {
 		if (!this.server) throw new Error('Server not started')
+		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		const { port } = this.server.address() as AddressInfo
 		return `http://localhost:${port}`
 	}

@@ -182,6 +182,7 @@ await yargsInstance
 
 					const exportList = await tldrawToImage(fileOrUrl, {
 						dark,
+						// eslint-disable-next-line ts/no-unsafe-type-assertion
 						format: format as TldrawFormat,
 						// CLI never returns false, but the function accepts it for stand-alone use
 						frames,
