@@ -3,7 +3,7 @@
 
 // Staying basic, always log to stderr
 
-import chalk from 'chalk'
+import pc from 'picocolors'
 
 const isNode = process?.versions?.node !== undefined
 
@@ -13,7 +13,7 @@ const log = {
 	// Intended for temporary logging
 	log(...data: unknown[]): void {
 		if (!this.verbose) return
-		const levelPrefix = chalk.gray('[Log]')
+		const levelPrefix = pc.gray('[Log]')
 		if (isNode) {
 			// Log to stderr in node for ease of redirection
 			console.warn(levelPrefix, ...data)
@@ -22,12 +22,12 @@ const log = {
 		}
 	},
 	logPrefixed(prefix: string, ...data: unknown[]): void {
-		this.info(chalk.blue(`[${prefix}]`), ...data)
+		this.info(pc.blue(`[${prefix}]`), ...data)
 	},
 
 	info(...data: unknown[]): void {
 		if (!this.verbose) return
-		const levelPrefix = chalk.green('[Info]')
+		const levelPrefix = pc.green('[Info]')
 		if (isNode) {
 			// Log info to stderr in node for ease of redirection
 			console.warn(levelPrefix, ...data)
@@ -36,21 +36,21 @@ const log = {
 		}
 	},
 	infoPrefixed(prefix: string, ...data: unknown[]): void {
-		this.info(chalk.blue(`[${prefix}]`), ...data)
+		this.info(pc.blue(`[${prefix}]`), ...data)
 	},
 
 	warn(...data: unknown[]): void {
-		console.warn(chalk.yellow('[Warning]'), ...data)
+		console.warn(pc.yellow('[Warning]'), ...data)
 	},
 	warnPrefixed(prefix: string, ...data: unknown[]): void {
-		this.warn(chalk.blue(`[${prefix}]`), ...data)
+		this.warn(pc.blue(`[${prefix}]`), ...data)
 	},
 
 	error(...data: unknown[]): void {
-		console.error(chalk.red('[Error]'), ...data)
+		console.error(pc.red('[Error]'), ...data)
 	},
 	errorPrefixed(prefix: string, ...data: unknown[]): void {
-		this.error(chalk.blue(`[${prefix}]`), ...data)
+		this.error(pc.blue(`[${prefix}]`), ...data)
 	},
 }
 

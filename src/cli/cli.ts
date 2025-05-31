@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk'
+import pc from 'picocolors'
 import plur from 'plur'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -285,7 +285,7 @@ await yargsInstance
 			// browser to close before exiting, so that we don't close the local
 			// server too early
 			if (local) {
-				log.info(chalk.yellow(`Note: This process will exit once the browser is closed.`))
+				log.info(pc.yellow(`Note: This process will exit once the browser is closed.`))
 				await Promise.allSettled(browserExitPromises)
 				log.info(`Closing local tldraw ${plur('server', filesOrUrls ? filesOrUrls.length : 1)}`)
 			}
