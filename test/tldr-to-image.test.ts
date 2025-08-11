@@ -14,6 +14,9 @@ import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 
 const cleanUp = true
+
+// More test files will be read from the './test/assets/valid/' folder
+// These are just defined because they are used explicitly in certain tests
 const tldrTestFilePath = './test/assets/valid/2024-01-test-sketch-basic.tldr'
 const tldrTestFileThreeFramesPath = './test/assets/valid/2024-01-test-sketch-three-frames.tldr'
 const tldrTestFileThreePagesPath = './test/assets/valid/2024-04-test-sketch-three-pages.tldr'

@@ -31,8 +31,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       '@tldraw/assets':
-        specifier: 3.15.1
-        version: 3.15.1
+        specifier: 3.16.0-next.eafb52d15064
+        version: 3.16.0-next.eafb52d15064
       '@types/express':
         specifier: ^4.17.23
         version: 4.17.23
@@ -103,8 +103,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       tldraw:
-        specifier: 3.15.1
-        version: 3.15.1(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.16.0-next.eafb52d15064
+        version: 3.16.0-next.eafb52d15064(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tsx:
         specifier: ^4.20.3
         version: 4.20.3
@@ -2134,40 +2134,40 @@ packages:
   '@tiptap/starter-kit@2.26.1':
     resolution: {integrity: sha512-oziMGCds8SVQ3s5dRpBxVdEKZAmO/O//BjZ69mhA3q4vJdR0rnfLb5fTxSeQvHiqB878HBNn76kNaJrHrV35GA==}
 
-  '@tldraw/assets@3.15.1':
-    resolution: {integrity: sha512-QgT4sQFuGTo2LGnLXB/uKLS3hgqE1VRNSVDku9FVubtgUUKjZ2bK85f9fouyIKwjfdhDawB0hh7sl9iprp4bOQ==}
+  '@tldraw/assets@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-cIFlF9k232BK/mWBLlzLplODqkqNDs30WDa0d/uDEugSBDv3HJrHMQcGue2bCu9TpKDHSC8Xwf1laxpVCsKXkw==}
 
-  '@tldraw/editor@3.15.1':
-    resolution: {integrity: sha512-M1sYYmOUP0jC00WUhZQRXJnVagvBCzgQEjxSz7YSzyzekbv8GbhGvUpvFOgPrhPr3oS5v4YDNfTKfzXElu9ZEA==}
+  '@tldraw/editor@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-rIhNWs7G2gw9eiQ6MW0FAKxyJJvhMMQYOimUYl38hKxenXcM+UFEFZjohQBj1piU7LZ1CRYBA8UzFRJ7jgwT5g==}
     peerDependencies:
       react: ^18.2.0 || ^19.0.0
       react-dom: ^18.2.0 || ^19.0.0
 
-  '@tldraw/state-react@3.15.1':
-    resolution: {integrity: sha512-TZQG+Slx2A5RhaonyU9mk4sqTwTNP1lyapU2cT5BG9SfpYdH8YoHmVa5DVlVjl8m/+onsKH12wKBPTJsNYEZgQ==}
+  '@tldraw/state-react@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-SSi1YHQFB2abTmhmkiLyXyJauRZpt555j2s3mwgc9Y4206kDNE5xrdYCanB/iOgZ5VzQKH4++eWgMw77V7QNBg==}
     peerDependencies:
       react: ^18.2.0 || ^19.0.0
       react-dom: ^18.2.0 || ^19.0.0
 
-  '@tldraw/state@3.15.1':
-    resolution: {integrity: sha512-+idRW1KmphL6POQCVYFDi0nJ30OU+YwD1eitVWc/vPVWrq1sZAnHPcH2JhB+8eky5fnSOh9Utx4/xOZdK37sWw==}
+  '@tldraw/state@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-cZVZg1PTF7vI7WfQ7fTYKoyBiu8gx9vdV5UrcKHtCSygOycinVA4ZQ2cobqy2VN4GCzD9Xnd92WnmhoCaVo8JA==}
 
-  '@tldraw/store@3.15.1':
-    resolution: {integrity: sha512-EbP0QXMlqZmTOD4j3hdyKo2kofzYPXDTVEXOngW48dSy/krvErDy04sx2DyMCZKxEqv6r/zR1hwzaxXr0ByGqQ==}
+  '@tldraw/store@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-OCnGeID6kJNazUvhmZBuuoAuTkJaePA8rIUme9DgzmdOgKW7uRFXqVAMyrHIhAl4Ir9EAEmB/4ex98Ekk/NRhg==}
     peerDependencies:
       react: ^18.2.0 || ^19.0.0
 
-  '@tldraw/tlschema@3.15.1':
-    resolution: {integrity: sha512-l9qA5K9EqQCCiWv0JhjPX1kCpw9QIxj6RUFsz1J4B7sE2hc0l12szaMbtgruJGHgc841uOfb+W7DjCNAt22PeQ==}
+  '@tldraw/tlschema@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-XFB0+OT0aTfZVToKwIvw8OO5LKi8iiwKd7O44Wlp+4i4dWidtdg7FAF55jrq24TSwRdJreUBo0h5/v9SCw6+YA==}
     peerDependencies:
       react: ^18.2.0 || ^19.0.0
       react-dom: ^18.2.0 || ^19.0.0
 
-  '@tldraw/utils@3.15.1':
-    resolution: {integrity: sha512-70W70qta3AtYEqzfi3KAUcW+tu55RER1qGCsaNrkBRLRn9LCl98PfWsrklSNjJ/smdm9riFDpMabYYvNRAbyjw==}
+  '@tldraw/utils@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-ypk8gdlxhRVw7C6/Np6DJOci9iwl/rFzwYAqLNUPjnY5idqNuCVar9Iqqz/DyX9pAG4Iwrh79uIZs6wl6FyBcA==}
 
-  '@tldraw/validate@3.15.1':
-    resolution: {integrity: sha512-4r4/E7tHrPQ4T4cF7vQjJecyCI1GDHA+wLdkW+XEtCUd04SX/rbee5iqHFhW4NU6gpvGLAxxaLxeVQh/5rhqfQ==}
+  '@tldraw/validate@3.16.0-next.eafb52d15064':
+    resolution: {integrity: sha512-V9Pk9pOaNI8euA2W4Zr2cO8ZF/A4xXPZe0XOedkMgQwPpIcFQ+QJpnPiXflDErM5ZgSbn6xklRyMksoQgJ5PCQ==}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
@@ -5935,8 +5935,8 @@ packages:
   tippy.js@6.3.7:
     resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
 
-  tldraw@3.15.1:
-    resolution: {integrity: sha512-r2dUNhDoGDP2eEZrb2c4MQgxzpQPcrsZoVdiyD4LL9GcXc+K7p3yo/8/jn8pad0bFlXXq8ov9ioL0C/k2RNcnA==}
+  tldraw@3.16.0-next.eafb52d15064:
+    resolution: {integrity: sha512-dgbIwDAJz57iY+95g/0eq7W3uN8/lb9T1ENhPPJcYG8Q3oQOzN5C+gZrQrTXBW2qPdJJrFhY+KsKMQEEIreD/Q==}
     peerDependencies:
       react: ^18.2.0 || ^19.0.0
       react-dom: ^18.2.0 || ^19.0.0
@@ -8659,21 +8659,21 @@ snapshots:
       '@tiptap/extension-text-style': 2.26.1(@tiptap/core@2.26.1(@tiptap/pm@2.26.1))
       '@tiptap/pm': 2.26.1
 
-  '@tldraw/assets@3.15.1':
+  '@tldraw/assets@3.16.0-next.eafb52d15064':
     dependencies:
-      '@tldraw/utils': 3.15.1
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
 
-  '@tldraw/editor@3.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tldraw/editor@3.16.0-next.eafb52d15064(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@tiptap/core': 2.26.1(@tiptap/pm@2.26.1)
       '@tiptap/pm': 2.26.1
       '@tiptap/react': 2.26.1(@tiptap/core@2.26.1(@tiptap/pm@2.26.1))(@tiptap/pm@2.26.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tldraw/state': 3.15.1
-      '@tldraw/state-react': 3.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tldraw/store': 3.15.1(react@18.3.1)
-      '@tldraw/tlschema': 3.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tldraw/utils': 3.15.1
-      '@tldraw/validate': 3.15.1
+      '@tldraw/state': 3.16.0-next.eafb52d15064
+      '@tldraw/state-react': 3.16.0-next.eafb52d15064(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tldraw/store': 3.16.0-next.eafb52d15064(react@18.3.1)
+      '@tldraw/tlschema': 3.16.0-next.eafb52d15064(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
+      '@tldraw/validate': 3.16.0-next.eafb52d15064
       '@types/core-js': 2.5.8
       '@use-gesture/react': 10.3.1(react@18.3.1)
       classnames: 2.5.1
@@ -8684,33 +8684,33 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tldraw/state-react@3.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tldraw/state-react@3.16.0-next.eafb52d15064(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tldraw/state': 3.15.1
-      '@tldraw/utils': 3.15.1
+      '@tldraw/state': 3.16.0-next.eafb52d15064
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tldraw/state@3.15.1':
+  '@tldraw/state@3.16.0-next.eafb52d15064':
     dependencies:
-      '@tldraw/utils': 3.15.1
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
 
-  '@tldraw/store@3.15.1(react@18.3.1)':
+  '@tldraw/store@3.16.0-next.eafb52d15064(react@18.3.1)':
     dependencies:
-      '@tldraw/state': 3.15.1
-      '@tldraw/utils': 3.15.1
+      '@tldraw/state': 3.16.0-next.eafb52d15064
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
       react: 18.3.1
 
-  '@tldraw/tlschema@3.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tldraw/tlschema@3.16.0-next.eafb52d15064(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tldraw/state': 3.15.1
-      '@tldraw/store': 3.15.1(react@18.3.1)
-      '@tldraw/utils': 3.15.1
-      '@tldraw/validate': 3.15.1
+      '@tldraw/state': 3.16.0-next.eafb52d15064
+      '@tldraw/store': 3.16.0-next.eafb52d15064(react@18.3.1)
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
+      '@tldraw/validate': 3.16.0-next.eafb52d15064
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tldraw/utils@3.15.1':
+  '@tldraw/utils@3.16.0-next.eafb52d15064':
     dependencies:
       fractional-indexing-jittered: 1.0.0
       lodash.isequal: 4.5.0
@@ -8718,9 +8718,9 @@ snapshots:
       lodash.throttle: 4.1.1
       lodash.uniq: 4.5.0
 
-  '@tldraw/validate@3.15.1':
+  '@tldraw/validate@3.16.0-next.eafb52d15064':
     dependencies:
-      '@tldraw/utils': 3.15.1
+      '@tldraw/utils': 3.16.0-next.eafb52d15064
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
@@ -13616,7 +13616,7 @@ snapshots:
     dependencies:
       '@popperjs/core': 2.11.8
 
-  tldraw@3.15.1(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  tldraw@3.16.0-next.eafb52d15064(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@tiptap/core': 2.26.1(@tiptap/pm@2.26.1)
       '@tiptap/extension-code': 2.26.1(@tiptap/core@2.26.1(@tiptap/pm@2.26.1))
@@ -13625,8 +13625,8 @@ snapshots:
       '@tiptap/pm': 2.26.1
       '@tiptap/react': 2.26.1(@tiptap/core@2.26.1(@tiptap/pm@2.26.1))(@tiptap/pm@2.26.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/starter-kit': 2.26.1
-      '@tldraw/editor': 3.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tldraw/store': 3.15.1(react@18.3.1)
+      '@tldraw/editor': 3.16.0-next.eafb52d15064(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tldraw/store': 3.16.0-next.eafb52d15064(react@18.3.1)
       classnames: 2.5.1
       hotkeys-js: 3.13.15
       idb: 7.1.1
