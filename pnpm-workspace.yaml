@@ -1,0 +1,8 @@
+onlyBuiltDependencies:
+  - '@swc/core'
+  - core-js
+  - esbuild
+  - oxc-resolver
+  - puppeteer
+  - sharp
+  - unrs-resolver
