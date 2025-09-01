@@ -1,5 +1,4 @@
 import type { ServerType } from '@hono/node-server'
-import type { AddressInfo } from 'node:net'
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import getPort from 'get-port'
@@ -11,11 +10,11 @@ import log from './utilities/log'
 export default class LocalTldrawServer {
 	get href(): string {
 		if (!this.server) throw new Error('Server not started')
-		// eslint-disable-next-line ts/no-unsafe-type-assertion
-		const { port } = this.server.address() as AddressInfo
-		return `http://localhost:${port}`
+		if (!this.port) throw new Error('Server port not available')
+		return `http://localhost:${this.port}`
 	}
 
+	private port?: number
 	private server?: ServerType
 
 	constructor(private readonly tldrData?: string) {}
@@ -26,7 +25,7 @@ export default class LocalTldrawServer {
 		log.info('Stopped tldraw server')
 	}
 
-	async start() {
+	async start(): Promise<void> {
 		// Serve local tldraw
 		log.info('Starting tldraw server...')
 
@@ -44,7 +43,7 @@ export default class LocalTldrawServer {
 
 		log.info(`tldraw served from "${tldrawPath}"`)
 		const app = new Hono()
-		const port = await getPort()
+		this.port = await getPort()
 
 		// Provide the initial state data at an endpoint
 		app.get('/tldr-data', (c) =>
@@ -61,12 +60,34 @@ export default class LocalTldrawServer {
 		try {
 			this.server = serve({
 				fetch: app.fetch,
-				port,
+				port: this.port,
 			})
+
+			// Wait for the server to actually start listening
+			await this.waitForServer()
 		} catch (error) {
 			log.error(error)
+			throw error
 		}
 
 		log.info(`tldraw hosted at "${this.href}"`)
+	}
+
+	private async waitForServer(maxAttempts = 50, delay = 10): Promise<void> {
+		if (!this.server) throw new Error('Server not initialized')
+
+		for (let i = 0; i < maxAttempts; i++) {
+			const address = this.server.address()
+			if (address !== null) {
+				// Server is ready
+				return
+			}
+			// Wait a bit before checking again
+			await new Promise((resolve) => {
+				setTimeout(resolve, delay)
+			})
+		}
+
+		throw new Error('Server failed to start within timeout')
 	}
 }
