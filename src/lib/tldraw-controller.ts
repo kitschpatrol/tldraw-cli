@@ -13,7 +13,6 @@ import untildify from 'untildify'
 import type { TldrawToImageOptions } from './tldraw-to-image'
 import getImageInlineScript from './inline/get-image?iife'
 import getTldrInlineScript from './inline/get-tldr?iife'
-import setTldrInlineScript from './inline/set-tldr?iife'
 import log from './utilities/log'
 
 type TlPage = {
@@ -206,25 +205,6 @@ export default class TldrawController {
 		return orderBy(outputAccumulator)
 	}
 
-	async loadFile(filePath: string) {
-		if (!this.page) throw new Error('Controller not started')
-		if (this.isLocal)
-			throw new Error(
-				'File loading is only supported for remote tldraw.com instances. See tldraw-open.ts for local file loading approach.',
-			)
-
-		await this.closeMenus()
-		await this.page.evaluate(`userPreferences.showFileOpenWarning.set(false);`)
-
-		log.info(`Uploading local file to tldraw.com: ${filePath}`)
-		const tldrFile = await fs.readFile(filePath, 'utf8')
-
-		// We have to call a custom function to upload the tldr file,
-		// puppeteer waitForFileChooser fileInput.accept etc. does NOT work
-		await this.page.evaluate(setTldrInlineScript)
-		await this.page.evaluate(`window.setTldr(${tldrFile})`)
-	}
-
 	async start() {
 		// Set up Puppeteer
 		log.info('Starting Puppeteer...')
@@ -264,11 +244,6 @@ export default class TldrawController {
 		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
 		this.isEmpty = shapeCount === 0
-	}
-
-	private async closeMenus(): Promise<void> {
-		if (!this.page) throw new Error('Controller not started')
-		await this.page.evaluate(`editor.clearOpenMenus()`)
 	}
 
 	private async getCurrentPage(): Promise<string> {
