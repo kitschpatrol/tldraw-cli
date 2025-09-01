@@ -42,6 +42,11 @@ export default function App() {
 
 					// Note alternate approach with createTLSchema
 					// https://github.com/tldraw/tldraw/issues/3155
+					// https://github.com/tldraw/tldraw/blob/main/packages/editor/src/lib/config/TLEditorSnapshot.ts#L11
+					// Hmm https://gist.github.com/acmoles/ff525d1e8a0c7bf14ea3d47fd6cab6b1
+					// Hmm https://github.com/tldraw/tldraw/issues/4076
+					// https://github.com/tldraw/tldraw/issues/1650
+					// https://github.com/seflless/subfont
 					const parseFileResult = parseTldrawJsonFile({
 						json: tldrData,
 						schema: editor.store.schema,

@@ -4,13 +4,13 @@
 
 // It's sort of a glorified bookmarklet.
 
-// Due to apparent tree shaking difficulties, Using imports dramatically
-// increases the bundle size, but induces no measurable execution performance
-// penalty vs. inlining the required functions in this file, and should be more
-// maintainable.
+// Technically this function could be called directly in tldraw-controller.ts
+// via page.evaluate since the methods we need are in the editor namespace, but
+// the nested async results are a pain to manage without basically manually
+// constructing an IIFE string in the controller
 
-// We can't simply bake the functions into the local tldraw instance because
-// they need to work on live tldraw.com URLs as well.
+// We have to convert the array buffer to a string in the browser because of
+// https://github.com/puppeteer/puppeteer/issues/3722
 
 // No top level await in IIFE or in ES6 (the target for the inline-bundler)
 
@@ -18,7 +18,6 @@
 /* eslint-disable unicorn/prefer-global-this */
 
 import type { Editor } from 'tldraw'
-import { exportToBlob } from 'tldraw'
 import { uint8ArrayToBase64 } from 'uint8array-extras'
 
 declare global {
@@ -37,7 +36,7 @@ declare global {
 
 // Assumes the shape / page selections have already been set
 // before this function is called.
-window.getImage = async ({ background, darkMode, format, padding, scale }): Promise<string> => {
+window.getImage = async ({ background, darkMode, format, padding, scale }) => {
 	const { editor } = window
 	let ids = editor.getSelectedShapeIds()
 
@@ -51,17 +50,12 @@ window.getImage = async ({ background, darkMode, format, padding, scale }): Prom
 	}
 
 	try {
-		// eslint-disable-next-line ts/no-deprecated
-		const blob = await exportToBlob({
-			editor,
+		const { blob } = await editor.toImage(ids, {
+			background,
+			darkMode,
 			format,
-			ids,
-			opts: {
-				background,
-				darkMode,
-				padding,
-				scale,
-			},
+			padding,
+			pixelRatio: scale,
 		})
 
 		const uint8Array = new Uint8Array(await blob.arrayBuffer())
