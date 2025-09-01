@@ -12,7 +12,7 @@ await build({
 	},
 	bundle: true,
 	entryPoints: ['src/cli/cli.ts'],
-	external: ['express', 'puppeteer', 'yargs'],
+	external: ['puppeteer', 'yargs'],
 	format: 'esm',
 	minify: false,
 	outfile: 'bin/cli.js',

@@ -1,7 +1,9 @@
-import type { Server } from 'node:http'
+import type { ServerType } from '@hono/node-server'
 import type { AddressInfo } from 'node:net'
-import express from 'express'
+import { serve } from '@hono/node-server'
+import { serveStatic } from '@hono/node-server/serve-static'
 import getPort from 'get-port'
+import { Hono } from 'hono'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import log from './utilities/log'
@@ -14,7 +16,7 @@ export default class LocalTldrawServer {
 		return `http://localhost:${port}`
 	}
 
-	private server?: Server
+	private server?: ServerType
 
 	constructor(private readonly tldrData?: string) {}
 
@@ -41,23 +43,26 @@ export default class LocalTldrawServer {
 		)
 
 		log.info(`tldraw served from "${tldrawPath}"`)
-		const app = express()
+		const app = new Hono()
 		const port = await getPort()
 
 		// Provide the initial state data at an endpoint
-		app.get('/tldr-data', (_, response) => {
-			if (this.tldrData === undefined) {
-				response.status(404).send('No tldr data provided')
-			} else {
-				response.setHeader('Content-Type', 'text/plain; charset=utf-8')
-				response.send(this.tldrData)
-			}
-		})
+		app.get('/tldr-data', (c) =>
+			this.tldrData === undefined
+				? c.text('No tldr data provided', 404)
+				: c.text(this.tldrData, 200, {
+						'Content-Type': 'text/plain; charset=utf-8',
+					}),
+		)
 
-		app.use(express.static(tldrawPath))
+		// Serve static files
+		app.use('/*', serveStatic({ root: tldrawPath }))
 
 		try {
-			this.server = app.listen(port)
+			this.server = serve({
+				fetch: app.fetch,
+				port,
+			})
 		} catch (error) {
 			log.error(error)
 		}

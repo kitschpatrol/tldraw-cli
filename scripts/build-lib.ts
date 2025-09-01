@@ -12,7 +12,7 @@ await build({
 	},
 	bundle: true,
 	entryPoints: ['src/lib/index.ts'],
-	external: ['express', 'puppeteer'],
+	external: ['puppeteer'],
 	format: 'esm',
 	minify: false,
 	outfile: 'dist/lib/index.js',
