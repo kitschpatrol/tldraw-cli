@@ -219,17 +219,40 @@ export default class TldrawController {
 		this.page = await this.browser.newPage()
 		this.page.setDefaultTimeout(120_000)
 
-		// Set up console logging passthrough
+		// Set up Browser console logging filtration and passthrough
 		this.page.on('console', (message) => {
-			const messageType = message.type()
-			const messageText = message.text()
+			const type = message.type()
+			const text = message.text()
 
-			if (messageType === 'error') {
-				log.errorPrefixed('Browser', messageText)
-			} else if (messageType === 'warn') {
-				log.warnPrefixed('Browser', messageText)
-			} else {
-				log.infoPrefixed('Browser', messageText)
+			// eslint-disable-next-line ts/switch-exhaustiveness-check
+			switch (type) {
+				case 'error': {
+					// Manually suppress errors from blocked trackers
+					const isSuppressedError =
+						text.endsWith('ERR_CONNECTION_REFUSED') &&
+						message.location().url?.startsWith('https://www.googletagmanager.com')
+
+					if (!isSuppressedError) {
+						log.errorPrefixed('Browser', text)
+					}
+					break
+				}
+
+				case 'warn': {
+					// TODO remove this once resolved...
+					const isSuppressedWarning =
+						text.startsWith('ToggleGroup is changing from controlled to uncontrolled') ||
+						text.startsWith('ToggleGroup is changing from uncontrolled to controlled')
+
+					if (!isSuppressedWarning) {
+						log.warnPrefixed('Browser', text)
+					}
+					break
+				}
+
+				default: {
+					log.infoPrefixed('Browser', text)
+				}
 			}
 		})
 
