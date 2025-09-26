@@ -56,7 +56,7 @@ function getStableJson(filePath: string): string {
 	const ultraStableJsonString = stripNumbers(stripUnstableIds(stableJsonString))
 
 	// eslint-disable-next-line unicorn/prefer-spread
-	const ultraStableSortedJsonString = ultraStableJsonString.split('').sort().join('')
+	const ultraStableSortedJsonString = ultraStableJsonString.split('').toSorted().join('')
 
 	return ultraStableSortedJsonString
 }

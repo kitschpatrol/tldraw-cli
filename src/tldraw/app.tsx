@@ -56,7 +56,7 @@ export default function App() {
 						console.log('Loaded tldr file from local endpoint')
 						setStore(parseFileResult.value)
 					} else {
-						console.error(`Couldn't parse tldr file: ${String(parseFileResult.error.type)}`)
+						console.error(`Couldn't parse tldr file: ${parseFileResult.error.type}`)
 					}
 				})
 				.catch((error: unknown) => {

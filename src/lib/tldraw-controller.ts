@@ -227,10 +227,13 @@ export default class TldrawController {
 			// eslint-disable-next-line ts/switch-exhaustiveness-check
 			switch (type) {
 				case 'error': {
-					// Manually suppress errors from blocked trackers
+					// Manually suppress errors from blocked trackers and
+					// the recently-introduced negative value notifications
 					const isSuppressedError =
-						text.endsWith('ERR_CONNECTION_REFUSED') &&
-						message.location().url?.startsWith('https://www.googletagmanager.com')
+						(text.endsWith('ERR_CONNECTION_REFUSED') &&
+							// eslint-disable-next-line ts/prefer-nullish-coalescing
+							message.location().url?.startsWith('https://www.googletagmanager.com')) ||
+						text.startsWith('Error: <foreignObject> attribute ')
 
 					if (!isSuppressedError) {
 						log.errorPrefixed('Browser', text)
