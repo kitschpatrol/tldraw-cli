@@ -57,7 +57,7 @@
 		"@fontsource/inter": "^5.2.8",
 		"@hono/node-server": "^1.19.6",
 		"hono": "^4.10.4",
-		"puppeteer": "^24.28.0",
+		"puppeteer": "^24.29.0",
 		"uint8array-extras": "^1.5.0",
 		"yargs": "^18.0.0"
 	},
@@ -69,7 +69,7 @@
 		"@types/react": "^19.2.2",
 		"@types/react-dom": "^19.2.2",
 		"@types/yargs": "^17.0.34",
-		"@vitejs/plugin-react-swc": "^4.2.0",
+		"@vitejs/plugin-react-swc": "^4.2.1",
 		"bumpp": "^10.3.1",
 		"cheerio": "^1.1.2",
 		"esbuild": "^0.25.12",
@@ -80,7 +80,7 @@
 		"open": "^10.2.0",
 		"path-type": "^6.0.0",
 		"picocolors": "^1.1.1",
-		"plur": "^5.1.0",
+		"plur": "^6.0.0",
 		"pretty-ms": "^9.3.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
@@ -92,8 +92,8 @@
 		"tsx": "^4.20.6",
 		"typescript": "~5.9.3",
 		"untildify": "^6.0.0",
-		"vite": "^7.1.12",
-		"vitest": "^3.2.4"
+		"vite": "^7.2.0",
+		"vitest": "^4.0.7"
 	},
 	"packageManager": "pnpm@10.20.0",
 	"engines": {

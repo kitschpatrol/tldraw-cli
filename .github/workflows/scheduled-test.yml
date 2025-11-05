@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: 'not-needed-for-build'
     steps:
       - name: Log Token Type
         run: |
