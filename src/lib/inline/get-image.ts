@@ -21,6 +21,7 @@ import type { Editor } from 'tldraw'
 import { uint8ArrayToBase64 } from 'uint8array-extras'
 
 declare global {
+	// eslint-disable-next-line ts/naming-convention
 	interface Window {
 		editor: Editor
 		getImage: (options: {
