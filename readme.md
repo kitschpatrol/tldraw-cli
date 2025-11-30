@@ -504,7 +504,7 @@ In terms of Puppeteer vs. Playwright and other headless browser automation tools
 
 The local instance of tldraw includes its assets dependencies, so the tool should work correctly without internet access.
 
-Track the [tldraw changelog](https://github.com/tldraw/tldraw/blob/main/CHANGELOG.md).
+Track the [tldraw releases](https://github.com/tldraw/tldraw/releases).
 
 ## The future
 
