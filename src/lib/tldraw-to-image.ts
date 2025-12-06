@@ -90,14 +90,14 @@ export async function tldrawToImage(
 			try {
 				await tldrawController.close()
 			} catch {
-				// best effort
+				// Best effort
 			}
 		}
 		if (isLocal) {
 			try {
 				tldrawServer.close()
 			} catch {
-				// best effort
+				// Best effort
 			}
 		}
 	}
