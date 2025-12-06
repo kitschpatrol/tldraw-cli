@@ -38,8 +38,8 @@
 	],
 	"scripts": {
 		"build": "pnpm run build:tldraw && pnpm run build:lib && pnpm run build:cli",
-		"build:cli": "tsx ./scripts/build-cli.ts && tsc -p tsconfig.build.json",
-		"build:lib": "tsx ./scripts/build-lib.ts && tsc -p tsconfig.lib.json",
+		"build:cli": "tsx ./scripts/build-cli.ts",
+		"build:lib": "tsx ./scripts/build-lib.ts && tsc -p tsconfig.build.json",
 		"build:tldraw": "pnpm run tldraw:copy-assets && vite build",
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
 		"dev": "pnpm run dev:tldraw",
@@ -62,7 +62,7 @@
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.9.2",
+		"@kitschpatrol/shared-config": "^5.10.0",
 		"@sindresorhus/slugify": "^3.0.0",
 		"@tldraw/assets": "^4.2.1",
 		"@types/node": "^20.19.25",
@@ -77,6 +77,8 @@
 		"mdat-plugin-cli-help": "^1.0.2",
 		"nanoid": "^5.1.6",
 		"natural-orderby": "^5.0.0",
+		"node-addon-api": "^8.5.0",
+		"node-gyp": "^12.1.0",
 		"open": "^11.0.0",
 		"path-type": "^6.0.0",
 		"picocolors": "^1.1.1",
