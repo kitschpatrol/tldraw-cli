@@ -74,18 +74,33 @@ export async function tldrawToImage(
 	// Start puppeteer controller
 	const tldrawUrl = isLocal ? tldrawServer.href : validatedPathOrUrl.href
 	const tldrawController = new TldrawController(tldrawUrl)
-	await tldrawController.start()
+	let controllerStarted = false
 
-	// Run the download
-	const exportReport = await tldrawController.download(options)
+	try {
+		await tldrawController.start()
+		controllerStarted = true
 
-	// Clean up
-	await tldrawController.close()
-	if (isLocal) tldrawServer.close()
+		// Run the download
+		const exportReport = await tldrawController.download(options)
 
-	log.info(`Export time: ${prettyMilliseconds(performance.now() - startTime)}`)
-
-	return exportReport
+		log.info(`Export time: ${prettyMilliseconds(performance.now() - startTime)}`)
+		return exportReport
+	} finally {
+		if (controllerStarted) {
+			try {
+				await tldrawController.close()
+			} catch {
+				// best effort
+			}
+		}
+		if (isLocal) {
+			try {
+				tldrawServer.close()
+			} catch {
+				// best effort
+			}
+		}
+	}
 }
 
 function sanitizeName(name: string, format: TldrawFormat): string {
