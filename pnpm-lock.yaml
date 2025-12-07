@@ -64,8 +64,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       mdat-plugin-cli-help:
-        specifier: ^1.0.2
-        version: 1.0.2(mdat@1.3.2(typescript@5.9.3))(remark-mdat@1.2.0)
+        specifier: ^1.0.4
+        version: 1.0.4(mdat@1.3.2(typescript@5.9.3))(remark-mdat@1.2.0)
       nanoid:
         specifier: ^5.1.6
         version: 5.1.6
@@ -4628,8 +4628,8 @@ packages:
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
 
-  mdat-plugin-cli-help@1.0.2:
-    resolution: {integrity: sha512-mvIl8Eb+FDRmqi09y/UnYHoefKkeAUIrn2hCBauJrpOzjaDt12DfMjC5PwHyE04kkYQLMKorpELbYxA1L2YMUw==}
+  mdat-plugin-cli-help@1.0.4:
+    resolution: {integrity: sha512-J4HnSEypSD2bwkAMKMl+bHPQ4HU5RAiSg+NBpI6gRP5aRAUcB9vIN5d2w/Q7JIx6Iv3hOm82E9zmCxSQcq5EfA==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       mdat: ^1.1.0
@@ -5461,10 +5461,6 @@ packages:
     resolution: {integrity: sha512-A70UlgfNdKI5NSvTTfHzLQj7NJRpJ4mT5tGafkllJ4wh71oYuGm/pzphHcmW4s35iox56KSK721AihodoXSc/A==}
     engines: {node: '>=20'}
 
-  read-pkg@9.0.1:
-    resolution: {integrity: sha512-9viLL4/n1BJUCT1NXVTdS1jtm80yDEgR5T4yCelII49Mbj0v1rZdKqj7zCiYdbB0CuCgdrvHcNogAKTFPBocFA==}
-    engines: {node: '>=18'}
-
   readable-stream@3.6.2:
     resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
     engines: {node: '>= 6'}
@@ -6140,10 +6136,6 @@ packages:
     resolution: {integrity: sha512-QEg3HPMll0o3t2ourKwOeUAZ159Kn9mx5pnzHRQO8+Wixmh88YdZRiIwat0iNzNNXn0yoEtXJqFpyW7eM8BV7g==}
     engines: {node: '>=20.18.1'}
 
-  unicorn-magic@0.1.0:
-    resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
-    engines: {node: '>=18'}
-
   unicorn-magic@0.3.0:
     resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
     engines: {node: '>=18'}
@@ -6400,11 +6392,6 @@ packages:
   which@4.0.0:
     resolution: {integrity: sha512-GlaYyEb07DPxYCKhKzplCWBJtvxZcZMrL+4UkrTSJHHPyZU4mYYTv3qaOe77H7EODLSSopAUFAc6W8U4yqvscg==}
     engines: {node: ^16.13.0 || >=18.0.0}
-    hasBin: true
-
-  which@5.0.0:
-    resolution: {integrity: sha512-JEdGzHwwkrbWoGOlIHqQ5gtprKGOenpDHpxE9zVR1bWbOtYRyPPHMe9FaP6x61CmNaTThSkb0DAJte5jD+DmzQ==}
-    engines: {node: ^18.17.0 || >=20.5.0}
     hasBin: true
 
   which@6.0.0:
@@ -11706,15 +11693,15 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
 
-  mdat-plugin-cli-help@1.0.2(mdat@1.3.2(typescript@5.9.3))(remark-mdat@1.2.0):
+  mdat-plugin-cli-help@1.0.4(mdat@1.3.2(typescript@5.9.3))(remark-mdat@1.2.0):
     dependencies:
       '@types/which': 3.0.4
       execa: 9.6.1
       mdat: 1.3.2(typescript@5.9.3)
-      read-pkg: 9.0.1
+      read-pkg: 10.0.0
       remark-mdat: 1.2.0
       type-fest: 5.3.0
-      which: 5.0.0
+      which: 6.0.0
 
   mdat@1.3.2(typescript@5.9.3):
     dependencies:
@@ -12820,14 +12807,6 @@ snapshots:
       type-fest: 5.3.0
       unicorn-magic: 0.3.0
 
-  read-pkg@9.0.1:
-    dependencies:
-      '@types/normalize-package-data': 2.4.4
-      normalize-package-data: 6.0.2
-      parse-json: 8.3.0
-      type-fest: 4.41.0
-      unicorn-magic: 0.1.0
-
   readable-stream@3.6.2:
     dependencies:
       inherits: 2.0.4
@@ -13897,8 +13876,6 @@ snapshots:
 
   undici@7.16.0: {}
 
-  unicorn-magic@0.1.0: {}
-
   unicorn-magic@0.3.0: {}
 
   unified-engine@11.2.2:
@@ -14226,10 +14203,6 @@ snapshots:
       isexe: 2.0.0
 
   which@4.0.0:
-    dependencies:
-      isexe: 3.1.1
-
-  which@5.0.0:
     dependencies:
       isexe: 3.1.1
 
