@@ -57,7 +57,7 @@
 		"@fontsource/inter": "^5.2.8",
 		"@hono/node-server": "^1.19.7",
 		"hono": "^4.11.1",
-		"puppeteer": "^24.33.0",
+		"puppeteer": "^24.34.0",
 		"uint8array-extras": "^1.5.0",
 		"yargs": "^18.0.0"
 	},
@@ -72,7 +72,7 @@
 		"@vitejs/plugin-react-swc": "^4.2.2",
 		"bumpp": "^10.3.2",
 		"cheerio": "^1.1.2",
-		"esbuild": "^0.27.1",
+		"esbuild": "^0.27.2",
 		"get-port": "^7.1.0",
 		"mdat-plugin-cli-help": "^1.0.4",
 		"nanoid": "^5.1.6",
@@ -95,9 +95,9 @@
 		"typescript": "~5.9.3",
 		"untildify": "^6.0.0",
 		"vite": "^7.3.0",
-		"vitest": "^4.0.15"
+		"vitest": "^4.0.16"
 	},
-	"packageManager": "pnpm@10.26.0",
+	"packageManager": "pnpm@10.26.2",
 	"engines": {
 		"node": ">=20.19.0"
 	},
