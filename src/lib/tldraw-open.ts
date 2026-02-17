@@ -4,10 +4,10 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import { URL } from 'node:url'
 import open from 'open'
-import LocalTldrawServer from './local-tldraw-server'
-import { tldrawToImage } from './tldraw-to-image'
-import log from './utilities/log'
-import { validatePathOrUrl } from './validation'
+import LocalTldrawServer from './local-tldraw-server.js'
+import { tldrawToImage } from './tldraw-to-image.js'
+import log from './utilities/log.js'
+import { validatePathOrUrl } from './validation.js'
 
 const tldrawOpenDefaultOptions = {
 	location: 'remote',

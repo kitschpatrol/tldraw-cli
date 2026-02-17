@@ -1,7 +1,7 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"],
+		"types": ["./scripts/plugins/rolldown-plugin-iife.extensions.d.ts"],
 		"strictNullChecks": true,
 		"declaration": true,
 		"emitDeclarationOnly": true,

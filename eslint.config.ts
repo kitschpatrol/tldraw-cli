@@ -16,21 +16,9 @@ export default eslintConfig(
 		type: 'lib',
 	},
 	{
-		files: ['*/**'],
-		rules: {
-			'node/no-unsupported-features/node-builtins': 'off',
-		},
-	},
-	{
 		files: ['readme.md/**/*.html'],
 		rules: {
 			'html/require-img-alt': 'off',
-		},
-	},
-	{
-		files: ['src/cli/**/*'],
-		rules: {
-			'node/hashbang': 'off',
 		},
 	},
 )

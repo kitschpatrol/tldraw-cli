@@ -395,7 +395,7 @@ You _must_ await the `browserExitPromise` (or somehow keep script's process aliv
 Example of opening a local file:
 
 ```ts
-import { tldrawOpen } from 'tldraw-cli'
+import { tldrawOpen } from '@kitschpatrol/tldraw-cli'
 
 const { browserExitPromise } = await tldrawOpen('./sketch.tldr', {
   location: 'local',
@@ -409,7 +409,7 @@ await browserExitPromise
 While opening the file remotely on tldraw\.com is more casual:
 
 ```ts
-import { tldrawOpen } from 'tldraw-cli'
+import { tldrawOpen } from '@kitschpatrol/tldraw-cli'
 
 await tldrawOpen('./sketch.tldr', {
   location: 'remote',

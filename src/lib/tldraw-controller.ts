@@ -1,6 +1,6 @@
 /* eslint-disable ts/no-unnecessary-condition */
 /* eslint-disable unicorn/prefer-global-this */
-// Note special inline IIFE import, see ./plugins/esbuild-plugin-iife.ts
+// Note special inline IIFE import, see scripts/plugins/rolldown-plugin-iife.ts
 import type { Browser, Page } from 'puppeteer'
 import slugify from '@sindresorhus/slugify'
 import * as cheerio from 'cheerio'
@@ -10,10 +10,10 @@ import path from 'node:path'
 import puppeteer from 'puppeteer'
 import { base64ToString, base64ToUint8Array, stringToBase64 } from 'uint8array-extras'
 import untildify from 'untildify'
-import type { TldrawToImageOptions } from './tldraw-to-image'
+import type { TldrawToImageOptions } from './tldraw-to-image.js'
 import getImageInlineScript from './inline/get-image?iife'
 import getTldrInlineScript from './inline/get-tldr?iife'
-import log from './utilities/log'
+import log from './utilities/log.js'
 
 type TlPage = {
 	frames: TlFrame[]

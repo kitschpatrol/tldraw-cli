@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import prettyMilliseconds from 'pretty-ms'
-import LocalTldrawServer from './local-tldraw-server'
-import TldrawController from './tldraw-controller'
-import log from './utilities/log'
-import { validatePathOrUrl } from './validation'
+import LocalTldrawServer from './local-tldraw-server.js'
+import TldrawController from './tldraw-controller.js'
+import log from './utilities/log.js'
+import { validatePathOrUrl } from './validation.js'
 
 // Essentially TLExportType + 'tldr'
 

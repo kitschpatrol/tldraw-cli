@@ -4,12 +4,12 @@ import pc from 'picocolors'
 import plur from 'plur'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import type { TldrawOpenOptions, TldrawOpenResult } from '../lib/tldraw-open'
-import type { TldrawFormat } from '../lib/tldraw-to-image'
+import type { TldrawOpenOptions, TldrawOpenResult } from '../lib/tldraw-open.js'
+import type { TldrawFormat } from '../lib/tldraw-to-image.js'
 import { version } from '../../package.json'
-import { tldrawOpen } from '../lib/tldraw-open'
-import { tldrawToImage } from '../lib/tldraw-to-image'
-import log from '../lib/utilities/log'
+import { tldrawOpen } from '../lib/tldraw-open.js'
+import { tldrawToImage } from '../lib/tldraw-to-image.js'
+import log from '../lib/utilities/log.js'
 
 const yargsInstance = yargs(hideBin(process.argv))
 

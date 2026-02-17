@@ -3,7 +3,7 @@
 		"composite": true,
 		"module": "ESNext",
 		"moduleResolution": "bundler",
-		"types": ["./scripts/plugins/esbuild-plugin-iife.extensions.d.ts"],
+		"types": ["./scripts/plugins/rolldown-plugin-iife.extensions.d.ts"],
 		"strictNullChecks": true,
 		"allowSyntheticDefaultImports": true,
 		"skipLibCheck": true

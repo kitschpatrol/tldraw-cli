@@ -25,21 +25,25 @@
 		"url": "https://ericmika.com"
 	},
 	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/lib/index.d.ts",
+			"import": "./dist/lib/index.js"
+		}
+	},
 	"main": "./dist/lib/index.js",
 	"module": "./dist/lib/index.js",
 	"types": "./dist/lib/index.d.ts",
 	"bin": {
-		"tldraw": "bin/cli.js",
-		"tldraw-cli": "bin/cli.js"
+		"tldraw": "dist/bin/cli.js",
+		"tldraw-cli": "dist/bin/cli.js"
 	},
 	"files": [
-		"bin/*",
 		"dist/*"
 	],
 	"scripts": {
-		"build": "pnpm run build:tldraw && pnpm run build:lib && pnpm run build:cli",
-		"build:cli": "tsx ./scripts/build-cli.ts",
-		"build:lib": "tsx ./scripts/build-lib.ts && tsc -p tsconfig.build.json",
+		"build": "pnpm run build:tldraw && pnpm run build:src",
+		"build:src": "tsdown && tsc -p tsconfig.build.json",
 		"build:tldraw": "pnpm run tldraw:copy-assets && vite build",
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
 		"dev": "pnpm run dev:tldraw",
@@ -54,50 +58,52 @@
 		"tldraw:copy-assets": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
 	},
 	"dependencies": {
-		"@fontsource/inter": "^5.2.8",
 		"@hono/node-server": "^1.19.9",
-		"hono": "^4.11.7",
-		"puppeteer": "^24.36.1",
-		"uint8array-extras": "^1.5.0",
-		"yargs": "^18.0.0"
-	},
-	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.13.0",
 		"@sindresorhus/slugify": "^3.0.0",
-		"@tldraw/assets": "^4.3.0",
-		"@types/node": "^20.19.30",
-		"@types/react": "^19.2.10",
-		"@types/react-dom": "^19.2.3",
-		"@types/yargs": "^17.0.35",
-		"@vitejs/plugin-react-swc": "^4.2.2",
-		"bumpp": "^10.4.0",
+		"@types/node": "^20.19.33",
 		"cheerio": "^1.2.0",
-		"esbuild": "^0.27.2",
 		"get-port": "^7.1.0",
-		"mdat-plugin-cli-help": "^1.0.5",
+		"hono": "^4.11.10",
 		"nanoid": "^5.1.6",
 		"natural-orderby": "^5.0.0",
-		"node-addon-api": "^8.5.0",
-		"node-gyp": "^12.2.0",
 		"open": "^11.0.0",
 		"path-type": "^6.0.0",
 		"picocolors": "^1.1.1",
 		"plur": "^6.0.0",
 		"pretty-ms": "^9.3.0",
+		"puppeteer": "^24.37.4",
+		"uint8array-extras": "^1.5.0",
+		"untildify": "^6.0.0",
+		"yargs": "^18.0.0"
+	},
+	"devDependencies": {
+		"@fontsource/inter": "^5.2.8",
+		"@kitschpatrol/shared-config": "^5.13.0",
+		"@tldraw/assets": "^4.4.0",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@types/yargs": "^17.0.35",
+		"@vitejs/plugin-react-swc": "^4.2.3",
+		"bumpp": "^10.4.1",
+		"esbuild": "^0.27.3",
+		"mdat-plugin-cli-help": "^1.0.6",
+		"node-addon-api": "^8.5.0",
+		"node-gyp": "^12.2.0",
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
+		"rolldown": "1.0.0-rc.5",
 		"safe-stable-stringify": "^2.5.0",
 		"sharp": "^0.34.5",
 		"sharp-phash": "^2.2.0",
 		"strip-ansi": "^7.1.2",
-		"tldraw": "^4.3.0",
+		"tldraw": "^4.4.0",
+		"tsdown": "^0.20.3",
 		"tsx": "^4.21.0",
 		"typescript": "~5.9.3",
-		"untildify": "^6.0.0",
 		"vite": "^7.3.1",
 		"vitest": "^4.0.18"
 	},
-	"packageManager": "pnpm@10.28.2",
+	"packageManager": "pnpm@10.30.0",
 	"engines": {
 		"node": ">=20.19.0"
 	},

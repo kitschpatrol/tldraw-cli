@@ -5,7 +5,7 @@ import getPort from 'get-port'
 import { Hono } from 'hono'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import log from './utilities/log'
+import log from './utilities/log.js'
 
 export default class LocalTldrawServer {
 	get href(): string {
@@ -36,9 +36,10 @@ export default class LocalTldrawServer {
 			scriptDirectory,
 			scriptDirectory.endsWith('/src/lib')
 				? '../../dist/tldraw'
-				: scriptDirectory.endsWith('/dist/lib')
+				: scriptDirectory.endsWith('/dist/lib') || scriptDirectory.endsWith('/dist/bin')
 					? '../tldraw'
-					: '../dist/tldraw',
+					: // Currently unreachable?
+						'../dist/tldraw',
 		)
 
 		log.info(`tldraw served from "${tldrawPath}"`)
