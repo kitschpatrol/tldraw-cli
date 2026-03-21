@@ -374,7 +374,7 @@ await tldrawToImage('https://www.tldraw.com/s/v2_c_JsxJk8dag6QsrqExukis4')
 Mirrors the `tldraw open` CLI command.
 
 > [!IMPORTANT]
-> Due to recent tldraw\.com requirements to login before sharing a sketch, opening a _local_ .tldr file with the `location: 'remote'` option is no longer supported.
+> Due to recent tldraw.com requirements to login before sharing a sketch, opening a _local_ .tldr file with the `location: 'remote'` option is no longer supported.
 
 ```tsx
 async function tldrawOpen(

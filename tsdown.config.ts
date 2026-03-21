@@ -2,6 +2,7 @@ import { defineConfig } from 'tsdown'
 import iifePlugin from './scripts/plugins/rolldown-plugin-iife.ts'
 
 export default defineConfig([
+	// CLI tool
 	{
 		dts: false,
 		entry: 'src/bin/cli.ts',
@@ -11,6 +12,7 @@ export default defineConfig([
 		platform: 'node',
 		plugins: [iifePlugin()],
 	},
+	// TypeScript Library
 	{
 		// Types with tsc instead
 		dts: false,

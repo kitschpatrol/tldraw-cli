@@ -1,10 +1,156 @@
-/* eslint-disable unicorn/prefer-string-replace-all */
+import '@blazediff/vitest'
 import * as cheerio from 'cheerio'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { stringify } from 'safe-stable-stringify'
-import phash from 'sharp-phash'
 import { expect } from 'vitest'
+
+// BlazeDiff options for PNG comparison: use SSIM for perceptual similarity,
+// allowing minor cross-platform rendering differences to pass.
+const imageSnapshotOptions = {
+	failureThreshold: 0.01,
+	failureThresholdType: 'percent' as const,
+	method: 'ssim' as const,
+}
+
+// ---- PNG ----
+
+async function expectBitmapToMatchSnapshot(filePath: string): Promise<void> {
+	await expect(filePath).toMatchImageSnapshot(imageSnapshotOptions)
+}
+
+// ---- SVG ----
+
+/**
+ * Parse an SVG string and remove noisy / non-deterministic parts:
+ *   - <style> elements (font embedding order is non-deterministic)
+ *   - comment nodes
+ *   - inline `style` attributes (huge, unstable across Chromium versions)
+ *   - clipPath `id` attributes (random per run)
+ * Also sorts remaining attributes on every element for canonical output.
+ */
+function cleanSvg(svgContent: string): string {
+	const dom = cheerio.load(svgContent, { xmlMode: true })
+
+	// Remove <style> elements
+	dom('style').remove()
+
+	// Remove comment nodes
+	dom('*')
+		.contents()
+		.filter(function () {
+			return this.nodeType === 8
+		})
+		.remove()
+
+	// Process every element: remove inline styles, normalize clipPath ids,
+	// and sort attributes for deterministic output.
+	dom('*').each(function () {
+		const element = dom(this)
+
+		element.removeAttr('style')
+
+		const tagName = element.prop('tagName')
+		if (tagName === 'clipPath') {
+			element.attr('id', '')
+		}
+
+		// Sort attributes for deterministic serialization order. Cheerio
+		// doesn't expose a public API for reordering attributes, so we
+		// access the internal `attribs` property on the underlying node.
+		// eslint-disable-next-line ts/no-unsafe-type-assertion -- cheerio internal
+		const node = this as unknown as { attribs: Record<string, string> }
+		const sorted: Record<string, string> = {}
+		for (const k of Object.keys(node.attribs).toSorted()) {
+			sorted[k] = node.attribs[k]
+		}
+
+		node.attribs = sorted
+	})
+
+	return dom.xml()
+}
+
+/**
+ * Replace numeric values (integers, decimals, negative numbers, scientific
+ * notation) with a placeholder to absorb rounding differences across
+ * platforms, while preserving tag names and attribute names.
+ */
+function stripNumbers(text: string): string {
+	return text.replaceAll(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi, '0')
+}
+
+function getStableSvg(filePath: string): string {
+	const svgContent = readFileSync(filePath, { encoding: 'utf8' })
+	return stripNumbers(cleanSvg(svgContent))
+}
+
+function expectSvgToMatch(filePath: string): void {
+	const stableSvg = getStableSvg(filePath)
+	const hash = createHash('sha256').update(stableSvg).digest('hex')
+	expect(hash).matchSnapshot()
+}
+
+// ---- TLDR (JSON) ----
+
+/**
+ * Remove all dynamic IDs from the given text, replacing them with a stable string.
+ */
+export function stripUnstableIds(text: string): string {
+	// 21-character tldraw IDs fluctuate from run to run
+	// eslint-disable-next-line regexp/no-unused-capturing-group
+	return text.replaceAll(/:([^\s",.:]{21})"/g, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
+}
+
+type TldrawRecord = {
+	[key: string]: unknown
+	fromId?: string
+	id?: string
+	props?: { terminal?: string }
+	records?: TldrawRecord[]
+	toId?: string
+	typeName?: string
+}
+
+/**
+ * Build a sort key for a tldraw record that is stable across runs.
+ * Bindings get new random IDs each export, so we sort them by their
+ * relationship (fromId + toId + terminal) instead.
+ */
+function recordSortKey(record: TldrawRecord): string {
+	const typeName = record.typeName ?? ''
+	if (typeName === 'binding') {
+		return `${typeName}:${record.fromId ?? ''}:${record.toId ?? ''}:${record.props?.terminal ?? ''}`
+	}
+
+	return `${typeName}:${record.id ?? ''}`
+}
+
+function getStableJson(filePath: string): string {
+	const jsonContent = readFileSync(filePath, { encoding: 'utf8' })
+	// eslint-disable-next-line ts/no-unsafe-type-assertion -- JSON structure is known
+	const parsed = JSON.parse(jsonContent) as TldrawRecord
+
+	// Sort records for deterministic ordering — tldraw emits records in
+	// non-deterministic order across runs. Use a composite key so that
+	// records with unstable IDs (like bindings) sort by their stable
+	// relationship fields instead.
+	if (parsed.records) {
+		parsed.records.sort((a, b) => recordSortKey(a).localeCompare(recordSortKey(b)))
+	}
+
+	const stableJsonString = stringify(parsed)
+
+	return stripNumbers(stripUnstableIds(stableJsonString))
+}
+
+function expectJsonToMatch(filePath: string): void {
+	const stableJson = getStableJson(filePath)
+	const hash = createHash('sha256').update(stableJson).digest('hex')
+	expect(hash).matchSnapshot()
+}
+
+// ---- Other formats ----
 
 function getFileHash(filePath: string): string {
 	const fileBuffer = readFileSync(filePath)
@@ -13,125 +159,11 @@ function getFileHash(filePath: string): string {
 	return hash.digest('hex')
 }
 
-async function expectBitmapToMatchHash(filePath: string): Promise<void> {
-	const hash = await getStableBitmapHash(filePath)
-	expect(hash).matchSnapshot()
-}
-
-async function getStableBitmapHash(filePath: string): Promise<string> {
-	// Alternate, still not stable enough...
-	// const pixelBuffer = await sharp(filePath).raw().toBuffer()
-	// const hash = createHash('sha256')
-	// hash.update(pixelBuffer)
-	// return hash
-
-	const perceptualHash = await phash(filePath)
-
-	// First and last few characters might be enough to identify the image...
-	// there's subtle instability in the GitHub test runner that's breaking tests
-	return perceptualHash.slice(0, 3) + perceptualHash.slice(-3)
-}
-
-/**
- * Remove all dynamic IDs from the given text, replacing them with a stable string.
- */
-export function stripUnstableIds(text: string): string {
-	// Even then, some of the IDs seem to fluctuate from run to run
-	// This is brittle
-	// eslint-disable-next-line regexp/no-unused-capturing-group
-	return text.replace(/:([^\s",.:]{21})"/g, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
-}
-
-function getStableJson(filePath: string): string {
-	const jsonContent = readFileSync(filePath, { encoding: 'utf8' })
-
-	const stableJsonString = stringify(JSON.parse(jsonContent))
-
-	if (stableJsonString === undefined) {
-		throw new Error('Could not parse JSON file')
-	}
-
-	// Even then, some of the IDs seem to fluctuate from run to run
-	// This is brittle
-	const ultraStableJsonString = stripNumbers(stripUnstableIds(stableJsonString))
-
-	// eslint-disable-next-line unicorn/prefer-spread
-	const ultraStableSortedJsonString = ultraStableJsonString.split('').toSorted().join('')
-
-	return ultraStableSortedJsonString
-}
-
-// Using the full JSON instead of hash for easier debugging
-// function getStableJsonHash(filePath: string): string {
-// 	const ultraStableJsonString = getStableJson(filePath)
-
-// 	const hash = createHash('sha256')
-// 	hash.update(ultraStableJsonString)
-// 	return hash.digest('hex')
-// }
-
-// Value of e.g. <clipPath id="sbpPSR9XbI1"> changes across runs, and appears in
-// multiple locations in the SVG file. This function removes it
-// to ensure stability across test runs
-function getStableSvg(filePath: string): string {
-	let svgContent = readFileSync(filePath, { encoding: 'utf8' })
-
-	// Could use jsdom...
-	const regex = /<clipPath\s+id="([^"]+)">/g
-	let match
-	const ids = []
-
-	while ((match = regex.exec(svgContent)) !== null) {
-		ids.push(match[1])
-	}
-
-	// Tldraw SVGs with multiple frames will have multiple clipPath ids
-	if (ids.length === 0) {
-		// Console.warn('No <clipPath> id found in SVG file, using unstable hash')
-	} else {
-		for (const id of ids) {
-			svgContent = svgContent.replace(new RegExp(id, 'g'), '')
-		}
-	}
-
-	// Remove style elements and comments, since font embed ordering is not deterministic
-	svgContent = stripNumbers(stripUnstableElements(svgContent))
-
-	return svgContent
-}
-
-// Using the full SVG instead of hash for easier debugging
-// function getStableSvgHash(filePath: string): string {
-// 	const svgContent = getStableSvg(filePath)
-
-// 	const hash = createHash('sha256')
-// 	hash.update(svgContent)
-// 	return hash.digest('hex')
-// }
-
 function expectFileToMatchHash(filePath: string): void {
-	// Also tested jest-image-snapshot, which was interesting, but it's only
-	// compatible with PNGs, and it and pollutes the repo with big files
 	expect(getFileHash(filePath)).matchSnapshot()
 }
 
-function expectSvgToMatch(filePath: string): void {
-	expect(getStableSvg(filePath)).matchSnapshot()
-}
-
-// Using the full SVG instead of hash for easier debugging
-// function expectSvgToMatchHash(filePath: string): void {
-// 	expect(getStableSvgHash(filePath)).matchSnapshot()
-// }
-
-function expectJsonToMatch(filePath: string): void {
-	expect(getStableJson(filePath)).matchSnapshot()
-}
-
-// Using the full JSON for easier debugging
-// function expectJsonToMatchHash(filePath: string): void {
-// 	expect(getStableJsonHash(filePath)).matchSnapshot()
-// }
+// ---- Public API ----
 
 /**
  * Test fails if the given file does not exist.
@@ -151,24 +183,18 @@ export async function expectFileToBeValid(filePath: string, extension: string): 
 	expectFileToExist(filePath)
 	expectFileToHaveType(filePath, extension)
 
-	// Also tested jest-image-snapshot, which was interesting, but it's only
-	// compatible with PNGs, and it and pollutes the repo with big files
 	switch (extension) {
 		case 'png': {
-			await expectBitmapToMatchHash(filePath)
+			await expectBitmapToMatchSnapshot(filePath)
 			break
 		}
 
 		case 'svg': {
-			// Using the full SVG file instead of hash for easier debugging
-			// expectSvgToMatchHash(filePath)
 			expectSvgToMatch(filePath)
 			break
 		}
 
 		case 'tldr': {
-			// Using the full JSON file instead of hash for easier debugging
-			// expectJsonToMatchHash(filePath)
 			expectJsonToMatch(filePath)
 			break
 		}
@@ -187,32 +213,4 @@ export function getStyleElementCount(filePath: string): number {
 	const svg = readFileSync(filePath, { encoding: 'utf8' })
 	const dom = cheerio.load(svg, { xmlMode: true })
 	return dom('style').length
-}
-
-/**
- * Removes all `<style>` elements and comment nodes from the given SVG file.
- */
-export function stripUnstableElements(svg: string): string {
-	const dom = cheerio.load(svg, { xmlMode: true })
-	dom('style').remove()
-
-	// Remove all comment nodes
-	dom('*')
-		.contents()
-		.filter(function () {
-			// Node type 8 corresponds to comments
-			return this.nodeType === 8
-		})
-		.remove()
-
-	return dom.xml()
-}
-
-/**
- * Rounding errors create instability across test platforms...
- * Sometimes up to the major digit. Also strip sign since that
- * can exhibit hysteresis as well.
- */
-export function stripNumbers(text: string): string {
-	return text.replace(/[\d.A-Z]+/g, 'x').replaceAll('-x', 'x')
 }

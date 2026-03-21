@@ -78,6 +78,7 @@
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
+		"@blazediff/vitest": "^1.1.11",
 		"@fontsource/inter": "^5.2.8",
 		"@kitschpatrol/shared-config": "^6.0.3",
 		"@tldraw/assets": "^4.5.3",
@@ -94,8 +95,6 @@
 		"react-dom": "^19.2.4",
 		"rolldown": "1.0.0-rc.10",
 		"safe-stable-stringify": "^2.5.0",
-		"sharp": "^0.34.5",
-		"sharp-phash": "^2.2.0",
 		"strip-ansi": "^7.2.0",
 		"tldraw": "^4.5.3",
 		"tsdown": "^0.21.4",
