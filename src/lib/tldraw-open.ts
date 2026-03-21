@@ -83,7 +83,7 @@ export async function tldrawOpen(
 	// Open local file remotely
 	else if (location === 'remote' && typeof validatedPathOrUrl === 'string') {
 		throw new Error(
-			'Getting share urls from local files is no longer supported by tldraw-cli due to tldraw.com login requirements.',
+			'Getting share urls from local files is no longer supported by tldraw-cli due to tldraw.com login requirements. Pass the --local flag instead to open the file locally.',
 		)
 	}
 	// Open remote url remotely
