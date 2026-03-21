@@ -44,7 +44,7 @@
 	],
 	"scripts": {
 		"build": "pnpm run build:tldraw && pnpm run build:src",
-		"build:src": "tsdown && tsc -p tsconfig.build.json",
+		"build:src": "tsdown",
 		"build:tldraw": "pnpm run tldraw:copy-assets && vite build",
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
 		"dev": "pnpm run dev:tldraw",
@@ -78,6 +78,7 @@
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
+		"@arethetypeswrong/core": "^0.18.2",
 		"@blazediff/vitest": "^1.1.11",
 		"@fontsource/inter": "^5.2.8",
 		"@kitschpatrol/shared-config": "^6.0.3",
@@ -91,6 +92,7 @@
 		"mdat-plugin-cli-help": "^1.0.7",
 		"node-addon-api": "^8.6.0",
 		"node-gyp": "^12.2.0",
+		"publint": "^0.3.18",
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
 		"rolldown": "1.0.0-rc.10",

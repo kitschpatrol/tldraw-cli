@@ -14,14 +14,17 @@ export default defineConfig([
 	},
 	// TypeScript Library
 	{
-		// Types with tsc instead
-		dts: false,
+		attw: {
+			profile: 'esm-only',
+		},
+		dts: true,
 		entry: 'src/lib/index.ts',
 		fixedExtension: false,
 		minify: true,
 		outDir: 'dist/lib',
 		platform: 'node',
 		plugins: [iifePlugin()],
+		publint: true,
 		tsconfig: 'tsconfig.build.json',
 	},
 ])

@@ -48,6 +48,8 @@ A CLI app to automate conversion and export of [tldraw](https://tldraw.dev) URLs
 
 This could be useful in the context of a content publishing pipeline where you want to use a `.tldr` file (perhaps under version control) as the "source of truth" for assets to be embedded elsewhere, and you don't want to manage the export of that diagram manually.
 
+_Please note that this tool, which is all about image export, should not be confused with the official [tldraw project scaffolding CLI](https://www.npmjs.com/package/create-tldraw) which is all about creating new tldraw-powered projects._
+
 _For `.tldr` file import support in Vite projects, please see [@kitschpatrol/vite-plugin-tldraw](https://github.com/kitschpatrol/vite-plugin-tldraw)._
 
 ## Installation
@@ -486,6 +488,7 @@ On GitHub:
 - [AWS Lambda-based approach](https://gist.github.com/steveruizok/c30fc99b9b3d95a14c82c59bdcc69201)
 - [Added exporting of shapes and pages as images](https://github.com/tldraw/tldraw/pull/468)
 - [\[feature\] Copy/Share as PNG](https://github.com/tldraw/tldraw-v1/issues/361)
+- [Create tldraw CLI tools](https://github.com/tldraw/tldraw/issues/7539)
 
 On Discord:
 
@@ -494,7 +497,7 @@ On Discord:
 
 ## Implementation notes
 
-This tool is not a part of the official tldraw project.
+This tool is _not_ a part of the official tldraw project.
 
 Due to the architecture of tldraw, export depends on functionality provided by a web browser. So, behind the scenes, this app serves a local instance of tldraw, then loads a `.tldr` and invokes the export download via the [Puppeteer](https://pptr.dev) headless browser automation tool.
 
