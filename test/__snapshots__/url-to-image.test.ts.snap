@@ -14,7 +14,7 @@ exports[`should export each page individually if --pages is set 3`] = `"3f1f0ad1
 
 exports[`should export schema 2 sketches to svg 1`] = `"e1d90bbf90a51e446c0b33faf84b6bae97f10422c384bd925b50b6917892390f"`;
 
-exports[`should export schema 2 sketches to tldr 1`] = `"27e548925ff53fc566728006788ab77bd8b8d5e34122202b7ec3a792ae0c7f38"`;
+exports[`should export schema 2 sketches to tldr 1`] = `"b5d20821c2f81e239eeab530a6bba2c9b51eded0891b3e07eb1554f2b1d9ed72"`;
 
 exports[`should export the entire image if multiple frames are present and --frames is not set 1`] = `"5560d1ec680e6a0f5bbfd13b3d32e21017d8d2b279f79c9ac0cf26f7592fbaf0"`;
 
@@ -22,4 +22,4 @@ exports[`should export the tldraw url to an svg in the current folder by default
 
 exports[`should export the tldraw url to an svg when specified 1`] = `"91a72b46e35bdda5cfa4f2db24ea27922d41274003a84577ad54c249f64214d9"`;
 
-exports[`should export to tldr 1`] = `"e68c2eb18f2ebca2114a428512c660fab75d1bd5de77f83d2630a3b319d3fb92"`;
+exports[`should export to tldr 1`] = `"313153338ad2aa38830fcbc637551207ce67375639cefe05f39114241cadd64e"`;

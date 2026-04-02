@@ -15,6 +15,9 @@ import getImageInlineScript from './inline/get-image?iife'
 import getTldrInlineScript from './inline/get-tldr?iife'
 import log from './utilities/log.js'
 
+const PAGE_PREFIX_REGEX = /^page:/
+const SHAPE_PREFIX_REGEX = /^shape:/
+
 type TlPage = {
 	frames: TlFrame[]
 	id: string
@@ -482,7 +485,7 @@ export default class TldrawController {
 							typeof p === 'number'
 								? index === p
 								: slugify(p) === slugify(page.name) ||
-									p.replace(/^page:/, '') === page.id.replace(/^page:/, ''),
+									p.replace(PAGE_PREFIX_REGEX, '') === page.id.replace(PAGE_PREFIX_REGEX, ''),
 						)),
 			)
 
@@ -496,7 +499,7 @@ export default class TldrawController {
 					const match = page.frames.find(
 						(frame) =>
 							slugify(f) === slugify(frame.name) ||
-							`shape:${f.replace(/^shape:/, '')}` === frame.id,
+							`shape:${f.replace(SHAPE_PREFIX_REGEX, '')}` === frame.id,
 					)
 
 					if (match && !matchingFrames.includes(match.id)) {
@@ -536,7 +539,7 @@ export default class TldrawController {
 						: sketch.find(
 								(page) =>
 									slugify(p) === slugify(page.name) ||
-									`page:${p.replace(/^page:/, '')}` === page.id,
+									`page:${p.replace(PAGE_PREFIX_REGEX, '')}` === page.id,
 							)
 				if (matchingPage) {
 					if (!validPages.includes(matchingPage.id)) {

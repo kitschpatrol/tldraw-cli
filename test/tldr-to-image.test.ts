@@ -13,6 +13,9 @@ import { log, tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 
+const SVG_OPEN_REGEX = /^<svg/
+const SVG_CLOSE_REGEX = /svg>$/
+
 const cleanUp = true
 
 // More test files will be read from the './test/assets/valid/' folder
@@ -558,8 +561,8 @@ describe('export options', () => {
 
 		expect(results).toHaveLength(1)
 		expectSingleLine(results[0])
-		expect(results[0]).toMatch(/^<svg/)
-		expect(results[0]).toMatch(/svg>$/)
+		expect(results[0]).toMatch(SVG_OPEN_REGEX)
+		expect(results[0]).toMatch(SVG_CLOSE_REGEX)
 	})
 
 	it('should return an svg string for a single frame when the print and frame name flags are set', async () => {
@@ -570,8 +573,8 @@ describe('export options', () => {
 
 		expect(results).toHaveLength(1)
 		expectSingleLine(results[0])
-		expect(results[0]).toMatch(/^<svg/)
-		expect(results[0]).toMatch(/svg>$/)
+		expect(results[0]).toMatch(SVG_OPEN_REGEX)
+		expect(results[0]).toMatch(SVG_CLOSE_REGEX)
 	})
 
 	it('should return multiple lines if print and multiple frame names are combined', async () => {
@@ -582,8 +585,8 @@ describe('export options', () => {
 
 		for (const result of results) {
 			expectSingleLine(result)
-			expect(result).toMatch(/^<svg/)
-			expect(result).toMatch(/svg>$/)
+			expect(result).toMatch(SVG_OPEN_REGEX)
+			expect(result).toMatch(SVG_CLOSE_REGEX)
 		}
 
 		expect(results).toHaveLength(2)
@@ -597,8 +600,8 @@ describe('export options', () => {
 
 		for (const result of results) {
 			expectSingleLine(result)
-			expect(result).toMatch(/^<svg/)
-			expect(result).toMatch(/svg>$/)
+			expect(result).toMatch(SVG_OPEN_REGEX)
+			expect(result).toMatch(SVG_CLOSE_REGEX)
 		}
 
 		expect(results).toHaveLength(3)
