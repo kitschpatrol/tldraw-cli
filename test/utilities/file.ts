@@ -179,6 +179,54 @@ function expectFileToHaveType(filePath: string, extension: string): void {
 }
 
 /**
+ * Test fails if the given file does not look structurally valid for its type.
+ * Does NOT compare against snapshots — use for tests against live/mutable sources.
+ */
+export function expectFileToBeStructurallyValid(filePath: string, extension: string): void {
+	expectFileToExist(filePath)
+	expectFileToHaveType(filePath, extension)
+
+	const content = readFileSync(filePath, { encoding: 'utf8' })
+	expect(content.length).toBeGreaterThan(0)
+
+	switch (extension) {
+		case 'svg': {
+			const dom = cheerio.load(content, { xmlMode: true })
+			const svg = dom('svg')
+			expect(svg.length).toBe(1)
+			expect(svg.attr('viewBox')).toBeDefined()
+			expect(svg.children().length).toBeGreaterThan(0)
+			break
+		}
+
+		case 'png': {
+			// Full 8-byte PNG signature
+			const buffer = readFileSync(filePath)
+			expect(buffer.length).toBeGreaterThan(67) // Minimum valid PNG size
+			expect([...buffer.subarray(0, 8)]).toEqual([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+			break
+		}
+
+		case 'tldr': {
+			const parsed = JSON.parse(content) as TldrawRecord
+			expect(parsed).toHaveProperty('tldrawFileFormatVersion')
+			expect(parsed).toHaveProperty('schema')
+			expect(parsed).toHaveProperty('records')
+			expect(Array.isArray(parsed.records)).toBe(true)
+			expect(parsed.records!.length).toBeGreaterThan(0)
+			const typeNames = new Set(parsed.records!.map((r) => r.typeName))
+			expect(typeNames).toContain('document')
+			expect(typeNames).toContain('page')
+			break
+		}
+
+		default: {
+			break
+		}
+	}
+}
+
+/**
  * Test fails if the given file is not a valid image or tldr file.
  */
 export async function expectFileToBeValid(filePath: string, extension: string): Promise<void> {

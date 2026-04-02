@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
 import { expect, it } from 'vitest'
 import { tldrawToImage } from '../dist/lib'
-import { expectFileToBeValid } from './utilities/file'
+import { expectFileToBeStructurallyValid } from './utilities/file'
 
 const cleanUp = true
 const tldrawTestUrl = 'https://www.tldraw.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H'
@@ -17,7 +17,7 @@ it('should export the tldraw url to an svg in the current folder by default', as
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl)
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
-	await expectFileToBeValid(savedImageFileName, 'svg')
+	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -26,7 +26,7 @@ it('should export the tldraw url to an svg when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
-	await expectFileToBeValid(savedImageFileName, 'svg')
+	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -35,7 +35,7 @@ it('should export the tldraw url to a png when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'png' })
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.png`)
-	await expectFileToBeValid(savedImageFileName, 'png')
+	expectFileToBeStructurallyValid(savedImageFileName, 'png')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -50,7 +50,7 @@ it('should export the file to a specific directory when specified', async () => 
 	})
 	expect(savedImageFileName).toContain(randomPath)
 
-	await expectFileToBeValid(savedImageFileName, 'png')
+	expectFileToBeStructurallyValid(savedImageFileName, 'png')
 
 	if (cleanUp) rmSync(randomPath, { recursive: true })
 })
@@ -58,7 +58,7 @@ it('should export the file to a specific directory when specified', async () => 
 it('should export the entire image if multiple frames are present and --frames is not set', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestThreeFramesUrl)
 
-	await expectFileToBeValid(savedImageFileName, 'svg')
+	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -71,7 +71,7 @@ it('should export each frame individually if --frames is set', async () => {
 	expect(savedImageFileNames).toHaveLength(3)
 
 	for (const fileName of savedImageFileNames) {
-		await expectFileToBeValid(fileName, 'svg')
+		expectFileToBeStructurallyValid(fileName, 'svg')
 	}
 
 	if (cleanUp) {
@@ -89,7 +89,7 @@ it('should export each page individually if --pages is set', async () => {
 	expect(savedImageFileNames).toHaveLength(3)
 
 	for (const fileName of savedImageFileNames) {
-		await expectFileToBeValid(fileName, 'svg')
+		expectFileToBeStructurallyValid(fileName, 'svg')
 	}
 
 	if (cleanUp) {
@@ -105,7 +105,7 @@ it('should export to tldr', async () => {
 	})
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr`)
-	await expectFileToBeValid(savedImageFileName, 'tldr')
+	expectFileToBeStructurallyValid(savedImageFileName, 'tldr')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -114,7 +114,7 @@ it('should export schema 2 sketches to svg', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrlSchema2)
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_85CiFqkLgUaiwmed4kIa_.svg`)
-	await expectFileToBeValid(savedImageFileName, 'svg')
+	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
@@ -125,7 +125,7 @@ it('should export schema 2 sketches to tldr', async () => {
 	})
 
 	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_85CiFqkLgUaiwmed4kIa_.tldr`)
-	await expectFileToBeValid(savedImageFileName, 'tldr')
+	expectFileToBeStructurallyValid(savedImageFileName, 'tldr')
 
 	if (cleanUp) rmSync(savedImageFileName)
 })
