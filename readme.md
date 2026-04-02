@@ -4,13 +4,9 @@
 
 <!-- /title -->
 
-<!-- badges -->
-
 [![NPM Package @kitschpatrol/tldraw-cli](https://img.shields.io/npm/v/@kitschpatrol/tldraw-cli.svg)](https://npmjs.com/package/@kitschpatrol/tldraw-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/kitschpatrol/@kitschpatrol/tldraw-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/@kitschpatrol/tldraw-cli/actions/workflows/ci.yml)
-
-<!-- /badges -->
+[![CI](https://github.com/kitschpatrol/tldraw-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/tldraw-cli/actions/workflows/ci.yml)
 
 <!-- description -->
 

@@ -25,11 +25,12 @@ async function expectBitmapToMatchSnapshot(filePath: string): Promise<void> {
 
 /**
  * Parse an SVG string and remove noisy / non-deterministic parts:
- *   - <style> elements (font embedding order is non-deterministic)
- *   - comment nodes
- *   - inline `style` attributes (huge, unstable across Chromium versions)
- *   - clipPath `id` attributes (random per run)
- * Also sorts remaining attributes on every element for canonical output.
+ *
+ * - <style> elements (font embedding order is non-deterministic)
+ * - Comment nodes
+ * - Inline `style` attributes (huge, unstable across Chromium versions)
+ * - ClipPath `id` attributes (random per run) Also sorts remaining attributes on
+ *   every element for canonical output.
  */
 function cleanSvg(svgContent: string): string {
 	const dom = cheerio.load(svgContent, { xmlMode: true })
@@ -75,8 +76,8 @@ function cleanSvg(svgContent: string): string {
 
 /**
  * Replace numeric values (integers, decimals, negative numbers, scientific
- * notation) with a placeholder to absorb rounding differences across
- * platforms, while preserving tag names and attribute names.
+ * notation) with a placeholder to absorb rounding differences across platforms,
+ * while preserving tag names and attribute names.
  */
 function stripNumbers(text: string): string {
 	return text.replaceAll(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi, '0')
@@ -96,7 +97,8 @@ function expectSvgToMatch(filePath: string): void {
 // ---- TLDR (JSON) ----
 
 /**
- * Remove all dynamic IDs from the given text, replacing them with a stable string.
+ * Remove all dynamic IDs from the given text, replacing them with a stable
+ * string.
  */
 export function stripUnstableIds(text: string): string {
 	// 21-character tldraw IDs fluctuate from run to run
@@ -115,9 +117,9 @@ type TldrawRecord = {
 }
 
 /**
- * Build a sort key for a tldraw record that is stable across runs.
- * Bindings get new random IDs each export, so we sort them by their
- * relationship (fromId + toId + terminal) instead.
+ * Build a sort key for a tldraw record that is stable across runs. Bindings get
+ * new random IDs each export, so we sort them by their relationship (fromId +
+ * toId + terminal) instead.
  */
 function recordSortKey(record: TldrawRecord): string {
 	const typeName = record.typeName ?? ''
@@ -180,7 +182,8 @@ function expectFileToHaveType(filePath: string, extension: string): void {
 
 /**
  * Test fails if the given file does not look structurally valid for its type.
- * Does NOT compare against snapshots — use for tests against live/mutable sources.
+ * Does NOT compare against snapshots — use for tests against live/mutable
+ * sources.
  */
 export function expectFileToBeStructurallyValid(filePath: string, extension: string): void {
 	expectFileToExist(filePath)
@@ -190,6 +193,14 @@ export function expectFileToBeStructurallyValid(filePath: string, extension: str
 	expect(content.length).toBeGreaterThan(0)
 
 	switch (extension) {
+		case 'png': {
+			// Full 8-byte PNG signature
+			const buffer = readFileSync(filePath)
+			expect(buffer.length).toBeGreaterThan(67) // Minimum valid PNG size
+			expect([...buffer.subarray(0, 8)]).toEqual([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+			break
+		}
+
 		case 'svg': {
 			const dom = cheerio.load(content, { xmlMode: true })
 			const svg = dom('svg')
@@ -199,15 +210,8 @@ export function expectFileToBeStructurallyValid(filePath: string, extension: str
 			break
 		}
 
-		case 'png': {
-			// Full 8-byte PNG signature
-			const buffer = readFileSync(filePath)
-			expect(buffer.length).toBeGreaterThan(67) // Minimum valid PNG size
-			expect([...buffer.subarray(0, 8)]).toEqual([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
-			break
-		}
-
 		case 'tldr': {
+			// eslint-disable-next-line ts/no-unsafe-type-assertion
 			const parsed = JSON.parse(content) as TldrawRecord
 			expect(parsed).toHaveProperty('tldrawFileFormatVersion')
 			expect(parsed).toHaveProperty('schema')

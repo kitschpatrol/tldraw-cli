@@ -56,8 +56,7 @@
 		"release": "bumpp --commit 'Release: %s' && pnpm run build && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish",
 		"test": "vitest run",
 		"test:watch": "pnpm run build && vitest",
-		"tldraw:copy-assets": "cpy 'embed-icons/**' 'fonts/**' 'icons/**' 'translations/**' ../../../src/tldraw/public/ --cwd=./node_modules/@tldraw/assets --base=cwd",
-		"tldraw:copy-assets-rsync": "rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/"
+		"tldraw:copy-assets": "pnpm tsx ./scripts/copy-assets.ts"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.19.12",
@@ -89,7 +88,6 @@
 		"@types/yargs": "^17.0.35",
 		"@vitejs/plugin-react": "^6.0.1",
 		"bumpp": "^11.0.1",
-		"cpy-cli": "^7.0.0",
 		"esbuild": "^0.27.5",
 		"mdat-plugin-cli-help": "^2.0.0",
 		"node-addon-api": "^8.7.0",
