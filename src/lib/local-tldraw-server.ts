@@ -32,11 +32,13 @@ export default class LocalTldrawServer {
 		const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 
 		// Handle dev or prod relative paths, brittle
+		// Use path.sep-aware suffix checks so this works on Windows too
 		const tldrawPath = path.join(
 			scriptDirectory,
-			scriptDirectory.endsWith('/src/lib')
+			scriptDirectory.endsWith(`${path.sep}src${path.sep}lib`)
 				? '../../dist/tldraw'
-				: scriptDirectory.endsWith('/dist/lib') || scriptDirectory.endsWith('/dist/bin')
+				: scriptDirectory.endsWith(`${path.sep}dist${path.sep}lib`) ||
+					  scriptDirectory.endsWith(`${path.sep}dist${path.sep}bin`)
 					? '../tldraw'
 					: // Currently unreachable?
 						'../dist/tldraw',

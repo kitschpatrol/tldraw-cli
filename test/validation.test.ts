@@ -1,4 +1,6 @@
 // Note this tests the src implementation, because it's not exported
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { expect, it } from 'vitest'
 import { validatePathOrUrl } from '../src/lib/validation'
 
@@ -29,7 +31,8 @@ it('should expand the home directory', () => {
 it('should export file URLs to paths', () => {
 	expect(
 		validatePathOrUrl(
-			`file:///${process.cwd()}/test/assets/valid/2024-01-test-sketch-basic.tldr`,
+			pathToFileURL(path.join(process.cwd(), 'test/assets/valid/2024-01-test-sketch-basic.tldr'))
+				.href,
 			validationOptions,
 		),
 	).toBeTypeOf('string')

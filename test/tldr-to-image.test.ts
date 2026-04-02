@@ -95,7 +95,9 @@ describe('names and paths', () => {
 			output: `./${randomPath}/`,
 		})
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/${randomPath}/2024-01-test-sketch-basic.png`)
+		expect(savedImageFileName).toBe(
+			path.join(process.cwd(), randomPath, '2024-01-test-sketch-basic.png'),
+		)
 		await expectFileToBeValid(savedImageFileName, 'png')
 		if (cleanUp) rmSync(randomPath, { recursive: true })
 	})
@@ -106,7 +108,7 @@ describe('names and paths', () => {
 		})
 
 		await expectFileToBeValid(savedImageFileName, 'svg')
-		expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.svg`)
+		expect(savedImageFileName).toBe(path.join(process.cwd(), 'tiny-little-name.svg'))
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -117,7 +119,7 @@ describe('names and paths', () => {
 		})
 
 		await expectFileToBeValid(savedImageFileName, 'svg')
-		expect(savedImageFileName).toBe(`${process.cwd()}/I am Un-slugified.svg`)
+		expect(savedImageFileName).toBe(path.join(process.cwd(), 'I am Un-slugified.svg'))
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -128,7 +130,7 @@ describe('names and paths', () => {
 		})
 
 		await expectFileToBeValid(savedImageFileName, 'svg')
-		expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.svg`)
+		expect(savedImageFileName).toBe(path.join(process.cwd(), 'tiny-little-name.svg'))
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -139,7 +141,7 @@ describe('names and paths', () => {
 		})
 
 		await expectFileToBeValid(savedImageFileName, 'svg')
-		expect(savedImageFileName).toBe(`${process.cwd()}/tiny-little-name.unexpected.svg`)
+		expect(savedImageFileName).toBe(path.join(process.cwd(), 'tiny-little-name.unexpected.svg'))
 
 		if (cleanUp) rmSync(savedImageFileName)
 	})
@@ -156,9 +158,9 @@ describe('names and paths', () => {
 			await expectFileToBeValid(fileName, 'svg')
 		}
 
-		expect(savedImageFileNames.at(0)).toBe(`${process.cwd()}/tiny-little-name-frame-1.svg`)
-		expect(savedImageFileNames.at(1)).toBe(`${process.cwd()}/tiny-little-name-frame-2.svg`)
-		expect(savedImageFileNames.at(2)).toBe(`${process.cwd()}/tiny-little-name-frame-3.svg`)
+		expect(savedImageFileNames.at(0)).toBe(path.join(process.cwd(), 'tiny-little-name-frame-1.svg'))
+		expect(savedImageFileNames.at(1)).toBe(path.join(process.cwd(), 'tiny-little-name-frame-2.svg'))
+		expect(savedImageFileNames.at(2)).toBe(path.join(process.cwd(), 'tiny-little-name-frame-3.svg'))
 
 		if (cleanUp) {
 			for (const fileName of savedImageFileNames) {
@@ -247,7 +249,7 @@ describe('pages', () => {
 		})
 
 		expect(savedImageFileName).toBe(
-			`${process.cwd()}/2024-04-test-sketch-three-pages-page-with-a-name.svg`,
+			path.join(process.cwd(), '2024-04-test-sketch-three-pages-page-with-a-name.svg'),
 		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
@@ -259,7 +261,9 @@ describe('pages', () => {
 			pages: ['BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
 		})
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/2024-04-test-sketch-three-pages-page-2.svg`)
+		expect(savedImageFileName).toBe(
+			path.join(process.cwd(), '2024-04-test-sketch-three-pages-page-2.svg'),
+		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
 		if (cleanUp) rmSync(savedImageFileName)
@@ -270,7 +274,9 @@ describe('pages', () => {
 			pages: ['page:BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
 		})
 
-		expect(savedImageFileName).toBe(`${process.cwd()}/2024-04-test-sketch-three-pages-page-2.svg`)
+		expect(savedImageFileName).toBe(
+			path.join(process.cwd(), '2024-04-test-sketch-three-pages-page-2.svg'),
+		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
 		if (cleanUp) rmSync(savedImageFileName)

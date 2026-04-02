@@ -3,6 +3,7 @@
 // Note this tests the dist build, because of the iife inlining from esbuild
 import { nanoid } from 'nanoid'
 import { mkdirSync, rmSync } from 'node:fs'
+import path from 'node:path'
 import { expect, it } from 'vitest'
 import { tldrawToImage } from '../dist/lib'
 import { expectFileToBeStructurallyValid } from './utilities/file'
@@ -16,7 +17,7 @@ const tldrawTestThreePagesUrl = 'https://www.tldraw.com/s/v2_c_L_RFQ3mJA_BWHejdH
 it('should export the tldraw url to an svg in the current folder by default', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl)
 
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
@@ -25,7 +26,7 @@ it('should export the tldraw url to an svg in the current folder by default', as
 it('should export the tldraw url to an svg when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'svg' })
 
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.svg`)
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
@@ -34,7 +35,7 @@ it('should export the tldraw url to an svg when specified', async () => {
 it('should export the tldraw url to a png when specified', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrl, { format: 'png' })
 
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.png`)
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.png'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'png')
 
 	if (cleanUp) rmSync(savedImageFileName)
@@ -104,7 +105,7 @@ it('should export to tldr', async () => {
 		format: 'tldr',
 	})
 
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr`)
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'tldr')
 
 	if (cleanUp) rmSync(savedImageFileName)
@@ -113,7 +114,7 @@ it('should export to tldr', async () => {
 it('should export schema 2 sketches to svg', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestUrlSchema2)
 
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_85CiFqkLgUaiwmed4kIa_.svg`)
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_85CiFqkLgUaiwmed4kIa_.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) rmSync(savedImageFileName)
@@ -124,7 +125,7 @@ it('should export schema 2 sketches to tldr', async () => {
 		format: 'tldr',
 	})
 
-	expect(savedImageFileName).toBe(`${process.cwd()}/v2_c_85CiFqkLgUaiwmed4kIa_.tldr`)
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_85CiFqkLgUaiwmed4kIa_.tldr'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'tldr')
 
 	if (cleanUp) rmSync(savedImageFileName)
