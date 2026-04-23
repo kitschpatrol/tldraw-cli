@@ -43,7 +43,9 @@ export default class TldrawController {
 	constructor(private readonly href: string) {}
 
 	async close() {
-		if (!this.browser) throw new Error('Controller not started')
+		if (!this.browser) {
+			throw new Error('Controller not started')
+		}
 
 		// Avoid lingering Chrome processes
 		// https://stackoverflow.com/a/76505750/2437832
@@ -57,24 +59,31 @@ export default class TldrawController {
 	// eslint-disable-next-line complexity
 	async download(options: TldrawToImageOptions): Promise<string[]> {
 		// Validate options at the last minute
-		if (!this.page) throw new Error('Controller not started')
-		if (this.isEmpty) throw new Error('Cannot export an empty document')
+		if (!this.page) {
+			throw new Error('Controller not started')
+		}
+		if (this.isEmpty) {
+			throw new Error('Cannot export an empty document')
+		}
 
 		// Only SVGs have style tags
-		if (options.stripStyle && options.format !== 'svg')
+		if (options.stripStyle && options.format !== 'svg') {
 			log.warn('--strip-style is only supported for SVG output')
+		}
 
 		// Many flags don't make sense for TLDR
 		if (options.format === 'tldr') {
-			if (options.frames !== undefined)
+			if (options.frames !== undefined) {
 				log.warn(
 					'--frames is not supported when exporting to "tldr", ignoring flag and exporting entire sketch file',
 				)
+			}
 
-			if (options.pages !== undefined)
+			if (options.pages !== undefined) {
 				log.warn(
 					'--pages is not supported when exporting to "tldr", ignoring flag and exporting entire sketch file',
 				)
+			}
 
 			if (options.dark !== undefined && options.dark) {
 				log.warn(
@@ -276,7 +285,9 @@ export default class TldrawController {
 	}
 
 	private async getCurrentPage(): Promise<string> {
-		if (!this.page) throw new Error('Controller not started')
+		if (!this.page) {
+			throw new Error('Controller not started')
+		}
 		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(`editor.getCurrentPageId()`)) as string
 	}
@@ -401,7 +412,9 @@ export default class TldrawController {
 	}
 
 	private async getPageFrames(pageId: string): Promise<TlFrame[]> {
-		if (!this.page) throw new Error('Controller not started')
+		if (!this.page) {
+			throw new Error('Controller not started')
+		}
 
 		const initialPageId = await this.getCurrentPage()
 
@@ -432,7 +445,9 @@ export default class TldrawController {
 	}
 
 	private async getPages(): Promise<TlPage[]> {
-		if (!this.page) throw new Error('Controller not started')
+		if (!this.page) {
+			throw new Error('Controller not started')
+		}
 
 		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(
@@ -442,7 +457,9 @@ export default class TldrawController {
 
 	// Structure
 	private async getSketchStructure(): Promise<TlPage[]> {
-		if (!this.page) throw new Error('Controller not started')
+		if (!this.page) {
+			throw new Error('Controller not started')
+		}
 
 		const document = await this.getPages()
 
@@ -454,7 +471,9 @@ export default class TldrawController {
 	}
 
 	private async setCurrentPage(pageId?: string): Promise<void> {
-		if (!this.page) throw new Error('Controller not started')
+		if (!this.page) {
+			throw new Error('Controller not started')
+		}
 		await this.page.evaluate(`editor.setCurrentPage("${pageId}")`)
 	}
 

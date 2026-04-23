@@ -61,7 +61,9 @@ describe('save to svg (default behavior)', () => {
 
 			expect(savedImageFileName).toBe(expectedName)
 			await expectFileToBeValid(savedImageFileName, 'svg')
-			if (cleanUp) rmSync(savedImageFileName)
+			if (cleanUp) {
+				rmSync(savedImageFileName)
+			}
 		}
 	})
 
@@ -80,7 +82,9 @@ describe('save to format', () => {
 				name: 'local-tldr-save-to-format',
 			})
 			await expectFileToBeValid(savedImageFileName, format)
-			if (cleanUp) rmSync(savedImageFileName)
+			if (cleanUp) {
+				rmSync(savedImageFileName)
+			}
 		})
 	}
 })
@@ -99,7 +103,9 @@ describe('names and paths', () => {
 			path.join(process.cwd(), randomPath, '2024-01-test-sketch-basic.png'),
 		)
 		await expectFileToBeValid(savedImageFileName, 'png')
-		if (cleanUp) rmSync(randomPath, { recursive: true })
+		if (cleanUp) {
+			rmSync(randomPath, { recursive: true })
+		}
 	})
 
 	it('should rename the export if name is set', async () => {
@@ -110,7 +116,9 @@ describe('names and paths', () => {
 		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(path.join(process.cwd(), 'tiny-little-name.svg'))
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should not slugify the name', async () => {
@@ -121,7 +129,9 @@ describe('names and paths', () => {
 		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(path.join(process.cwd(), 'I am Un-slugified.svg'))
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should handle a rational extension in name', async () => {
@@ -132,7 +142,9 @@ describe('names and paths', () => {
 		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(path.join(process.cwd(), 'tiny-little-name.svg'))
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should handle an irrational extension in name', async () => {
@@ -143,7 +155,9 @@ describe('names and paths', () => {
 		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(savedImageFileName).toBe(path.join(process.cwd(), 'tiny-little-name.unexpected.svg'))
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should use name as a base for multiple exported frames', async () => {
@@ -176,7 +190,9 @@ describe('frames', () => {
 
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should export each frame of a local tldr file individually if frames is set', async () => {
@@ -205,7 +221,9 @@ describe('frames', () => {
 		expect(savedImageFileNames).toHaveLength(1)
 		await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
-		if (cleanUp) rmSync(savedImageFileNames[0])
+		if (cleanUp) {
+			rmSync(savedImageFileNames[0])
+		}
 	})
 
 	it('should export slugified frame name from local tldr file', async () => {
@@ -216,7 +234,9 @@ describe('frames', () => {
 		expect(savedImageFileNames).toHaveLength(1)
 		await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
-		if (cleanUp) rmSync(savedImageFileNames[0])
+		if (cleanUp) {
+			rmSync(savedImageFileNames[0])
+		}
 	})
 
 	it('should export frames by id from local tldr file', async () => {
@@ -227,7 +247,9 @@ describe('frames', () => {
 		expect(savedImageFileNames).toHaveLength(1)
 		await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
-		if (cleanUp) rmSync(savedImageFileNames[0])
+		if (cleanUp) {
+			rmSync(savedImageFileNames[0])
+		}
 	})
 
 	it('should export specific frames by id from local tldr file even without the shape: prefix', async () => {
@@ -238,7 +260,9 @@ describe('frames', () => {
 		expect(savedImageFileNames).toHaveLength(1)
 		await expectFileToBeValid(savedImageFileNames[0], 'svg')
 
-		if (cleanUp) rmSync(savedImageFileNames[0])
+		if (cleanUp) {
+			rmSync(savedImageFileNames[0])
+		}
 	})
 })
 
@@ -253,7 +277,9 @@ describe('pages', () => {
 		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should export a specific page id of a multi-page tldr file', async () => {
@@ -266,7 +292,9 @@ describe('pages', () => {
 		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should export a specific page id with a prefix of a multi-page tldr file', async () => {
@@ -279,7 +307,9 @@ describe('pages', () => {
 		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should export a multiple specific pages of a multi-page tldr file', async () => {
@@ -414,7 +444,9 @@ describe('warnings and failures', () => {
 			`"[Warning],[Browser],[tldraw] Export delay timed out after \${this.maxDelayTimeMs}ms"`,
 		)
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should warn if a nonexistent frame is requested from local tldr file', async () => {
@@ -429,7 +461,9 @@ describe('warnings and failures', () => {
 			`"[Warning],Frame "ceci-nest-pas-un-cadre" not found in sketch,[Warning],None of the requested frames were found in sketch, ignoring frames option"`,
 		)
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should warn if a bogus page is requested', async () => {
@@ -444,7 +478,9 @@ describe('warnings and failures', () => {
 			`"[Warning],Page "i do not exist" not found in sketch,[Warning],None of the requested pages were found in sketch, ignoring pages option"`,
 		)
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should warn if requested page index is out of bounds', async () => {
@@ -459,7 +495,9 @@ describe('warnings and failures', () => {
 			`"[Warning],Page "42" not found in sketch,[Warning],None of the requested pages were found in sketch, ignoring pages option"`,
 		)
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should warn if stripStyle and format png are combined', async () => {
@@ -475,7 +513,9 @@ describe('warnings and failures', () => {
 			`"[Warning],--strip-style is only supported for SVG output"`,
 		)
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should warn if print and name are combined', async () => {
@@ -524,7 +564,9 @@ describe('export options', () => {
 					name: `local-tldr-export-options-${flagToString(flag)}`,
 				})
 				await expectFileToBeValid(savedImageFileName, format)
-				if (cleanUp) rmSync(savedImageFileName)
+				if (cleanUp) {
+					rmSync(savedImageFileName)
+				}
 			})
 		}
 
@@ -545,7 +587,9 @@ describe('export options', () => {
 
 			await expectFileToBeValid(tempFileName, format)
 
-			if (cleanUp) rmSync(tempFileName)
+			if (cleanUp) {
+				rmSync(tempFileName)
+			}
 		})
 	}
 
@@ -557,7 +601,9 @@ describe('export options', () => {
 		await expectFileToBeValid(savedImageFileName, 'svg')
 		expect(getStyleElementCount(savedImageFileName)).toBe(0)
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should return an svg string when the print flag is set', async () => {
@@ -625,7 +671,9 @@ describe('logging', () => {
 
 		log.verbose = false
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 
 	it('should not log extra stuff by default', async () => {
@@ -634,6 +682,8 @@ describe('logging', () => {
 		const [savedImageFileName] = await tldrawToImage(tldrTestFilePath)
 		expect(spyWarn).not.toHaveBeenCalled()
 
-		if (cleanUp) rmSync(savedImageFileName)
+		if (cleanUp) {
+			rmSync(savedImageFileName)
+		}
 	})
 })

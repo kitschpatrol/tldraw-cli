@@ -512,16 +512,20 @@ I'm consciously releasing this tool under the `@kitschpatrol` namespace on NPM t
 
 ## Maintainers
 
-[@kitschpatrol](https://github.com/kitschpatrol)
+[kitschpatrol](https://github.com/kitschpatrol)
 
 <!-- footer -->
 
 ## Contributing
 
-[Issues](https://github.com/kitschpatrol/tldraw-cli/issues) and pull requests are welcome.
+[Issues](https://github.com/kitschpatrol/tldraw-cli/issues) are welcome and appreciated.
+
+Please open an issue to discuss changes before submitting a pull request. Unsolicited PRs (especially AI-generated ones) are unlikely to be merged.
+
+This repository uses [@kitschpatrol/shared-config](https://github.com/kitschpatrol/shared-config) (via its `ksc` CLI) for linting and formatting, plus [MDAT](https://github.com/kitschpatrol/mdat) for readme placeholder expansion.
 
 ## License
 
-[MIT](license.txt) © Eric Mika
+[MIT](license.txt) © [Eric Mika](https://ericmika.com)
 
 <!-- /footer -->

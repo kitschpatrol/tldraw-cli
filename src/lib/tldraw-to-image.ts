@@ -66,10 +66,14 @@ export async function tldrawToImage(
 			: sanitizeName(options.name, options.format ?? 'svg')
 
 	// Start up local server if appropriate
-	if (isLocal) log.info(`Loading tldr data "${validatedPathOrUrl}"`)
+	if (isLocal) {
+		log.info(`Loading tldr data "${validatedPathOrUrl}"`)
+	}
 	const tldrData = isLocal ? await fs.readFile(validatedPathOrUrl, 'utf8') : undefined
 	const tldrawServer = new LocalTldrawServer(tldrData)
-	if (isLocal) await tldrawServer.start()
+	if (isLocal) {
+		await tldrawServer.start()
+	}
 
 	// Start puppeteer controller
 	const tldrawUrl = isLocal ? tldrawServer.href : validatedPathOrUrl.href

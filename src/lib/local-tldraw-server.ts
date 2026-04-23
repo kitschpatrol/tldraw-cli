@@ -9,8 +9,14 @@ import log from './utilities/log.js'
 
 export default class LocalTldrawServer {
 	get href(): string {
-		if (!this.server) throw new Error('Server not started')
-		if (!this.port) throw new Error('Server port not available')
+		if (!this.server) {
+			throw new Error('Server not started')
+		}
+
+		if (!this.port) {
+			throw new Error('Server port not available')
+		}
+
 		return `http://localhost:${this.port}`
 	}
 
@@ -20,7 +26,10 @@ export default class LocalTldrawServer {
 	constructor(private readonly tldrData?: string) {}
 
 	close(): void {
-		if (!this.server) throw new Error('Server not started')
+		if (!this.server) {
+			throw new Error('Server not started')
+		}
+
 		this.server.close()
 		log.info('Stopped tldraw server')
 	}
@@ -77,7 +86,9 @@ export default class LocalTldrawServer {
 	}
 
 	private async waitForServer(maxAttempts = 50, delay = 10): Promise<void> {
-		if (!this.server) throw new Error('Server not initialized')
+		if (!this.server) {
+			throw new Error('Server not initialized')
+		}
 
 		for (let i = 0; i < maxAttempts; i++) {
 			const address = this.server.address()
@@ -85,6 +96,7 @@ export default class LocalTldrawServer {
 				// Server is ready
 				return
 			}
+
 			// Wait a bit before checking again
 			await new Promise((resolve) => {
 				setTimeout(resolve, delay)

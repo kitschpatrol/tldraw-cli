@@ -20,7 +20,9 @@ it('should export the tldraw url to an svg in the current folder by default', as
 	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })
 
 it('should export the tldraw url to an svg when specified', async () => {
@@ -29,7 +31,9 @@ it('should export the tldraw url to an svg when specified', async () => {
 	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })
 
 it('should export the tldraw url to a png when specified', async () => {
@@ -38,7 +42,9 @@ it('should export the tldraw url to a png when specified', async () => {
 	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.png'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'png')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })
 
 it('should export the file to a specific directory when specified', async () => {
@@ -53,7 +59,9 @@ it('should export the file to a specific directory when specified', async () => 
 
 	expectFileToBeStructurallyValid(savedImageFileName, 'png')
 
-	if (cleanUp) rmSync(randomPath, { recursive: true })
+	if (cleanUp) {
+		rmSync(randomPath, { recursive: true })
+	}
 })
 
 it('should export the entire image if multiple frames are present and --frames is not set', async () => {
@@ -61,7 +69,9 @@ it('should export the entire image if multiple frames are present and --frames i
 
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })
 
 it('should export each frame individually if --frames is set', async () => {
@@ -108,7 +118,9 @@ it('should export to tldr', async () => {
 	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_9nMYBwT8UQ99RGDWfGr8H.tldr'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'tldr')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })
 
 it('should export schema 2 sketches to svg', async () => {
@@ -117,7 +129,9 @@ it('should export schema 2 sketches to svg', async () => {
 	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_85CiFqkLgUaiwmed4kIa_.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })
 
 it('should export schema 2 sketches to tldr', async () => {
@@ -128,5 +142,7 @@ it('should export schema 2 sketches to tldr', async () => {
 	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_85CiFqkLgUaiwmed4kIa_.tldr'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'tldr')
 
-	if (cleanUp) rmSync(savedImageFileName)
+	if (cleanUp) {
+		rmSync(savedImageFileName)
+	}
 })

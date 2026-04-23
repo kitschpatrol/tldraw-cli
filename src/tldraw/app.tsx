@@ -39,7 +39,9 @@ export default function App() {
 					return response.text()
 				})
 				.then((tldrData) => {
-					if (tldrData === undefined) return
+					if (tldrData === undefined) {
+						return
+					}
 
 					// Note alternate approach with createTLSchema
 					// https://github.com/tldraw/tldraw/issues/3155
