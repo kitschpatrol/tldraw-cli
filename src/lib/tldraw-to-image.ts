@@ -69,6 +69,7 @@ export async function tldrawToImage(
 	if (isLocal) {
 		log.info(`Loading tldr data "${validatedPathOrUrl}"`)
 	}
+
 	const tldrData = isLocal ? await fs.readFile(validatedPathOrUrl, 'utf8') : undefined
 	const tldrawServer = new LocalTldrawServer(tldrData)
 	if (isLocal) {
@@ -97,6 +98,7 @@ export async function tldrawToImage(
 				// Best effort
 			}
 		}
+
 		if (isLocal) {
 			try {
 				tldrawServer.close()

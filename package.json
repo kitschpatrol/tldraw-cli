@@ -59,12 +59,12 @@
 		"tldraw:copy-assets": "pnpm tsx ./scripts/copy-assets.ts"
 	},
 	"dependencies": {
-		"@hono/node-server": "^1.19.14",
+		"@hono/node-server": "^2.0.0",
 		"@sindresorhus/slugify": "^3.0.0",
 		"@types/node": "^25.6.0",
 		"cheerio": "^1.2.0",
 		"get-port": "^7.2.0",
-		"hono": "^4.12.14",
+		"hono": "^4.12.15",
 		"nanoid": "^5.1.9",
 		"natural-orderby": "^5.0.0",
 		"open": "^11.0.0",
@@ -81,7 +81,7 @@
 		"@arethetypeswrong/core": "^0.18.2",
 		"@blazediff/vitest": "^1.1.12",
 		"@fontsource/inter": "^5.2.8",
-		"@kitschpatrol/shared-config": "^7.5.0",
+		"@kitschpatrol/shared-config": "^7.5.2",
 		"@tldraw/assets": "^4.5.10",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",

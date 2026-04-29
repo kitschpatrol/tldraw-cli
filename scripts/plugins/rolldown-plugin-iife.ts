@@ -5,9 +5,9 @@ import * as esbuild from 'esbuild'
 import path from 'node:path'
 
 /**
- * This Rolldown plugin intercepts imports ending with ?iife, sends them through esbuild,
- * and then returns the result as a string which may then be inlined or passed
- * to puppeteer's evaluation functions
+ * This Rolldown plugin intercepts imports ending with ?iife, sends them through
+ * esbuild, and then returns the result as a string which may then be inlined or
+ * passed to puppeteer's evaluation functions
  */
 export default function iifePlugin(): Plugin {
 	const prefix = '\0iife:'

@@ -62,6 +62,7 @@ export default class TldrawController {
 		if (!this.page) {
 			throw new Error('Controller not started')
 		}
+
 		if (this.isEmpty) {
 			throw new Error('Cannot export an empty document')
 		}
@@ -250,6 +251,7 @@ export default class TldrawController {
 					if (!isSuppressedError) {
 						log.errorPrefixed('Browser', text)
 					}
+
 					break
 				}
 
@@ -262,6 +264,7 @@ export default class TldrawController {
 					if (!isSuppressedWarning) {
 						log.warnPrefixed('Browser', text)
 					}
+
 					break
 				}
 
@@ -288,6 +291,7 @@ export default class TldrawController {
 		if (!this.page) {
 			throw new Error('Controller not started')
 		}
+
 		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(`editor.getCurrentPageId()`)) as string
 	}
@@ -474,6 +478,7 @@ export default class TldrawController {
 		if (!this.page) {
 			throw new Error('Controller not started')
 		}
+
 		await this.page.evaluate(`editor.setCurrentPage("${pageId}")`)
 	}
 
