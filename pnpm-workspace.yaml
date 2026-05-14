@@ -1,12 +1,3 @@
-onlyBuiltDependencies:
-  - '@swc/core'
-  - core-js
-  - esbuild
-  - puppeteer
-  - sharp
-  - unrs-resolver
-
-# Required by @kitschpatrol/shared-config
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -18,3 +9,10 @@ publicHoistPattern:
   - '*prettier*'
   - '*remark*'
   - '*stylelint*'
+allowBuilds:
+  '@swc/core': true
+  core-js: true
+  esbuild: true
+  puppeteer: true
+  sharp: true
+  unrs-resolver: true
