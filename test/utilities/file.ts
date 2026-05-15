@@ -135,11 +135,15 @@ function getStableJson(filePath: string): string {
 	// eslint-disable-next-line ts/no-unsafe-type-assertion -- JSON structure is known
 	const parsed = JSON.parse(jsonContent) as TldrawRecord
 
-	// Sort records for deterministic ordering — tldraw emits records in
-	// non-deterministic order across runs. Use a composite key so that
-	// records with unstable IDs (like bindings) sort by their stable
+	// Drop `user` records — pure session metadata (random id, random hex
+	// color) that's unrelated to sketch content. The random color escapes
+	// `stripNumbers` because A-F hex letters remain after digit stripping.
+	// Sort the remaining records for deterministic ordering — tldraw emits
+	// records in non-deterministic order across runs. Use a composite key
+	// so records with unstable IDs (like bindings) sort by their stable
 	// relationship fields instead.
 	if (parsed.records) {
+		parsed.records = parsed.records.filter((record) => record.typeName !== 'user')
 		parsed.records.sort((a, b) => recordSortKey(a).localeCompare(recordSortKey(b)))
 	}
 

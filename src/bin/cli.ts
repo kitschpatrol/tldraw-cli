@@ -105,8 +105,9 @@ await yargsInstance
 				})
 				.option('padding', {
 					default: undefined,
-					defaultDescription: '32',
-					describe: 'Set a specific padding amount around the exported image.',
+					defaultDescription: 'auto',
+					describe:
+						'Set a specific padding amount around the exported image. Omit to trim to the visual content bounds.',
 					type: 'number',
 				})
 				.option('scale', {

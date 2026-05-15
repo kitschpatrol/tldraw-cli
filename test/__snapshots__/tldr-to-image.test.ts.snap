@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`export options > should export local tldr file to a svg with dark true 1`] = `"419862f6a57da8517d2274119de649ccc810494cdd5fdf6fbb6a0815bbed0d11"`;
+exports[`export options > should export local tldr file to a svg with dark true 1`] = `"7aa2f4f53c4c4c12eead07f29279f80da1ccf5c292314c16ac62b47c4188a2d8"`;
 
 exports[`export options > should export local tldr file to a svg with padding 0 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
 
@@ -10,15 +10,15 @@ exports[`export options > should export local tldr file to a svg with scale 4 1`
 
 exports[`export options > should export local tldr file to a svg with transparent true 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
 
-exports[`export options > should export local tldr file to a tldr with dark true 1`] = `"b90ed2c7e29c4a14bcbff64b4cd4049b460eceeb0b6a1e30c48ec18e515e824e"`;
+exports[`export options > should export local tldr file to a tldr with dark true 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
-exports[`export options > should export local tldr file to a tldr with padding 0 1`] = `"b90ed2c7e29c4a14bcbff64b4cd4049b460eceeb0b6a1e30c48ec18e515e824e"`;
+exports[`export options > should export local tldr file to a tldr with padding 0 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
-exports[`export options > should export local tldr file to a tldr with print 1`] = `"b90ed2c7e29c4a14bcbff64b4cd4049b460eceeb0b6a1e30c48ec18e515e824e"`;
+exports[`export options > should export local tldr file to a tldr with print 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
-exports[`export options > should export local tldr file to a tldr with scale 4 1`] = `"b90ed2c7e29c4a14bcbff64b4cd4049b460eceeb0b6a1e30c48ec18e515e824e"`;
+exports[`export options > should export local tldr file to a tldr with scale 4 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
-exports[`export options > should export local tldr file to a tldr with transparent true 1`] = `"b90ed2c7e29c4a14bcbff64b4cd4049b460eceeb0b6a1e30c48ec18e515e824e"`;
+exports[`export options > should export local tldr file to a tldr with transparent true 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
 exports[`export options > should strip style elements from SVGs 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
 
@@ -82,7 +82,7 @@ exports[`pages > should export multiple pages specified by index of a multi-page
 
 exports[`save to format > should export local tldr file to a svg 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
 
-exports[`save to format > should export local tldr file to a tldr 1`] = `"b90ed2c7e29c4a14bcbff64b4cd4049b460eceeb0b6a1e30c48ec18e515e824e"`;
+exports[`save to format > should export local tldr file to a tldr 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
 exports[`save to svg (default behavior) > should export local tldr file to an svg by default 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
 
