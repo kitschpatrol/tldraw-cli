@@ -2,7 +2,6 @@
 // rsync -av --include='/*/' --exclude='/*' --exclude='favicon.ico' ./node_modules/@tldraw/assets/ ./src/tldraw/public/
 // cpy 'embed-icons/**' 'fonts/**' 'icons/**' 'translations/**' ../../../src/tldraw/public/ --cwd=./node_modules/@tldraw/assets --base=cwd
 
-// eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { cpSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 

@@ -28,7 +28,6 @@ export default function App() {
 		globalThis.editor = editor
 
 		if (store === undefined) {
-			// eslint-disable-next-line node/no-unsupported-features/node-builtins
 			fetch('/tldr-data')
 				.then(async (response) => {
 					if (!response.ok) {
