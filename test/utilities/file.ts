@@ -29,8 +29,10 @@ async function expectBitmapToMatchSnapshot(filePath: string): Promise<void> {
  * - <style> elements (font embedding order is non-deterministic)
  * - Comment nodes
  * - Inline `style` attributes (huge, unstable across Chromium versions)
- * - ClipPath `id` attributes (random per run) Also sorts remaining attributes on
- *   every element for canonical output.
+ * - `id` attributes and `url(#…)` references (tldraw's export uses React
+ *   `useId()`, whose output depends on the surrounding tree shape — not on
+ *   anything visually observable). Also sorts remaining attributes on every
+ *   element for canonical output.
  */
 function cleanSvg(svgContent: string): string {
 	const dom = cheerio.load(svgContent, { xmlMode: true })
@@ -46,17 +48,13 @@ function cleanSvg(svgContent: string): string {
 		})
 		.remove()
 
-	// Process every element: remove inline styles, normalize clipPath ids,
-	// and sort attributes for deterministic output.
+	// Process every element: remove inline styles, blank out all ids, and sort
+	// attributes for deterministic output.
 	dom('*').each(function () {
 		const element = dom(this)
 
 		element.removeAttr('style')
-
-		const tagName = element.prop('tagName')
-		if (tagName === 'clipPath') {
-			element.attr('id', '')
-		}
+		element.attr('id', '')
 
 		// Sort attributes for deterministic serialization order. Cheerio
 		// doesn't expose a public API for reordering attributes, so we
@@ -71,7 +69,9 @@ function cleanSvg(svgContent: string): string {
 		node.attribs = sorted
 	})
 
-	return dom.xml()
+	// Blank out url(#…) references in any attribute (mask, fill, clip-path,
+	// etc.) so the cleaned form matches regardless of the underlying id.
+	return dom.xml().replaceAll(/url\(#[^)]*\)/g, 'url(#)')
 }
 
 /**
