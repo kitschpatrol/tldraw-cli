@@ -256,14 +256,7 @@ export default class TldrawController {
 				}
 
 				case 'warn': {
-					// TODO remove this once resolved...
-					const isSuppressedWarning =
-						text.startsWith('ToggleGroup is changing from controlled to uncontrolled') ||
-						text.startsWith('ToggleGroup is changing from uncontrolled to controlled')
-
-					if (!isSuppressedWarning) {
-						log.warnPrefixed('Browser', text)
-					}
+					log.warnPrefixed('Browser', text)
 
 					break
 				}
