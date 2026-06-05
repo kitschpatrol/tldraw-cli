@@ -61,7 +61,7 @@
 	"dependencies": {
 		"@hono/node-server": "^2.0.4",
 		"@sindresorhus/slugify": "^3.0.0",
-		"@types/node": "~22.12.0",
+		"@types/node": "~22.19.19",
 		"cheerio": "^1.2.0",
 		"get-port": "^7.2.0",
 		"hono": "^4.12.23",
@@ -69,7 +69,6 @@
 		"natural-orderby": "^5.0.0",
 		"open": "^11.0.0",
 		"path-type": "^6.0.0",
-		"picocolors": "^1.1.1",
 		"plur": "^6.0.0",
 		"pretty-ms": "^9.3.0",
 		"puppeteer": "^25.1.0",
@@ -108,13 +107,7 @@
 	},
 	"packageManager": "pnpm@11.5.0",
 	"engines": {
-		"node": ">=22.12.0"
-	},
-	"devEngines": {
-		"runtime": {
-			"name": "node",
-			"version": ">=22.22.2"
-		}
+		"node": ">=22.22.2"
 	},
 	"publishConfig": {
 		"access": "public"
