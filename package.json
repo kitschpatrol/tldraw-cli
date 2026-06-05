@@ -43,6 +43,8 @@
 		"dist/*"
 	],
 	"scripts": {
+		"bench": "vitest bench --run --compare test/benchmarks/baseline.json",
+		"bench:baseline": "vitest bench --run --outputJson test/benchmarks/baseline.json",
 		"build": "pnpm build:tldraw && pnpm build:src",
 		"build:src": "tsdown",
 		"build:tldraw": "pnpm tldraw:copy-assets && vite build",
