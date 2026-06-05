@@ -33,6 +33,9 @@ async function expectBitmapToMatchSnapshot(filePath: string): Promise<void> {
  *   `useId()`, whose output depends on the surrounding tree shape — not on
  *   anything visually observable). Also sorts remaining attributes on every
  *   element for canonical output.
+ * - `pseudo-XXXXXXXXXXXXXXXXXXXXX` class tokens that tldraw uses to scope CSS
+ *   pseudo-element rules to specific elements; the ID changes between runs and
+ *   the matching `<style>` rules are already removed above.
  */
 function cleanSvg(svgContent: string): string {
 	const dom = cheerio.load(svgContent, { xmlMode: true })
@@ -70,8 +73,12 @@ function cleanSvg(svgContent: string): string {
 	})
 
 	// Blank out url(#…) references in any attribute (mask, fill, clip-path,
-	// etc.) so the cleaned form matches regardless of the underlying id.
-	return dom.xml().replaceAll(/url\(#[^)]*\)/g, 'url(#)')
+	// etc.) and pseudo-XXX class tokens so the cleaned form matches
+	// regardless of the underlying id.
+	return dom
+		.xml()
+		.replaceAll(/url\(#[^)]*\)/g, 'url(#)')
+		.replaceAll(/pseudo-[\w-]{21}/g, 'pseudo-')
 }
 
 /**

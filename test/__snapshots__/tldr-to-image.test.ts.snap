@@ -1,14 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`export options > should export local tldr file to a svg with dark true 1`] = `"7aa2f4f53c4c4c12eead07f29279f80da1ccf5c292314c16ac62b47c4188a2d8"`;
+exports[`export options > should export local tldr file to a svg with dark true 1`] = `"14d9ef0dde8d4238ecd4ab4a81ad683ca7bd92aa41a21dff31b67b0874b79b41"`;
 
-exports[`export options > should export local tldr file to a svg with padding 0 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`export options > should export local tldr file to a svg with padding 0 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`export options > should export local tldr file to a svg with print 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`export options > should export local tldr file to a svg with print 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`export options > should export local tldr file to a svg with scale 4 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`export options > should export local tldr file to a svg with scale 4 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`export options > should export local tldr file to a svg with transparent true 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`export options > should export local tldr file to a svg with transparent true 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
 exports[`export options > should export local tldr file to a tldr with dark true 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
@@ -20,86 +20,88 @@ exports[`export options > should export local tldr file to a tldr with scale 4 1
 
 exports[`export options > should export local tldr file to a tldr with transparent true 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
-exports[`export options > should strip style elements from SVGs 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`export options > should strip style elements from SVGs 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`frames > should export each frame of a local tldr file individually if frames is set 1`] = `"234f79f755eae980febf93e46fbcba2cc68f85485cf46272bf171e802a004887"`;
+exports[`frames > should export each frame of a local tldr file individually if frames is set 1`] = `"bb1b27c8719ad8b9b7812cec08babe618a00f9769904258bb9f8f2499da01d5f"`;
 
-exports[`frames > should export each frame of a local tldr file individually if frames is set 2`] = `"2be2222b4d010e831d493bd9f680332aa75feef3c5223eb2cdf224820db6cf34"`;
+exports[`frames > should export each frame of a local tldr file individually if frames is set 2`] = `"b88485f9501644e0caeb31e5774eb3d1818001b125d648951f41a96967f0e00f"`;
 
-exports[`frames > should export each frame of a local tldr file individually if frames is set 3`] = `"3ff99d50a75db2b06dcba6c9c7e75ce4d74eca17ff66eab561ec0fb4249a4e3b"`;
+exports[`frames > should export each frame of a local tldr file individually if frames is set 3`] = `"491466319372a8af4c2f1ac5efc7e07326edadd213ff5d4188afcb22e099013e"`;
 
-exports[`frames > should export frames by id from local tldr file 1`] = `"a7a26b82cc85749730147de01c30011f0d5a966abbe358c8ed34eed1351b598d"`;
+exports[`frames > should export frames by id from local tldr file 1`] = `"491466319372a8af4c2f1ac5efc7e07326edadd213ff5d4188afcb22e099013e"`;
 
-exports[`frames > should export slugified frame name from local tldr file 1`] = `"a7a26b82cc85749730147de01c30011f0d5a966abbe358c8ed34eed1351b598d"`;
+exports[`frames > should export slugified frame name from local tldr file 1`] = `"491466319372a8af4c2f1ac5efc7e07326edadd213ff5d4188afcb22e099013e"`;
 
-exports[`frames > should export specific frames by id from local tldr file even without the shape: prefix 1`] = `"a7a26b82cc85749730147de01c30011f0d5a966abbe358c8ed34eed1351b598d"`;
+exports[`frames > should export specific frames by id from local tldr file even without the shape: prefix 1`] = `"491466319372a8af4c2f1ac5efc7e07326edadd213ff5d4188afcb22e099013e"`;
 
-exports[`frames > should export specific frames of a local tldr file by name 1`] = `"a7a26b82cc85749730147de01c30011f0d5a966abbe358c8ed34eed1351b598d"`;
+exports[`frames > should export specific frames of a local tldr file by name 1`] = `"491466319372a8af4c2f1ac5efc7e07326edadd213ff5d4188afcb22e099013e"`;
 
-exports[`frames > should export the entire local tldr to an image if multiple frames are present and frames is not set 1`] = `"c1f1781e0f72034331f69e49fd02df4615eb8409a69e10a0229fb2847cbc7a2e"`;
+exports[`frames > should export the entire local tldr to an image if multiple frames are present and frames is not set 1`] = `"4e9959a743566a05222e63a518a0f6eb1d17afa299b1f6a3b7dfe161fa7a4b7a"`;
 
-exports[`names and paths > should handle a rational extension in name 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`names and paths > should handle a rational extension in name 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`names and paths > should handle an irrational extension in name 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`names and paths > should handle an irrational extension in name 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`names and paths > should not slugify the name 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`names and paths > should not slugify the name 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`names and paths > should rename the export if name is set 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`names and paths > should rename the export if name is set 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`names and paths > should use name as a base for multiple exported frames 1`] = `"234f79f755eae980febf93e46fbcba2cc68f85485cf46272bf171e802a004887"`;
+exports[`names and paths > should use name as a base for multiple exported frames 1`] = `"bb1b27c8719ad8b9b7812cec08babe618a00f9769904258bb9f8f2499da01d5f"`;
 
-exports[`names and paths > should use name as a base for multiple exported frames 2`] = `"2be2222b4d010e831d493bd9f680332aa75feef3c5223eb2cdf224820db6cf34"`;
+exports[`names and paths > should use name as a base for multiple exported frames 2`] = `"b88485f9501644e0caeb31e5774eb3d1818001b125d648951f41a96967f0e00f"`;
 
-exports[`names and paths > should use name as a base for multiple exported frames 3`] = `"3ff99d50a75db2b06dcba6c9c7e75ce4d74eca17ff66eab561ec0fb4249a4e3b"`;
+exports[`names and paths > should use name as a base for multiple exported frames 3`] = `"491466319372a8af4c2f1ac5efc7e07326edadd213ff5d4188afcb22e099013e"`;
 
-exports[`pages > should export a multiple specific pages of a multi-page tldr file 1`] = `"e19f63235158bea1921d74bd5d86f36b8e682b85de3930fe0b6a84129bf88672"`;
+exports[`pages > should export a multiple specific pages of a multi-page tldr file 1`] = `"dee3ce8424c500f9084359580c19a65d1178449b9f8225be283fc73f8cfb3afd"`;
 
-exports[`pages > should export a multiple specific pages of a multi-page tldr file 2`] = `"3f1f0ad16d3410d443f587cd8b80920abaf985e7fcb121ed3a1ba2db52213813"`;
+exports[`pages > should export a multiple specific pages of a multi-page tldr file 2`] = `"368470d3ab2c1da4a9c4565effe9ec2f73bd8469d365b1f73d283ad4e3c9805b"`;
 
-exports[`pages > should export a single page specified by an index of a multi-page tldr file 1`] = `"3f1f0ad16d3410d443f587cd8b80920abaf985e7fcb121ed3a1ba2db52213813"`;
+exports[`pages > should export a single page specified by an index of a multi-page tldr file 1`] = `"368470d3ab2c1da4a9c4565effe9ec2f73bd8469d365b1f73d283ad4e3c9805b"`;
 
-exports[`pages > should export a specific named page of a multi-page tldr file 1`] = `"3f1f0ad16d3410d443f587cd8b80920abaf985e7fcb121ed3a1ba2db52213813"`;
+exports[`pages > should export a specific named page of a multi-page tldr file 1`] = `"368470d3ab2c1da4a9c4565effe9ec2f73bd8469d365b1f73d283ad4e3c9805b"`;
 
-exports[`pages > should export a specific page id of a multi-page tldr file 1`] = `"e19f63235158bea1921d74bd5d86f36b8e682b85de3930fe0b6a84129bf88672"`;
+exports[`pages > should export a specific page id of a multi-page tldr file 1`] = `"dee3ce8424c500f9084359580c19a65d1178449b9f8225be283fc73f8cfb3afd"`;
 
-exports[`pages > should export a specific page id with a prefix of a multi-page tldr file 1`] = `"e19f63235158bea1921d74bd5d86f36b8e682b85de3930fe0b6a84129bf88672"`;
+exports[`pages > should export a specific page id with a prefix of a multi-page tldr file 1`] = `"dee3ce8424c500f9084359580c19a65d1178449b9f8225be283fc73f8cfb3afd"`;
 
-exports[`pages > should export all pages of a multi-page tldr file 1`] = `"39c2e58be91c653d99a35c3d178abca465f671ad19b61c931e76a23b0d6e7dbd"`;
+exports[`pages > should export all pages of a multi-page tldr file 1`] = `"a829d33d8b3c83f095c57897a04e44cba3b9668602fc8102db0a9e2330addecf"`;
 
-exports[`pages > should export all pages of a multi-page tldr file 2`] = `"2d0db356f33207efadc68107cca33667f0abe3c18803fc8619180e2284643073"`;
+exports[`pages > should export all pages of a multi-page tldr file 2`] = `"dee3ce8424c500f9084359580c19a65d1178449b9f8225be283fc73f8cfb3afd"`;
 
-exports[`pages > should export all pages of a multi-page tldr file 3`] = `"3f1f0ad16d3410d443f587cd8b80920abaf985e7fcb121ed3a1ba2db52213813"`;
+exports[`pages > should export all pages of a multi-page tldr file 3`] = `"368470d3ab2c1da4a9c4565effe9ec2f73bd8469d365b1f73d283ad4e3c9805b"`;
 
-exports[`pages > should export first page of a multi-page tldr file when pages is explicitly false 1`] = `"39c2e58be91c653d99a35c3d178abca465f671ad19b61c931e76a23b0d6e7dbd"`;
+exports[`pages > should export first page of a multi-page tldr file when pages is explicitly false 1`] = `"a829d33d8b3c83f095c57897a04e44cba3b9668602fc8102db0a9e2330addecf"`;
 
-exports[`pages > should export frames from a specific page id of a multi-page tldr file 1`] = `"e8f00d301bae8900c2de1ea958bf0be9823138a8046f2e6873e67e46507b0826"`;
+exports[`pages > should export frames from a specific page id of a multi-page tldr file 1`] = `"4daea5e178b953f0a0f6d9ba0db7cb6ea7163ae383b0583b8aabe3bbb7c66a78"`;
 
-exports[`pages > should export frames from a specific page id of a multi-page tldr file 2`] = `"4c3c856b31a99c0b6876ce2a48d5055e9718c3acdd97b4fd425e1a63d98c6190"`;
+exports[`pages > should export frames from a specific page id of a multi-page tldr file 2`] = `"216c99e63f267167ca2c6eab56ec01d8a8d47d99f1b41dd2e28dc99f453ce16c"`;
 
-exports[`pages > should export multiple pages specified by index of a multi-page tldr file 1`] = `"39c2e58be91c653d99a35c3d178abca465f671ad19b61c931e76a23b0d6e7dbd"`;
+exports[`pages > should export multiple pages specified by index of a multi-page tldr file 1`] = `"a829d33d8b3c83f095c57897a04e44cba3b9668602fc8102db0a9e2330addecf"`;
 
-exports[`pages > should export multiple pages specified by index of a multi-page tldr file 2`] = `"3f1f0ad16d3410d443f587cd8b80920abaf985e7fcb121ed3a1ba2db52213813"`;
+exports[`pages > should export multiple pages specified by index of a multi-page tldr file 2`] = `"368470d3ab2c1da4a9c4565effe9ec2f73bd8469d365b1f73d283ad4e3c9805b"`;
 
-exports[`save to format > should export local tldr file to a svg 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`save to format > should export local tldr file to a svg 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
 exports[`save to format > should export local tldr file to a tldr 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 1`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 2`] = `"3ecdf5b878faf2b4b56c83b33550b00089c1f0ddc5ac1ad08285bd72ebcddaf8"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 2`] = `"8c76ae74cfec14a8d9291bd3c98acd7c406484898e42dcab4e0d70737f895c3b"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 3`] = `"d35d43cff6fee0cab2a80a1dad90c4114054492c29f89799ffea3cd673e1ec26"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 3`] = `"ba66b8f4b60f2ef3602ccfa329d46f7c75121401ab2b71e09256a7422b748bbc"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 4`] = `"c1f1781e0f72034331f69e49fd02df4615eb8409a69e10a0229fb2847cbc7a2e"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 4`] = `"4e9959a743566a05222e63a518a0f6eb1d17afa299b1f6a3b7dfe161fa7a4b7a"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 5`] = `"84db980d331af0c581ccaba093c6abf8025dc4d3d3c7d35d714a3db968eb015c"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 5`] = `"e83f5be9316b1bfffe6a0283d87be51aec550d0e4e9a1d06cdee4e7412eb2fee"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 6`] = `"a845e5fee827d00fae3959b720ba8030d5b5360a9c731d1ed3254167f235e48e"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 6`] = `"94f1412a2bd44b821ab7f01b99c16be54af59bf3440f00419beaa920abb8ec3d"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 7`] = `"39c2e58be91c653d99a35c3d178abca465f671ad19b61c931e76a23b0d6e7dbd"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 7`] = `"a829d33d8b3c83f095c57897a04e44cba3b9668602fc8102db0a9e2330addecf"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 8`] = `"42152a7642be4d6f8929b6463347c9690dbdfd6b70cc209c3ca75d57c23d2154"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 8`] = `"5078eefd1cdf5ab3f5ad5004408c8036fb5e0740e1fdcbb3186d073407203ff2"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 9`] = `"b03894627fd48850010bbba8f7e5b5a5404fd2dbc539baa11c873a71748e00e9"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 9`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 10`] = `"f56e7d3fb16a7f548947863183b381c13c1095e578b7def003c13b385bef61dc"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 10`] = `"49ea1954fcd01ff9565e250cda1e13c48150013834db62bdeec48e9508593e56"`;
+
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 11`] = `"8829135d21cb3e51d84529e90c5ded1fbcbb44ad672f36ea32e881b86bdbf011"`;

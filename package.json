@@ -59,12 +59,12 @@
 		"tldraw:copy-assets": "pnpm tsx ./scripts/copy-assets.ts"
 	},
 	"dependencies": {
-		"@hono/node-server": "^2.0.2",
+		"@hono/node-server": "^2.0.4",
 		"@sindresorhus/slugify": "^3.0.0",
-		"@types/node": "^25.8.0",
+		"@types/node": "~22.12.0",
 		"cheerio": "^1.2.0",
 		"get-port": "^7.2.0",
-		"hono": "^4.12.18",
+		"hono": "^4.12.23",
 		"nanoid": "^5.1.11",
 		"natural-orderby": "^5.0.0",
 		"open": "^11.0.0",
@@ -72,25 +72,25 @@
 		"picocolors": "^1.1.1",
 		"plur": "^6.0.0",
 		"pretty-ms": "^9.3.0",
-		"puppeteer": "^25.0.2",
+		"puppeteer": "^25.1.0",
 		"uint8array-extras": "^1.5.0",
 		"untildify": "^6.0.0",
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
-		"@arethetypeswrong/core": "^0.18.2",
-		"@blazediff/vitest": "^1.1.15",
+		"@arethetypeswrong/core": "^0.18.3",
+		"@blazediff/vitest": "^1.1.18",
 		"@fontsource/inter": "^5.2.8",
-		"@kitschpatrol/shared-config": "^7.6.0",
-		"@tldraw/assets": "^5.0.1",
-		"@types/react": "^19.2.14",
+		"@kitschpatrol/shared-config": "^7.6.3",
+		"@tldraw/assets": "^5.1.0",
+		"@types/react": "^19.2.15",
 		"@types/react-dom": "^19.2.3",
 		"@types/yargs": "^17.0.35",
 		"@vitejs/plugin-react": "^6.0.2",
 		"bumpp": "^11.1.0",
 		"esbuild": "^0.28.0",
-		"mdat-plugin-cli-help": "^3.0.0",
-		"node-addon-api": "^8.7.0",
+		"mdat-plugin-cli-help": "^3.0.1",
+		"node-addon-api": "^8.8.0",
 		"node-gyp": "^12.3.0",
 		"publint": "^0.3.21",
 		"react": "^19.2.6",
@@ -99,21 +99,21 @@
 		"safe-stable-stringify": "^2.5.0",
 		"shx": "^0.4.0",
 		"strip-ansi": "^7.2.0",
-		"tldraw": "^5.0.1",
-		"tsdown": "^0.22.0",
-		"tsx": "^4.22.0",
+		"tldraw": "^5.1.0",
+		"tsdown": "^0.22.1",
+		"tsx": "^4.22.3",
 		"typescript": "~5.9.3",
-		"vite": "^8.0.13",
-		"vitest": "^4.1.6"
+		"vite": "^8.0.14",
+		"vitest": "^4.1.7"
 	},
-	"packageManager": "pnpm@11.1.2",
+	"packageManager": "pnpm@11.5.0",
 	"engines": {
 		"node": ">=22.12.0"
 	},
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": ">=22.18.0"
+			"version": ">=22.22.2"
 		}
 	},
 	"publishConfig": {
