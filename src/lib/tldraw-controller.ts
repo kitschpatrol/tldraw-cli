@@ -223,10 +223,28 @@ export default class TldrawController {
 		log.info('Starting Puppeteer...')
 		this.browser = await puppeteer.launch({
 			args: this.isLocal
-				? ['--no-sandbox', '--disable-web-security', '--disable-setuid-sandbox']
+				? [
+						'--no-sandbox',
+						'--disable-web-security',
+						'--disable-setuid-sandbox',
+						'--disable-component-update',
+						// TODO these Don't really make a dent?
+						// '--disable-background-networking',
+						// '--disable-default-apps',
+						// '--disable-extensions',
+						// '--disable-renderer-backgrounding',
+						// '--disable-sync',
+						// '--no-default-browser-check',
+						// '--no-first-run',
+					]
 				: // Both contexts for now?
-					['--no-sandbox', '--disable-web-security', '--disable-setuid-sandbox'],
-			headless: true,
+					[
+						'--no-sandbox',
+						'--disable-web-security',
+						'--disable-setuid-sandbox',
+						'--disable-component-update',
+					],
+			headless: 'shell',
 		})
 
 		this.page = await this.browser.newPage()
