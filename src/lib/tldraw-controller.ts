@@ -221,6 +221,15 @@ export default class TldrawController {
 	async start() {
 		// Set up Puppeteer
 		log.info('Starting Puppeteer...')
+
+		// `chrome-headless-shell` (headless: 'shell') defaults to more aggressive
+		// font hinting than the new headless Chrome, which on Linux snaps glyphs to
+		// the pixel grid and shrinks tldraw's auto-sized text bounding box by a few
+		// pixels — changing export dimensions and breaking the cross-platform image
+		// snapshots. `--font-render-hinting=none` disables that. The flag only
+		// affects Chromium's FreeType (Linux) path; macOS (CoreText) and Windows
+		// (DirectWrite) ignore it, so it's safe to apply everywhere with no per-OS
+		// branching.
 		this.browser = await puppeteer.launch({
 			args: this.isLocal
 				? [
@@ -228,6 +237,7 @@ export default class TldrawController {
 						'--disable-web-security',
 						'--disable-setuid-sandbox',
 						'--disable-component-update',
+						'--font-render-hinting=none',
 						// TODO these Don't really make a dent?
 						// '--disable-background-networking',
 						// '--disable-default-apps',
@@ -243,6 +253,7 @@ export default class TldrawController {
 						'--disable-web-security',
 						'--disable-setuid-sandbox',
 						'--disable-component-update',
+						'--font-render-hinting=none',
 					],
 			headless: 'shell',
 		})
