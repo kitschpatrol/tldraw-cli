@@ -221,6 +221,15 @@ export default class TldrawController {
 	async start() {
 		// Set up Puppeteer
 		log.info('Starting Puppeteer...')
+
+		// The `chrome-headless-shell` binary used by `headless: 'shell'` applies
+		// font hinting on Linux that nudges text metrics a few pixels relative to
+		// macOS and Windows. Since exports are sized to their content's bounding
+		// box, that shift changes the output dimensions and breaks the
+		// cross-platform image snapshot comparisons in CI. Disabling hinting
+		// realigns Linux output with the other platforms.
+		const platformArgs = process.platform === 'linux' ? ['--font-render-hinting=none'] : []
+
 		this.browser = await puppeteer.launch({
 			args: this.isLocal
 				? [
@@ -228,6 +237,7 @@ export default class TldrawController {
 						'--disable-web-security',
 						'--disable-setuid-sandbox',
 						'--disable-component-update',
+						...platformArgs,
 						// TODO these Don't really make a dent?
 						// '--disable-background-networking',
 						// '--disable-default-apps',
@@ -243,6 +253,7 @@ export default class TldrawController {
 						'--disable-web-security',
 						'--disable-setuid-sandbox',
 						'--disable-component-update',
+						...platformArgs,
 					],
 			headless: 'shell',
 		})
