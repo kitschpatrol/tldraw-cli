@@ -1,7 +1,7 @@
 import type { Editor, TLStore } from 'tldraw'
 import { getAssetUrls } from '@tldraw/assets/selfHosted'
-import { useState } from 'react'
-import { parseTldrawJsonFile, Tldraw } from 'tldraw'
+import { useEffect, useState } from 'react'
+import { createTLStore, parseTldrawJsonFile, Tldraw } from 'tldraw'
 import './index.css'
 
 // Can't get this to work
@@ -14,57 +14,83 @@ declare global {
 	}
 }
 
+type LoadState = { kind: 'loading' } | { kind: 'ready'; store: TLStore | undefined }
+
 /**
  * Minimal tldraw app
  */
 export default function App() {
-	const [store, setStore] = useState<TLStore>()
+	const [loadState, setLoadState] = useState<LoadState>({ kind: 'loading' })
 
-	// Load store data from local endpoint
+	// Fetch the tldr data before mounting <Tldraw> so the editor is created
+	// exactly once. The previous "mount empty → setStore → remount" pattern
+	// tore down the first editor's FontManager while font loads were still in
+	// flight, which surfaced as "AtomMap: key [object Object] not found".
+	useEffect(() => {
+		let cancelled = false
+
+		async function load() {
+			try {
+				const response = await fetch('/tldr-data')
+
+				if (!response.ok) {
+					console.log(`No tldr data to load from local endpoint (${response.status})`)
+					if (!cancelled) {
+						setLoadState({ kind: 'ready', store: undefined })
+					}
+
+					return
+				}
+
+				const tldrData = await response.text()
+
+				// Build a default store to source the schema for parsing. The
+				// resulting parsed store uses the same default shape/binding
+				// utils that <Tldraw> would create anyway.
+				const parseFileResult = parseTldrawJsonFile({
+					json: tldrData,
+					schema: createTLStore().schema,
+				})
+
+				if (cancelled) {
+					return
+				}
+
+				if (parseFileResult.ok) {
+					console.log('Loaded tldr file from local endpoint')
+					setLoadState({ kind: 'ready', store: parseFileResult.value })
+				} else {
+					console.error(`Couldn't parse tldr file: ${parseFileResult.error.type}`)
+					setLoadState({ kind: 'ready', store: undefined })
+				}
+			} catch (error) {
+				console.error("Couldn't fetch data:", error)
+				if (!cancelled) {
+					setLoadState({ kind: 'ready', store: undefined })
+				}
+			}
+		}
+
+		void load()
+
+		return () => {
+			cancelled = true
+		}
+	}, [])
+
+	if (loadState.kind === 'loading') {
+		return
+	}
+
+	const { store } = loadState
+
 	function onMount(editor: Editor) {
 		// Expose editor to window
 		// Works around https://github.com/tldraw/tldraw/pull/2995
 		// @ts-expect-error - TS doesn't know about globalThis
 		globalThis.editor = editor
 
-		if (store === undefined) {
-			fetch('/tldr-data')
-				.then(async (response) => {
-					if (!response.ok) {
-						console.log(`No tldr data to load from local endpoint (${response.status})`)
-						return
-					}
-
-					return response.text()
-				})
-				.then((tldrData) => {
-					if (tldrData === undefined) {
-						return
-					}
-
-					// Note alternate approach with createTLSchema
-					// https://github.com/tldraw/tldraw/issues/3155
-					// https://github.com/tldraw/tldraw/blob/main/packages/editor/src/lib/config/TLEditorSnapshot.ts#L11
-					// Hmm https://gist.github.com/acmoles/ff525d1e8a0c7bf14ea3d47fd6cab6b1
-					// Hmm https://github.com/tldraw/tldraw/issues/4076
-					// https://github.com/tldraw/tldraw/issues/1650
-					// https://github.com/seflless/subfont
-					const parseFileResult = parseTldrawJsonFile({
-						json: tldrData,
-						schema: editor.store.schema,
-					})
-
-					if (parseFileResult.ok) {
-						console.log('Loaded tldr file from local endpoint')
-						setStore(parseFileResult.value)
-					} else {
-						console.error(`Couldn't parse tldr file: ${parseFileResult.error.type}`)
-					}
-				})
-				.catch((error: unknown) => {
-					console.error("Couldn't fetch data:", error)
-				})
-		} else {
+		if (store !== undefined) {
 			editor.zoomToFit()
 			editor.menus.clearOpenMenus()
 		}
