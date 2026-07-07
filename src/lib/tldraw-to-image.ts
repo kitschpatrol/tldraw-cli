@@ -77,7 +77,7 @@ export async function tldrawToImage(
 	}
 
 	// Start puppeteer controller
-	const tldrawUrl = isLocal ? tldrawServer.href : validatedPathOrUrl.href
+	const tldrawUrl = (isLocal ? tldrawServer : validatedPathOrUrl).href
 	const tldrawController = new TldrawController(tldrawUrl)
 	let controllerStarted = false
 

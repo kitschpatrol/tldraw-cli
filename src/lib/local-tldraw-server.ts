@@ -13,7 +13,7 @@ export default class LocalTldrawServer {
 			throw new Error('Server not started')
 		}
 
-		if (!this.port) {
+		if (this.port === undefined) {
 			throw new Error('Server port not available')
 		}
 

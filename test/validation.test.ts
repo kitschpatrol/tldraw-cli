@@ -29,13 +29,9 @@ it('should expand the home directory', () => {
 })
 
 it('should export file URLs to paths', () => {
-	expect(
-		validatePathOrUrl(
-			pathToFileURL(path.join(process.cwd(), 'test/assets/valid/2024-01-test-sketch-basic.tldr'))
-				.href,
-			validationOptions,
-		),
-	).toBeTypeOf('string')
+	const testFilePath = path.join(process.cwd(), 'test/assets/valid/2024-01-test-sketch-basic.tldr')
+	const testFileUrl = pathToFileURL(testFilePath).href
+	expect(validatePathOrUrl(testFileUrl, validationOptions)).toBeTypeOf('string')
 })
 
 it('should reject bad paths', () => {

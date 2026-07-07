@@ -28,6 +28,8 @@ declare global {
 	}
 }
 
+// Deliberately attached to window so Puppeteer can invoke it via page.evaluate
+// eslint-disable-next-line unicorn/no-global-object-property-assignment
 window.getTldr = async (): Promise<string> => {
 	const { editor } = window
 

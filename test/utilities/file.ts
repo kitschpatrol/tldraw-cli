@@ -46,15 +46,13 @@ function cleanSvg(svgContent: string): string {
 	// Remove comment nodes
 	dom('*')
 		.contents()
-		.filter(function () {
-			return this.nodeType === 8
-		})
+		.filter((_index, contentNode) => contentNode.nodeType === 8)
 		.remove()
 
 	// Process every element: remove inline styles, blank out all ids, and sort
 	// attributes for deterministic output.
-	dom('*').each(function () {
-		const element = dom(this)
+	dom('*').each((_index, rawElement) => {
+		const element = dom(rawElement)
 
 		element.removeAttr('style')
 		element.attr('id', '')
@@ -62,8 +60,8 @@ function cleanSvg(svgContent: string): string {
 		// Sort attributes for deterministic serialization order. Cheerio
 		// doesn't expose a public API for reordering attributes, so we
 		// access the internal `attribs` property on the underlying node.
-		// eslint-disable-next-line ts/no-unsafe-type-assertion -- cheerio internal
-		const node = this as unknown as { attribs: Record<string, string> }
+
+		const node = rawElement as unknown as { attribs: Record<string, string> }
 		const sorted: Record<string, string> = {}
 		for (const k of Object.keys(node.attribs).toSorted()) {
 			sorted[k] = node.attribs[k]
@@ -77,8 +75,8 @@ function cleanSvg(svgContent: string): string {
 	// regardless of the underlying id.
 	return dom
 		.xml()
-		.replaceAll(/url\(#[^)]*\)/g, 'url(#)')
-		.replaceAll(/pseudo-[\w-]{21}/g, 'pseudo-')
+		.replaceAll(/url\(#[^\)]*\)/gv, 'url(#)')
+		.replaceAll(/pseudo-[\w\-]{21}/gv, 'pseudo-')
 }
 
 /**
@@ -87,7 +85,7 @@ function cleanSvg(svgContent: string): string {
  * while preserving tag names and attribute names.
  */
 function stripNumbers(text: string): string {
-	return text.replaceAll(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi, '0')
+	return text.replaceAll(/-?\d+(?:\.\d+)?(?:e[+\-]?\d+)?/giv, '0')
 }
 
 function getStableSvg(filePath: string): string {
@@ -110,7 +108,7 @@ function expectSvgToMatch(filePath: string): void {
 export function stripUnstableIds(text: string): string {
 	// 21-character tldraw IDs fluctuate from run to run
 	// eslint-disable-next-line regexp/no-unused-capturing-group
-	return text.replaceAll(/:([^\s",.:]{21})"/g, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
+	return text.replaceAll(/:([^\s",.:]{21})"/gv, () => `:XXXXXXXXXXXXXXXXXXXXX"`)
 }
 
 type TldrawRecord = {
@@ -139,7 +137,7 @@ function recordSortKey(record: TldrawRecord): string {
 
 function getStableJson(filePath: string): string {
 	const jsonContent = readFileSync(filePath, { encoding: 'utf8' })
-	// eslint-disable-next-line ts/no-unsafe-type-assertion -- JSON structure is known
+
 	const parsed = JSON.parse(jsonContent) as TldrawRecord
 
 	// Drop `user` records — pure session metadata (random id, random hex
@@ -222,7 +220,6 @@ export function expectFileToBeStructurallyValid(filePath: string, extension: str
 		}
 
 		case 'tldr': {
-			// eslint-disable-next-line ts/no-unsafe-type-assertion
 			const parsed = JSON.parse(content) as TldrawRecord
 			expect(parsed).toHaveProperty('tldrawFileFormatVersion')
 			expect(parsed).toHaveProperty('schema')

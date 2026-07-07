@@ -92,16 +92,16 @@ exports[`save to svg (default behavior) > should export local tldr file to an sv
 
 exports[`save to svg (default behavior) > should export local tldr file to an svg by default 4`] = `"4e9959a743566a05222e63a518a0f6eb1d17afa299b1f6a3b7dfe161fa7a4b7a"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 5`] = `"e83f5be9316b1bfffe6a0283d87be51aec550d0e4e9a1d06cdee4e7412eb2fee"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 5`] = `"e5cab3952e3da6cde28cf57814aa0b758aa6c6c2d13efb2512e097830992229a"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 6`] = `"94f1412a2bd44b821ab7f01b99c16be54af59bf3440f00419beaa920abb8ec3d"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 6`] = `"6e8e332f4aad3fc3621ac7108c2321219b4a4b4de608ae3d831bbe8f73d68d2a"`;
 
 exports[`save to svg (default behavior) > should export local tldr file to an svg by default 7`] = `"a829d33d8b3c83f095c57897a04e44cba3b9668602fc8102db0a9e2330addecf"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 8`] = `"5078eefd1cdf5ab3f5ad5004408c8036fb5e0740e1fdcbb3186d073407203ff2"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 8`] = `"b5165c816f382f063135734599f2c94667c8a29325ec32764b3f1990d48fc86f"`;
 
 exports[`save to svg (default behavior) > should export local tldr file to an svg by default 9`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
 exports[`save to svg (default behavior) > should export local tldr file to an svg by default 10`] = `"49ea1954fcd01ff9565e250cda1e13c48150013834db62bdeec48e9508593e56"`;
 
-exports[`save to svg (default behavior) > should export local tldr file to an svg by default 11`] = `"8829135d21cb3e51d84529e90c5ded1fbcbb44ad672f36ea32e881b86bdbf011"`;
+exports[`save to svg (default behavior) > should export local tldr file to an svg by default 11`] = `"caad4d27ec05fc05e4b7d066bae2e2729fe6c2acccb4e92e09fb7eba5c546a2e"`;

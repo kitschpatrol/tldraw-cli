@@ -1,4 +1,4 @@
-const WINDOWS_DRIVE_REGEX = /^[a-z]:\\/i
+const WINDOWS_DRIVE_REGEX = /^[a-z]:\\/iv
 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,22 +18,25 @@ export function validatePathOrUrl(
 ): string | URL {
 	const { requireFileExistence, validFileExtensions, validHostnames } = options
 
+	let resolvedPath = pathOrUrl
+
 	// On Windows, absolute paths like "C:\..." are parsed as URLs (C: looks like a scheme)
 	if (!WINDOWS_DRIVE_REGEX.test(pathOrUrl) && URL.canParse(pathOrUrl)) {
 		const url = new URL(pathOrUrl)
 
 		if (url.protocol === 'file:') {
-			return validatePathOrUrl(fileURLToPath(url), options)
-		}
+			// Convert to a plain path and fall through to path validation below
+			resolvedPath = fileURLToPath(url)
+		} else {
+			if (validHostnames && !validHostnames.includes(url.hostname)) {
+				throw new Error(`Bad input URL. Only ${validHostnames.join(', ')} URLs are supported.`)
+			}
 
-		if (validHostnames && !validHostnames.includes(url.hostname)) {
-			throw new Error(`Bad input URL. Only ${validHostnames.join(', ')} URLs are supported.`)
+			return url
 		}
-
-		return url
 	}
 
-	const expandedPath = untildify(pathOrUrl)
+	const expandedPath = untildify(resolvedPath)
 	const normalizedPath = path.normalize(expandedPath)
 
 	if (requireFileExistence && !isFileSync(normalizedPath)) {

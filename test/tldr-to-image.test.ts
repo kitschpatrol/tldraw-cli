@@ -13,8 +13,8 @@ import { log, tldrawToImage } from '../dist/lib'
 import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 
-const SVG_OPEN_REGEX = /^<svg/
-const SVG_CLOSE_REGEX = /svg>$/
+const SVG_OPEN_REGEX = /^<svg/v
+const SVG_CLOSE_REGEX = /svg>$/v
 
 const cleanUp = true
 

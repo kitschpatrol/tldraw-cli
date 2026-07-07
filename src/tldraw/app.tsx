@@ -44,6 +44,10 @@ export default function App() {
 
 				const tldrData = await response.text()
 
+				if (cancelled) {
+					return
+				}
+
 				// Build a default store to source the schema for parsing. The
 				// resulting parsed store uses the same default shape/binding
 				// utils that <Tldraw> would create anyway.
@@ -51,10 +55,6 @@ export default function App() {
 					json: tldrData,
 					schema: createTLStore().schema,
 				})
-
-				if (cancelled) {
-					return
-				}
 
 				if (parseFileResult.ok) {
 					console.log('Loaded tldr file from local endpoint')
@@ -85,10 +85,12 @@ export default function App() {
 	const { store } = loadState
 
 	function onMount(editor: Editor) {
-		// Expose editor to window
+		// Expose editor to window so Puppeteer can drive it
 		// Works around https://github.com/tldraw/tldraw/pull/2995
+		/* eslint-disable unicorn/no-global-object-property-assignment */
 		// @ts-expect-error - TS doesn't know about globalThis
 		globalThis.editor = editor
+		/* eslint-enable unicorn/no-global-object-property-assignment */
 
 		if (store !== undefined) {
 			editor.zoomToFit()

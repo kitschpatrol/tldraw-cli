@@ -18,3 +18,5 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - '@kitschpatrol/*'
+  - '@tldraw/*'
+  - tldraw

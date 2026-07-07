@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// Backported to Node.js ^22.13.0, within our Node version targets
+// eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { styleText } from 'node:util'
 import plur from 'plur'
 import yargs from 'yargs'
@@ -19,8 +21,8 @@ await yargsInstance
 	.command(
 		'export <files-or-urls..>',
 		'Export a local tldraw ".tldr" file or a tldraw.com URL to an svg, png, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.',
-		(yargs) =>
-			yargs
+		(builder) =>
+			builder
 				.positional('files-or-urls', {
 					array: true,
 					default: undefined,
@@ -183,7 +185,6 @@ await yargsInstance
 
 					const exportList = await tldrawToImage(fileOrUrl, {
 						dark,
-						// eslint-disable-next-line ts/no-unsafe-type-assertion
 						format: format as TldrawFormat,
 						// CLI never returns false, but the function accepts it for stand-alone use
 						frames,
@@ -230,8 +231,8 @@ await yargsInstance
 	.command(
 		'open [files-or-urls..]',
 		'Open a tldraw `.tldr` file or tldraw.com URL in your default browser with either the official tldraw.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw.com. This process does not exit until the browser is closed. Warning: Passing a local .tldr file without the `--local` option will upload and share the sketch on tldraw.com.',
-		(yargs) =>
-			yargs
+		(builder) =>
+			builder
 				.positional('files-or-urls', {
 					array: true,
 					default: undefined,
@@ -294,9 +295,9 @@ await yargsInstance
 
 			if (errorCount === 0) {
 				process.exit(0)
-			} else {
-				process.exit(1)
 			}
+
+			process.exit(1)
 		},
 	)
 	.demandCommand(1)

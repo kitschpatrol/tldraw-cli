@@ -20,8 +20,8 @@ export default function iifePlugin(): Plugin {
 
 			let filePath = id.slice(prefix.length)
 			// Add .ts extension if not already present
-			if (!path.extname(filePath)) {
-				filePath = `${filePath}.ts`
+			if (path.extname(filePath) === '') {
+				filePath += '.ts'
 			}
 
 			const result = await esbuild.build({
@@ -45,7 +45,7 @@ export default function iifePlugin(): Plugin {
 			}
 
 			const cleanPath = source.slice(0, -'?iife'.length)
-			const resolveDirectory = importer ? path.dirname(importer) : process.cwd()
+			const resolveDirectory = importer === undefined ? process.cwd() : path.dirname(importer)
 			const resolved = path.resolve(resolveDirectory, cleanPath)
 			return { id: `${prefix}${resolved}` }
 		},

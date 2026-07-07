@@ -11,12 +11,12 @@ import puppeteer from 'puppeteer'
 import { base64ToString, base64ToUint8Array, stringToBase64 } from 'uint8array-extras'
 import untildify from 'untildify'
 import type { TldrawToImageOptions } from './tldraw-to-image.js'
-import getImageInlineScript from './inline/get-image?iife'
-import getTldrInlineScript from './inline/get-tldr?iife'
+import imageInlineScript from './inline/get-image?iife'
+import tldrInlineScript from './inline/get-tldr?iife'
 import log from './utilities/log.js'
 
-const PAGE_PREFIX_REGEX = /^page:/
-const SHAPE_PREFIX_REGEX = /^shape:/
+const PAGE_PREFIX_REGEX = /^page:/v
+const SHAPE_PREFIX_REGEX = /^shape:/v
 
 type TlPage = {
 	frames: TlFrame[]
@@ -126,7 +126,7 @@ export default class TldrawController {
 
 		// Downloading to TLDR format is a "short path"
 		if (format === 'tldr') {
-			await this.page.evaluate(getTldrInlineScript)
+			await this.page.evaluate(tldrInlineScript)
 			const base64String = await this.page.evaluate(async () => window.getTldr())
 
 			if (print) {
@@ -142,7 +142,7 @@ export default class TldrawController {
 		// Download to other formats, long path
 
 		// Load the getImage function into the page
-		await this.page.evaluate(getImageInlineScript)
+		await this.page.evaluate(imageInlineScript)
 
 		// Get the page / frames of sketch...
 		const sketchStructure = await this.getSketchStructure()
@@ -178,13 +178,16 @@ export default class TldrawController {
 				await this.page.evaluate(`editor.select('${download.frameId}')`)
 			}
 
-			let base64String = await this.page.evaluate(async (options) => window.getImage(options), {
-				background: transparent === undefined ? undefined : !transparent,
-				darkMode: dark,
-				format,
-				padding,
-				scale,
-			})
+			let base64String = await this.page.evaluate(
+				async (imageOptions) => window.getImage(imageOptions),
+				{
+					background: transparent === undefined ? undefined : !transparent,
+					darkMode: dark,
+					format,
+					padding,
+					scale,
+				},
+			)
 
 			if (stripStyle && format === 'svg') {
 				base64String = stringToBase64(this.stripStyleElement(base64ToString(base64String)))
@@ -304,7 +307,7 @@ export default class TldrawController {
 		await this.page.waitForFunction('editor !== undefined')
 
 		// Check for emptiness
-		// eslint-disable-next-line ts/no-unsafe-type-assertion
+
 		const shapeCount = (await this.page.evaluate('editor.getCurrentPageShapes().length')) as number
 		this.isEmpty = shapeCount === 0
 	}
@@ -314,7 +317,6 @@ export default class TldrawController {
 			throw new Error('Controller not started')
 		}
 
-		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(`editor.getCurrentPageId()`)) as string
 	}
 
@@ -334,19 +336,17 @@ export default class TldrawController {
 		// Pages string array, download matching page ids or names, allowing slugs and prefixes
 		// TODO Pages number array, download matching page indexes
 		const filteredSketch =
-			validPages === undefined
+			validPages === undefined || (typeof validPages === 'boolean' && !validPages)
 				? [sketch[0]]
-				: typeof validPages === 'boolean' && !validPages
-					? [sketch[0]]
-					: sketch.filter((sketchPage) =>
-							typeof validPages === 'boolean' && validPages
-								? true
-								: validPages.some(
-										(p) =>
-											slugify(p) === slugify(sketchPage.name) ||
-											p.replace('page:', '') === sketchPage.id.replace('page:', ''),
-									),
-						)
+				: sketch.filter((sketchPage) =>
+						typeof validPages === 'boolean' && validPages
+							? true
+							: validPages.some(
+									(p) =>
+										slugify(p) === slugify(sketchPage.name) ||
+										p.replace('page:', '') === sketchPage.id.replace('page:', ''),
+								),
+					)
 
 		// Then pick frames for each page
 		// Logic:
@@ -452,7 +452,7 @@ export default class TldrawController {
 		// Note that while 'Frame' is the default name shown in the UI... it's an
 		// empty string in the data until explicitly set by the user (consider i18n)
 		// we could pass 'frame' here for nicer filenames
-		// eslint-disable-next-line ts/no-unsafe-type-assertion
+
 		const frames = (await this.page.evaluate(
 			`editor.getCurrentPageShapes().reduce((accumulator, shape) => {
 				if (shape.type === 'frame') {
@@ -475,7 +475,6 @@ export default class TldrawController {
 			throw new Error('Controller not started')
 		}
 
-		// eslint-disable-next-line ts/no-unsafe-type-assertion
 		return (await this.page.evaluate(
 			`editor.getPages().map((page) => ({ id: page.id, name: page.name, frames: []}))`,
 		)) as TlPage[]
@@ -522,14 +521,14 @@ export default class TldrawController {
 	): boolean | string[] | undefined {
 		if (Array.isArray(frames)) {
 			const validSketch = sketch.filter(
-				(page, index) =>
+				(page, pageIndex) =>
 					pages === undefined ||
-					(typeof pages === 'boolean' && !pages && index === 0) ||
+					(typeof pages === 'boolean' && !pages && pageIndex === 0) ||
 					(typeof pages === 'boolean' && pages) ||
 					(Array.isArray(pages) &&
-						pages.some((p, index) =>
+						pages.some((p) =>
 							typeof p === 'number'
-								? index === p
+								? pageIndex === p
 								: slugify(p) === slugify(page.name) ||
 									p.replace(PAGE_PREFIX_REGEX, '') === page.id.replace(PAGE_PREFIX_REGEX, ''),
 						)),

@@ -36,13 +36,15 @@ declare global {
 
 // Assumes the shape / page selections have already been set
 // before this function is called.
+// Deliberately attached to window so Puppeteer can invoke it via page.evaluate
+// eslint-disable-next-line unicorn/no-global-object-property-assignment
 window.getImage = async ({ background, darkMode, format, padding, scale }) => {
 	const { editor } = window
 	let ids = editor.getSelectedShapeIds()
 
 	if (ids.length === 0) {
 		console.warn('No shapes selected, attempting to select all shapes')
-		ids = [...editor.getCurrentPageShapeIds().values()]
+		ids = [...editor.getCurrentPageShapeIds()]
 	}
 
 	if (ids.length === 0) {
