@@ -45,7 +45,7 @@ This could be useful in the context of a content publishing pipeline where you w
 
 _Please note that this tool, which is all about image export, should not be confused with the official [tldraw project scaffolding CLI](https://www.npmjs.com/package/create-tldraw) which is all about creating new tldraw-powered projects._
 
-_For `.tldr` file import support in Vite projects, please see [@kitschpatrol/vite-plugin-tldraw](https://github.com/kitschpatrol/vite-plugin-tldraw)._
+_For `.tldr` file import support in Vite projects and other bundlers, please see [@kitschpatrol/unplugin-tldraw](https://github.com/kitschpatrol/unplugin-tldraw)._
 
 ## Installation
 
@@ -457,9 +457,9 @@ Then configure your workspace's `.vscode/settings.json` file to include the foll
 
 #### Vite / static-site workflow
 
-If you're using one of the many [Vite](https://vitejs.dev/)-powered web frameworks out there, the [`@kitschpatrol/vite-plugin-tldraw`](https://github.com/kitschpatrol/vite-plugin-tldraw) plugin can help you treat .tldr as regular importable / linkable assets in your site by automating conversion to a web-friendly format during both development and production builds of your site.
+If you're using one of the many [Vite](https://vitejs.dev/)-powered web frameworks out there, the [`@kitschpatrol/unplugin-tldraw`](https://github.com/kitschpatrol/unplugin-tldraw) plugin can help you treat .tldr as regular importable / linkable assets in your site by automating conversion to a web-friendly format during both development and production builds of your site.
 
-See the [plugin's readme](https://github.com/kitschpatrol/vite-plugin-tldraw/blob/main/readme.md) for details, but the gist is that it lets you import and use .tldr files as if they were already SVGs:
+See the [plugin's readme](https://github.com/kitschpatrol/unplugin-tldraw/blob/main/readme.md) for details, but the gist is that it lets you import and use .tldr files as if they were already SVGs:
 
 ```ts
 import tldrFile from './test-sketch.tldr'
