@@ -81,6 +81,9 @@ describe('save to format', () => {
 				format,
 				name: 'local-tldr-save-to-format',
 			})
+			expect(savedImageFileName).toBe(
+				path.join(process.cwd(), `local-tldr-save-to-format.${format}`),
+			)
 			await expectFileToBeValid(savedImageFileName, format)
 			if (cleanUp) {
 				rmSync(savedImageFileName)
@@ -188,6 +191,9 @@ describe('frames', () => {
 	it('should export the entire local tldr to an image if multiple frames are present and frames is not set', async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreeFramesPath)
 
+		expect(savedImageFileName).toBe(
+			path.join(process.cwd(), '2024-01-test-sketch-three-frames.svg'),
+		)
 		await expectFileToBeValid(savedImageFileName, 'svg')
 
 		if (cleanUp) {
@@ -563,6 +569,9 @@ describe('export options', () => {
 					format,
 					name: `local-tldr-export-options-${flagToString(flag)}`,
 				})
+				expect(savedImageFileName).toBe(
+					path.join(process.cwd(), `local-tldr-export-options-${flagToString(flag)}.${format}`),
+				)
 				await expectFileToBeValid(savedImageFileName, format)
 				if (cleanUp) {
 					rmSync(savedImageFileName)

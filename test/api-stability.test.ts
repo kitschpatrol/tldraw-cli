@@ -8,7 +8,7 @@ import { describe, expect, it, vi } from 'vitest'
 const cleanUp = true
 
 // Skipped pending a change to login requirements on tldraw.com
-describe.skip('api stability', () => {
+describe.todo('api stability', () => {
 	it('should survive a round trip to and from tldraw.com', () => {
 		// Spy on console.error and console.warn
 		const spyError = vi.spyOn(console, 'error').mockReturnValue()

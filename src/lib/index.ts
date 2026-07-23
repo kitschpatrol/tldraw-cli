@@ -1,3 +1,5 @@
-export { tldrawOpen, type TldrawOpenOptions, type TldrawOpenResult } from './tldraw-open.js'
-export { type TldrawFormat, tldrawToImage, type TldrawToImageOptions } from './tldraw-to-image.js'
+export { tldrawOpen } from './tldraw-open.js'
+export type { TldrawOpenOptions, TldrawOpenResult } from './tldraw-open.js'
+export { tldrawToImage } from './tldraw-to-image.js'
+export type { TldrawFormat, TldrawToImageOptions } from './tldraw-to-image.js'
 export { default as log } from './utilities/log.js'

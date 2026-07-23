@@ -38,10 +38,6 @@ it('should reject bad paths', () => {
 	expect(() => validatePathOrUrl('./some/path/file.jpeg', validationOptions)).toThrow()
 })
 
-it('should reject bad paths', () => {
-	expect(() => validatePathOrUrl('./some/path/file.jpeg', validationOptions)).toThrow()
-})
-
 it('should reject bad URLs', () => {
 	expect(() =>
 		validatePathOrUrl('https://www.example.com/s/v2_c_9nMYBwT8UQ99RGDWfGr8H', validationOptions),

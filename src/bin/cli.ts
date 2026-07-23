@@ -181,7 +181,7 @@ await yargsInstance
 				try {
 					// Increment names if multiple files are exported
 					const resolvedName =
-						cleanFilesOrUrls.length > 1 && name !== undefined ? `${name}-${nameIndex++}` : name
+						name !== undefined && cleanFilesOrUrls.length > 1 ? `${name}-${nameIndex++}` : name
 
 					const exportList = await tldrawToImage(fileOrUrl, {
 						dark,

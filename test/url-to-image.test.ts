@@ -67,6 +67,7 @@ it('should export the file to a specific directory when specified', async () => 
 it('should export the entire image if multiple frames are present and --frames is not set', async () => {
 	const [savedImageFileName] = await tldrawToImage(tldrawTestThreeFramesUrl)
 
+	expect(savedImageFileName).toBe(path.join(process.cwd(), 'v2_c_FI5RYWbdpAtjsy4OIKrKw.svg'))
 	expectFileToBeStructurallyValid(savedImageFileName, 'svg')
 
 	if (cleanUp) {
