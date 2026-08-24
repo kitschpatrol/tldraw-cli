@@ -20,3 +20,4 @@ minimumReleaseAgeExclude:
   - '@kitschpatrol/*'
   - '@tldraw/*'
   - tldraw
+  - '@types/react-dom@19.2.5'

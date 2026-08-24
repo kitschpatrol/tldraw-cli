@@ -1,8 +1,8 @@
 import '@blazediff/vitest'
+import { stringify } from '@kitschpatrol/safe-stable-stringify'
 import * as cheerio from 'cheerio'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import { stringify } from 'safe-stable-stringify'
 import { expect } from 'vitest'
 
 // BlazeDiff options for PNG comparison: use SSIM for perceptual similarity,
@@ -154,7 +154,7 @@ function getStableJson(filePath: string): string {
 
 	const stableJsonString = stringify(parsed)
 
-	return stripNumbers(stripUnstableIds(stableJsonString))
+	return stripNumbers(stripUnstableIds(stableJsonString!))
 }
 
 function expectJsonToMatch(filePath: string): void {

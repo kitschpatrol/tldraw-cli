@@ -4,9 +4,13 @@
 
 <!-- /title -->
 
-[![NPM Package @kitschpatrol/tldraw-cli](https://img.shields.io/npm/v/@kitschpatrol/tldraw-cli.svg)](https://npmjs.com/package/@kitschpatrol/tldraw-cli)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<!-- badges -->
+
+[![NPM Package @kitschpatrol/tldraw-cli](https://img.shields.io/npm/v/@kitschpatrol/tldraw-cli.svg)](https://www.npmjs.com/package/@kitschpatrol/tldraw-cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
 [![CI](https://github.com/kitschpatrol/tldraw-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/tldraw-cli/actions/workflows/ci.yml)
+
+<!-- /badges -->
 
 <!-- description -->
 
@@ -457,7 +461,7 @@ Then configure your workspace's `.vscode/settings.json` file to include the foll
 
 #### Vite / static-site workflow
 
-If you're using one of the many [Vite](https://vitejs.dev/)-powered web frameworks out there, the [`@kitschpatrol/unplugin-tldraw`](https://github.com/kitschpatrol/unplugin-tldraw) plugin can help you treat .tldr as regular importable / linkable assets in your site by automating conversion to a web-friendly format during both development and production builds of your site.
+If you're using one of the many [Vite](https://vite.dev/)-powered web frameworks out there, the [`@kitschpatrol/unplugin-tldraw`](https://github.com/kitschpatrol/unplugin-tldraw) plugin can help you treat .tldr as regular importable / linkable assets in your site by automating conversion to a web-friendly format during both development and production builds of your site.
 
 See the [plugin's readme](https://github.com/kitschpatrol/unplugin-tldraw/blob/main/readme.md) for details, but the gist is that it lets you import and use .tldr files as if they were already SVGs:
 

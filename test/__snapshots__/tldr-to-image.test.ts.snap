@@ -10,15 +10,15 @@ exports[`export options > should export local tldr file to a svg with scale 4 1`
 
 exports[`export options > should export local tldr file to a svg with transparent true 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`export options > should export local tldr file to a tldr with dark true 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
+exports[`export options > should export local tldr file to a tldr with dark true 1`] = `"1bedb11ea9e3919b63df47c386add4e116c00ae5cabe6d84f8afe9121a7c0cdf"`;
 
-exports[`export options > should export local tldr file to a tldr with padding 0 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
+exports[`export options > should export local tldr file to a tldr with padding 0 1`] = `"1bedb11ea9e3919b63df47c386add4e116c00ae5cabe6d84f8afe9121a7c0cdf"`;
 
-exports[`export options > should export local tldr file to a tldr with print 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
+exports[`export options > should export local tldr file to a tldr with print 1`] = `"1bedb11ea9e3919b63df47c386add4e116c00ae5cabe6d84f8afe9121a7c0cdf"`;
 
-exports[`export options > should export local tldr file to a tldr with scale 4 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
+exports[`export options > should export local tldr file to a tldr with scale 4 1`] = `"1bedb11ea9e3919b63df47c386add4e116c00ae5cabe6d84f8afe9121a7c0cdf"`;
 
-exports[`export options > should export local tldr file to a tldr with transparent true 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
+exports[`export options > should export local tldr file to a tldr with transparent true 1`] = `"1bedb11ea9e3919b63df47c386add4e116c00ae5cabe6d84f8afe9121a7c0cdf"`;
 
 exports[`export options > should strip style elements from SVGs 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
@@ -82,7 +82,7 @@ exports[`pages > should export multiple pages specified by index of a multi-page
 
 exports[`save to format > should export local tldr file to a svg 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
-exports[`save to format > should export local tldr file to a tldr 1`] = `"9fc94b670b2e799ba9dd613b9668f731d10474169f6e5922e1a960902d4e38c1"`;
+exports[`save to format > should export local tldr file to a tldr 1`] = `"1bedb11ea9e3919b63df47c386add4e116c00ae5cabe6d84f8afe9121a7c0cdf"`;
 
 exports[`save to svg (default behavior) > should export local tldr file to an svg by default 1`] = `"1e1c32ad103739f0387695bda6c6c13c63cd575a5c6d528864766ac6aa833e84"`;
 
