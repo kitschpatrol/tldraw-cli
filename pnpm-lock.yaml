@@ -245,6 +245,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^6.1.1
         version: 6.1.1(vite@8.3.0(@types/node@22.19.21)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+      brewpub:
+        specifier: ^0.4.0
+        version: 0.4.0(supports-color@10.2.2)
       bumpp:
         specifier: ^12.3.0
         version: 12.3.0
@@ -3599,6 +3602,11 @@ packages:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
+  brewpub@0.4.0:
+    resolution: {integrity: sha512-1xv0Fi5c1qlbneuTshH3Q3xUqSf2mj/9q5FfFqOxDvvbKznu2n99iFcgejz68hxM69flRoUQCRbD0KxFBMZqQw==}
+    engines: {node: ^24.16.0 || >=26.3.0}
+    hasBin: true
+
   browserslist@4.29.0:
     resolution: {integrity: sha512-3GSvyjvDI4Dur1Meg2BekJquu5uF+9R9a1+5M1Mde192eZoXbeXjzgOsgqPS2V8D5wrrip0gR5Hf/GhWQ9ZzaA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
@@ -5383,6 +5391,15 @@ packages:
 
   lognow@0.8.3:
     resolution: {integrity: sha512-lzAjCQ7nNpu1Hbcvscov/7qiRM3syypxNW/jTHHLxL05K5rDFTprSP40Y2MnXyAQF0wLihZxkmWum/CZx1vLsQ==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      electron: '>=39.8.10'
+    peerDependenciesMeta:
+      electron:
+        optional: true
+
+  lognow@0.8.4:
+    resolution: {integrity: sha512-WZlKu58RCMYEKabPHJKey3FFQZvRFKcN9gEsdSYrZhnouFyo1SOw+0ZmSh2/ctkxw1DXQDT7g4fNC1okB8VrJw==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       electron: '>=39.8.10'
@@ -11097,6 +11114,22 @@ snapshots:
     dependencies:
       fill-range: 7.1.1
 
+  brewpub@0.4.0(supports-color@10.2.2):
+    dependencies:
+      '@octokit/core': 7.0.8
+      '@octokit/plugin-retry': 8.1.1(@octokit/core@7.0.8)
+      '@types/node': 24.13.6
+      '@types/yargs': 17.0.35
+      defu: 6.1.7
+      lognow: 0.8.4
+      metascope: 0.12.0(supports-color@10.2.2)
+      semver: 7.8.5
+      uint8array-extras: 1.5.0
+      yargs: 18.2.0
+    transitivePeerDependencies:
+      - electron
+      - supports-color
+
   browserslist@4.29.0:
     dependencies:
       baseline-browser-mapping: 2.11.25
@@ -13148,6 +13181,25 @@ snapshots:
       untildify: 6.0.0
       wrap-ansi: 10.0.1
 
+  lognow@0.8.4:
+    dependencies:
+      '@kitschpatrol/node-inspect-extracted': 3.3.3-fork.1
+      '@kitschpatrol/safe-stable-stringify': 2.5.0-fork.1
+      '@loglayer/context-manager': 2.3.0
+      '@loglayer/transport': 3.3.0
+      '@loglayer/transport-log-file-rotation': 3.3.0
+      '@types/node': 20.19.43
+      defu: 6.1.7
+      filenamify: 7.0.3
+      loglayer: 9.4.0
+      next-json: 0.5.1
+      read-package-up: 12.0.0
+      serialize-error: 13.0.1
+      terminal-size: 4.0.1
+      tinyrainbow: 3.1.1
+      untildify: 6.0.0
+      wrap-ansi: 10.0.1
+
   longest-streak@3.1.0: {}
 
   lru-cache@10.4.3: {}
@@ -13453,7 +13505,7 @@ snapshots:
       git-url-parse: 16.1.0
       gray-matter-es: 0.2.1
       jiti: 2.7.0
-      lognow: 0.8.3
+      lognow: 0.8.4
       package-json: 10.0.1
       picomatch: 4.0.7
       pkg-types: 2.3.3

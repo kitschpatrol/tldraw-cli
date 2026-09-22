@@ -71,6 +71,12 @@ npm install --save-dev @kitschpatrol/tldraw-cli
 npm install --global @kitschpatrol/tldraw-cli
 ```
 
+...or globally with Homebrew:
+
+```sh
+brew install kitschpatrol/tap/tldraw-cli
+```
+
 ## Usage
 
 ### CLI

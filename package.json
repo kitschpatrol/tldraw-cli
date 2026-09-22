@@ -55,7 +55,7 @@
 		"lint": "ksc lint",
 		"preview": "pnpm preview:tldraw",
 		"preview:tldraw": "vite preview",
-		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp)",
+		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp) && brewpub --bin tldraw-cli --tap kitschpatrol/tap",
 		"test": "vitest run",
 		"test:watch": "pnpm build && vitest",
 		"tldraw:copy-assets": "pnpm tsx ./scripts/copy-assets.ts"
@@ -89,6 +89,7 @@
 		"@types/react-dom": "^19.3.0",
 		"@types/yargs": "^17.0.35",
 		"@vitejs/plugin-react": "^6.1.1",
+		"brewpub": "^0.4.0",
 		"bumpp": "^12.3.0",
 		"esbuild": "^0.28.2",
 		"mdat-plugin-cli-help": "^3.2.0",
