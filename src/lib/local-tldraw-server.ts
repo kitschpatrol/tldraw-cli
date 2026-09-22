@@ -40,17 +40,11 @@ export default class LocalTldrawServer {
 
 		const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 
-		// Handle dev or prod relative paths, brittle
+		// Source lives in src/lib; built entries and shared chunks live one level below dist.
 		// Use path.sep-aware suffix checks so this works on Windows too
 		const tldrawPath = path.join(
 			scriptDirectory,
-			scriptDirectory.endsWith(`${path.sep}src${path.sep}lib`)
-				? '../../dist/tldraw'
-				: scriptDirectory.endsWith(`${path.sep}dist${path.sep}lib`) ||
-					  scriptDirectory.endsWith(`${path.sep}dist${path.sep}bin`)
-					? '../tldraw'
-					: // Currently unreachable?
-						'../dist/tldraw',
+			scriptDirectory.endsWith(`${path.sep}src${path.sep}lib`) ? '../../dist/tldraw' : '../tldraw',
 		)
 
 		log.info(`tldraw served from "${tldrawPath}"`)
