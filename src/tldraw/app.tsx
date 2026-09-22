@@ -92,10 +92,12 @@ export default function App() {
 		globalThis.editor = editor
 		/* eslint-enable unicorn/no-global-object-property-assignment */
 
-		if (store !== undefined) {
-			editor.zoomToFit()
-			editor.menus.clearOpenMenus()
+		if (store === undefined) {
+			return
 		}
+
+		editor.zoomToFit()
+		editor.menus.clearOpenMenus()
 	}
 
 	return (

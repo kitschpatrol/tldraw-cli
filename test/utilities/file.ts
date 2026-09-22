@@ -128,11 +128,9 @@ type TldrawRecord = {
  */
 function recordSortKey(record: TldrawRecord): string {
 	const typeName = record.typeName ?? ''
-	if (typeName === 'binding') {
-		return `${typeName}:${record.fromId ?? ''}:${record.toId ?? ''}:${record.props?.terminal ?? ''}`
-	}
-
-	return `${typeName}:${record.id ?? ''}`
+	return typeName === 'binding'
+		? `${typeName}:${record.fromId ?? ''}:${record.toId ?? ''}:${record.props?.terminal ?? ''}`
+		: `${typeName}:${record.id ?? ''}`
 }
 
 function getStableJson(filePath: string): string {

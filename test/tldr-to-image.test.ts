@@ -290,7 +290,7 @@ describe('pages', () => {
 
 	it('should export a specific page id of a multi-page tldr file', async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
-			pages: ['BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
+			pages: ['BiSbFe49DEkSQRQs28yJV'], // CSpell:disable-line
 		})
 
 		expect(savedImageFileName).toBe(
@@ -305,7 +305,7 @@ describe('pages', () => {
 
 	it('should export a specific page id with a prefix of a multi-page tldr file', async () => {
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileThreePagesPath, {
-			pages: ['page:BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
+			pages: ['page:BiSbFe49DEkSQRQs28yJV'], // CSpell:disable-line
 		})
 
 		expect(savedImageFileName).toBe(
@@ -320,7 +320,7 @@ describe('pages', () => {
 
 	it('should export a multiple specific pages of a multi-page tldr file', async () => {
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
-			pages: ['BiSbFe49DEkSQRQs28yJV', 'Page With a Name'], // Cspell:disable-line
+			pages: ['BiSbFe49DEkSQRQs28yJV', 'Page With a Name'], // CSpell:disable-line
 		})
 
 		expect(savedImageFileNames).toHaveLength(2)
@@ -378,7 +378,7 @@ describe('pages', () => {
 
 		const savedImageFileNames = await tldrawToImage(tldrTestFileThreePagesPath, {
 			frames: true,
-			pages: ['BiSbFe49DEkSQRQs28yJV'], // Cspell:disable-line
+			pages: ['BiSbFe49DEkSQRQs28yJV'], // CSpell:disable-line
 		})
 
 		expect(savedImageFileNames).toHaveLength(2)

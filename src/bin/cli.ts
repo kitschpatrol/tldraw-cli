@@ -62,7 +62,7 @@ await yargsInstance
 						// if (args.length === 1 && (args[0] === 'true')) return true
 						// if (args.length === 1 && (args[0] === 'false')) return false
 
-						return args.length === 0 ? true : args
+						return args.length === 0 || args
 					},
 					// Do not set a default value, so we can coerce --frames without a
 					// value to true, and still be able to extract meaning from the
@@ -83,7 +83,7 @@ await yargsInstance
 						// if (args.length === 1 && (args[0] === 'true')) return true
 						// if (args.length === 1 && (args[0] === 'false')) return false
 
-						return args.length === 0 ? true : args
+						return args.length === 0 || args
 					},
 					// Do not set a default value, so we can coerce --pages without a
 					// value to true, and still be able to extract meaning from the

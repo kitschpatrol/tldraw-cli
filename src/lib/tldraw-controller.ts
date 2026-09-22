@@ -338,14 +338,14 @@ export default class TldrawController {
 		const filteredSketch =
 			validPages === undefined || (typeof validPages === 'boolean' && !validPages)
 				? [sketch[0]]
-				: sketch.filter((sketchPage) =>
-						typeof validPages === 'boolean' && validPages
-							? true
-							: validPages.some(
-									(p) =>
-										slugify(p) === slugify(sketchPage.name) ||
-										p.replace('page:', '') === sketchPage.id.replace('page:', ''),
-								),
+				: sketch.filter(
+						(sketchPage) =>
+							validPages === true ||
+							validPages.some(
+								(p) =>
+									slugify(p) === slugify(sketchPage.name) ||
+									p.replace('page:', '') === sketchPage.id.replace('page:', ''),
+							),
 					)
 
 		// Then pick frames for each page
@@ -358,14 +358,14 @@ export default class TldrawController {
 			page.frames =
 				validFrames === undefined || (typeof validFrames === 'boolean' && !validFrames)
 					? [] // Empty means download entire page as-is!
-					: page.frames.filter((frame) =>
-							typeof validFrames === 'boolean' && validFrames
-								? true
-								: validFrames.some(
-										(f) =>
-											slugify(f) === slugify(frame.name) ||
-											f.replace('shape:', '') === frame.id.replace('shape:', ''),
-									),
+					: page.frames.filter(
+							(frame) =>
+								validFrames === true ||
+								validFrames.some(
+									(f) =>
+										slugify(f) === slugify(frame.name) ||
+										f.replace('shape:', '') === frame.id.replace('shape:', ''),
+								),
 						)
 		}
 

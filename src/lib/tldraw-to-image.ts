@@ -112,9 +112,5 @@ export async function tldrawToImage(
 function sanitizeName(name: string, format: TldrawFormat): string {
 	// Remove extension if it matches the expected output
 	const extension = path.extname(name)
-	if (extension === `.${format}`) {
-		return path.basename(name, extension)
-	}
-
-	return path.basename(name)
+	return extension === `.${format}` ? path.basename(name, extension) : path.basename(name)
 }
