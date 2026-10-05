@@ -3,8 +3,6 @@
 
 // Staying basic, always log to stderr
 
-// Backported to Node.js ^22.13.0, within our Node version targets
-// eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { styleText } from 'node:util'
 
 const isNode = process?.versions?.node !== undefined

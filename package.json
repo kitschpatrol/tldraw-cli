@@ -1,7 +1,7 @@
 {
 	"name": "@kitschpatrol/tldraw-cli",
 	"version": "6.0.4",
-	"description": "A CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.",
+	"description": "CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.",
 	"keywords": [
 		"tldraw",
 		"tldr",
@@ -53,6 +53,7 @@
 		"dev:tldraw": "pnpm tldraw:copy-assets && vite",
 		"fix": "ksc fix",
 		"lint": "ksc lint",
+		"prepare": "skills experimental_sync -y -f",
 		"preview": "pnpm preview:tldraw",
 		"preview:tldraw": "vite preview",
 		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp) && brewpub --bin tldraw-cli --tap kitschpatrol/tap",
@@ -61,20 +62,20 @@
 		"tldraw:copy-assets": "pnpm tsx ./scripts/copy-assets.ts"
 	},
 	"dependencies": {
-		"@hono/node-server": "^2.1.1",
+		"@hono/node-server": "^2.1.3",
 		"@sindresorhus/slugify": "^3.0.1",
 		"@types/node": "~22.19.21",
 		"cheerio": "^1.2.0",
 		"get-port": "^7.2.0",
-		"hono": "^4.13.8",
-		"nanoid": "^6.0.1",
+		"hono": "^4.13.13",
+		"nanoid": "^6.0.2",
 		"natural-orderby": "^5.0.0",
 		"open": "^11.0.4",
 		"path-type": "^6.0.0",
 		"plur": "^6.0.0",
 		"pretty-ms": "^9.3.1",
-		"puppeteer": "^25.11.0",
-		"uint8array-extras": "^1.5.0",
+		"puppeteer": "^25.12.0",
+		"uint8array-extras": "^1.6.0",
 		"untildify": "^6.0.0",
 		"yargs": "^18.2.0"
 	},
@@ -83,39 +84,40 @@
 		"@blazediff/vitest": "^1.1.25",
 		"@fontsource/inter": "^5.3.0",
 		"@kitschpatrol/safe-stable-stringify": "2.5.0-fork.1",
-		"@kitschpatrol/shared-config": "^8.10.0",
-		"@tldraw/assets": "^5.4.2",
+		"@kitschpatrol/shared-config": "^8.12.1",
+		"@tldraw/assets": "^5.5.2",
 		"@types/react": "^19.3.0",
 		"@types/react-dom": "^19.3.0",
 		"@types/yargs": "^17.0.35",
-		"@vitejs/plugin-react": "^6.1.1",
-		"brewpub": "^0.4.0",
+		"@vitejs/plugin-react": "^6.1.2",
+		"brewpub": "^0.5.0",
 		"bumpp": "^12.3.0",
 		"esbuild": "^0.28.2",
-		"mdat-plugin-cli-help": "^3.2.0",
+		"mdat-plugin-cli-help": "^3.4.0",
 		"node-addon-api": "^8.9.2",
-		"node-gyp": "^13.0.2",
-		"publint": "^0.3.24",
+		"node-gyp": "^13.1.0",
+		"publint": "^0.3.25",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
-		"rolldown": "^1.2.9",
+		"rolldown": "^1.2.12",
 		"shx": "^0.4.0",
+		"skills": "^1.7.0",
 		"strip-ansi": "^7.2.0",
-		"tldraw": "^5.4.2",
+		"tldraw": "^5.5.2",
 		"tsdown": "^0.23.0",
 		"tsx": "^4.23.15",
 		"typescript": "~6.0.3",
-		"vite": "^8.3.0",
-		"vitest": "^5.0.1"
+		"vite": "^8.3.2",
+		"vitest": "^5.0.3"
 	},
-	"packageManager": "pnpm@12.4.1",
+	"packageManager": "pnpm@12.9.1",
 	"engines": {
-		"node": ">=22.22.2"
+		"node": "^22.22.2 || ^24.0.0 || >=26.0.0"
 	},
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": ">=24.16.0"
+			"version": "^24.16.0 || >=26.3.0"
 		}
 	},
 	"publishConfig": {

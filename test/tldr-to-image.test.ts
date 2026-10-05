@@ -10,11 +10,17 @@ import path from 'node:path'
 import stripAnsi from 'strip-ansi'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { log, tldrawToImage } from '../dist/lib'
-import { expectFileToBeValid, getStyleElementCount } from './utilities/file'
+import {
+	expectFileToBeStructurallyValid,
+	expectFileToBeValid,
+	getStyleElementCount,
+} from './utilities/file'
 import { expectSingleLine } from './utilities/string'
 
 const SVG_OPEN_REGEX = /^<svg/v
 const SVG_CLOSE_REGEX = /svg>$/v
+const BAD_ASSET_ERROR_REGEX =
+	/^\[Error\],\[Browser\],Could not export image asset:\d+ Error: Could not load image: /v
 
 const cleanUp = true
 
@@ -440,15 +446,18 @@ describe('warnings and failures', () => {
 	})
 
 	// See https://github.com/kitschpatrol/tldraw-cli/issues/22
-	it('should warn about a time out on file with a bad embedded asset URL', async () => {
+	it('should report a bad embedded asset URL without timing out', async () => {
 		const spyWarn = vi.spyOn(console, 'warn').mockReturnValue()
+		const spyError = vi.spyOn(console, 'error').mockReturnValue()
 		spyWarn.mockClear()
+		spyError.mockClear()
 
 		const [savedImageFileName] = await tldrawToImage(tldrTestFileBadUrl)
 
-		expect(stripAnsi(String(spyWarn.mock.calls))).toMatchInlineSnapshot(
-			`"[Warning],[Browser],[tldraw] Export delay timed out after \${this.maxDelayTimeMs}ms"`,
-		)
+		expect(spyWarn).not.toHaveBeenCalled()
+		expect(stripAnsi(String(spyError.mock.calls))).toMatch(BAD_ASSET_ERROR_REGEX)
+		expectFileToBeStructurallyValid(savedImageFileName, 'svg')
+		spyError.mockRestore()
 
 		if (cleanUp) {
 			rmSync(savedImageFileName)

@@ -4,17 +4,19 @@
 
 <!-- /title -->
 
-<!-- badges -->
+<!-- badges({ npmDownloads: true }) -->
 
 [![NPM Package @kitschpatrol/tldraw-cli](https://img.shields.io/npm/v/@kitschpatrol/tldraw-cli.svg)](https://www.npmjs.com/package/@kitschpatrol/tldraw-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
 [![CI](https://github.com/kitschpatrol/tldraw-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/tldraw-cli/actions/workflows/ci.yml)
+[![Homebrew](https://img.shields.io/badge/Homebrew-kitschpatrol%2Ftap%2Ftldraw--cli-FBB040?logo=homebrew&logoColor=white)](https://github.com/kitschpatrol/homebrew-tap/blob/HEAD/Formula/tldraw-cli.rb)
+[![NPM Downloads @kitschpatrol/tldraw-cli](https://img.shields.io/npm/dm/@kitschpatrol/tldraw-cli)](https://www.npmjs.com/package/@kitschpatrol/tldraw-cli)
 
 <!-- /badges -->
 
 <!-- description -->
 
-**A CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.**
+**CLI tool and TypeScript library for exporting tldraw sketches to PNG or SVG images.**
 
 <!-- /description -->
 
@@ -27,10 +29,11 @@
 ## Table of contents
 
 - [Overview](#overview)
-- [Installation](#installation)
+- [Getting started](#getting-started)
+  - [Installation](#installation)
 - [Usage](#usage)
   - [CLI](#cli)
-  - [API](#api)
+  - [Library](#library)
   - [Common workflows](#common-workflows)
 - [Background](#background)
 - [Implementation notes](#implementation-notes)
@@ -51,30 +54,38 @@ _Please note that this tool, which is all about image export, should not be conf
 
 _For `.tldr` file import support in Vite projects and other bundlers, please see [@kitschpatrol/unplugin-tldraw](https://github.com/kitschpatrol/unplugin-tldraw)._
 
-## Installation
+## Getting started
 
-Invoke directly:
+### Installation
+
+Pick the option that matches how you plan to use it.
+
+#### As a CLI tool
+
+Run it once without installing:
 
 ```sh
 npx @kitschpatrol/tldraw-cli export some-file.tldr
 ```
 
-...or install locally:
+Or install it globally with Homebrew:
 
 ```sh
-npm install --save-dev @kitschpatrol/tldraw-cli
+brew install kitschpatrol/tap/tldraw-cli
 ```
 
-...or install globally:
+Or install it globally with npm:
 
 ```sh
 npm install --global @kitschpatrol/tldraw-cli
 ```
 
-...or globally with Homebrew:
+#### As a library
+
+Add it to your project to import the TypeScript API. This also puts the `tldraw` CLI on your project's path:
 
 ```sh
-brew install kitschpatrol/tap/tldraw-cli
+npm install --save-dev @kitschpatrol/tldraw-cli
 ```
 
 ## Usage
@@ -88,7 +99,9 @@ brew install kitschpatrol/tap/tldraw-cli
 
 <!-- cli-help -->
 
-#### Command: `tldraw`
+#### Commands
+
+##### Command: `tldraw`
 
 CLI tools for tldraw.
 
@@ -112,7 +125,7 @@ tldraw <command>
 
 _See the sections below for more information on each subcommand._
 
-#### Subcommand: `tldraw export`
+##### Subcommand: `tldraw export`
 
 Export a local tldraw ".tldr" file or a tldraw\.com URL to an svg, png, or tldr file. Prints the absolute path(s) to the exported image(s) to stdout.
 
@@ -143,7 +156,7 @@ tldraw export <files-or-urls..>
 | `--help`<br>`-h`        | Show help                                                                                                                                                                                                                                                            | `boolean`                |                                           |
 | `--version`<br>`-v`     | Show version number                                                                                                                                                                                                                                                  | `boolean`                |                                           |
 
-#### Subcommand: `tldraw open`
+##### Subcommand: `tldraw open`
 
 Open a tldraw `.tldr` file or tldraw\.com URL in your default browser with either the official tldraw\.com site or a locally-hosted instance of the editor. Call `open` without an argument to open a blank sketch. Sketches opened via URL with the `--local` flag will be temporarily copied to the local system, and will not be kept in sync with tldraw\.com. This process does not exit until the browser is closed. Warning: Passing a local .tldr file without the `--local` option will upload and share the sketch on tldraw\.com.
 
@@ -290,7 +303,7 @@ tldraw open https://www.tldraw.com/s/v2_c_FI5RYWbdpAtjsy4OIKrKw
 
 The remote sketch is copied to a locally-hosted instance of tldraw, which is then opened in your default browser.
 
-### API
+### Library
 
 The `tldraw-cli` command line functionality is also provided in module form for programmatic use in TypeScript or JavaScript Node projects.
 
@@ -497,8 +510,8 @@ On GitHub:
 
 On Discord:
 
-- [@jorisjh in #ideas\_old](https://discord.com/channels/859816885297741824/859816885801713730/1156880056501665802)
-- [@Nitsuj in #ideas\_old](https://discord.com/channels/859816885297741824/859816885801713730/1020352607920869406)
+- [@jorisjh in #ideas_old](https://discord.com/channels/859816885297741824/859816885801713730/1156880056501665802)
+- [@Nitsuj in #ideas_old](https://discord.com/channels/859816885297741824/859816885801713730/1020352607920869406)
 
 ## Implementation notes
 

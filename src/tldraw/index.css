@@ -1,6 +1,6 @@
-@import url('@fontsource/inter/500.css');
-@import url('@fontsource/inter/700.css');
-@import url('tldraw/tldraw.css');
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/700.css';
+@import 'tldraw/tldraw.css';
 
 body {
 	font-family: Inter, sans-serif;

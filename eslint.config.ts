@@ -7,7 +7,6 @@ export default eslintConfig(
 				'import/no-unresolved': 'off',
 			},
 		},
-		react: true,
 		tsx: {
 			overrides: {
 				'jsdoc/require-returns': 'off',
