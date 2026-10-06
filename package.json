@@ -40,7 +40,8 @@
 		"tldraw-cli": "dist/bin/cli.js"
 	},
 	"files": [
-		"dist/*"
+		"dist",
+		"skills"
 	],
 	"scripts": {
 		"bench": "vitest bench --run --reporter=verbose",

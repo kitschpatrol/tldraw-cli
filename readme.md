@@ -34,6 +34,7 @@
 - [Usage](#usage)
   - [CLI](#cli)
   - [Library](#library)
+  - [Agent skills](#agent-skills)
   - [Common workflows](#common-workflows)
 - [Background](#background)
 - [Implementation notes](#implementation-notes)
@@ -435,6 +436,32 @@ await tldrawOpen('./sketch.tldr', {
   location: 'remote',
 })
 ```
+
+<!-- skills({ headingLevel: 3 }) -->
+
+### Agent skills
+
+This project bundles an [Agent Skill](https://agentskills.io) in its published package to help coding agents work with @kitschpatrol/tldraw-cli.
+
+To sync the skill into your project, run Vercel's [skills CLI](https://github.com/vercel-labs/skills) from your project root:
+
+```sh
+npx skills experimental_sync
+```
+
+Or install globally:
+
+```sh
+npx skills add kitschpatrol/tldraw-cli --global
+```
+
+Included skill:
+
+#### Skill: [`tldraw-cli`](skills/tldraw-cli/SKILL.md)
+
+Export tldraw sketches to SVG or PNG images and open sketches with the tldraw CLI.
+
+<!-- /skills -->
 
 ### Common workflows
 
