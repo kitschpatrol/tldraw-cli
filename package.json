@@ -85,7 +85,7 @@
 		"@blazediff/vitest": "^1.1.25",
 		"@fontsource/inter": "^5.3.0",
 		"@kitschpatrol/safe-stable-stringify": "2.5.0-fork.1",
-		"@kitschpatrol/shared-config": "^8.12.1",
+		"@kitschpatrol/shared-config": "^8.13.1",
 		"@tldraw/assets": "^5.5.2",
 		"@types/react": "^19.3.0",
 		"@types/react-dom": "^19.3.0",
