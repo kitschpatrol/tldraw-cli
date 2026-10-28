@@ -599,9 +599,10 @@ describe('export options', () => {
 
 			const tempFileName = `./print-test.${format}`
 
-			await (format === 'png'
-				? fs.writeFile(tempFileName, Buffer.from(results[0], 'base64'))
-				: fs.writeFile(tempFileName, results[0]))
+			await fs.writeFile(
+				tempFileName,
+				format === 'png' ? Buffer.from(results[0], 'base64') : results[0],
+			)
 
 			await expectFileToBeValid(tempFileName, format)
 

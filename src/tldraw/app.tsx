@@ -14,12 +14,12 @@ declare global {
 	}
 }
 
-type LoadState = { kind: 'loading' } | { kind: 'ready'; store: TLStore | undefined }
-
 /**
  * Minimal tldraw app
  */
 export default function App() {
+	type LoadState = { kind: 'loading' } | { kind: 'ready'; store: TLStore | undefined }
+
 	const [loadState, setLoadState] = useState<LoadState>({ kind: 'loading' })
 
 	// Fetch the tldr data before mounting <Tldraw> so the editor is created
