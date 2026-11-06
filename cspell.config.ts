@@ -1,5 +1,6 @@
 import { cspellConfig } from '@kitschpatrol/cspell-config'
 
 export default cspellConfig({
-	words: ['blazediff'],
+	ignorePaths: ['**/changelog.md'],
+	words: ['blazediff', 'chagent'],
 })

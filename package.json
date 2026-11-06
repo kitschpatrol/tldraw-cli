@@ -57,7 +57,7 @@
 		"lint": "pnpm build && ksc lint",
 		"preview": "pnpm preview:tldraw",
 		"preview:tldraw": "vite preview",
-		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp) && brewpub --bin tldraw-cli --tap kitschpatrol/tap",
+		"release": "bumpp --commit 'Release: %s' --all --execute 'chagent' && pnpm build && pnpm publish --otp $(op item get npm --otp) && brewpub --bin tldraw-cli --tap kitschpatrol/tap",
 		"test": "vitest run",
 		"test:watch": "pnpm build && vitest",
 		"tldraw:copy-assets": "pnpm tsx ./scripts/copy-assets.ts"
@@ -84,6 +84,7 @@
 		"@arethetypeswrong/core": "^0.18.5",
 		"@blazediff/vitest": "^1.1.26",
 		"@fontsource/inter": "^5.3.0",
+		"@kitschpatrol/chagent": "0.4.0",
 		"@kitschpatrol/safe-stable-stringify": "2.5.0-fork.2",
 		"@kitschpatrol/shared-config": "^8.14.0",
 		"@tldraw/assets": "^5.6.0",
