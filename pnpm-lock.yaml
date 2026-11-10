@@ -225,8 +225,8 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
       '@kitschpatrol/chagent':
-        specifier: 0.4.0
-        version: 0.4.0(bumpp@12.3.0)
+        specifier: ^0.5.0
+        version: 0.5.0(bumpp@12.3.0)
       '@kitschpatrol/safe-stable-stringify':
         specifier: 2.5.0-fork.2
         version: 2.5.0-fork.2
@@ -1242,8 +1242,8 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
 
-  '@kitschpatrol/chagent@0.4.0':
-    resolution: {integrity: sha512-qOH2lhy5M04LE47WuXbi/N9bTeKXA4ZgGHGDm3z6iutCMk7m//M7/mjibiwRDBa/wiV9bqrRhq7Nj3iY4Jaqdg==}
+  '@kitschpatrol/chagent@0.5.0':
+    resolution: {integrity: sha512-4copTTywIMv8xHocq8ej4QiIqLw7/SXN6Ou4KROhegAX9b4Izin99iLWBBLT2QX7Q0okN0zVSCCH0JdcARmhFQ==}
     engines: {node: ^24.16.0 || >=26.3.0}
     hasBin: true
     peerDependencies:
@@ -8501,7 +8501,7 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@kitschpatrol/chagent@0.4.0(bumpp@12.3.0)':
+  '@kitschpatrol/chagent@0.5.0(bumpp@12.3.0)':
     dependencies:
       '@clack/prompts': 1.8.1
       '@types/node': 24.13.6
